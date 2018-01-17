@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "org.codehaus.groovy.android"
+
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.20"
+        classpath "gradle.plugin.org.codehaus.groovy:groovy-android-gradle-plugin:2.0.0"
+        classpath 'com.android.tools.build:gradle:3.0.1'
+    }
+
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://maven.google.com' }
+        maven { url "https://repo1.maven.org/maven2"}
+    }
+}
+
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.yaml:snakeyaml:1.19"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.20"
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    testImplementation 'org.codehaus.groovy:groovy:2.4.7:grooid'
+    testImplementation 'org.spockframework:spock-core:1.0-groovy-2.4'
+
+    implementation 'com.squareup:kotlinpoet:0.6.0'
+}

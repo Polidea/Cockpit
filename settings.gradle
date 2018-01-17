@@ -1,1 +1,3 @@
-include ':app'
+include ':android-tweaks', ':sample'
+project(':android-tweaks').projectDir = new File(settingsDir, '/androidtweaks')
+

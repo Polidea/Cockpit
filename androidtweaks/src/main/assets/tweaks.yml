@@ -1,0 +1,5 @@
+param_tag1: 1.0
+param_tag2: 1.5
+param_tag3: "testValue"
+int_param: 1
+boolean_param: true
