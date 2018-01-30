@@ -1,10 +1,24 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.polidea.android.androidtweaks'
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath files('../TweaksPlugin/build/libs/TweaksPlugin-1.0.0-SNAPSHOT.jar')
+        classpath "org.yaml:snakeyaml:1.19"
+        classpath 'com.squareup:kotlinpoet:0.6.0'
+
+    }
+}
+
 android {
     compileSdkVersion 26
-
-
 
     defaultConfig {
         applicationId "com.polidea.sample"

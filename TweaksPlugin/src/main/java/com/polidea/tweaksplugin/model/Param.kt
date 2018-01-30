@@ -1,4 +1,4 @@
-package com.polidea.androidtweaks.model
+package com.polidea.tweaksplugin.model
 
 
 interface Param<T> {

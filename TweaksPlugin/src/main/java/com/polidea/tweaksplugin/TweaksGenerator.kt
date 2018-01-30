@@ -1,14 +1,15 @@
-package com.polidea.androidtweaks.manager
+package com.polidea.tweaksplugin
 
-import com.polidea.androidtweaks.model.*
+import com.polidea.tweaksplugin.model.*
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
+import java.io.File
 
 
 class TweaksGenerator {
-    fun generate(params: List<Param<*>>) {
+    fun generate(params: List<Param<*>>, file: File?) {
         val propertySpecs: ArrayList<PropertySpec> = ArrayList()
         for (p in params) {
             when (p) {
@@ -21,9 +22,12 @@ class TweaksGenerator {
 
         val tweaksFile = FileSpec.builder("com.polidea.androidtweaks.tweaks", "Tweaks")
                 .addType(TypeSpec.classBuilder("Tweaks")
-                    .addProperties(propertySpecs)
+                        .addProperties(propertySpecs)
                         .build())
 
-        tweaksFile.build().writeTo(System.out) // todo write to the actual file
+        if (file != null)
+            tweaksFile.build().writeTo(file)
+        else
+            tweaksFile.build().writeTo(System.out)
     }
 }

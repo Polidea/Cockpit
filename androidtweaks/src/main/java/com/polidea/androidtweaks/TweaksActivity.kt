@@ -2,8 +2,6 @@ package com.polidea.androidtweaks
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.polidea.androidtweaks.manager.TweaksGenerator
-import com.polidea.androidtweaks.manager.TweaksManager
 
 class TweaksActivity : AppCompatActivity() {
 
@@ -11,10 +9,10 @@ class TweaksActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tweaks)
 
-        val settingsManager = TweaksManager.getInstance(this.applicationContext)
-        System.out.println(settingsManager.params)
-        settingsManager.setParamValue("param_tag1", 1.4)
-        System.out.println(settingsManager.params)
-        TweaksGenerator().generate(TweaksManager.getInstance(this.applicationContext).params)
+//        val settingsManager = TweaksManager.getInstance(this.applicationContext)
+//        System.out.println(settingsManager.params)
+//        settingsManager.setParamValue("param_tag1", 1.4)
+//        System.out.println(settingsManager.params)
+//        TweaksGenerator().generate(TweaksManager.getInstance(this.applicationContext).params)
     }
 }

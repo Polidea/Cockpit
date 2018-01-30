@@ -1,0 +1,63 @@
+plugins {
+    id 'groovy'
+    id 'maven'
+    id "com.gradle.plugin-publish" version "0.9.7"
+    id 'org.jetbrains.kotlin.jvm' version '1.1.2'
+    id 'java-gradle-plugin'
+}
+
+group = 'com.polidea.android'
+version = '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 1.7
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    provided 'com.android.tools.build:gradle:2.2.3'
+    compile 'org.yaml:snakeyaml:1.19'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2'
+
+    implementation 'com.squareup:kotlinpoet:0.6.0'
+}
+
+pluginBundle {
+    website = 'https://gitlab2.polidea.com/learning/android-tweaks'
+    vcsUrl = 'https://gitlab2.polidea.com/learning/android-tweaks'
+    description = 'Test'
+    tags = ['gradle', 'plugin', 'android']
+
+    plugins {
+        tweaksPlugin {
+            id = 'com.polidea.android.androidtweaks'
+            displayName = 'Test'
+        }
+    }
+
+    mavenCoordinates {
+        groupId = "com.polidea.android"
+        artifactId = "androidtweaks"
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.version = project.version
+        pom.artifactId = 'androidtweaks'
+    }
+}
