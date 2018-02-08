@@ -1,46 +1,33 @@
 package com.polidea.tweaksplugin
 
+import com.polidea.tweaksplugin.generator.TweaksGenerator
+import com.polidea.tweaksplugin.generator.TweaksInitializerGenerator
 import com.polidea.tweaksplugin.model.*
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputFile
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import org.yaml.snakeyaml.Yaml
 import java.io.File
 
 open class TweaksTask: DefaultTask() {
+    private val tweaksFilePath = "src/main/assets/tweaks.yml"
+    private val tweaksOutputDirectory = "${project.buildDir}/generated/source/tweaks/"
+
+    @Input
+    var variantName: String? = null
+
     @TaskAction
     fun TweaksAction() {
-        System.out.println("HELLO TWEAKS") // TODO remove, test
-        val params: List<Param<*>> = parseYaml(settingsFile)
-        TweaksGenerator().generate(params, getOutputFile())
+        val params: List<Param<*>> = parseYaml(tweaksFile)
+        TweaksGenerator().generate(params, getTweaksOutputDirectory())
+        TweaksInitializerGenerator().generate(params, getTweaksOutputDirectory())
     }
 
     @InputFile
-    val settingsFile: File = project.file("src/main/assets/tweaks.yml")
+    val tweaksFile: File = project.file(tweaksFilePath)
 
-    @OutputFile
-    fun getOutputFile(): File {
-        return project.file("${project.buildDir}/generated/source/tweaks")
-    }
-
-    fun parseYaml(yamlString: String): List<Param<*>> {
-        val yaml = Yaml()
-        val values: Map<String, Any> = yaml.load(yamlString.reader().use {
-            it.readText()
-        })
-        val paramList = ArrayList<Param<*>>()
-
-        for (v in values) {
-            when (v.value) {
-                is String -> paramList.add(StringParam(v.key, v.value as String))
-                is Int -> paramList.add(IntegerParam(v.key, v.value as Int))
-                is Double -> paramList.add(DoubleParam(v.key, v.value as Double))
-                is Boolean -> paramList.add(BooleanParam(v.key, v.value as Boolean))
-            }
-        }
-
-        return paramList
+    @OutputDirectory
+    fun getTweaksOutputDirectory(): File {
+        return project.file(tweaksOutputDirectory + "$variantName")
     }
 
     fun parseYaml(yamlFile: File): List<Param<*>> {
@@ -50,12 +37,13 @@ open class TweaksTask: DefaultTask() {
         })
         val paramList = ArrayList<Param<*>>()
 
-        for (v in values) {
-            when (v.value) {
-                is String -> paramList.add(StringParam(v.key, v.value as String))
-                is Int -> paramList.add(IntegerParam(v.key, v.value as Int))
-                is Double -> paramList.add(DoubleParam(v.key, v.value as Double))
-                is Boolean -> paramList.add(BooleanParam(v.key, v.value as Boolean))
+        values.map {
+            when (it.value) {
+                is String -> paramList.add(StringParam(it.key, it.value as String))
+                is Int -> paramList.add(IntegerParam(it.key, it.value as Int))
+                is Double -> paramList.add(DoubleParam(it.key, it.value as Double))
+                is Boolean -> paramList.add(BooleanParam(it.key, it.value as Boolean))
+                else -> throw IllegalArgumentException("Param type undefined: $it!")
             }
         }
 

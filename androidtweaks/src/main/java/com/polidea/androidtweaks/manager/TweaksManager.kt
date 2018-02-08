@@ -1,33 +1,32 @@
 package com.polidea.androidtweaks.manager
 
-import android.content.Context
+class TweaksManager private constructor() {
 
+    var params: MutableList<TweakParam> = ArrayList()
 
-class TweaksManager private constructor(context: Context) {
-//    val params: List<Param<*>> = YamlParser().parseYaml("tweaks.yml", context)
-//
-//    companion object {
-//        @Volatile
-//        private var INSTANCE: TweaksManager? = null
-//
-//        @JvmStatic
-//        fun getInstance(context: Context): TweaksManager {
-//            if (INSTANCE == null) {
-//                INSTANCE = TweaksManager(context)
-//            }
-//
-//            return INSTANCE as TweaksManager
-//        }
-//    }
-//
-//    fun <T> getParamValue(key: String): T? = getParam<T>(key)?.value
-//
-//    fun <T> setParamValue(key: String, value: T) {
-//        val param = getParam<T>(key)
-//        param ?: throw IllegalArgumentException("Param with name $key undefined!")
-//        param.value = value
-//    }
-//
-//    @Suppress("UNCHECKED_CAST")
-//    private fun <T> getParam(key: String): Param<T>? = params.find { it.name == key } as Param<T>?
+    companion object {
+        @Volatile
+        private var INSTANCE: TweaksManager? = null
+
+        @JvmStatic
+        fun getInstance(): TweaksManager {
+            if (INSTANCE == null) {
+                INSTANCE = TweaksManager()
+            }
+
+            return INSTANCE as TweaksManager
+        }
+    }
+
+    fun addParam(param: TweakParam) = params.add(param)
+
+    fun getParamValue(name: String): Any? = getParam(name)?.value
+
+    fun setParamValue(key: String, value: Any) {
+        val param = getParam(key)
+        param ?: throw IllegalArgumentException("Param with name $key undefined!")
+        param.value = value
+    }
+
+    private fun getParam(name: String): TweakParam? = params.find { it.name == name }
 }
