@@ -20,9 +20,9 @@ class MainActivity : AppCompatActivity() {
         TweaksInitializer().init()
 
         //todo remove, test
-        System.out.println(Tweaks().param_tag1)
-        Tweaks().param_tag1 = 666.0
-        System.out.println(Tweaks().param_tag1)
+        System.out.println(Tweaks.param_tag1)
+        Tweaks.param_tag1 = 666.0
+        System.out.println(Tweaks.param_tag1)
     }
 }
 

@@ -24,7 +24,9 @@ class TweaksGenerator {
                 .addStaticImport("com.polidea.androidtweaks.manager", "TweaksManager")
                 .addType(TypeSpec.classBuilder("Tweaks")
                         .addModifiers(KModifier.OPEN)
-                        .addProperties(propertySpecs)
+                        .companionObject(TypeSpec.companionObjectBuilder(null)
+                                .addProperties(propertySpecs)
+                                .build())
                         .build())
 
         if (file != null)
