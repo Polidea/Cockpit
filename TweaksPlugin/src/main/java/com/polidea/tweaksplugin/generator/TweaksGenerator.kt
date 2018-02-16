@@ -2,12 +2,15 @@ package com.polidea.tweaksplugin.generator
 
 import com.polidea.tweaksplugin.model.*
 import com.squareup.kotlinpoet.*
+import org.gradle.internal.jvm.Jvm
 import java.io.File
 import kotlin.reflect.KClass
 
 
 class TweaksGenerator {
     fun generate(params: List<Param<*>>, file: File?) {
+        val initParamsCodeBlock: CodeBlock.Builder = CodeBlock.builder()
+
         val propertySpecs: ArrayList<PropertySpec> = ArrayList()
 
         params.map {
@@ -18,15 +21,22 @@ class TweaksGenerator {
                 is StringParam -> propertySpecs.add(createPropertySpecForParam(it, String::class))
                 else -> throw IllegalArgumentException("Param type undefined: $it!")
             }
+
+            val clazz: KClass<Any>? = it.value?.javaClass?.kotlin
+            if (clazz != String::class) {
+                initParamsCodeBlock.add("TweaksManager.getInstance().addParam(TweakParam(\"${it.name}\", ${clazz?.simpleName}::class, ${it.value}))\n")
+            } else {
+                initParamsCodeBlock.add("TweaksManager.getInstance().addParam(TweakParam(\"${it.name}\", ${clazz.simpleName}::class, \"${it.value}\"))\n")
+            }
         }
 
         val tweaksFile = FileSpec.builder("com.polidea.androidtweaks.tweaks", "Tweaks")
-                .addStaticImport("com.polidea.androidtweaks.manager", "TweaksManager")
+                .addStaticImport("com.polidea.androidtweaks.manager", "TweaksManager", "TweakParam")
                 .addType(TypeSpec.classBuilder("Tweaks")
                         .addModifiers(KModifier.OPEN)
                         .companionObject(TypeSpec.companionObjectBuilder(null)
-                                .addProperties(propertySpecs)
-                                .build())
+                                .addInitializerBlock(initParamsCodeBlock.build())
+                                .addProperties(propertySpecs).build())
                         .build())
 
         if (file != null)
@@ -37,6 +47,7 @@ class TweaksGenerator {
 
     private fun createPropertySpecForParam(param: Param<*>, typeClass: KClass<*>): PropertySpec {
         return PropertySpec.builder(param.name, typeClass, KModifier.PUBLIC)
+                .addAnnotation(JvmStatic::class)
                 .mutable(true)
                 .getter(FunSpec.getterBuilder()
                         .addStatement("return TweaksManager.getInstance().getParamValue(\"${param.name}\") as ${typeClass.simpleName}")

@@ -2,7 +2,7 @@ plugins {
     id 'groovy'
     id 'maven'
     id "com.gradle.plugin-publish" version "0.9.7"
-    id 'org.jetbrains.kotlin.jvm' version '1.1.2'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.21'
     id 'java-gradle-plugin'
 }
 
@@ -14,6 +14,7 @@ sourceCompatibility = 1.7
 repositories {
     jcenter()
     mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 configurations {
@@ -31,9 +32,9 @@ dependencies {
     compile localGroovy()
     provided 'com.android.tools.build:gradle:2.2.3'
     compile 'org.yaml:snakeyaml:1.19'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.1.2'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.21'
 
-    implementation 'com.squareup:kotlinpoet:0.6.0'
+    implementation 'com.squareup:kotlinpoet:0.7.0-SNAPSHOT'
 }
 
 pluginBundle {

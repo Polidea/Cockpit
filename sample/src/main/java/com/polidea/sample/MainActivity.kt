@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.polidea.androidtweaks.TweaksActivity
 import com.polidea.androidtweaks.tweaks.Tweaks
-import com.polidea.androidtweaks.tweaks.TweaksInitializer
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +15,6 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this, TweaksActivity::class.java)
         startActivity(intent)
-
-        TweaksInitializer().init()
 
         //todo remove, test
         System.out.println(Tweaks.param_tag1)

@@ -1,7 +1,6 @@
 package com.polidea.tweaksplugin
 
 import com.polidea.tweaksplugin.generator.TweaksGenerator
-import com.polidea.tweaksplugin.generator.TweaksInitializerGenerator
 import com.polidea.tweaksplugin.model.*
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
@@ -19,7 +18,6 @@ open class TweaksTask: DefaultTask() {
     fun TweaksAction() {
         val params: List<Param<*>> = parseYaml(tweaksFile)
         TweaksGenerator().generate(params, getTweaksOutputDirectory())
-        TweaksInitializerGenerator().generate(params, getTweaksOutputDirectory())
     }
 
     @InputFile
