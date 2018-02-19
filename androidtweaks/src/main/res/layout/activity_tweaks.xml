@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.polidea.androidtweaks.TweaksActivity">
 
-    <include layout="@layout/number_param_line"/>
+    <include layout="@layout/tweaks_activity_layout"/>
 
 </android.support.constraint.ConstraintLayout>
