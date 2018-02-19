@@ -7,13 +7,12 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 
     dependencies {
         classpath files('../TweaksPlugin/build/libs/TweaksPlugin-1.0.0-SNAPSHOT.jar')
         classpath "org.yaml:snakeyaml:1.19"
-        classpath 'com.squareup:kotlinpoet:0.7.0-SNAPSHOT'
+        classpath 'com.squareup:kotlinpoet:0.7.0'
     }
 }
 
