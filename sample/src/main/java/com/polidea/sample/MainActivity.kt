@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.polidea.androidtweaks.TweaksActivity
-import com.polidea.androidtweaks.manager.TweaksManager
+import com.polidea.androidtweaks.tweaks.Tweaks
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayCurrentTweaks() {
-        val params = TweaksManager.getInstance().params
+        val params = Tweaks.getAllTweaks()
         val builder = StringBuilder().append("\n")
 
         for (p in params) {

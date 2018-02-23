@@ -2,7 +2,6 @@ package com.polidea.tweaksplugin.generator
 
 import com.polidea.tweaksplugin.model.*
 import com.squareup.kotlinpoet.*
-import org.gradle.internal.jvm.Jvm
 import java.io.File
 import kotlin.reflect.KClass
 
@@ -35,6 +34,7 @@ class TweaksGenerator {
                 .addType(TypeSpec.classBuilder("Tweaks")
                         .addModifiers(KModifier.OPEN)
                         .companionObject(TypeSpec.companionObjectBuilder(null)
+                                .addFunction(createGetAllTweaksMethod())
                                 .addInitializerBlock(initParamsCodeBlock.build())
                                 .addProperties(propertySpecs).build())
                         .build())
@@ -57,6 +57,18 @@ class TweaksGenerator {
                         .addParameter(ParameterSpec.builder("value", typeClass)
                                 .build())
                         .build())
+                .build()
+    }
+
+    private fun createGetAllTweaksMethod(): FunSpec {
+        val tweakParamClass: ClassName = ClassName.bestGuess("com.polidea.androidtweaks.manager.TweakParam")
+        val listClass: ClassName = ClassName.bestGuess("kotlin.collections.List")
+        val parametrizedListClass: TypeName = ParameterizedTypeName.get(listClass, tweakParamClass)
+
+        return FunSpec.builder("getAllTweaks")
+                .addAnnotation(JvmStatic::class)
+                .returns(parametrizedListClass)
+                .addStatement("return TweaksManager.getInstance().params")
                 .build()
     }
 }
