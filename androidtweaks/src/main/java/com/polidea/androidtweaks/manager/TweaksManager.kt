@@ -18,7 +18,18 @@ class TweaksManager private constructor() {
         }
     }
 
-    fun addParam(param: TweakParam) = params.add(param)
+    fun addParam(param: TweakParam) {
+        checkIfExistsAndAddParam(param)
+    }
+
+    private fun checkIfExistsAndAddParam(param: TweakParam) {
+        if (!exists(param.name)) {
+            System.out.println("Param ${param.name} doesn't exist, adding")
+            params.add(param)
+        } else {
+            System.out.println("Param ${param.name} already exists")
+        }
+    }
 
     fun getParamValue(name: String): Any? = getParam(name)?.value
 
@@ -26,6 +37,10 @@ class TweaksManager private constructor() {
         val param = getParam(key)
         param ?: throw IllegalArgumentException("Param with name $key undefined!")
         param.value = value
+    }
+
+    fun exists(key: String): Boolean {
+        return params.find { it.name == key } != null
     }
 
     private fun getParam(name: String): TweakParam? = params.find { it.name == name }

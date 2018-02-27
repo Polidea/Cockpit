@@ -14,6 +14,6 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="@dimen/tweak_margin"
         android:id="@+id/boolean_param_value" />
 </LinearLayout>

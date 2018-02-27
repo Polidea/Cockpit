@@ -7,8 +7,26 @@ import kotlin.reflect.KClass
 
 
 class TweaksGenerator {
+    private val tweaksPackage = "com.polidea.androidtweaks.tweaks"
+    private val tweaksManagerPackage = "com.polidea.androidtweaks.manager"
+    private val androidContentPackage = "android.content"
+    private val tweaksActivityPackage = "com.polidea.androidtweaks.activity"
+
+    private val tweaks = "Tweaks"
+    private val tweaksManager = "TweaksManager"
+    private val tweakParam = "TweakParam"
+    private val intent = "Intent"
+    private val context = "Context"
+    private val tweaksActivity = "TweaksActivity"
+
+    private val tweakParamClassName = "com.polidea.androidtweaks.manager.$tweakParam"
+    private val listClassName = "kotlin.collections.List"
+    private val contextClassName = "android.content.Context"
+    private val tweaksActivityClassName = "com.polidea.androidtweaks.activity.$tweaksActivity"
+
     fun generate(params: List<Param<*>>, file: File?) {
         val initParamsCodeBlock: CodeBlock.Builder = CodeBlock.builder()
+        initParamsCodeBlock.addStatement("initializeTweaks()")
 
         val propertySpecs: ArrayList<PropertySpec> = ArrayList()
 
@@ -20,21 +38,19 @@ class TweaksGenerator {
                 is StringParam -> propertySpecs.add(createPropertySpecForParam(it, String::class))
                 else -> throw IllegalArgumentException("Param type undefined: $it!")
             }
-
-            val clazz: KClass<Any>? = it.value?.javaClass?.kotlin
-            if (clazz != String::class) {
-                initParamsCodeBlock.add("TweaksManager.getInstance().addParam(TweakParam(\"${it.name}\", ${clazz?.simpleName}::class, ${it.value}))\n")
-            } else {
-                initParamsCodeBlock.add("TweaksManager.getInstance().addParam(TweakParam(\"${it.name}\", ${clazz.simpleName}::class, \"${it.value}\"))\n")
-            }
         }
 
-        val tweaksFile = FileSpec.builder("com.polidea.androidtweaks.tweaks", "Tweaks")
-                .addStaticImport("com.polidea.androidtweaks.manager", "TweaksManager", "TweakParam")
-                .addType(TypeSpec.classBuilder("Tweaks")
+        val tweaksFile = FileSpec.builder(tweaksPackage, tweaks)
+                .addStaticImport(tweaksManagerPackage, tweaksManager, tweakParam)
+                .addStaticImport(androidContentPackage, intent, context)
+                .addStaticImport(tweaksActivityPackage, tweaksActivity)
+                .addType(TypeSpec.classBuilder(tweaks)
                         .addModifiers(KModifier.OPEN)
                         .companionObject(TypeSpec.companionObjectBuilder(null)
                                 .addFunction(createGetAllTweaksMethod())
+                                .addFunction(createInitTweaksMethod(params))
+                                .addFunction(generateShowTweaksMethod())
+                                .addFunction(generateHideTweaksMethod())
                                 .addInitializerBlock(initParamsCodeBlock.build())
                                 .addProperties(propertySpecs).build())
                         .build())
@@ -50,10 +66,10 @@ class TweaksGenerator {
                 .addAnnotation(JvmStatic::class)
                 .mutable(true)
                 .getter(FunSpec.getterBuilder()
-                        .addStatement("return TweaksManager.getInstance().getParamValue(\"${param.name}\") as ${typeClass.simpleName}")
+                        .addStatement("return $tweaksManager.getInstance().getParamValue(\"${param.name}\") as ${typeClass.simpleName}")
                         .build())
                 .setter(FunSpec.setterBuilder()
-                        .addStatement("TweaksManager.getInstance().setParamValue(\"${param.name}\", value)")
+                        .addStatement("$tweaksManager.getInstance().setParamValue(\"${param.name}\", value)")
                         .addParameter(ParameterSpec.builder("value", typeClass)
                                 .build())
                         .build())
@@ -61,14 +77,51 @@ class TweaksGenerator {
     }
 
     private fun createGetAllTweaksMethod(): FunSpec {
-        val tweakParamClass: ClassName = ClassName.bestGuess("com.polidea.androidtweaks.manager.TweakParam")
-        val listClass: ClassName = ClassName.bestGuess("kotlin.collections.List")
+        val tweakParamClass: ClassName = ClassName.bestGuess(tweakParamClassName)
+        val listClass: ClassName = ClassName.bestGuess(listClassName)
         val parametrizedListClass: TypeName = ParameterizedTypeName.get(listClass, tweakParamClass)
 
         return FunSpec.builder("getAllTweaks")
                 .addAnnotation(JvmStatic::class)
                 .returns(parametrizedListClass)
-                .addStatement("return TweaksManager.getInstance().params")
+                .addStatement("return $tweaksManager.getInstance().params")
+                .build()
+    }
+
+    private fun createInitTweaksMethod(params: List<Param<*>>): FunSpec {
+        val funSpec = FunSpec.builder("initializeTweaks")
+                .addModifiers(KModifier.PRIVATE)
+
+        params.forEach {
+            val clazz: KClass<Any>? = it.value?.javaClass?.kotlin
+            if (clazz != String::class) {
+                funSpec.addStatement("$tweaksManager.getInstance().addParam($tweakParam(\"${it.name}\", ${clazz?.simpleName}::class, ${it.value}))")
+            } else {
+                funSpec.addStatement("$tweaksManager.getInstance().addParam($tweakParam(\"${it.name}\", ${clazz.simpleName}::class, \"${it.value}\"))")
+            }
+        }
+
+        return funSpec.build()
+    }
+
+    private fun generateShowTweaksMethod(): FunSpec {
+        val contextClass: ClassName = ClassName.bestGuess(contextClassName)
+
+        return FunSpec.builder("showTweaks")
+                .addAnnotation(JvmStatic::class)
+                .addParameter("context", contextClass)
+                .addStatement("val intent = Intent(context, $tweaksActivity::class.java)")
+                .addStatement("context.startActivity(intent)")
+                .build()
+    }
+
+    private fun generateHideTweaksMethod(): FunSpec {
+        val tweaksActivityClass: ClassName = ClassName.bestGuess(tweaksActivityClassName)
+
+        return FunSpec.builder("hideTweaks")
+                .addAnnotation(JvmStatic::class)
+                .addParameter("tweaksActivity", tweaksActivityClass)
+                .addStatement("tweaksActivity.finish()")
                 .build()
     }
 }

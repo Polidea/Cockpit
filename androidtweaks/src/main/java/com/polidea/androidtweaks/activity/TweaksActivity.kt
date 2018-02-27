@@ -1,15 +1,20 @@
-package com.polidea.androidtweaks
+package com.polidea.androidtweaks.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Toast
+import com.polidea.androidtweaks.R
 import com.polidea.androidtweaks.exception.TweakFormatException
 import com.polidea.androidtweaks.manager.TweaksManager
+import com.polidea.androidtweaks.utils.FileUtils
 import com.polidea.androidtweaks.utils.ViewUtils
 import com.polidea.androidtweaks.view.ParamView
 import kotlinx.android.synthetic.main.tweaks_activity_layout.*
 
 class TweaksActivity : AppCompatActivity() {
+
+    val TAG = TweaksActivity::class.java.simpleName
 
     var params = TweaksManager.getInstance().params
 
@@ -20,9 +25,9 @@ class TweaksActivity : AppCompatActivity() {
     }
 
     private fun initializeSaveButton() {
-        save_button.setOnClickListener({
+        save_button.setOnClickListener{
             saveTweaks()
-        })
+        }
     }
 
     private fun saveTweaks() {
@@ -36,10 +41,13 @@ class TweaksActivity : AppCompatActivity() {
                             TweaksManager.getInstance().setParamValue(it.name, view.getCurrentValue()!!)
                         } catch (e: TweakFormatException) {
                             Toast.makeText(this, "Invalid tweak value for: ${view.paramName}", Toast.LENGTH_SHORT).show()
+                            Log.w(TAG, "Invalid tweak value for: ${view.paramName}")
                             return
                         }
                     }
         }
+
+        FileUtils(this).saveTweaksAsYaml()
 
         finish()
     }

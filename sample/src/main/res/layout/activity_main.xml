@@ -15,8 +15,8 @@
             android:id="@+id/tweaks_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Tweaks:" />
+            android:padding="@dimen/tweak_margin"
+            android:text="@string/tweaks_header" />
 
     </ScrollView>
 
@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="EDIT VALUES"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"/>
+        android:text="@string/edit_values"
+        android:layout_marginBottom="@dimen/tweak_margin"
+        android:layout_marginTop="@dimen/tweak_margin"/>
 
 </RelativeLayout>

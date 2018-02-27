@@ -8,9 +8,7 @@ class ViewUtils {
     fun getFlatChildren(parentView: View): ArrayList<ParamView<*>> {
         val children: ArrayList<ParamView<*>> = ArrayList()
 
-        if (parentView !is ViewGroup) {
-            return children
-        } else {
+        if (parentView is ViewGroup) {
             val childCount = parentView.childCount
 
             for (i in 0 until childCount) {
@@ -21,5 +19,3 @@ class ViewUtils {
         return children
     }
 }
-
-

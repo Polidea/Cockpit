@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.polidea.androidtweaks">
 
-    <application>
-        <activity android:name=".TweaksActivity"/>
+    <application android:name=".TweaksApplication">
+        <activity android:name="com.polidea.androidtweaks.activity.TweaksActivity"/>
     </application>
 </manifest>

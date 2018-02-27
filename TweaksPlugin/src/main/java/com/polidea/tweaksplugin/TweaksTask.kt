@@ -4,6 +4,7 @@ import com.polidea.tweaksplugin.generator.TweaksGenerator
 import com.polidea.tweaksplugin.model.*
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
+import org.yaml.snakeyaml.LoaderOptions
 import org.yaml.snakeyaml.Yaml
 import java.io.File
 
@@ -29,7 +30,9 @@ open class TweaksTask: DefaultTask() {
     }
 
     fun parseYaml(yamlFile: File): List<Param<*>> {
-        val yaml = Yaml()
+        val loaderOptions = LoaderOptions()
+        loaderOptions.isAllowDuplicateKeys = false
+        val yaml = Yaml(loaderOptions)
         val values: Map<String, Any> = yaml.load(yamlFile.bufferedReader().use {
             it.readText()
         })
