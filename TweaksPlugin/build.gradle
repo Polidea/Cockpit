@@ -24,6 +24,8 @@ sourceSets {
     main {
         compileClasspath += configurations.provided
     }
+
+    test.java.srcDirs += 'src/test/kotlin'
 }
 
 dependencies {
@@ -34,6 +36,9 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.21'
 
     implementation 'com.squareup:kotlinpoet:0.7.0'
+
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.21"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.2.21"
 }
 
 pluginBundle {
