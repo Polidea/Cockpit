@@ -38,7 +38,7 @@ class TweaksActivity : AppCompatActivity() {
                 it.name == view.paramName
             }?.also {
                         try {
-                            TweaksManager.getInstance().setParamValue(it.name, view.getCurrentValue()!!)
+                            TweaksManager.getInstance().setParamValue(it.name, view.getCurrentValue())
                         } catch (e: TweakFormatException) {
                             Toast.makeText(this, "Invalid tweak value for: ${view.paramName}", Toast.LENGTH_SHORT).show()
                             Log.w(TAG, "Invalid tweak value for: ${view.paramName}")

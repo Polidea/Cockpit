@@ -61,7 +61,7 @@ class TweaksGenerator {
             tweaksFile.build().writeTo(System.out)
     }
 
-    private fun createPropertySpecForParam(param: Param<*>, typeClass: KClass<*>): PropertySpec {
+    internal fun createPropertySpecForParam(param: Param<*>, typeClass: KClass<*>): PropertySpec {
         return PropertySpec.builder(param.name, typeClass, KModifier.PUBLIC)
                 .addAnnotation(JvmStatic::class)
                 .mutable(true)
@@ -76,7 +76,7 @@ class TweaksGenerator {
                 .build()
     }
 
-    private fun createGetAllTweaksMethod(): FunSpec {
+    internal fun createGetAllTweaksMethod(): FunSpec {
         val tweakParamClass: ClassName = ClassName.bestGuess(tweakParamClassName)
         val listClass: ClassName = ClassName.bestGuess(listClassName)
         val parametrizedListClass: TypeName = ParameterizedTypeName.get(listClass, tweakParamClass)
@@ -88,7 +88,7 @@ class TweaksGenerator {
                 .build()
     }
 
-    private fun createInitTweaksMethod(params: List<Param<*>>): FunSpec {
+    internal fun createInitTweaksMethod(params: List<Param<*>>): FunSpec {
         val funSpec = FunSpec.builder("initializeTweaks")
                 .addModifiers(KModifier.PRIVATE)
 
@@ -104,7 +104,7 @@ class TweaksGenerator {
         return funSpec.build()
     }
 
-    private fun generateShowTweaksMethod(): FunSpec {
+    internal fun generateShowTweaksMethod(): FunSpec {
         val contextClass: ClassName = ClassName.bestGuess(contextClassName)
 
         return FunSpec.builder("showTweaks")
@@ -115,7 +115,7 @@ class TweaksGenerator {
                 .build()
     }
 
-    private fun generateHideTweaksMethod(): FunSpec {
+    internal fun generateHideTweaksMethod(): FunSpec {
         val tweaksActivityClass: ClassName = ClassName.bestGuess(tweaksActivityClassName)
 
         return FunSpec.builder("hideTweaks")
