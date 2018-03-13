@@ -12,7 +12,7 @@ buildscript {
     dependencies {
         classpath files('../TweaksPlugin/build/libs/TweaksPlugin-1.0.0-SNAPSHOT.jar')
         classpath "org.yaml:snakeyaml:1.19"
-        classpath 'com.squareup:kotlinpoet:0.7.0'
+        classpath "com.squareup:javapoet:1.10.0"
     }
 }
 

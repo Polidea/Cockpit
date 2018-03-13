@@ -20,11 +20,12 @@ class TweaksView @JvmOverloads constructor(
         orientation = VERTICAL
 
         params.map {
-            when (it.typeClass) {
-                Double::class -> addView(DoubleParamView(context, null, 0, it.name, it.value as Double))
-                Int::class -> addView(IntParamView(context, null, 0, it.name, it.value as Int))
-                String::class -> addView(TextParamView(context, null, 0, it.name, it.value as String))
-                Boolean::class -> addView(BooleanParamView(context, null, 0, it.name, it.value as Boolean))
+            val type = it.typeClass
+            when (type) {
+                Double::class.javaObjectType -> addView(DoubleParamView(context, null, 0, it.name, it.value as Double))
+                Int::class.javaObjectType -> addView(IntParamView(context, null, 0, it.name, it.value as Int))
+                String::class.java -> addView(TextParamView(context, null, 0, it.name, it.value as String))
+                Boolean::class.javaObjectType -> addView(BooleanParamView(context, null, 0, it.name, it.value as Boolean))
             }
         }
     }
