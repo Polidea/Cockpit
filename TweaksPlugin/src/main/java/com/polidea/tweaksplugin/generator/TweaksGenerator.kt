@@ -51,7 +51,7 @@ class TweaksGenerator {
         }
     }
 
-    private fun createGetterMethodSpecForParam(param: Param<*>): MethodSpec {
+    internal fun createGetterMethodSpecForParam(param: Param<*>): MethodSpec {
         val typeClass = mapToTypeClass(param)
         return MethodSpec.methodBuilder("get${param.name}")
                 .returns(typeClass)
@@ -61,7 +61,7 @@ class TweaksGenerator {
                 .build()
     }
 
-    private fun createSetterMethodSpecForParam(param: Param<*>): MethodSpec {
+    internal fun createSetterMethodSpecForParam(param: Param<*>): MethodSpec {
         val typeClass = mapToTypeClass(param)
         return MethodSpec.methodBuilder("set${param.name}")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
@@ -71,7 +71,7 @@ class TweaksGenerator {
                 .build()
     }
 
-    private fun createGetAllTweaksMethod(): MethodSpec {
+    internal fun createGetAllTweaksMethod(): MethodSpec {
         val listClassName = ClassName.get("java.util", "List")
         val parametrizedListClass: TypeName = ParameterizedTypeName.get(listClassName, tweaksParamClassName)
         return MethodSpec.methodBuilder("getAllTweaks")
@@ -82,7 +82,7 @@ class TweaksGenerator {
     }
 
 
-    private fun createInitTweaksMethod(params: List<Param<*>>): MethodSpec {
+    internal fun createInitTweaksMethod(params: List<Param<*>>): MethodSpec {
         val funSpec = MethodSpec.methodBuilder("initializeTweaks")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
 
@@ -99,7 +99,7 @@ class TweaksGenerator {
     }
 
 
-    private fun generateShowTweaksMethod(): MethodSpec {
+    internal fun generateShowTweaksMethod(): MethodSpec {
         return MethodSpec.methodBuilder("showTweaks")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(androidContextClassName, "context").build())
@@ -110,7 +110,7 @@ class TweaksGenerator {
     }
 
 
-    private fun generateHideTweaksMethod(): MethodSpec {
+    internal fun generateHideTweaksMethod(): MethodSpec {
         return MethodSpec.methodBuilder("hideTweaks")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(tweaksActivityClassName, "tweaksActivity").build())
