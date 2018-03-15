@@ -11,6 +11,7 @@ class TweaksGenerator {
     private val tweaksManagerPackage = "com.polidea.androidtweaks.manager"
     private val androidContentPackage = "android.content"
     private val tweaksActivityPackage = "com.polidea.androidtweaks.activity"
+    private val javaUtilPackage = "java.util"
 
     private val tweaks = "Tweaks"
     private val tweaksManager = "TweaksManager"
@@ -18,28 +19,45 @@ class TweaksGenerator {
     private val intent = "Intent"
     private val context = "Context"
     private val tweaksActivity = "TweaksActivity"
+    private val list = "List"
+    private val arrayList = "ArrayList"
 
     private val tweaksManagerClassName = ClassName.get(tweaksManagerPackage, tweaksManager)
     private val tweaksParamClassName = ClassName.get(tweaksManagerPackage, tweakParam)
     private val androidIntentClassName = ClassName.get(androidContentPackage, intent)
     private val androidContextClassName = ClassName.get(androidContentPackage, context)
     private val tweaksActivityClassName = ClassName.get(tweaksActivityPackage, tweaksActivity)
+    private val listClassName = ClassName.get(javaUtilPackage, list)
+    private val arrayListClassName = ClassName.get(javaUtilPackage, arrayList)
 
-    fun generate(params: List<Param<*>>, file: File?) {
+    fun generateDebug(params: List<Param<*>>, file: File?) {
         val propertyMethods = params.fold(ArrayList<MethodSpec>(), { acc, param ->
             acc.add(createGetterMethodSpecForParam(param))
             acc.add(createSetterMethodSpecForParam(param))
             acc
         })
+        generate(file) { builder ->
+            builder.addStaticBlock(CodeBlock.builder().addStatement("initializeTweaks()").build())
+                    .addMethod(createInitTweaksMethod(params))
+                    .addMethods(propertyMethods)
+                    .addMethod(createGetAllTweaksMethod())
+                    .addMethod(generateShowTweaksMethod())
+                    .addMethod(generateHideTweaksMethod())
+        }
+    }
 
-        val tweaksClass = TypeSpec.classBuilder(tweaks)
-                .addModifiers(Modifier.PUBLIC)
-                .addStaticBlock(CodeBlock.builder().addStatement("initializeTweaks()").build())
-                .addMethod(createInitTweaksMethod(params))
-                .addMethods(propertyMethods)
-                .addMethod(createGetAllTweaksMethod())
-                .addMethod(generateShowTweaksMethod())
-                .addMethod(generateHideTweaksMethod())
+    fun generateRelease(params: List<Param<*>>, file: File?) {
+        val propertyMethods = params.map { createReleaseGetterMethodSpecForParam(it) }
+        generate(file) { builder ->
+            builder.addMethods(propertyMethods)
+                    .addMethod(createReleaseGetAllTweaksMethod(params))
+        }
+    }
+
+    private fun generate(file: File?, configurator: (TypeSpec.Builder) -> TypeSpec.Builder) {
+
+        val tweaksClass = configurator(TypeSpec.classBuilder(tweaks)
+                .addModifiers(Modifier.PUBLIC))
                 .build()
 
         val tweaksFile = JavaFile.builder(tweaksPackage, tweaksClass).build()
@@ -51,13 +69,25 @@ class TweaksGenerator {
         }
     }
 
+
+    internal fun createReleaseGetterMethodSpecForParam(param: Param<*>): MethodSpec {
+        return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
+            builder.addStatement("return ${createWrappedValueForParam(param)}")
+        }
+    }
+
     internal fun createGetterMethodSpecForParam(param: Param<*>): MethodSpec {
-        val typeClass = mapToTypeClass(param)
-        return MethodSpec.methodBuilder("get${param.name}")
-                .returns(typeClass)
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addStatement("return (\$T) \$T.getInstance().getParamValue(\"${param.name}\")",
-                        typeClass, tweaksManagerClassName)
+        return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
+            builder.addStatement("return (\$T) \$T.getInstance().getParamValue(\"${param.name}\")",
+                    mapToTypeClass(param), tweaksManagerClassName)
+        }
+    }
+
+    private fun createGetterMethodSpecForParamAndConfigurator(param: Param<*>,
+                                                              configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
+        return configurator(MethodSpec.methodBuilder("get${param.name}")
+                .returns(mapToTypeClass(param))
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
                 .build()
     }
 
@@ -72,12 +102,26 @@ class TweaksGenerator {
     }
 
     internal fun createGetAllTweaksMethod(): MethodSpec {
-        val listClassName = ClassName.get("java.util", "List")
+        return createGetAllTweaksMethodForConfigurator { builder ->
+            builder.addStatement("return \$T.getInstance().getParams()", tweaksManagerClassName)
+        }
+    }
+
+    internal fun createReleaseGetAllTweaksMethod(params: List<Param<*>>): MethodSpec {
+        return createGetAllTweaksMethodForConfigurator { builder ->
+            builder.addStatement("\$T<\$T> tweaks = new \$T<>()", listClassName, tweaksParamClassName, arrayListClassName)
+            params.forEach {
+                builder.addStatement("tweaks.add(${createNewTweakParamStatementForParam(it)})")
+            }
+            builder.addStatement("return tweaks")
+        }
+    }
+
+    private fun createGetAllTweaksMethodForConfigurator(configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
         val parametrizedListClass: TypeName = ParameterizedTypeName.get(listClassName, tweaksParamClassName)
-        return MethodSpec.methodBuilder("getAllTweaks")
+        return configurator(MethodSpec.methodBuilder("getAllTweaks")
                 .returns(parametrizedListClass)
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addStatement("return \$T.getInstance().getParams()", tweaksManagerClassName)
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
                 .build()
     }
 
@@ -87,17 +131,14 @@ class TweaksGenerator {
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
 
         params.forEach {
-            val clazz = it.value?.javaClass
-            val wrappedValue = when (clazz) {
-                String::class.java -> "\"${it.value}\""
-                else -> it.value
-            }
-            funSpec.addStatement("$tweaksManager.getInstance().addParam(new $tweakParam(\"${it.name}\", ${clazz?.simpleName}.class, $wrappedValue))")
+            funSpec.addStatement("$tweaksManager.getInstance().addParam(${createNewTweakParamStatementForParam(it)})")
         }
 
         return funSpec.build()
     }
 
+    private fun createNewTweakParamStatementForParam(it: Param<*>) =
+            "new $tweakParam(\"${it.name}\", ${it.value.javaClass.simpleName}.class, ${createWrappedValueForParam(it)})"
 
     internal fun generateShowTweaksMethod(): MethodSpec {
         return MethodSpec.methodBuilder("showTweaks")
@@ -125,6 +166,13 @@ class TweaksGenerator {
             is IntegerParam -> Int::class.java
             is StringParam -> String::class.java
             else -> throw IllegalArgumentException("Param type undefined: $param!")
+        }
+    }
+
+    private fun createWrappedValueForParam(param: Param<*>): Any {
+        return when (param.value.javaClass) {
+            String::class.java -> "\"${param.value}\""
+            else -> param.value
         }
     }
 

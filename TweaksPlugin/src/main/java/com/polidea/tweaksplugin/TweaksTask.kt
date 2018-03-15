@@ -3,7 +3,10 @@ package com.polidea.tweaksplugin
 import com.polidea.tweaksplugin.generator.TweaksGenerator
 import com.polidea.tweaksplugin.model.*
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.*
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
 import org.yaml.snakeyaml.LoaderOptions
 import org.yaml.snakeyaml.Yaml
 import java.io.File
@@ -15,10 +18,18 @@ open class TweaksTask: DefaultTask() {
     @Input
     var variantName: String? = null
 
+    @Input
+    var buildTypeName: String? = null
+
     @TaskAction
     fun TweaksAction() {
         val params: List<Param<*>> = parseYaml(tweaksFile)
-        TweaksGenerator().generate(params, getTweaksOutputDirectory())
+        val generator = TweaksGenerator()
+        if (buildTypeName == "release") {
+            generator.generateRelease(params, getTweaksOutputDirectory())
+        } else {
+            generator.generateDebug(params, getTweaksOutputDirectory())
+        }
     }
 
     @InputFile

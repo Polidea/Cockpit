@@ -30,9 +30,19 @@ android {
 
     }
 
+    signingConfigs {
+        release {
+            storeFile file('dev/release.jks')
+            storePassword "Cockpit"
+            keyAlias "Cockpit"
+            keyPassword "Cockpit"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

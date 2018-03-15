@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.polidea.androidtweaks.tweaks.Tweaks
+import com.polidea.sample.util.onEditValues
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -32,10 +33,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         (tweaks_textview as TextView).append(builder.toString())
-    }
-
-    private fun onEditValues() {
-        Tweaks.showTweaks(this)
     }
 }
 

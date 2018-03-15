@@ -20,14 +20,8 @@
 
     </ScrollView>
 
-    <Button
+    <include
         android:id="@+id/edit_values_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/edit_values"
-        android:layout_marginBottom="@dimen/tweak_margin"
-        android:layout_marginTop="@dimen/tweak_margin"/>
+        layout="@layout/include_edit_values_container"/>
 
 </RelativeLayout>
