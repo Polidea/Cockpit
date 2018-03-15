@@ -10,72 +10,102 @@ class TweaksGeneratorTest {
     private val tweaksGenerator: TweaksGenerator = TweaksGenerator()
 
     @Test
-    fun createPropertySpecForDoubleParamTest() {
-        val doublePropertySpec = tweaksGenerator.createPropertySpecForParam(DoubleParam("doubleParam", 3.0), Double::class)
+    fun createGetterMethodSpecForDoubleParamTest() {
+        val doubleGetterMethodSpec = tweaksGenerator.createGetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
 
-        val expectedDoublePropertySpecString = """
-            |@kotlin.jvm.JvmStatic
-            |public var doubleParam: kotlin.Double
-            |    get() = TweaksManager.getInstance().getParamValue("doubleParam") as Double
-            |    set(value) {
-            |        TweaksManager.getInstance().setParamValue("doubleParam", value)
-            |    }"""
-
-        assertEquals(expectedDoublePropertySpecString.trimMargin(), doublePropertySpec.toString().trimMargin())
+        val expectedDoubleGetterMethodSpecString = """
+            |public static double getdoubleParam() {
+            |  return (double) com.polidea.androidtweaks.manager.TweaksManager.getInstance().getParamValue("doubleParam");
+            |}"""
+        assertEquals(expectedDoubleGetterMethodSpecString.trimMargin(), doubleGetterMethodSpec.toString().trimMargin())
     }
 
     @Test
-    fun createPropertySpecForIntParamTest() {
-        val integerPropertySpec = tweaksGenerator.createPropertySpecForParam(IntegerParam("integerParam", 2), Int::class)
+    fun createSetterMethodSpecForDoubleParamTest() {
+        val doubleSetterMethodSpec = tweaksGenerator.createSetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
 
-        val expectedIntPropertySpecString = """
-            |@kotlin.jvm.JvmStatic
-            |public var integerParam: kotlin.Int
-            |    get() = TweaksManager.getInstance().getParamValue("integerParam") as Int
-            |    set(value) {
-            |        TweaksManager.getInstance().setParamValue("integerParam", value)
-            |    }"""
-
-        assertEquals(expectedIntPropertySpecString.trimMargin(), integerPropertySpec.toString().trimMargin())
+        val expectedDoubleSetterMethodSpecString = """
+            |public static void setdoubleParam(double doubleParam) {
+            |  com.polidea.androidtweaks.manager.TweaksManager.getInstance().setParamValue("doubleParam", doubleParam);
+            |}"""
+        assertEquals(expectedDoubleSetterMethodSpecString.trimMargin(), doubleSetterMethodSpec.toString().trimMargin())
     }
 
     @Test
-    fun createPropertySpecForBooleanParamTest() {
-        val booleanPropertySpec = tweaksGenerator.createPropertySpecForParam(BooleanParam("booleanParam", false), Boolean::class)
+    fun createGetterMethodSpecForIntParamTest() {
+        val intGetterMethodSpec = tweaksGenerator.createGetterMethodSpecForParam(IntegerParam("integerParam", 2))
 
-        val expectedBooleanPropertySpecString = """
-            |@kotlin.jvm.JvmStatic
-            |public var booleanParam: kotlin.Boolean
-            |    get() = TweaksManager.getInstance().getParamValue("booleanParam") as Boolean
-            |    set(value) {
-            |        TweaksManager.getInstance().setParamValue("booleanParam", value)
-            |    }"""
-
-        assertEquals(expectedBooleanPropertySpecString.trimMargin(), booleanPropertySpec.toString().trimMargin())
+        val expectedIntegerGetterMethodSpecString = """
+            |public static int getintegerParam() {
+            |  return (int) com.polidea.androidtweaks.manager.TweaksManager.getInstance().getParamValue("integerParam");
+            |}"""
+        assertEquals(expectedIntegerGetterMethodSpecString.trimMargin(), intGetterMethodSpec.toString().trimMargin())
     }
 
     @Test
-    fun createPropertySpecForStringParamTest() {
-        val stringPropertySpec = tweaksGenerator.createPropertySpecForParam(StringParam("stringParam", "testValue"), String::class)
+    fun createSetterMethodSpecForIntParamTest() {
+        val intSetterMethodSpec = tweaksGenerator.createSetterMethodSpecForParam(IntegerParam("integerParam", 2))
 
-        val expectedStringPropertySpecString = """
-            |@kotlin.jvm.JvmStatic
-            |public var stringParam: kotlin.String
-            |    get() = TweaksManager.getInstance().getParamValue("stringParam") as String
-            |    set(value) {
-            |        TweaksManager.getInstance().setParamValue("stringParam", value)
-            |    }"""
-
-        assertEquals(expectedStringPropertySpecString.trimMargin(), stringPropertySpec.toString().trimMargin())
+        val expectedDoubleSetterMethodSpecString = """
+            |public static void setintegerParam(int integerParam) {
+            |  com.polidea.androidtweaks.manager.TweaksManager.getInstance().setParamValue("integerParam", integerParam);
+            |}"""
+        assertEquals(expectedDoubleSetterMethodSpecString.trimMargin(), intSetterMethodSpec.toString().trimMargin())
     }
+
+    @Test
+    fun createGetterMethodSpecForBooleanParamTest() {
+        val booleanGetterMethodSpec = tweaksGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false))
+
+        val expectedBooleanGetterMethodSpecString = """
+            |public static boolean getbooleanParam() {
+            |  return (boolean) com.polidea.androidtweaks.manager.TweaksManager.getInstance().getParamValue("booleanParam");
+            |}"""
+        assertEquals(expectedBooleanGetterMethodSpecString.trimMargin(), booleanGetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createSetterMethodSpecForBooleanParamTest() {
+        val booleanSetterMethodSpec = tweaksGenerator.createSetterMethodSpecForParam(BooleanParam("booleanParam", false))
+
+        val expectedBooleanSetterMethodSpecString = """
+            |public static void setbooleanParam(boolean booleanParam) {
+            |  com.polidea.androidtweaks.manager.TweaksManager.getInstance().setParamValue("booleanParam", booleanParam);
+            |}"""
+        assertEquals(expectedBooleanSetterMethodSpecString.trimMargin(), booleanSetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createGetterMethodSpecForStringParamTest() {
+        val stringGetterMethodSpec = tweaksGenerator.createGetterMethodSpecForParam(StringParam("stringParam", "testValue"))
+
+        val expectedStringGetterMethodSpecString = """
+            |public static java.lang.String getstringParam() {
+            |  return (java.lang.String) com.polidea.androidtweaks.manager.TweaksManager.getInstance().getParamValue("stringParam");
+            |}"""
+        assertEquals(expectedStringGetterMethodSpecString.trimMargin(), stringGetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createSetterMethodSpecForStringParamTest() {
+        val stringSetterMethodSpec = tweaksGenerator.createSetterMethodSpecForParam(StringParam("stringParam", "testValue"))
+
+        val expectedStringSetterMethodSpecString = """
+            |public static void setstringParam(java.lang.String stringParam) {
+            |  com.polidea.androidtweaks.manager.TweaksManager.getInstance().setParamValue("stringParam", stringParam);
+            |}"""
+        assertEquals(expectedStringSetterMethodSpecString.trimMargin(), stringSetterMethodSpec.toString().trimMargin())
+    }
+
 
     @Test
     fun createGetAllTweaksMethodTest() {
         val funSpec = tweaksGenerator.createGetAllTweaksMethod()
 
         val expectedFunSpecString = """
-            |@kotlin.jvm.JvmStatic
-            |fun getAllTweaks(): kotlin.collections.List<com.polidea.androidtweaks.manager.TweakParam> = TweaksManager.getInstance().params"""
+            |public static java.util.List<com.polidea.androidtweaks.manager.TweakParam> getAllTweaks() {
+            |  return com.polidea.androidtweaks.manager.TweaksManager.getInstance().getParams();
+            |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
     }
@@ -88,11 +118,11 @@ class TweaksGeneratorTest {
         val funSpec = tweaksGenerator.createInitTweaksMethod(params)
 
         val expectedFunSpecString = """
-            |private fun initializeTweaks() {
-            |    TweaksManager.getInstance().addParam(TweakParam("doubleParam", Double::class, 3.0))
-            |    TweaksManager.getInstance().addParam(TweakParam("booleanParam", Boolean::class, false))
-            |    TweaksManager.getInstance().addParam(TweakParam("stringParam", String::class, "testValue"))
-            |    TweaksManager.getInstance().addParam(TweakParam("integerParam", Int::class, 2))
+            |private static void initializeTweaks() {
+            |  TweaksManager.getInstance().addParam(new TweakParam("doubleParam", Double.class, 3.0));
+            |  TweaksManager.getInstance().addParam(new TweakParam("booleanParam", Boolean.class, false));
+            |  TweaksManager.getInstance().addParam(new TweakParam("stringParam", String.class, "testValue"));
+            |  TweaksManager.getInstance().addParam(new TweakParam("integerParam", Integer.class, 2));
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
@@ -103,12 +133,13 @@ class TweaksGeneratorTest {
         val funSpec = tweaksGenerator.generateShowTweaksMethod()
 
         val expectedFunSpecString = """
-            |@kotlin.jvm.JvmStatic
-            |fun showTweaks(context: android.content.Context) {
-            |    val intent = Intent(context, TweaksActivity::class.java)
-            |    context.startActivity(intent)
+            |public static void showTweaks(android.content.Context context) {
+            |  android.content.Intent intent = new android.content.Intent(context, com.polidea.androidtweaks.activity.TweaksActivity .class);
+            |  context.startActivity(intent);
             |}"""
 
+        System.out.println("expected: " + expectedFunSpecString.trimMargin())
+        System.out.println("given   : " + funSpec.toString().trimMargin())
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
     }
 
@@ -117,9 +148,8 @@ class TweaksGeneratorTest {
         val funSpec = tweaksGenerator.generateHideTweaksMethod()
 
         val expectedFunSpecString = """
-            |@kotlin.jvm.JvmStatic
-            |fun hideTweaks(tweaksActivity: com.polidea.androidtweaks.activity.TweaksActivity) {
-            |    tweaksActivity.finish()
+            |public static void hideTweaks(com.polidea.androidtweaks.activity.TweaksActivity tweaksActivity) {
+            |  tweaksActivity.finish();
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())

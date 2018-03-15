@@ -40,10 +40,10 @@ class FileUtilsTest {
     private fun getTestTweaksParams(): MutableList<TweakParam> {
         val testParams: MutableList<TweakParam> = mutableListOf()
 
-        testParams.add(TweakParam("doubleParam", Double::class, 3.0))
-        testParams.add(TweakParam("booleanParam", Boolean::class, false))
-        testParams.add(TweakParam("stringParam", String::class, "testValue"))
-        testParams.add(TweakParam("integerParam", Int::class, 2))
+        testParams.add(TweakParam("doubleParam", Double::class.java, 3.0))
+        testParams.add(TweakParam("booleanParam", Boolean::class.java, false))
+        testParams.add(TweakParam("stringParam", String::class.java, "testValue"))
+        testParams.add(TweakParam("integerParam", Int::class.java, 2))
 
         return testParams
     }

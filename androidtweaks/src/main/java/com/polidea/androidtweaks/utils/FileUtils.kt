@@ -38,7 +38,7 @@ class FileUtils(context: Context) {
         })
 
         list.forEach {
-            tweaksManager.addParam(TweakParam(it.key, it.value.javaClass.kotlin, it.value))
+            tweaksManager.addParam(TweakParam(it.key, it.value.javaClass, it.value))
         }
     }
 }
