@@ -1,7 +1,10 @@
 package com.polidea.tweaksplugin
 
-import com.polidea.tweaksplugin.generator.TweaksGenerator
+import com.polidea.tweaksplugin.generator.BaseTweaksGenerator
+import com.polidea.tweaksplugin.generator.DebugTweaksGenerator
+import com.polidea.tweaksplugin.generator.ReleaseTweaksGenerator
 import com.polidea.tweaksplugin.model.*
+import com.polidea.tweaksplugin.utils.isRelease
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
@@ -24,12 +27,8 @@ open class TweaksTask: DefaultTask() {
     @TaskAction
     fun TweaksAction() {
         val params: List<Param<*>> = parseYaml(tweaksFile)
-        val generator = TweaksGenerator()
-        if (buildTypeName == "release") {
-            generator.generateRelease(params, getTweaksOutputDirectory())
-        } else {
-            generator.generateDebug(params, getTweaksOutputDirectory())
-        }
+        val generator = if (buildTypeName.isRelease()) ReleaseTweaksGenerator() else DebugTweaksGenerator()
+        generator.generate(params, getTweaksOutputDirectory())
     }
 
     @InputFile

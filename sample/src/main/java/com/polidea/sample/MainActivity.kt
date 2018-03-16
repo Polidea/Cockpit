@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.polidea.androidtweaks.tweaks.Tweaks
-import com.polidea.sample.util.onEditValues
+import com.polidea.sample.util.initViews
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -13,10 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        edit_values_button.setOnClickListener {
-            onEditValues()
-        }
+        initViews()
     }
 
     override fun onResume() {

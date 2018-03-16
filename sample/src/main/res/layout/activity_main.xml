@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent" android:orientation="vertical"
     tools:context="com.polidea.sample.MainActivity">
 
     <ScrollView
         android:id="@+id/tweaks_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/edit_values_button">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/tweaks_textview"
@@ -20,8 +20,6 @@
 
     </ScrollView>
 
-    <include
-        android:id="@+id/edit_values_button"
-        layout="@layout/include_edit_values_container"/>
+    <include layout="@layout/include_edit_values_container"/>
 
-</RelativeLayout>
+</LinearLayout>

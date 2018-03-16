@@ -2,6 +2,7 @@ package com.polidea.androidtweaks.utils
 
 import android.content.Context
 import com.polidea.androidtweaks.manager.TweakParam
+import com.polidea.androidtweaks.manager.TweaksManager
 import io.mockk.mockk
 import java.io.File
 import kotlin.test.AfterTest
