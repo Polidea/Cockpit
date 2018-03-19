@@ -10,7 +10,7 @@ import com.polidea.androidtweaks.manager.TweaksManager
 import com.polidea.androidtweaks.utils.FileUtils
 import com.polidea.androidtweaks.utils.ViewUtils
 import com.polidea.androidtweaks.view.ParamView
-import kotlinx.android.synthetic.main.tweaks_activity_layout.*
+import kotlinx.android.synthetic.debug.tweaks_activity_layout.*
 
 class TweaksActivity : AppCompatActivity() {
 

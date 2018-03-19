@@ -5,9 +5,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class TweaksGeneratorTest {
+class DebugTweaksGeneratorTest {
 
-    private val tweaksGenerator: TweaksGenerator = TweaksGenerator()
+    private val tweaksGenerator = DebugTweaksGenerator()
 
     @Test
     fun createGetterMethodSpecForDoubleParamTest() {

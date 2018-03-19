@@ -9,14 +9,14 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.polidea.androidtweaks.R
 import com.polidea.androidtweaks.exception.TweakFormatException
-import kotlinx.android.synthetic.main.number_param_line.view.*
+import kotlinx.android.synthetic.debug.number_param_line.view.*
 
 @SuppressLint("ViewConstructor")
-class DoubleParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-                      override val paramName: String, override var value: Double) : ParamView<Double>, LinearLayout(context, attrs, defStyleAttr) {
-    override fun getCurrentValue(): Double {
+class IntParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
+                   override val paramName: String, override var value: Int) : ParamView<Int>, LinearLayout(context, attrs, defStyleAttr) {
+    override fun getCurrentValue(): Int {
         try {
-            return (getValueView() as EditText).text.toString().toDouble()
+            return (getValueView() as EditText).text.toString().toInt()
         } catch (e: NumberFormatException) {
             throw TweakFormatException()
         }
@@ -28,7 +28,7 @@ class DoubleParamView(context: Context, attrs: AttributeSet? = null, defStyleAtt
 
     init {
         LayoutInflater.from(context).inflate(R.layout.number_param_line, this, true)
-        number_param_value.setText(value.toString())
+        (getValueView() as EditText).setText(value.toString())
         number_param_name.text = paramName
     }
 }

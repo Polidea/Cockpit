@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.polidea.androidtweaks.R
-import kotlinx.android.synthetic.main.string_param_line.view.*
+import kotlinx.android.synthetic.debug.string_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,

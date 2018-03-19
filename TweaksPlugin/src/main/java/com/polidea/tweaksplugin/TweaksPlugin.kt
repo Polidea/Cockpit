@@ -14,6 +14,7 @@ class TweaksPlugin : Plugin<Project> {
 
                 val task = project.tasks.create("generate${variant.name.capitalize()}Tweaks", TweaksTask::class.java) {
                     it.variantName = variant.dirName
+                    it.buildTypeName = variant.buildType.name
                 }
 
                 variant.registerJavaGeneratingTask(task, task.getTweaksOutputDirectory())

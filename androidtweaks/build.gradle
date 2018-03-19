@@ -36,6 +36,11 @@ android {
     }
 }
 
+androidExtensions {
+    // required to use variant-related extensions f.e: "kotlinx.android.synthetic.debug.<layout>.*"
+    experimental = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.yaml:snakeyaml:1.19"
