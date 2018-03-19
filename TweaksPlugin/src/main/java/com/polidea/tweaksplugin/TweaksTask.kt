@@ -1,10 +1,8 @@
 package com.polidea.tweaksplugin
 
-import com.polidea.tweaksplugin.generator.BaseTweaksGenerator
 import com.polidea.tweaksplugin.generator.DebugTweaksGenerator
 import com.polidea.tweaksplugin.generator.ReleaseTweaksGenerator
 import com.polidea.tweaksplugin.model.*
-import com.polidea.tweaksplugin.utils.isRelease
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
@@ -14,7 +12,7 @@ import org.yaml.snakeyaml.LoaderOptions
 import org.yaml.snakeyaml.Yaml
 import java.io.File
 
-open class TweaksTask: DefaultTask() {
+open class TweaksTask : DefaultTask() {
     private val tweaksFilePath = "src/main/assets/tweaks.yml"
     private val tweaksOutputDirectory = "${project.buildDir}/generated/source/tweaks/"
 
@@ -60,4 +58,6 @@ open class TweaksTask: DefaultTask() {
 
         return paramList
     }
+
+    private fun String?.isRelease() = "release" == this
 }
