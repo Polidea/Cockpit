@@ -1,0 +1,68 @@
+plugins {
+    id 'groovy'
+    id 'maven'
+    id "com.gradle.plugin-publish" version "0.9.7"
+    id 'org.jetbrains.kotlin.jvm' version '1.2.21'
+    id 'java-gradle-plugin'
+}
+
+group = 'com.polidea.android'
+version = '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 1.7
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+
+    test.java.srcDirs += 'src/test/kotlin'
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    provided 'com.android.tools.build:gradle:2.2.3'
+    implementation 'org.yaml:snakeyaml:1.19'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.21'
+
+    implementation 'com.squareup:javapoet:1.10.0'
+
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.21"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.2.21"
+}
+
+pluginBundle {
+    website = 'https://gitlab2.polidea.com/learning/android-tweaks'
+    vcsUrl = 'https://gitlab2.polidea.com/learning/android-tweaks'
+    description = 'Test'
+    tags = ['gradle', 'plugin', 'android']
+
+    plugins {
+        cockpitPlugin {
+            id = 'com.polidea.android.cockpit'
+            displayName = 'Test'
+        }
+    }
+
+    mavenCoordinates {
+        groupId = "com.polidea.android"
+        artifactId = "cockpit"
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.version = project.version
+        pom.artifactId = 'cockpit'
+    }
+}

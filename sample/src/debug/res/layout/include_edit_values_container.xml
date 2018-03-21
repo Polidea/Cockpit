@@ -7,6 +7,6 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:text="@string/edit_values"
-    android:layout_marginBottom="@dimen/tweak_margin"
-    android:layout_marginTop="@dimen/tweak_margin"
+    android:layout_marginBottom="@dimen/cockpit_margin"
+    android:layout_marginTop="@dimen/cockpit_margin"
     tools:showIn="@layout/activity_main"/>

@@ -3,7 +3,7 @@ package com.polidea.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
-import com.polidea.androidtweaks.tweaks.Tweaks
+import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.sample.util.initViews
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,18 +18,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        displayCurrentTweaks()
+        displayCurrentCockpit()
     }
 
-    private fun displayCurrentTweaks() {
-        val params = Tweaks.getAllTweaks()
+    private fun displayCurrentCockpit() {
+        val params = Cockpit.getAllCockpitParams()
         val builder = StringBuilder().append("\n")
 
         for (p in params) {
             builder.append("${p.name}: ${p.value}\n")
         }
 
-        (tweaks_textview as TextView).append(builder.toString())
+        (cockpit_textview as TextView).append(builder.toString())
     }
 }
 
