@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.polidea.android.androidtweaks'
+apply plugin: 'com.polidea.android.cockpit'
 
 buildscript {
     repositories {
@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath files('../TweaksPlugin/build/libs/TweaksPlugin-1.0.0-SNAPSHOT.jar')
+        classpath files('../CockpitPlugin/build/libs/CockpitPlugin-1.0.0-SNAPSHOT.jar')
         classpath "org.yaml:snakeyaml:1.19"
         classpath "com.squareup:javapoet:1.10.0"
     }
@@ -58,5 +58,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    implementation project(":androidtweaks")
+    implementation project(':cockpit')
 }

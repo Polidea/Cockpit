@@ -6,17 +6,17 @@
     tools:context="com.polidea.sample.MainActivity">
 
     <ScrollView
-        android:id="@+id/tweaks_scrollview"
+        android:id="@+id/cockpit_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
         <TextView
-            android:id="@+id/tweaks_textview"
+            android:id="@+id/cockpit_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/tweak_margin"
-            android:text="@string/tweaks_header" />
+            android:padding="@dimen/cockpit_margin"
+            android:text="@string/cockpit_header" />
 
     </ScrollView>
 

@@ -9,7 +9,7 @@ buildscript {
         mavenCentral()
         mavenLocal()
         flatDir {
-            dirs 'androidtweaks/libs'
+            dirs 'cockpit/libs'
         }
 
     }
@@ -29,7 +29,7 @@ allprojects {
         mavenCentral()
         mavenLocal()
         flatDir {
-            dirs 'androidtweaks/libs'
+            dirs 'cockpit/libs'
         }
     }
 }
