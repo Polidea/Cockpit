@@ -134,7 +134,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedFunSpecString = """
             |public static void showCockpit(android.content.Context context) {
-            |  android.content.Intent intent = new android.content.Intent(context, com.polidea.cockpit.activity.CockpitActivity .class);
+            |  android.content.Intent intent = new android.content.Intent(context, com.polidea.cockpit.activity.CockpitActivity.class);
             |  context.startActivity(intent);
             |}"""
 

@@ -63,7 +63,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
         return MethodSpec.methodBuilder("showCockpit")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(androidContextClassName, "context").build())
-                .addStatement("\$T intent = new \$T(context, \$T .class)",
+                .addStatement("\$T intent = new \$T(context, \$T.class)",
                         androidIntentClassName, androidIntentClassName, cockpitActivityClassName)
                 .addStatement("context.startActivity(intent)")
                 .build()
