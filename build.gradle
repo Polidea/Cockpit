@@ -8,6 +8,7 @@ buildscript {
         jcenter()
         mavenCentral()
         mavenLocal()
+        // TODO: remove before publishing to Artifactory
         flatDir {
             dirs 'cockpit/libs'
         }
@@ -28,6 +29,7 @@ allprojects {
         jcenter()
         mavenCentral()
         mavenLocal()
+        // TODO: remove before publishing to Artifactory
         flatDir {
             dirs 'cockpit/libs'
         }

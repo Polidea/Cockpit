@@ -97,19 +97,6 @@ class DebugCockpitGeneratorTest {
         assertEquals(expectedStringSetterMethodSpecString.trimMargin(), stringSetterMethodSpec.toString().trimMargin())
     }
 
-
-    @Test
-    fun createGetAllCockpitParamsMethodTest() {
-        val funSpec = cockpitGenerator.createGetAllCockpitParamsMethod()
-
-        val expectedFunSpecString = """
-            |public static java.util.List<com.polidea.cockpit.manager.CockpitParam> getAllCockpitParams() {
-            |  return com.polidea.cockpit.manager.CockpitManager.getInstance().getParams();
-            |}"""
-
-        assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
-    }
-
     @Test
     fun createInitCockpitMethodTest() {
         val params = getTestParams()
@@ -119,10 +106,10 @@ class DebugCockpitGeneratorTest {
 
         val expectedFunSpecString = """
             |private static void initializeCockpit() {
-            |  CockpitManager.getInstance().addParam(new CockpitParam("doubleParam", Double.class, 3.0));
-            |  CockpitManager.getInstance().addParam(new CockpitParam("booleanParam", Boolean.class, false));
-            |  CockpitManager.getInstance().addParam(new CockpitParam("stringParam", String.class, "testValue"));
-            |  CockpitManager.getInstance().addParam(new CockpitParam("integerParam", Integer.class, 2));
+            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("doubleParam", Double.class, 3.0));
+            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("booleanParam", Boolean.class, false));
+            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("stringParam", String.class, "testValue"));
+            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("integerParam", Integer.class, 2));
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
