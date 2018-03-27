@@ -18,7 +18,6 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
             builder.addStaticBlock(CodeBlock.builder().addStatement("initializeCockpit()").build())
                     .addMethod(createInitCockpitMethod(params))
                     .addMethods(propertyMethods)
-                    .addMethod(createGetAllCockpitParamsMethod())
                     .addMethod(generateShowCockpitMethod())
                     .addMethod(generateHideCockpitMethod())
         }
@@ -42,18 +41,12 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .build()
     }
 
-    internal fun createGetAllCockpitParamsMethod(): MethodSpec {
-        return createGetAllCockpitParamsMethodForConfigurator { builder ->
-            builder.addStatement("return \$T.getInstance().getParams()", cockpitManagerClassName)
-        }
-    }
-
     internal fun createInitCockpitMethod(params: List<Param<*>>): MethodSpec {
         val funSpec = MethodSpec.methodBuilder("initializeCockpit")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
 
         params.forEach {
-            funSpec.addStatement("$cockpitManager.getInstance().addParam(${createNewCockpitParamStatementForParam(it)})")
+            funSpec.addStatement("$cockpitManager.getInstance().addParam(new \$T(\"${it.name}\", ${it.value.javaClass.simpleName}.class, ${createWrappedValueForParam(it)}))", cockpitParamClassName)
         }
 
         return funSpec.build()

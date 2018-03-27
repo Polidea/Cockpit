@@ -22,12 +22,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayCurrentCockpit() {
-        val params = Cockpit.getAllCockpitParams()
         val builder = StringBuilder().append("\n")
 
-        for (p in params) {
-            builder.append("${p.name}: ${p.value}\n")
-        }
+        builder.append("param_tag1: ${Cockpit.getparam_tag1()}\n")
+        builder.append("param_tag2: ${Cockpit.getparam_tag2()}\n")
+        builder.append("param_tag3: ${Cockpit.getparam_tag3()}\n")
+        builder.append("int_param: ${Cockpit.getint_param()}\n")
+        builder.append("boolean_param: ${Cockpit.getboolean_param()}\n")
 
         (cockpit_textview as TextView).append(builder.toString())
     }
