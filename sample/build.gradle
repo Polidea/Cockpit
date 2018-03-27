@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath files('../CockpitPlugin/build/libs/CockpitPlugin-1.0.0-SNAPSHOT.jar')
+        classpath files('../CockpitPlugin/build/libs/CockpitPlugin-1.0.0.jar')
         classpath "org.yaml:snakeyaml:1.19"
         classpath "com.squareup:javapoet:1.10.0"
     }
