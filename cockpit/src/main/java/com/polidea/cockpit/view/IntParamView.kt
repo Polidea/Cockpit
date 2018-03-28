@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.polidea.cockpit.R
 import com.polidea.cockpit.exception.CockpitFormatException
-import kotlinx.android.synthetic.debug.number_param_line.view.*
+import kotlinx.android.synthetic.main.number_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class IntParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,

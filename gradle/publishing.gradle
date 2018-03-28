@@ -1,0 +1,39 @@
+
+def getRepositoryUsername() {
+    return hasProperty('SONATYPE_NEXUS_USERNAME') ? property('SONATYPE_NEXUS_USERNAME') : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('SONATYPE_NEXUS_PASSWORD') ? property('SONATYPE_NEXUS_PASSWORD') : ""
+}
+
+apply plugin: 'digital.wup.android-maven-publish'
+
+publishing {
+    publications {
+        cockpitPanelAar(MavenPublication) {
+            from components.android
+            groupId 'com.polidea.cockpit'
+            artifactId 'cockpit'
+            version "1.0.0-SNAPSHOT"
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username getRepositoryUsername()
+                password getRepositoryPassword()
+            }
+            name "MavenSnapshot"
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            credentials {
+                username getRepositoryUsername()
+                password getRepositoryPassword()
+            }
+            name "MavenStaging"
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+        }
+    }
+}

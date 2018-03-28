@@ -10,7 +10,7 @@ import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.utils.ViewUtils
 import com.polidea.cockpit.view.ParamView
-import kotlinx.android.synthetic.debug.cockpit_activity_layout.*
+import kotlinx.android.synthetic.main.cockpit_activity_layout.*
 
 class CockpitActivity : AppCompatActivity() {
 

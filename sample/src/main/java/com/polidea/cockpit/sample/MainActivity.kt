@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayCurrentCockpit() {
         val builder = StringBuilder().append("\n")
-
         builder.append("param_tag1: ${Cockpit.getparam_tag1()}\n")
         builder.append("param_tag2: ${Cockpit.getparam_tag2()}\n")
         builder.append("param_tag3: ${Cockpit.getparam_tag3()}\n")
