@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.polidea.cockpit'
-version = '1.0.0'
+version = '1.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.7
 
