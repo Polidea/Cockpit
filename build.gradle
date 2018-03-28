@@ -8,11 +8,6 @@ buildscript {
         jcenter()
         mavenCentral()
         mavenLocal()
-        // TODO: remove before publishing to Artifactory
-        flatDir {
-            dirs 'cockpit/libs'
-        }
-
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -29,10 +24,6 @@ allprojects {
         jcenter()
         mavenCentral()
         mavenLocal()
-        // TODO: remove before publishing to Artifactory
-        flatDir {
-            dirs 'cockpit/libs'
-        }
     }
 }
 
