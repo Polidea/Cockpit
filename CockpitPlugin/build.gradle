@@ -6,8 +6,8 @@ plugins {
     id 'java-gradle-plugin'
 }
 
-group = 'com.polidea.android'
-version = '1.0.0-SNAPSHOT'
+group = 'com.polidea.cockpit'
+version = '1.0.0'
 
 sourceCompatibility = 1.7
 
@@ -42,21 +42,16 @@ dependencies {
 }
 
 pluginBundle {
-    website = 'https://gitlab2.polidea.com/learning/android-tweaks'
-    vcsUrl = 'https://gitlab2.polidea.com/learning/android-tweaks'
-    description = 'Test'
+    website = 'https://github.com/Polidea/Cockpit'
+    vcsUrl = 'https://github.com/Polidea/Cockpit'
+    description = 'Cockpit is an Android library providing a way to easily define a set of parameters that can be accessed and changed by the developers via built-in compact UI at runtime.'
     tags = ['gradle', 'plugin', 'android']
 
     plugins {
         cockpitPlugin {
-            id = 'com.polidea.android.cockpit'
-            displayName = 'Test'
+            id = 'com.polidea.cockpit'
+            displayName = 'Gradle Cockpit plugin'
         }
-    }
-
-    mavenCoordinates {
-        groupId = "com.polidea.android"
-        artifactId = "cockpit"
     }
 }
 

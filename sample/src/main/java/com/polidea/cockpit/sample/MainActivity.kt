@@ -1,10 +1,10 @@
-package com.polidea.sample
+package com.polidea.cockpit.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.polidea.cockpit.cockpit.Cockpit
-import com.polidea.sample.util.initViews
+import com.polidea.cockpit.sample.util.initViews
 import kotlinx.android.synthetic.main.activity_main.*
 
 
