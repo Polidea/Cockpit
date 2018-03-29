@@ -7,7 +7,6 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
-        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -23,14 +22,13 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        mavenLocal()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
 }
 
 repositories {
     mavenCentral()
     jcenter()
-    mavenLocal()
 }
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
