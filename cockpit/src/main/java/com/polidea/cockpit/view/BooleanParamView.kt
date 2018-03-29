@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import com.polidea.cockpit.R
-import kotlinx.android.synthetic.main.boolean_param_line.view.*
+import kotlinx.android.synthetic.main.cockpit_boolean_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class BooleanParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
@@ -18,12 +18,12 @@ class BooleanParamView(context: Context, attrs: AttributeSet? = null, defStyleAt
     }
 
     override fun getValueView(): View {
-        return boolean_param_value as View
+        return cockpit_boolean_param_value as View
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.boolean_param_line, this,true)
-        boolean_param_value.isChecked = value
-        boolean_param_name.text = paramName
+        LayoutInflater.from(context).inflate(R.layout.cockpit_boolean_param_line, this,true)
+        cockpit_boolean_param_value.isChecked = value
+        cockpit_boolean_param_name.text = paramName
     }
 }

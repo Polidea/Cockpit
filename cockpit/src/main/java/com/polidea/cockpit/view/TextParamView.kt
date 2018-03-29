@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.polidea.cockpit.R
-import kotlinx.android.synthetic.main.string_param_line.view.*
+import kotlinx.android.synthetic.main.cockpit_string_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
@@ -18,12 +18,12 @@ class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr:
     }
 
     override fun getValueView(): View {
-        return string_param_value as View
+        return cockpit_string_param_value as View
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.string_param_line, this, true)
-        string_param_value.setText(value)
-        string_param_name.text = paramName
+        LayoutInflater.from(context).inflate(R.layout.cockpit_string_param_line, this, true)
+        cockpit_string_param_value.setText(value)
+        cockpit_string_param_name.text = paramName
     }
 }

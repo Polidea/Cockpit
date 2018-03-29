@@ -7,12 +7,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/string_param_name"
+        android:id="@+id/cockpit_string_param_name"
         android:layout_gravity="left|center_vertical"
         android:layout_weight="2" />
 
     <EditText
-        android:id="@+id/string_param_value"
+        android:id="@+id/cockpit_string_param_value"
         android:layout_width="@dimen/cockpit_value_width"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

@@ -11,11 +11,11 @@
         android:layout_margin="@dimen/cockpit_margin"/>
 
     <Button
-        android:id="@+id/save_button"
+        android:id="@+id/cockpit_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/cockpit_margin"
         android:layout_marginLeft="@dimen/cockpit_margin"
-        android:text="@string/save"/>
+        android:text="@string/cockpit_save_button"/>
 
 </android.widget.LinearLayout>
