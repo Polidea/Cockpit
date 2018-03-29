@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.polidea.cockpit.R
 import com.polidea.cockpit.exception.CockpitFormatException
-import kotlinx.android.synthetic.debug.number_param_line.view.*
+import kotlinx.android.synthetic.main.cockpit_number_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class DoubleParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
@@ -23,12 +23,12 @@ class DoubleParamView(context: Context, attrs: AttributeSet? = null, defStyleAtt
     }
 
     override fun getValueView(): View {
-        return number_param_value as View
+        return cockpit_number_param_value as View
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.number_param_line, this, true)
-        number_param_value.setText(value.toString())
-        number_param_name.text = paramName
+        LayoutInflater.from(context).inflate(R.layout.cockpit_number_param_line, this, true)
+        cockpit_number_param_value.setText(value.toString())
+        cockpit_number_param_name.text = paramName
     }
 }

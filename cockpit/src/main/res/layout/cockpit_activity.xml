@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.polidea.cockpit.activity.CockpitActivity">
 
-    <include layout="@layout/cockpit_activity_layout"/>
+    <include layout="@layout/cockpit_include_activity_layout"/>
 
 </android.support.constraint.ConstraintLayout>

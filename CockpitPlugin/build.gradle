@@ -72,3 +72,7 @@ install {
         pom.artifactId = 'cockpit'
     }
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "4.1"
+}

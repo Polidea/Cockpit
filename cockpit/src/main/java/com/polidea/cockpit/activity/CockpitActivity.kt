@@ -10,7 +10,7 @@ import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.utils.ViewUtils
 import com.polidea.cockpit.view.ParamView
-import kotlinx.android.synthetic.debug.cockpit_activity_layout.*
+import kotlinx.android.synthetic.main.cockpit_include_activity_layout.*
 
 class CockpitActivity : AppCompatActivity() {
 
@@ -20,12 +20,12 @@ class CockpitActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cockpit)
+        setContentView(R.layout.cockpit_activity)
         initializeSaveButton()
     }
 
     private fun initializeSaveButton() {
-        save_button.setOnClickListener{
+        cockpit_save_button.setOnClickListener{
             saveCockpit()
         }
     }

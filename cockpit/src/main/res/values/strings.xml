@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">AndroidCockpit</string>
+    <public />
+    <string name="cockpit_save_button">SAVE</string>
 </resources>

@@ -1,11 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply from: rootProject.file('gradle/publishing.gradle')
 
 buildscript {
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'digital.wup:android-maven-publish:3.0.0'
     }
 
     repositories {
@@ -36,18 +38,13 @@ android {
     }
 }
 
-androidExtensions {
-    // required to use variant-related extensions f.e: "kotlinx.android.synthetic.debug.<layout>.*"
-    experimental = true
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.yaml:snakeyaml:1.19"
+    api "org.yaml:snakeyaml:1.19"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.21"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    api "org.jetbrains.kotlin:kotlin-stdlib:1.2.21"
+    api 'com.android.support:appcompat-v7:26.1.0'
+    api 'com.android.support.constraint:constraint-layout:1.0.2'
 
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.21"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.2.21"
