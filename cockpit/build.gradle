@@ -6,8 +6,8 @@ apply from: rootProject.file('gradle/publishing.gradle')
 buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'digital.wup:android-maven-publish:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'digital.wup:android-maven-publish:3.3.0'
     }
 
     repositories {
@@ -42,11 +42,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api "org.yaml:snakeyaml:1.19"
 
-    api "org.jetbrains.kotlin:kotlin-stdlib:1.2.21"
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api 'com.android.support:appcompat-v7:26.1.0'
     api 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:1.2.21"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:1.2.21"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "io.mockk:mockk:1.7.9"
 }
