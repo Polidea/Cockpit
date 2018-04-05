@@ -15,7 +15,7 @@ publishing {
             from components.android
             groupId 'com.polidea.cockpit'
             artifactId 'cockpit'
-            version "1.0.0-SNAPSHOT"
+            version "1.0.0"
         }
     }
     repositories {
