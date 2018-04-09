@@ -14,8 +14,6 @@ buildscript {
 
     dependencies {
         classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:1.0.0"
-        classpath "org.yaml:snakeyaml:1.19"
-        classpath "com.squareup:javapoet:1.10.0"
     }
 }
 
