@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ScrollView
-        android:id="@+id/cockpit_scrollview"
+    <TextView
+        android:id="@+id/cockpit_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large"
+        android:text="Hello world!"/>
+
+    <include
+        layout="@layout/include_edit_values_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_above="@id/footer_view"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:id="@+id/footer_view"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary">
 
         <TextView
-            android:id="@+id/cockpit_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_large"
-            android:text="@string/cockpit_header" />
+            android:text="Created by Polidea"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"/>
 
-    </ScrollView>
+    </LinearLayout>
 
-    <include layout="@layout/include_edit_values_container"/>
-
-</LinearLayout>
+</RelativeLayout>
