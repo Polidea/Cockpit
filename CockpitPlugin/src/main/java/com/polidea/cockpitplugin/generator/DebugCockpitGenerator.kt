@@ -19,7 +19,6 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                     .addMethod(createInitCockpitMethod(params))
                     .addMethods(propertyMethods)
                     .addMethod(generateShowCockpitMethod())
-                    .addMethod(generateHideCockpitMethod())
         }
     }
 
@@ -59,15 +58,6 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addStatement("\$T intent = new \$T(context, \$T.class)",
                         androidIntentClassName, androidIntentClassName, cockpitActivityClassName)
                 .addStatement("context.startActivity(intent)")
-                .build()
-    }
-
-
-    internal fun generateHideCockpitMethod(): MethodSpec {
-        return MethodSpec.methodBuilder("hideCockpit")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(cockpitActivityClassName, "cockpitActivity").build())
-                .addStatement("cockpitActivity.finish()")
                 .build()
     }
 }

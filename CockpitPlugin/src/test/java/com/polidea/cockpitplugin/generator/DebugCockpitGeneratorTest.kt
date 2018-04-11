@@ -130,18 +130,6 @@ class DebugCockpitGeneratorTest {
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
     }
 
-    @Test
-    fun generateHideCockpitMethodTest() {
-        val funSpec = cockpitGenerator.generateHideCockpitMethod()
-
-        val expectedFunSpecString = """
-            |public static void hideCockpit(com.polidea.cockpit.activity.CockpitActivity cockpitActivity) {
-            |  cockpitActivity.finish();
-            |}"""
-
-        assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
-    }
-
     private fun getTestParams(): List<Param<*>> {
         val testParams: MutableList<Param<*>> = mutableListOf()
 
