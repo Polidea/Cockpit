@@ -33,7 +33,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     internal fun createSetterMethodSpecForParam(param: Param<*>): MethodSpec {
         val typeClass = mapToTypeClass(param)
-        return MethodSpec.methodBuilder("set${param.name}")
+        return MethodSpec.methodBuilder("set${param.name.capitalize()}")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(typeClass, param.name).build())
                 .addStatement("\$T.getInstance().setParamValue(\"${param.name}\", ${param.name})",

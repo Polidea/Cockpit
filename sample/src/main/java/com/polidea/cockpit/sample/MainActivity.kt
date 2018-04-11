@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayMainActivity() {
-        cockpit_textview.setTextColor(Color.parseColor(Cockpit.getcolor()))
-        cockpit_textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, Cockpit.getfontSize().toFloat())
-        if (Cockpit.getshowFooter()) {
+        cockpit_textview.setTextColor(Color.parseColor(Cockpit.getColor()))
+        cockpit_textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, Cockpit.getFontSize().toFloat())
+        if (Cockpit.getShowFooter()) {
             footer_view.visibility = View.VISIBLE
         } else {
             footer_view.visibility = View.INVISIBLE
