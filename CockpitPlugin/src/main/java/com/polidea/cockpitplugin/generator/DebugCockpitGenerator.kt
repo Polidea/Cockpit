@@ -25,7 +25,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     internal fun createGetterMethodSpecForParam(param: Param<*>): MethodSpec {
         return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
-            builder.addStatement("return (\$T) \$T.getInstance().getParamValue(\"${param.name}\")",
+            builder.addStatement("return (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
                     mapToTypeClass(param), cockpitManagerClassName)
         }
     }
@@ -36,7 +36,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
         return MethodSpec.methodBuilder("set${param.name.capitalize()}")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(typeClass, param.name).build())
-                .addStatement("\$T.getInstance().setParamValue(\"${param.name}\", ${param.name})",
+                .addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", ${param.name})",
                         cockpitManagerClassName)
                 .addStatement("persistChanges()")
                 .build()
@@ -47,7 +47,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
 
         params.forEach {
-            funSpec.addStatement("$cockpitManager.getInstance().addParam(new \$T(\"${it.name}\", ${it.value.javaClass.simpleName}.class, ${createWrappedValueForParam(it)}))", cockpitParamClassName)
+            funSpec.addStatement("$cockpitManager.INSTANCE.addParam(new \$T(\"${it.name}\", ${it.value.javaClass.simpleName}.class, ${createWrappedValueForParam(it)}))", cockpitParamClassName)
         }
 
         return funSpec.build()
@@ -66,7 +66,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
     internal fun generatePersistChangesMethod(): MethodSpec {
         return MethodSpec.methodBuilder("persistChanges")
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .addStatement("\$T.getInstance().saveCockpitAsYaml()", fileUtilsClassName)
+                .addStatement("\$T.INSTANCE.saveCockpitAsYaml()", fileUtilsClassName)
                 .build()
     }
 }

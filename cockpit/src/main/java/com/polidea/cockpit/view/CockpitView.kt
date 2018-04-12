@@ -15,7 +15,7 @@ class CockpitView @JvmOverloads constructor(
     }
 
     private fun initialize() {
-        val params = CockpitManager.getInstance().params
+        val params = CockpitManager.params
 
         orientation = VERTICAL
 
