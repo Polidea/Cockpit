@@ -9,15 +9,14 @@ import java.io.File
 import java.io.FileWriter
 
 
-class FileUtils(context: Context) {
-    var savedCockpitFilePath = context.filesDir.path + File.separator + "savedCockpit.yml"
+class FileUtils private constructor(){
     var cockpitManager = CockpitManager.getInstance()
     private val loaderOptions = LoaderOptions()
     val yaml: Yaml = Yaml(loaderOptions)
 
     fun saveCockpitAsYaml() {
         loaderOptions.isAllowDuplicateKeys = false
-        val fileWriter = FileWriter(savedCockpitFilePath)
+        val fileWriter = FileWriter(SAVED_COCKPIT_FILE_PATH)
 
         val data: LinkedHashMap<String, Any> = LinkedHashMap()
         cockpitManager.params.forEach {
@@ -28,17 +27,33 @@ class FileUtils(context: Context) {
     }
 
     fun readCockpitFromFile() {
-        if (!File(savedCockpitFilePath).exists()) {
+        if (!File(SAVED_COCKPIT_FILE_PATH).exists()) {
             return
         }
 
-        val savedCockpit = File(savedCockpitFilePath)
+        val savedCockpit = File(SAVED_COCKPIT_FILE_PATH)
         val list: Map<String, Any> = yaml.load(savedCockpit.bufferedReader().use {
             it.readText()
         })
 
         list.forEach {
             cockpitManager.addParam(CockpitParam(it.key, it.value.javaClass, it.value))
+        }
+    }
+
+    companion object {
+        private var SAVED_COCKPIT_FILE_PATH: String? = null
+        private var INSTANCE: FileUtils? = null
+
+        fun init(context: Context) {
+            SAVED_COCKPIT_FILE_PATH = context.filesDir.path + File.separator + "savedCockpit.yml"
+        }
+
+        @JvmStatic
+        fun getInstance(): FileUtils {
+            val instance = INSTANCE ?: FileUtils()
+            INSTANCE = instance
+            return instance
         }
     }
 }

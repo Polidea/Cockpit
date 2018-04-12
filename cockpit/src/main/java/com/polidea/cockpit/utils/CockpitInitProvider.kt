@@ -8,7 +8,8 @@ import android.net.Uri
 class CockpitInitProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
-        FileUtils(context).readCockpitFromFile()
+        FileUtils.init(context)
+        FileUtils.getInstance().readCockpitFromFile()
         return false
     }
 

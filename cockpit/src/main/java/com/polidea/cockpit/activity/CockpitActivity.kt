@@ -47,7 +47,7 @@ class CockpitActivity : AppCompatActivity() {
                     }
         }
 
-        FileUtils(this).saveCockpitAsYaml()
+        FileUtils.getInstance().saveCockpitAsYaml()
 
         finish()
     }

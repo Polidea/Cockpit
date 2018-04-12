@@ -19,6 +19,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                     .addMethod(createInitCockpitMethod(params))
                     .addMethods(propertyMethods)
                     .addMethod(generateShowCockpitMethod())
+                    .addMethod(generatePersistChangesMethod())
         }
     }
 
@@ -37,6 +38,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addParameter(ParameterSpec.builder(typeClass, param.name).build())
                 .addStatement("\$T.getInstance().setParamValue(\"${param.name}\", ${param.name})",
                         cockpitManagerClassName)
+                .addStatement("persistChanges()")
                 .build()
     }
 
@@ -58,6 +60,13 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addStatement("\$T intent = new \$T(context, \$T.class)",
                         androidIntentClassName, androidIntentClassName, cockpitActivityClassName)
                 .addStatement("context.startActivity(intent)")
+                .build()
+    }
+
+    internal fun generatePersistChangesMethod(): MethodSpec {
+        return MethodSpec.methodBuilder("persistChanges")
+                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
+                .addStatement("\$T.getInstance().saveCockpitAsYaml()", fileUtilsClassName)
                 .build()
     }
 }
