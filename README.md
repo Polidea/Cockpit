@@ -45,7 +45,7 @@ Boolean boolean_param = true;
 CockpitPlugin will generate `Cockpit.java` file for you. Cockpit functionality is by design available only for debug builds, so `Cockpit.java` file won't contain any setters in the release build. This is to prevent any unauthorized param value changes.
 
 ### Accessing param values
-You can access the params via generated getters and setters. Each param has corresponding `getparam_name()` and `setparam_name()`, where `param_name` is your param's name.
+You can access the params via generated getters and setters. Each param has corresponding `getParam_name()` and `setParam_name()`, where `param_name` is your param's name.
 >Setters are generated only for debug builds. 
 
 ### Displaying cockpit
