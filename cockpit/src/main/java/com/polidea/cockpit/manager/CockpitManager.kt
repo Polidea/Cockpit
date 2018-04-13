@@ -1,22 +1,8 @@
 package com.polidea.cockpit.manager
 
-class CockpitManager private constructor() {
+object CockpitManager {
 
-    var params: MutableList<CockpitParam> = ArrayList()
-
-    companion object {
-        @Volatile
-        private var INSTANCE: CockpitManager? = null
-
-        @JvmStatic
-        fun getInstance(): CockpitManager {
-            if (INSTANCE == null) {
-                INSTANCE = CockpitManager()
-            }
-
-            return INSTANCE as CockpitManager
-        }
-    }
+    val params: MutableList<CockpitParam> = ArrayList()
 
     fun addParam(param: CockpitParam) {
         checkIfExistsAndAddParam(param)
@@ -41,6 +27,10 @@ class CockpitManager private constructor() {
 
     fun exists(key: String): Boolean {
         return params.find { it.name == key } != null
+    }
+
+    fun clear() {
+        params.clear()
     }
 
     private fun getParam(name: String): CockpitParam? = params.find { it.name == name }

@@ -14,8 +14,8 @@ class DebugCockpitGeneratorTest {
         val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
 
         val expectedDoubleGetterMethodSpecString = """
-            |public static double getdoubleParam() {
-            |  return (double) com.polidea.cockpit.manager.CockpitManager.getInstance().getParamValue("doubleParam");
+            |public static double getDoubleParam() {
+            |  return (double) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("doubleParam");
             |}"""
         assertEquals(expectedDoubleGetterMethodSpecString.trimMargin(), doubleGetterMethodSpec.toString().trimMargin())
     }
@@ -25,8 +25,9 @@ class DebugCockpitGeneratorTest {
         val doubleSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
 
         val expectedDoubleSetterMethodSpecString = """
-            |public static void setdoubleParam(double doubleParam) {
-            |  com.polidea.cockpit.manager.CockpitManager.getInstance().setParamValue("doubleParam", doubleParam);
+            |public static void setDoubleParam(double doubleParam) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("doubleParam", doubleParam);
+            |  persistChanges();
             |}"""
         assertEquals(expectedDoubleSetterMethodSpecString.trimMargin(), doubleSetterMethodSpec.toString().trimMargin())
     }
@@ -36,8 +37,8 @@ class DebugCockpitGeneratorTest {
         val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(IntegerParam("integerParam", 2))
 
         val expectedIntegerGetterMethodSpecString = """
-            |public static int getintegerParam() {
-            |  return (int) com.polidea.cockpit.manager.CockpitManager.getInstance().getParamValue("integerParam");
+            |public static int getIntegerParam() {
+            |  return (int) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("integerParam");
             |}"""
         assertEquals(expectedIntegerGetterMethodSpecString.trimMargin(), intGetterMethodSpec.toString().trimMargin())
     }
@@ -47,8 +48,9 @@ class DebugCockpitGeneratorTest {
         val intSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(IntegerParam("integerParam", 2))
 
         val expectedDoubleSetterMethodSpecString = """
-            |public static void setintegerParam(int integerParam) {
-            |  com.polidea.cockpit.manager.CockpitManager.getInstance().setParamValue("integerParam", integerParam);
+            |public static void setIntegerParam(int integerParam) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("integerParam", integerParam);
+            |  persistChanges();
             |}"""
         assertEquals(expectedDoubleSetterMethodSpecString.trimMargin(), intSetterMethodSpec.toString().trimMargin())
     }
@@ -58,8 +60,8 @@ class DebugCockpitGeneratorTest {
         val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false))
 
         val expectedBooleanGetterMethodSpecString = """
-            |public static boolean getbooleanParam() {
-            |  return (boolean) com.polidea.cockpit.manager.CockpitManager.getInstance().getParamValue("booleanParam");
+            |public static boolean getBooleanParam() {
+            |  return (boolean) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("booleanParam");
             |}"""
         assertEquals(expectedBooleanGetterMethodSpecString.trimMargin(), booleanGetterMethodSpec.toString().trimMargin())
     }
@@ -69,8 +71,9 @@ class DebugCockpitGeneratorTest {
         val booleanSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(BooleanParam("booleanParam", false))
 
         val expectedBooleanSetterMethodSpecString = """
-            |public static void setbooleanParam(boolean booleanParam) {
-            |  com.polidea.cockpit.manager.CockpitManager.getInstance().setParamValue("booleanParam", booleanParam);
+            |public static void setBooleanParam(boolean booleanParam) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("booleanParam", booleanParam);
+            |  persistChanges();
             |}"""
         assertEquals(expectedBooleanSetterMethodSpecString.trimMargin(), booleanSetterMethodSpec.toString().trimMargin())
     }
@@ -80,8 +83,8 @@ class DebugCockpitGeneratorTest {
         val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(StringParam("stringParam", "testValue"))
 
         val expectedStringGetterMethodSpecString = """
-            |public static java.lang.String getstringParam() {
-            |  return (java.lang.String) com.polidea.cockpit.manager.CockpitManager.getInstance().getParamValue("stringParam");
+            |public static java.lang.String getStringParam() {
+            |  return (java.lang.String) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("stringParam");
             |}"""
         assertEquals(expectedStringGetterMethodSpecString.trimMargin(), stringGetterMethodSpec.toString().trimMargin())
     }
@@ -91,8 +94,9 @@ class DebugCockpitGeneratorTest {
         val stringSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(StringParam("stringParam", "testValue"))
 
         val expectedStringSetterMethodSpecString = """
-            |public static void setstringParam(java.lang.String stringParam) {
-            |  com.polidea.cockpit.manager.CockpitManager.getInstance().setParamValue("stringParam", stringParam);
+            |public static void setStringParam(java.lang.String stringParam) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("stringParam", stringParam);
+            |  persistChanges();
             |}"""
         assertEquals(expectedStringSetterMethodSpecString.trimMargin(), stringSetterMethodSpec.toString().trimMargin())
     }
@@ -106,10 +110,10 @@ class DebugCockpitGeneratorTest {
 
         val expectedFunSpecString = """
             |private static void initializeCockpit() {
-            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("doubleParam", Double.class, 3.0));
-            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("booleanParam", Boolean.class, false));
-            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("stringParam", String.class, "testValue"));
-            |  CockpitManager.getInstance().addParam(new com.polidea.cockpit.manager.CockpitParam("integerParam", Integer.class, 2));
+            |  CockpitManager.INSTANCE.addParam(new com.polidea.cockpit.manager.CockpitParam("doubleParam", Double.class, 3.0));
+            |  CockpitManager.INSTANCE.addParam(new com.polidea.cockpit.manager.CockpitParam("booleanParam", Boolean.class, false));
+            |  CockpitManager.INSTANCE.addParam(new com.polidea.cockpit.manager.CockpitParam("stringParam", String.class, "testValue"));
+            |  CockpitManager.INSTANCE.addParam(new com.polidea.cockpit.manager.CockpitParam("integerParam", Integer.class, 2));
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
@@ -125,18 +129,16 @@ class DebugCockpitGeneratorTest {
             |  context.startActivity(intent);
             |}"""
 
-        System.out.println("expected: " + expectedFunSpecString.trimMargin())
-        System.out.println("given   : " + funSpec.toString().trimMargin())
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
     }
 
     @Test
-    fun generateHideCockpitMethodTest() {
-        val funSpec = cockpitGenerator.generateHideCockpitMethod()
+    fun generatePersistChangesMethodTest() {
+        val funSpec = cockpitGenerator.generatePersistChangesMethod()
 
         val expectedFunSpecString = """
-            |public static void hideCockpit(com.polidea.cockpit.activity.CockpitActivity cockpitActivity) {
-            |  cockpitActivity.finish();
+            |private static void persistChanges() {
+            |  com.polidea.cockpit.utils.FileUtils.INSTANCE.saveCockpitAsYaml();
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())

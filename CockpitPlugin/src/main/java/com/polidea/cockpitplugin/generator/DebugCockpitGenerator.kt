@@ -19,13 +19,13 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                     .addMethod(createInitCockpitMethod(params))
                     .addMethods(propertyMethods)
                     .addMethod(generateShowCockpitMethod())
-                    .addMethod(generateHideCockpitMethod())
+                    .addMethod(generatePersistChangesMethod())
         }
     }
 
     internal fun createGetterMethodSpecForParam(param: Param<*>): MethodSpec {
         return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
-            builder.addStatement("return (\$T) \$T.getInstance().getParamValue(\"${param.name}\")",
+            builder.addStatement("return (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
                     mapToTypeClass(param), cockpitManagerClassName)
         }
     }
@@ -33,11 +33,12 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     internal fun createSetterMethodSpecForParam(param: Param<*>): MethodSpec {
         val typeClass = mapToTypeClass(param)
-        return MethodSpec.methodBuilder("set${param.name}")
+        return MethodSpec.methodBuilder("set${param.name.capitalize()}")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(typeClass, param.name).build())
-                .addStatement("\$T.getInstance().setParamValue(\"${param.name}\", ${param.name})",
+                .addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", ${param.name})",
                         cockpitManagerClassName)
+                .addStatement("persistChanges()")
                 .build()
     }
 
@@ -46,7 +47,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
 
         params.forEach {
-            funSpec.addStatement("$cockpitManager.getInstance().addParam(new \$T(\"${it.name}\", ${it.value.javaClass.simpleName}.class, ${createWrappedValueForParam(it)}))", cockpitParamClassName)
+            funSpec.addStatement("$cockpitManager.INSTANCE.addParam(new \$T(\"${it.name}\", ${it.value.javaClass.simpleName}.class, ${createWrappedValueForParam(it)}))", cockpitParamClassName)
         }
 
         return funSpec.build()
@@ -62,12 +63,10 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .build()
     }
 
-
-    internal fun generateHideCockpitMethod(): MethodSpec {
-        return MethodSpec.methodBuilder("hideCockpit")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(cockpitActivityClassName, "cockpitActivity").build())
-                .addStatement("cockpitActivity.finish()")
+    internal fun generatePersistChangesMethod(): MethodSpec {
+        return MethodSpec.methodBuilder("persistChanges")
+                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
+                .addStatement("\$T.INSTANCE.saveCockpitAsYaml()", fileUtilsClassName)
                 .build()
     }
 }

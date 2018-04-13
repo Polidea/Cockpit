@@ -1,6 +1,5 @@
 package com.polidea.cockpit.utils
 
-import android.content.Context
 import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.manager.CockpitParam
 import org.yaml.snakeyaml.LoaderOptions
@@ -9,18 +8,21 @@ import java.io.File
 import java.io.FileWriter
 
 
-class FileUtils(context: Context) {
-    var savedCockpitFilePath = context.filesDir.path + File.separator + "savedCockpit.yml"
-    var cockpitManager = CockpitManager.getInstance()
+object FileUtils {
+    private lateinit var savedCockpitFilePath: String
     private val loaderOptions = LoaderOptions()
-    val yaml: Yaml = Yaml(loaderOptions)
+    private val yaml: Yaml = Yaml(loaderOptions)
+
+    fun init(filesDirPath: String) {
+        savedCockpitFilePath = filesDirPath + File.separator + "savedCockpit.yml"
+    }
 
     fun saveCockpitAsYaml() {
         loaderOptions.isAllowDuplicateKeys = false
         val fileWriter = FileWriter(savedCockpitFilePath)
 
         val data: LinkedHashMap<String, Any> = LinkedHashMap()
-        cockpitManager.params.forEach {
+        CockpitManager.params.forEach {
             data[it.name] = it.value
         }
 
@@ -38,7 +40,8 @@ class FileUtils(context: Context) {
         })
 
         list.forEach {
-            cockpitManager.addParam(CockpitParam(it.key, it.value.javaClass, it.value))
+            CockpitManager.addParam(CockpitParam(it.key, it.value.javaClass, it.value))
         }
     }
+
 }

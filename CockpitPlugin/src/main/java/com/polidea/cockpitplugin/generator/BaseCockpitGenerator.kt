@@ -13,6 +13,7 @@ abstract class BaseCockpitGenerator {
     protected val cockpitManagerPackage = "com.polidea.cockpit.manager"
     protected val androidContentPackage = "android.content"
     protected val cockpitActivityPackage = "com.polidea.cockpit.activity"
+    protected val cockpitUtilsPackage = "com.polidea.cockpit.utils"
 
     protected val cockpit = "Cockpit"
     protected val cockpitManager = "CockpitManager"
@@ -20,12 +21,14 @@ abstract class BaseCockpitGenerator {
     protected val intent = "Intent"
     protected val context = "Context"
     protected val cockpitActivity = "CockpitActivity"
+    protected val fileUtils = "FileUtils"
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
     protected val cockpitParamClassName = ClassName.get(cockpitManagerPackage, cockpitParam)
     protected val androidIntentClassName = ClassName.get(androidContentPackage, intent)
     protected val androidContextClassName = ClassName.get(androidContentPackage, context)
     protected val cockpitActivityClassName = ClassName.get(cockpitActivityPackage, cockpitActivity)
+    protected val fileUtilsClassName = ClassName.get(cockpitUtilsPackage, fileUtils)
 
     protected fun generate(file: File?, configurator: (TypeSpec.Builder) -> TypeSpec.Builder) {
 
@@ -44,7 +47,7 @@ abstract class BaseCockpitGenerator {
 
     inline protected fun createGetterMethodSpecForParamAndConfigurator(param: Param<*>,
                                                                      configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
-        return configurator(MethodSpec.methodBuilder("get${param.name}")
+        return configurator(MethodSpec.methodBuilder("get${param.name.capitalize()}")
                 .returns(mapToTypeClass(param))
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
                 .build()

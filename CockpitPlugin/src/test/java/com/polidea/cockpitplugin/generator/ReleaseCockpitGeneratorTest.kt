@@ -13,7 +13,7 @@ class ReleaseCockpitGeneratorTest {
         val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
 
         val expectedDoubleGetterMethodSpecString = """
-            |public static double getdoubleParam() {
+            |public static double getDoubleParam() {
             |  return 3.0;
             |}"""
         assertEquals(expectedDoubleGetterMethodSpecString.trimMargin(), doubleGetterMethodSpec.toString().trimMargin())
@@ -24,7 +24,7 @@ class ReleaseCockpitGeneratorTest {
         val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(IntegerParam("integerParam", 2))
 
         val expectedIntegerGetterMethodSpecString = """
-            |public static int getintegerParam() {
+            |public static int getIntegerParam() {
             |  return 2;
             |}"""
         assertEquals(expectedIntegerGetterMethodSpecString.trimMargin(), intGetterMethodSpec.toString().trimMargin())
@@ -35,7 +35,7 @@ class ReleaseCockpitGeneratorTest {
         val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false))
 
         val expectedBooleanGetterMethodSpecString = """
-            |public static boolean getbooleanParam() {
+            |public static boolean getBooleanParam() {
             |  return false;
             |}"""
         assertEquals(expectedBooleanGetterMethodSpecString.trimMargin(), booleanGetterMethodSpec.toString().trimMargin())
@@ -46,7 +46,7 @@ class ReleaseCockpitGeneratorTest {
         val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(StringParam("stringParam", "testValue"))
 
         val expectedStringGetterMethodSpecString = """
-            |public static java.lang.String getstringParam() {
+            |public static java.lang.String getStringParam() {
             |  return "testValue";
             |}"""
         assertEquals(expectedStringGetterMethodSpecString.trimMargin(), stringGetterMethodSpec.toString().trimMargin())

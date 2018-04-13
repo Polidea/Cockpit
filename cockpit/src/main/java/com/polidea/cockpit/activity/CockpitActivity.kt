@@ -16,7 +16,7 @@ class CockpitActivity : AppCompatActivity() {
 
     val TAG = CockpitActivity::class.java.simpleName
 
-    var params = CockpitManager.getInstance().params
+    var params = CockpitManager.params
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,14 +31,14 @@ class CockpitActivity : AppCompatActivity() {
     }
 
     private fun saveCockpit() {
-        val cockpitViews: ArrayList<ParamView<*>> = ViewUtils().getFlatChildren(cockpit_view)
+        val cockpitViews: ArrayList<ParamView<*>> = ViewUtils.getFlatChildren(cockpit_view)
 
         cockpitViews.forEach { view ->
             params.find {
                 it.name == view.paramName
             }?.also {
                         try {
-                            CockpitManager.getInstance().setParamValue(it.name, view.getCurrentValue())
+                            CockpitManager.setParamValue(it.name, view.getCurrentValue())
                         } catch (e: CockpitFormatException) {
                             Toast.makeText(this, "Invalid param value for: ${view.paramName}", Toast.LENGTH_SHORT).show()
                             Log.w(TAG, "Invalid param value for: ${view.paramName}")
@@ -47,7 +47,7 @@ class CockpitActivity : AppCompatActivity() {
                     }
         }
 
-        FileUtils(this).saveCockpitAsYaml()
+        FileUtils.saveCockpitAsYaml()
 
         finish()
     }

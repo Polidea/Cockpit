@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.polidea.cockpit.view.ParamView
 
-class ViewUtils {
+object ViewUtils {
     fun getFlatChildren(parentView: View): ArrayList<ParamView<*>> {
         val children: ArrayList<ParamView<*>> = ArrayList()
 
