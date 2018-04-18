@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.polidea.cockpit.view.CockpitView
-        android:id="@+id/cockpit_view"
+    <android.widget.LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cockpit_margin"/>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/cockpit_save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/cockpit_margin"
-        android:layout_marginLeft="@dimen/cockpit_margin"
-        android:text="@string/cockpit_save_button"/>
+        <com.polidea.cockpit.view.CockpitView
+            android:id="@+id/cockpit_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/cockpit_margin"/>
 
-</android.widget.LinearLayout>
+        <Button
+            android:id="@+id/cockpit_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/cockpit_margin"
+            android:layout_marginRight="@dimen/cockpit_margin"
+            android:layout_marginBottom="@dimen/cockpit_margin"
+            android:text="@string/cockpit_save_button"/>
+
+    </android.widget.LinearLayout>
+</ScrollView>
