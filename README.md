@@ -1,6 +1,7 @@
 # Cockpit
-
-<img src="https://github.com/Polidea/Cockpit/blob/master/images/sample_gif.gif" width="270" height="480">
+<p align="center">
+    <img src="https://github.com/Polidea/Cockpit/blob/master/images/Cockpit_logo.jpg" width="594" height="328">
+</p>
 
 ## Introduction
 
@@ -8,7 +9,10 @@ Cockpit is a helpful tool for Android developers providing a way to define a set
 
 It consists of two parts:  
 – Gradle plugin generating a set of params based on user-defined yaml file,  
-– Android library containing classes to manage and display those params.  
+– Android library containing classes to manage and display those params.
+
+<img src="https://github.com/Polidea/Cockpit/blob/master/images/sample_gif.gif" width="270" height="480">
+
 ## Usage
 Each defined value is called `param`. The set of params is called `cockpit`.
 
