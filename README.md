@@ -65,12 +65,12 @@ buildscript {
         }
     }  
     dependencies {  
-        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:1.0.1"  
+        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:1.0.2"  
    }  
 }
 
 dependencies {
-    debugImplementation 'com.polidea.cockpit:cockpit:1.0.1'  
+    debugImplementation 'com.polidea.cockpit:cockpit:1.0.2'  
 }
 ```
 ## License
