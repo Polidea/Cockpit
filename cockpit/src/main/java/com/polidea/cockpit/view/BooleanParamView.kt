@@ -22,8 +22,9 @@ class BooleanParamView(context: Context, attrs: AttributeSet? = null, defStyleAt
     }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.cockpit_boolean_param_line, this,true)
+        LayoutInflater.from(context).inflate(R.layout.cockpit_boolean_param_line, this, true)
         cockpit_boolean_param_value.isChecked = value
         cockpit_boolean_param_name.text = paramName
+        cockpit_boolean_param_name.isSelected = true
     }
 }
