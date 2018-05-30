@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.31'
+    ext.kotlin_version = '1.2.41'
     repositories {
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -14,7 +14,7 @@ plugins {
     id 'groovy'
     id 'maven'
     id "com.gradle.plugin-publish" version "0.9.10"
-    id 'org.jetbrains.kotlin.jvm' version '1.2.31'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.41'
     id 'java-gradle-plugin'
 }
 
@@ -44,7 +44,7 @@ sourceSets {
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    provided 'com.android.tools.build:gradle:3.1.0'
+    provided 'com.android.tools.build:gradle:3.1.2'
     implementation 'org.yaml:snakeyaml:1.19'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
