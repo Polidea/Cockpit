@@ -12,6 +12,7 @@ object FileUtils {
     private lateinit var savedCockpitFilePath: String
     private val loaderOptions = LoaderOptions()
     private val yaml: Yaml = Yaml(loaderOptions)
+    internal var inputParamsProvider = InputParamsProvider()
 
     fun init(filesDirPath: String) {
         savedCockpitFilePath = filesDirPath + File.separator + "savedCockpit.yml"
@@ -35,13 +36,24 @@ object FileUtils {
         }
 
         val savedCockpit = File(savedCockpitFilePath)
-        val list: Map<String, Any> = yaml.load(savedCockpit.bufferedReader().use {
+        val savedParamsMap: Map<String, Any> = yaml.load(savedCockpit.bufferedReader().use {
             it.readText()
         })
 
-        list.forEach {
-            CockpitManager.addParam(CockpitParam(it.key, it.value.javaClass, it.value))
+        val inputMap: Map<String, Any> = inputParamsProvider.getInputParams()
+
+        savedParamsMap.forEach {
+            if (inputMap.contains(it.key)) {
+                CockpitManager.addParam(CockpitParam(it.key, it.value.javaClass, it.value))
+            }
         }
     }
+}
 
+class InputParamsProvider {
+    fun getInputParams(): Map<String, Any> {
+        return Yaml(LoaderOptions()).load(File("src/main/assets/cockpit.yml").bufferedReader().use {
+            it.readText()
+        })
+    }
 }

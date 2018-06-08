@@ -2,16 +2,25 @@ package com.polidea.cockpit.utils
 
 import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.manager.CockpitParam
+import io.mockk.every
+import io.mockk.mockk
 import java.io.File
+import java.util.stream.Collectors
 import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class FileUtilsTest {
 
+    private val inputParamsProvider: InputParamsProvider = mockk()
+
     init {
         File(DIRECTORY_PATH).mkdirs()
         FileUtils.init(DIRECTORY_PATH)
+
+        FileUtils.inputParamsProvider = inputParamsProvider
+
+        every { inputParamsProvider.getInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam::name, CockpitParam::value))
     }
 
     @Test
