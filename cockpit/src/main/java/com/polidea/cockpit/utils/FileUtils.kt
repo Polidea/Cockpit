@@ -18,6 +18,11 @@ object FileUtils {
     }
 
     fun saveCockpitAsYaml() {
+        if (!::savedCockpitFilePath.isInitialized) {
+            System.err.println("Cockpit is not initialized! Please make sure this is intentional.")
+            return
+        }
+
         loaderOptions.isAllowDuplicateKeys = false
         val fileWriter = FileWriter(savedCockpitFilePath)
 
