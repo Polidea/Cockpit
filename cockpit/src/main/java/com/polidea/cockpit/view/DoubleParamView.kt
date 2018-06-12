@@ -30,5 +30,6 @@ class DoubleParamView(context: Context, attrs: AttributeSet? = null, defStyleAtt
         LayoutInflater.from(context).inflate(R.layout.cockpit_number_param_line, this, true)
         cockpit_number_param_value.setText(value.toString())
         cockpit_number_param_name.text = paramName
+        cockpit_number_param_name.isSelected = true
     }
 }
