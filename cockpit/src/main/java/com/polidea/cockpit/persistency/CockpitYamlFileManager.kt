@@ -12,7 +12,7 @@ import java.util.*
 class CockpitYamlFileManager(filesDirPath: String, assetManager: AssetManager) : CockpitFileManager(filesDirPath, assetManager) {
 
     override val savedCockpitFileName = "savedCockpit.yml"
-    override val inputCockpitFileName = "cockpit.yml"
+    override val inputCockpitFileName = "mergedCockpit.yml"
     private val yaml: Yaml
 
     init {
