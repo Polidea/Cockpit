@@ -1,0 +1,42 @@
+stages:
+  - build
+  - release
+
+before_script:
+  - export GRADLE_USER_HOME=/cache/.gradle
+
+build:
+  stage: build
+  script:
+  - "cd CockpitPlugin && ./gradlew build && cd .."
+  - "./gradlew build"
+  tags:
+    - android
+
+release_gradle_plugin:
+  stage: release
+  script:
+  - "cd CockpitPlugin && ./gradlew build && cd .."
+  - "./gradlew build"
+  - "echo \"\ngradle.publish.key=$GRADLE_PUBLISH_KEY\" >> CockpitPlugin/gradle.properties"
+  - "echo \"\ngradle.publish.secret=$GRADLE_PUBLISH_SECRET\" >> CockpitPlugin/gradle.properties"
+  - "cd CockpitPlugin && ./gradlew publishPlugins && cd .."
+  tags:
+  - android
+  only:
+  - tags
+
+release_sonatype_library:
+  stage: release
+  script:
+  - "cd CockpitPlugin && ./gradlew build && cd .."
+  - "./gradlew build"
+  - "echo \"\nSONATYPE_NEXUS_USERNAME=$SONATYPE_NEXUS_USERNAME\" >> gradle.properties"
+  - "echo \"\nSONATYPE_NEXUS_PASSWORD=$SONATYPE_NEXUS_PASSWORD\" >> gradle.properties"
+  - "./gradlew uploadArchives"
+  tags:
+  - android
+  only:
+  - tags
+
+  
