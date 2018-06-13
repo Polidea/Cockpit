@@ -1,5 +1,6 @@
 package com.polidea.cockpit.utils
 
+import android.content.res.AssetManager
 import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.manager.CockpitParam
 import org.yaml.snakeyaml.LoaderOptions
@@ -12,10 +13,11 @@ object FileUtils {
     private lateinit var savedCockpitFilePath: String
     private val loaderOptions = LoaderOptions()
     private val yaml: Yaml = Yaml(loaderOptions)
-    internal var inputParamsProvider = InputParamsProvider()
+    internal lateinit var inputParamsProvider: InputParamsProvider
 
-    fun init(filesDirPath: String) {
+    fun init(filesDirPath: String, assetManager: AssetManager) {
         savedCockpitFilePath = filesDirPath + File.separator + "savedCockpit.yml"
+        inputParamsProvider = InputParamsProvider(assetManager)
     }
 
     fun saveCockpitAsYaml() {
@@ -50,9 +52,9 @@ object FileUtils {
     }
 }
 
-class InputParamsProvider {
+class InputParamsProvider(val assetManager: AssetManager) {
     fun getInputParams(): Map<String, Any> {
-        return Yaml(LoaderOptions()).load(File("src/main/assets/cockpit.yml").bufferedReader().use {
+        return Yaml(LoaderOptions()).load(assetManager.open("cockpit.yml").bufferedReader().use {
             it.readText()
         })
     }
