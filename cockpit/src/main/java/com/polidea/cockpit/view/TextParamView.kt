@@ -25,5 +25,6 @@ class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr:
         LayoutInflater.from(context).inflate(R.layout.cockpit_string_param_line, this, true)
         cockpit_string_param_value.setText(value)
         cockpit_string_param_name.text = paramName
+        cockpit_string_param_name.isSelected = true
     }
 }

@@ -30,5 +30,6 @@ class IntParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: 
         LayoutInflater.from(context).inflate(R.layout.cockpit_number_param_line, this, true)
         (getValueView() as EditText).setText(value.toString())
         cockpit_number_param_name.text = paramName
+        cockpit_number_param_name.isSelected = true
     }
 }
