@@ -33,6 +33,11 @@ release_sonatype_library:
   - "./gradlew build"
   - "echo \"\nSONATYPE_NEXUS_USERNAME=$SONATYPE_NEXUS_USERNAME\" >> gradle.properties"
   - "echo \"\nSONATYPE_NEXUS_PASSWORD=$SONATYPE_NEXUS_PASSWORD\" >> gradle.properties"
+  - "echo \"\nsigning.keyId=$GPG_KEY_ID\" >> gradle.properties"
+  - "echo \"\nsigning.password=$GPG_PASSPHRASE\" >> gradle.properties"
+  - "echo \"\nsigning.secretKeyRingFile=$GPG_KEY_RING_FILE\" >> gradle.properties"
+  - "echo \"$GPG_KEY\" > /tmp/key"
+  - "gpg --import /tmp/key"
   - "./gradlew uploadArchives"
   tags:
   - android
