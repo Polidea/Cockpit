@@ -3,64 +3,34 @@ package com.polidea.cockpit.utils
 import android.content.res.AssetManager
 import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.manager.CockpitParam
-import org.yaml.snakeyaml.LoaderOptions
-import org.yaml.snakeyaml.Yaml
-import java.io.File
-import java.io.FileWriter
+import com.polidea.cockpit.persistency.CockpitYamlFileManager
 
 
 object FileUtils {
-    private lateinit var savedCockpitFilePath: String
-    private val loaderOptions = LoaderOptions()
-    private val yaml: Yaml = Yaml(loaderOptions)
-    internal lateinit var inputParamsProvider: InputParamsProvider
+
+    lateinit var cockpitYamlFileManager: CockpitYamlFileManager
 
     fun init(filesDirPath: String, assetManager: AssetManager) {
-        savedCockpitFilePath = filesDirPath + File.separator + "savedCockpit.yml"
-        inputParamsProvider = InputParamsProvider(assetManager)
+        cockpitYamlFileManager = CockpitYamlFileManager(filesDirPath, assetManager)
     }
 
     fun saveCockpitAsYaml() {
-        if (!::savedCockpitFilePath.isInitialized) {
-            System.err.println("Cockpit is not initialized! Please make sure this is intentional.")
-            return
-        }
-
-        loaderOptions.isAllowDuplicateKeys = false
-        val fileWriter = FileWriter(savedCockpitFilePath)
-
-        val data: LinkedHashMap<String, Any> = LinkedHashMap()
-        CockpitManager.params.forEach {
-            data[it.name] = it.value
-        }
-
-        yaml.dump(data, fileWriter)
+        cockpitYamlFileManager.saveParams(CockpitManager.params)
     }
 
-    fun readCockpitFromFile() {
-        if (!File(savedCockpitFilePath).exists()) {
-            return
-        }
+    fun loadCockpitParams() {
+        val inputParams = cockpitYamlFileManager.readInputParams()
+        val savedParams = cockpitYamlFileManager.readSavedParams()
 
-        val savedCockpit = File(savedCockpitFilePath)
-        val savedParamsMap: Map<String, Any> = yaml.load(savedCockpit.bufferedReader().use {
-            it.readText()
-        })
+        inputParams.forEach {
+            val savedParamValue = savedParams[it.key]
 
-        val inputMap: Map<String, Any> = inputParamsProvider.getInputParams()
-
-        savedParamsMap.forEach {
-            if (inputMap.contains(it.key)) {
+            if (savedParamValue != null) {
+                CockpitManager.addParam(CockpitParam(it.key, savedParamValue.javaClass, savedParamValue))
+            } else {
                 CockpitManager.addParam(CockpitParam(it.key, it.value.javaClass, it.value))
             }
         }
     }
-}
 
-class InputParamsProvider(val assetManager: AssetManager) {
-    fun getInputParams(): Map<String, Any> {
-        return Yaml(LoaderOptions()).load(assetManager.open("cockpit.yml").bufferedReader().use {
-            it.readText()
-        })
-    }
 }

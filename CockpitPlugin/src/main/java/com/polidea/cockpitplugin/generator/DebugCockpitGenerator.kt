@@ -15,9 +15,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
             acc
         })
         generate(file) { builder ->
-            builder.addStaticBlock(CodeBlock.builder().addStatement("initializeCockpit()").build())
-                    .addMethod(createInitCockpitMethod(params))
-                    .addMethods(propertyMethods)
+            builder.addMethods(propertyMethods)
                     .addMethod(generateShowCockpitMethod())
                     .addMethod(generatePersistChangesMethod())
         }
@@ -40,17 +38,6 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                         cockpitManagerClassName)
                 .addStatement("persistChanges()")
                 .build()
-    }
-
-    internal fun createInitCockpitMethod(params: List<Param<*>>): MethodSpec {
-        val funSpec = MethodSpec.methodBuilder("initializeCockpit")
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-
-        params.forEach {
-            funSpec.addStatement("$cockpitManager.INSTANCE.addParam(new \$T(\"${it.name}\", ${it.value.javaClass.simpleName}.class, ${createWrappedValueForParam(it)}))", cockpitParamClassName)
-        }
-
-        return funSpec.build()
     }
 
     internal fun generateShowCockpitMethod(): MethodSpec {
