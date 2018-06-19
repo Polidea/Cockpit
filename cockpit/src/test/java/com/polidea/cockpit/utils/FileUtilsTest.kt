@@ -3,6 +3,7 @@ package com.polidea.cockpit.utils
 import android.content.Context
 import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.manager.CockpitParam
+import com.polidea.cockpit.persistency.CockpitYamlFileManager
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
@@ -16,7 +17,7 @@ import kotlin.test.assertEquals
 class FileUtilsTest {
 
     private val context: Context = mockk(relaxed = true)
-    private val inputParamsProvider: InputParamsProvider = spyk(InputParamsProvider(context.assets))
+    private val cockpitYamlFileManager: CockpitYamlFileManager = spyk(CockpitYamlFileManager(DIRECTORY_PATH, context.assets))
 
     init {
         File(DIRECTORY_PATH).mkdirs()
@@ -26,9 +27,9 @@ class FileUtilsTest {
     @BeforeTest
     fun setup() {
         every { context.assets } returns mockk(relaxed = true)
-        FileUtils.inputParamsProvider = inputParamsProvider
+        FileUtils.cockpitYamlFileManager = cockpitYamlFileManager
 
-        every { inputParamsProvider.getInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam::name, CockpitParam::value))
+        every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam::name, CockpitParam::value, {e1, _ -> e1}, ::LinkedHashMap))
     }
 
     @Test
@@ -36,7 +37,7 @@ class FileUtilsTest {
         getTestCockpitParams().forEach { CockpitManager.addParam(it) }
         FileUtils.saveCockpitAsYaml()
         CockpitManager.clear()
-        FileUtils.readCockpitFromFile()
+        FileUtils.loadCockpitParams()
         assertEquals(getTestCockpitParams(), CockpitManager.params)
     }
 
