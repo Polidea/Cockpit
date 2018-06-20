@@ -1,7 +1,6 @@
 package com.polidea.cockpitplugin.input
 
 import com.polidea.cockpitplugin.Flavor
-import org.junit.Ignore
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -13,9 +12,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "debug"
-        val fileNames = inputFilesProvider.cockpitFiles(noDimensions, noFlavors, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(noDimensions, noFlavors, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -26,9 +25,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "release"
-        val fileNames = inputFilesProvider.cockpitFiles(noDimensions, noFlavors, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(noDimensions, noFlavors, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -41,9 +40,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesProdDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "prodDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApi, flavorsApi, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApi, flavorsApi, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -56,9 +55,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesProdReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "prodRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApi, flavorsApi, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApi, flavorsApi, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -71,9 +70,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesStagingDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "stagingDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApi, flavorsApi, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApi, flavorsApi, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -86,9 +85,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesStagingReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "stagingRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApi, flavorsApi, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApi, flavorsApi, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -103,9 +102,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesProdDemoDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "prodDemoDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -120,9 +119,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesProdDemoReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "prodDemoRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -137,9 +136,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesProdFullDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "prodFullDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -154,9 +153,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesProdFullReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "prodFullRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -171,9 +170,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesStagingDemoDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "stagingDemoDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -188,9 +187,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesStagingDemoReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "stagingDemoRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -205,9 +204,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesStagingFullDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "stagingFullDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -222,9 +221,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesStagingFullReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "stagingFullRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -237,68 +236,13 @@ class InputFileProviderTest {
         assertEquals(expectedFileNames, fileNames)
     }
 
-    @Test
-    fun createCockpitFilesStagingFullDebugOnlyMainAndDebugTest() {
-        val inputFilesProvider = createInputFilesProvider {
-            when (it.name) {
-                "cockpit.yml" -> true
-                "cockpitDebug.yml" -> true
-                else -> false
-            }
-        }
-        val variantName = "stagingFullDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
-                .map { it.name }
-        val expectedFileNames = listOf(
-                "cockpit.yml",
-                "cockpitDebug.yml"
-        )
-        assertEquals(expectedFileNames, fileNames)
-    }
-
-    @Test
-    fun createCockpitFilesStagingFullDebugOnlyMainTest() {
-        val inputFilesProvider = createInputFilesProvider {
-            when (it.name) {
-                "cockpit.yml" -> true
-                else -> false
-            }
-        }
-        val variantName = "stagingFullDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
-                .map { it.name }
-        val expectedFileNames = listOf(
-                "cockpit.yml"
-        )
-        assertEquals(expectedFileNames, fileNames)
-    }
-
-
-    @Test
-    fun createCockpitFilesProdFullReleaseOnlyMainAndDebugTest() {
-        val inputFilesProvider = createInputFilesProvider {
-            when (it.name) {
-                "cockpit.yml" -> true
-                "cockpitDebug.yml" -> true
-                else -> false
-            }
-        }
-        val variantName = "prodFullRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiMode, flavorsApiMode, variantName, buildTypes)
-                .map { it.name }
-        val expectedFileNames = listOf(
-                "cockpit.yml"
-        )
-        assertEquals(expectedFileNames, fileNames)
-    }
-
     /* ******** Reversed two flavor dimensions test ******** */
 
     @Test
     fun createCockpitFilesDemoProdDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "demoProdDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -313,9 +257,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesDemoProdReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "demoProdRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -330,9 +274,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesFullProdDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "fullProdDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -347,9 +291,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesFullProdReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "fullProdRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -364,9 +308,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesDemoStagingDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "demoStagingDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -381,9 +325,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesDemoStagingReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "demoStagingRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -398,9 +342,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesFullStagingDebugTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "fullStagingDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -415,9 +359,9 @@ class InputFileProviderTest {
 
     @Test
     fun createCockpitFilesFullStagingReleaseTest() {
-        val inputFilesProvider = createInputFilesProvider { true }
+        val inputFilesProvider = createInputFilesProvider()
         val variantName = "fullStagingRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
                 .map { it.name }
         val expectedFileNames = listOf(
                 "cockpit.yml",
@@ -430,87 +374,28 @@ class InputFileProviderTest {
         assertEquals(expectedFileNames, fileNames)
     }
 
-    @Test
-    fun createCockpitFilesFullStagingDebugOnlyMainAndDebugTest() {
-        val inputFilesProvider = createInputFilesProvider {
-            when (it.name) {
-                "cockpit.yml" -> true
-                "cockpitDebug.yml" -> true
-                else -> false
-            }
-        }
-        val variantName = "fullStagingDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
-                .map { it.name }
-        val expectedFileNames = listOf(
-                "cockpit.yml",
-                "cockpitDebug.yml"
-        )
-        assertEquals(expectedFileNames, fileNames)
-    }
-
-    @Test
-    fun createCockpitFilesFullStagingDebugOnlyMainTest() {
-        val inputFilesProvider = createInputFilesProvider {
-            when (it.name) {
-                "cockpit.yml" -> true
-                else -> false
-            }
-        }
-        val variantName = "fullStagingDebug"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
-                .map { it.name }
-        val expectedFileNames = listOf(
-                "cockpit.yml"
-        )
-        assertEquals(expectedFileNames, fileNames)
-    }
-
-    @Test
-    fun createCockpitFilesFullStagingReleaseOnlyMainAndDebugTest() {
-        val inputFilesProvider = createInputFilesProvider {
-            when (it.name) {
-                "cockpit.yml" -> true
-                "cockpitDebug.yml" -> true
-                else -> false
-            }
-        }
-        val variantName = "fullStagingRelease"
-        val fileNames = inputFilesProvider.cockpitFiles(dimensionsApiModeReversed, flavorsApiMode, variantName, buildTypes)
-                .map { it.name }
-        val expectedFileNames = listOf(
-                "cockpit.yml"
-        )
-        assertEquals(expectedFileNames, fileNames)
-    }
-
     /* ******** private methods ******** */
 
-    private fun createFileFactory(fileExistsClosure: (File) -> Boolean): FileFactory {
+    private fun createFileFactory(): FileFactory {
         return object : FileFactory {
             override fun file(path: String): File {
                 return File(path)
             }
-
-            override fun isFileExists(file: File): Boolean {
-                return fileExistsClosure(file)
-            }
         }
     }
 
-    private fun createInputFilesProvider(fileExistsClosure: (File) -> Boolean): InputFilesProvider {
-        val fileFactory = createFileFactory(fileExistsClosure)
-        return InputFilesProvider("directory/", fileFactory)
+    private fun createInputFilesProvider(): InputFilesProvider {
+        return InputFilesProvider("directory/", createFileFactory())
     }
 
     companion object {
 
-        val noDimensions = listOf<String>()
+        val noDimensions = emptyList<String>()
         val dimensionsApi = listOf("api")
         val dimensionsApiMode = listOf("api", "mode")
         val dimensionsApiModeReversed = dimensionsApiMode.reversed()
 
-        val noFlavors = listOf<Flavor>()
+        val noFlavors = emptyList<Flavor>()
         val flavorsApi = listOf(
                 Flavor("prod", "api"),
                 Flavor("staging", "api")

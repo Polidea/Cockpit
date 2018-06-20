@@ -46,7 +46,7 @@ abstract class BaseCockpitGenerator {
     }
 
     inline protected fun createGetterMethodSpecForParamAndConfigurator(param: Param<*>,
-                                                                     configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
+                                                                       configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
         return configurator(MethodSpec.methodBuilder("get${param.name.capitalize()}")
                 .returns(mapToTypeClass(param))
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC))

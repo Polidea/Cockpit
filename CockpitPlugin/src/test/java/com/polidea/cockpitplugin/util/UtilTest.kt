@@ -26,10 +26,10 @@ class UtilTest {
     @Test
     fun createUtilEmptySetTest() {
 
-        val mainMap = mapOf<String, Any>().toMutableMap()
+        val mainMap = emptyMap<String, Any>().toMutableMap()
 
         val mergedMap = Util.deepMerge(mainMap)
-        val expectedMap = mapOf<String, Any>()
+        val expectedMap = emptyMap<String, Any>()
         assertEquals(expectedMap, mergedMap)
     }
 
@@ -168,7 +168,7 @@ class UtilTest {
                 Pair("p3", "debug"),
                 Pair("p4", "debug"),
                 Pair("p5", 1)
-                )
+        )
 
         val variantTypeMap = mapOf(
                 Pair("p1", "flavorDebug"),

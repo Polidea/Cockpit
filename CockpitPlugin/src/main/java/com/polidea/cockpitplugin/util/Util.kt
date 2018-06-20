@@ -5,7 +5,7 @@ class Util {
     companion object {
         // Kotlin version of following deep merge map method:
         // http://blog.mathieu.photography/post/103163278870/deep-merge-map-in-groovy
-        fun <K: Any?, V: Any?> deepMerge(onto: MutableMap<K, V>, vararg overrides: Map<K, V>): MutableMap<K, V> {
+        fun <K : Any?, V : Any?> deepMerge(onto: MutableMap<K, V>, vararg overrides: Map<K, V>): MutableMap<K, V> {
             if (overrides.isEmpty()) {
                 return onto
             } else if (overrides.size == 1) {
@@ -28,7 +28,7 @@ class Util {
         }
 
         // equivalent of Groovy's method Array.inject(...)
-        private fun <E, T, U: T, V: T> Array<E>.inject(initialValue: U, closure: (T, E) -> V): T {
+        private fun <E, T, U : T, V : T> Array<E>.inject(initialValue: U, closure: (T, E) -> V): T {
             var value: T = initialValue
             val length = this.size
 

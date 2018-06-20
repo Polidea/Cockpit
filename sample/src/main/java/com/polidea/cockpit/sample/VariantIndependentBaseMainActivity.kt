@@ -6,11 +6,11 @@ import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.view.View
 import com.polidea.cockpit.cockpit.Cockpit
-import com.polidea.cockpit.sample.util.initViews
 import kotlinx.android.synthetic.main.activity_main.*
 
+abstract class VariantIndependentBaseMainActivity : AppCompatActivity() {
 
-class MainActivity : AppCompatActivity() {
+    abstract fun initViews()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
