@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.50'
     repositories {
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -14,7 +14,7 @@ plugins {
     id 'groovy'
     id 'maven'
     id "com.gradle.plugin-publish" version "0.9.10"
-    id 'org.jetbrains.kotlin.jvm' version '1.2.41'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.50'
     id 'java-gradle-plugin'
 }
 

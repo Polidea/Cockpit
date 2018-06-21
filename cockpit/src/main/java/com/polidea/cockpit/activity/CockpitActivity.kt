@@ -25,7 +25,7 @@ class CockpitActivity : AppCompatActivity() {
     }
 
     private fun initializeSaveButton() {
-        cockpit_save_button.setOnClickListener{
+        cockpit_save_button.setOnClickListener {
             saveCockpit()
         }
     }
@@ -37,14 +37,14 @@ class CockpitActivity : AppCompatActivity() {
             params.find {
                 it.name == view.paramName
             }?.also {
-                        try {
-                            CockpitManager.setParamValue(it.name, view.getCurrentValue())
-                        } catch (e: CockpitFormatException) {
-                            Toast.makeText(this, "Invalid param value for: ${view.paramName}", Toast.LENGTH_SHORT).show()
-                            Log.w(TAG, "Invalid param value for: ${view.paramName}")
-                            return
-                        }
-                    }
+                try {
+                    CockpitManager.setParamValue(it.name, view.getCurrentValue())
+                } catch (e: CockpitFormatException) {
+                    Toast.makeText(this, "Invalid param value for: ${view.paramName}", Toast.LENGTH_SHORT).show()
+                    Log.w(TAG, "Invalid param value for: ${view.paramName}")
+                    return
+                }
+            }
         }
 
         FileUtils.saveCockpitAsYaml()

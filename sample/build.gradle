@@ -50,6 +50,29 @@ android {
         }
     }
 
+    flavorDimensions "api", "theme"
+
+    productFlavors {
+        red {
+            dimension "theme"
+            applicationIdSuffix ".red"
+            versionNameSuffix "-red"
+        }
+        blue {
+            dimension "theme"
+            applicationIdSuffix ".blue"
+            versionNameSuffix "-blue"
+        }
+        prod {
+            dimension "api"
+            applicationIdSuffix ".prod"
+        }
+        staging {
+            dimension "api"
+            applicationIdSuffix ".staging"
+        }
+    }
+
 }
 
 dependencies {

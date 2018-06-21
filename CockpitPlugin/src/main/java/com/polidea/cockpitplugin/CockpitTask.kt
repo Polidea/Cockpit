@@ -2,19 +2,29 @@ package com.polidea.cockpitplugin
 
 import com.polidea.cockpitplugin.generator.DebugCockpitGenerator
 import com.polidea.cockpitplugin.generator.ReleaseCockpitGenerator
+import com.polidea.cockpitplugin.input.FileFactory
+import com.polidea.cockpitplugin.input.InputFilesProvider
 import com.polidea.cockpitplugin.model.*
+import com.polidea.cockpitplugin.util.Util
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
-import org.yaml.snakeyaml.LoaderOptions
-import org.yaml.snakeyaml.Yaml
+import org.gradle.api.tasks.*
 import java.io.File
+import java.io.Serializable
+
+class Flavor(val name: String, val dimension: String) : Serializable
 
 open class CockpitTask : DefaultTask() {
-    private val cockpitFilePath = "src/main/assets/cockpit.yml"
+    private val cockpitDirectoryPath = "cockpit/"
     private val cockpitOutputDirectory = "${project.buildDir}/generated/source/cockpit/"
+    private val cockpitAssetsOutputDirectory = "${project.buildDir}/generated/assets/"
+    private val yamlReaderAndWriter = YamlReaderAndWriter()
+    private val parameterParser = ParameterParser()
+
+    private val inputFilesProvider = InputFilesProvider(cockpitDirectoryPath, object : FileFactory {
+        override fun file(path: String): File {
+            return project.file(path)
+        }
+    })
 
     @Input
     var variantName: String? = null
@@ -22,41 +32,57 @@ open class CockpitTask : DefaultTask() {
     @Input
     var buildTypeName: String? = null
 
+    @Input
+    var variantDirName: String? = null
+
+    @Input
+    var flavorDimensionList: List<String>? = null
+
+    @Input
+    var productFlavorList: List<Flavor>? = null
+
+    @Input
+    var buildTypeList: List<String>? = null
+
     @TaskAction
     fun CockpitAction() {
-        val params: List<Param<*>> = parseYaml(cockpitFile)
-        val generator = if (buildTypeName.isRelease()) ReleaseCockpitGenerator() else DebugCockpitGenerator()
-        generator.generate(params, getCockpitOutputDirectory())
+        val cockpitMaps = cockpitFiles().map { yamlReaderAndWriter.loadParamsFromYaml(it) }.toMutableList()
+
+        if (cockpitMaps.isNotEmpty()) {
+            val lowestProrityMap = cockpitMaps.removeAt(0).toMutableMap()
+            val mergedParametersMap = Util.deepMerge(lowestProrityMap, *cockpitMaps.toTypedArray())
+
+            val mergedCockpitFile = File(getCockpitAssetsOutputDirectory(), "mergedCockpit.yml")
+            yamlReaderAndWriter.saveParamsToYaml(mergedParametersMap, mergedCockpitFile)
+
+            val params: List<Param<*>> = parameterParser.parseValueMap(mergedParametersMap)
+            val generator = if (buildTypeName.isRelease()) ReleaseCockpitGenerator() else DebugCockpitGenerator()
+            generator.generate(params, getCockpitOutputDirectory())
+        } else {
+            throw IllegalStateException("Empty cockpit map collection. Please make sure, you added your .yml files to $cockpitDirectoryPath directory, NOT to src/<variant>/assets")
+        }
     }
 
-    @InputFile
-    val cockpitFile: File = project.file(cockpitFilePath)
+    @InputFiles
+    fun cockpitFiles(): List<File> {
+        val dimensions = flavorDimensionList ?: return emptyList()
+        val flavors = productFlavorList ?: return emptyList()
+        val variantName = this.variantName ?: return emptyList()
+        val buildTypes = buildTypeList ?: return emptyList()
+
+        return inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensions, flavors, variantName, buildTypes)
+                .filter { it.exists() }
+
+    }
 
     @OutputDirectory
     fun getCockpitOutputDirectory(): File {
-        return project.file(cockpitOutputDirectory + "$variantName")
+        return project.file(cockpitOutputDirectory + "$variantDirName")
     }
 
-    fun parseYaml(yamlFile: File): List<Param<*>> {
-        val loaderOptions = LoaderOptions()
-        loaderOptions.isAllowDuplicateKeys = false
-        val yaml = Yaml(loaderOptions)
-        val values: Map<String, Any> = yaml.load(yamlFile.bufferedReader().use {
-            it.readText()
-        })
-        val paramList = ArrayList<Param<*>>()
-
-        values.map {
-            when (it.value) {
-                is String -> paramList.add(StringParam(it.key, it.value as String))
-                is Int -> paramList.add(IntegerParam(it.key, it.value as Int))
-                is Double -> paramList.add(DoubleParam(it.key, it.value as Double))
-                is Boolean -> paramList.add(BooleanParam(it.key, it.value as Boolean))
-                else -> throw IllegalArgumentException("Param type undefined: $it!")
-            }
-        }
-
-        return paramList
+    @OutputDirectory
+    fun getCockpitAssetsOutputDirectory(): File {
+        return project.file(cockpitAssetsOutputDirectory + "$variantDirName")
     }
 
     private fun String?.isRelease() = "release" == this
