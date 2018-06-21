@@ -33,8 +33,8 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
         //            }
         //        }
         //
-        // Let's assume also, we are currently building a 'stagingDemoDebug' variant.
-        // Let's take a look, what parameters will take our function:
+        // Let's assume as well that we are currently building a 'stagingDemoDebug' variant.
+        // Let's take a look what parameters our function will take:
         //
         // dimensions == ["api", "mode"]
         // flavors == [Flavor("demo", "mode"), Flavor("full", "mode"), Flavor("prod", "api"), Flavor("staging", "api")
@@ -45,7 +45,7 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
         //
         // https://developer.android.com/studio/write/add-resources#resource_merging
         //
-        // resource merging prority is as follows:
+        // resource merging priority is as follows:
         // main source set < product flavor < build type < build variant
         // For example:
         // main < demo < debug < stagingDemoDebug
@@ -73,7 +73,7 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
         // `staging` belongs to `api` dimension, so it's the first
         // `demo` belongs to `mode` dimesion, so it's the second in `stagingDemoDebug` variant's name
         //
-        // Finally, resource merging priority is following:
+        // Finally, resource merging priority is as follows:
         // main < demo < staging < demoStaging < debug < stagingDemoDebug
         //
         // It corresponds to Cockpit files priority:
@@ -93,7 +93,7 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
 
         // Next, the lowest priority has `demo` and `staging` flavors.
         //
-        // Declared dimension's order is following:
+        // Declared dimension's order is as follows:
         //
         //        flavorDimensions "api", "mode"
         //
@@ -101,7 +101,7 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
         // and `staging` (from `api` dimension) after `demo`
         //
         // Only `staging` and `demo` flavors should be considered, because only those two flavors appear in
-        // variant `stagingDemoDebug`. So we find only those variants which appears in variant's name.
+        // variant `stagingDemoDebug`. So we find only those flavors which appears in variant's name.
 
         val singleFlavors = dimensions.reversed().mapNotNull { dimension ->
             flavors.find { it.dimension == dimension && variantName.contains(it.name, ignoreCase = true) }?.name
@@ -114,7 +114,7 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
 
             // Next, the lowest priority has `stagingDemo` flavor
             //
-            // singleFlavors is equals ["Demo", "Staging"], so we have to reverse again the list
+            // singleFlavors is equal ["Demo", "Staging"], so we have to reverse the list again
             // to have ["Staging", "Demo"] and append each item to a single string to get "StagingDemo"
 
             val compositeFlavor = singleFlavors.reversed().fold(StringBuilder()) { acc: StringBuilder, flavor: String ->
@@ -134,11 +134,11 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
             } // debug
         }
 
-        // At the end, we should add variantName as a last item, as variantName has the highest priority in
+        // At the end, we should add variantName as the last item, as variantName has the highest priority in
         // resource merging order
         variantsOrderedFromLowestPriority.add(variantName.capitalize()) // stagingDemoDebug
 
-        // Now we converts ["", "Demo", "Staging", "DemoStaging", ...] list to
+        // Now we convert ["", "Demo", "Staging", "DemoStaging", ...] list to
         // ["cockpit.yml", "cockpitDemo.yml", "cockpitStaging.yml", "cockpitStagingDemo.yml", ... ] list
         return variantsOrderedFromLowestPriority.map { fileFactory.file(cockpitDirectoryPath + "cockpit" + it + ".yml") }
     }
