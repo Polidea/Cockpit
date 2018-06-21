@@ -8,7 +8,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/button_panel">
 
-        <com.polidea.cockpit.view.CockpitView
+        <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/cockpit_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,8 +22,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_margin="@dimen/cockpit_margin">
+
+        <Button
+            android:id="@+id/cockpit_restore_defaults_button"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cockpit_restore_defaults" />
 
         <Button
             android:id="@+id/cockpit_save_button"

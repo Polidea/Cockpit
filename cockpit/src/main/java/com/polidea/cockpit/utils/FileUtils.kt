@@ -26,9 +26,9 @@ object FileUtils {
             val savedParamValue = savedParams[it.key]
 
             if (savedParamValue != null) {
-                CockpitManager.addParam(CockpitParam(it.key, savedParamValue.javaClass, savedParamValue))
+                CockpitManager.addParam(CockpitParam(it.key, savedParamValue))
             } else {
-                CockpitManager.addParam(CockpitParam(it.key, it.value.javaClass, it.value))
+                CockpitManager.addParam(CockpitParam(it.key, it.value))
             }
         }
     }

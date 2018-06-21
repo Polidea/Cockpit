@@ -12,18 +12,23 @@ import kotlinx.android.synthetic.main.cockpit_string_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-                    override val paramName: String, override var value: String) : ParamView<String>, LinearLayout(context, attrs, defStyleAttr) {
-    override fun getCurrentValue(): String {
-        return (getValueView() as EditText).text.toString()
-    }
+                    override val paramName: String) : ParamView<String>, LinearLayout(context, attrs, defStyleAttr) {
 
-    override fun getValueView(): View {
-        return cockpit_string_param_value as View
-    }
+    override var value: String = ""
+        get() {
+            return (getValueView() as EditText).text.toString()
+        }
+        set(value) {
+            field = value
+            cockpit_string_param_value.setText(value)
+        }
+
+    override fun getValueView(): View = cockpit_string_param_value as View
+
+    override fun getRestoreButton(): View = cockpit_string_param_restore_button
 
     init {
         LayoutInflater.from(context).inflate(R.layout.cockpit_string_param_line, this, true)
-        cockpit_string_param_value.setText(value)
         cockpit_string_param_name.text = paramName
         cockpit_string_param_name.isSelected = true
     }
