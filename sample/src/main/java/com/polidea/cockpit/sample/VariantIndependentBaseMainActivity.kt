@@ -29,7 +29,7 @@ abstract class VariantIndependentBaseMainActivity : AppCompatActivity() {
         cockpit_color_textview.text = Cockpit.getColorDescription()
         cockpit_color_textview.setTextColor(Color.parseColor(Cockpit.getColor()))
         footer_text_view.text = Cockpit.getFooter()
-        if (Cockpit.getShowFooter()) {
+        if (Cockpit.isShowFooter()) {
             footer_container.visibility = View.VISIBLE
         } else {
             footer_container.visibility = View.INVISIBLE
