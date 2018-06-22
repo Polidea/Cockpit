@@ -18,14 +18,14 @@ class IntParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: 
     override var value: Int = 0
         get() {
             try {
-                return (getValueView() as EditText).text.toString().toInt()
+                return cockpit_number_param_value.text.toString().toInt()
             } catch (e: NumberFormatException) {
                 throw CockpitFormatException()
             }
         }
         set(value) {
             field = value
-            (getValueView() as EditText).setText(value.toString())
+            cockpit_number_param_value.setText(value.toString())
         }
 
     override fun getValueView(): View = cockpit_number_param_value

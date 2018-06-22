@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/button_panel">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/button_panel">
 
         <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/cockpit_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/cockpit_margin" />
+            android:layout_margin="@dimen/cockpit_margin"
+            android:orientation="vertical"/>
 
     </ScrollView>
 
@@ -22,21 +22,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
+        android:layout_margin="@dimen/cockpit_margin"
         android:gravity="center_horizontal"
-        android:layout_margin="@dimen/cockpit_margin">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/cockpit_restore_defaults_button"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:text="@string/cockpit_restore_defaults" />
+            android:layout_marginLeft="@dimen/cockpit_margin"
+            android:text="@string/cockpit_restore_defaults"/>
 
         <Button
             android:id="@+id/cockpit_save_button"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:text="@string/cockpit_save_button" />
+            android:layout_marginLeft="@dimen/cockpit_margin"
+            android:layout_marginRight="@dimen/cockpit_margin"
+            android:text="@string/cockpit_save_button"/>
 
     </LinearLayout>
 

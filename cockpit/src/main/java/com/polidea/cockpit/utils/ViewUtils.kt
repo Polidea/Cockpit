@@ -16,6 +16,6 @@ object ViewUtils {
             }
         }
 
-        return children.mapNotNull { it }
+        return children.filterNotNull()
     }
 }

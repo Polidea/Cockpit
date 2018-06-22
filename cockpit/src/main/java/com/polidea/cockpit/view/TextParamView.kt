@@ -16,14 +16,14 @@ class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 
     override var value: String = ""
         get() {
-            return (getValueView() as EditText).text.toString()
+            return cockpit_string_param_value.text.toString()
         }
         set(value) {
             field = value
             cockpit_string_param_value.setText(value)
         }
 
-    override fun getValueView(): View = cockpit_string_param_value as View
+    override fun getValueView(): View = cockpit_string_param_value
 
     override fun getRestoreButton(): View = cockpit_string_param_restore_button
 

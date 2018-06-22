@@ -40,9 +40,9 @@ class CockpitActivity : AppCompatActivity() {
             val value = it.value
             val paramView: View? = when (value) {
                 is Double -> DoubleParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Double) }
-                is Int -> IntParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Int)}
-                is String -> TextParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as String)}
-                is Boolean -> BooleanParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Boolean)}
+                is Int -> IntParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Int) }
+                is String -> TextParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as String) }
+                is Boolean -> BooleanParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Boolean) }
                 else -> null
             }
             paramView?.let { cockpit_view.addView(it, layoutParams) }
@@ -52,12 +52,12 @@ class CockpitActivity : AppCompatActivity() {
         cockpit_save_button.setOnClickListener { saveCockpit() }
     }
 
-    fun <T: Any> configureView(view: ParamView<T>, value: T, defaultValue: T) {
+    private fun <T : Any> configureView(view: ParamView<T>, value: T, defaultValue: T) {
         view.value = value
         view.getRestoreButton().setOnClickListener { view.value = defaultValue }
     }
 
-    fun restoreDefaults() {
+    private fun restoreDefaults() {
         val cockpitViews = ViewUtils.getFlatChildren(cockpit_view)
         cockpitViews.forEach {
             val defaultValue = defaultParams[it.paramName]
@@ -72,7 +72,7 @@ class CockpitActivity : AppCompatActivity() {
     }
 
 
-    fun saveCockpit() {
+    private fun saveCockpit() {
         val cockpitViews = ViewUtils.getFlatChildren(cockpit_view)
         cockpitViews.forEach { view ->
             params.find {

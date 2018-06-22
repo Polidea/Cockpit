@@ -29,7 +29,7 @@ class FileUtilsTest {
         every { context.assets } returns mockk(relaxed = true)
         FileUtils.cockpitYamlFileManager = cockpitYamlFileManager
 
-        every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam::name, CockpitParam::value, {e1, _ -> e1}, ::LinkedHashMap))
+        every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam::name, CockpitParam::value, { e1, _ -> e1 }, ::LinkedHashMap))
     }
 
     @Test
@@ -54,10 +54,10 @@ class FileUtilsTest {
     private fun getTestCockpitParams(): MutableList<CockpitParam> {
         val testParams: MutableList<CockpitParam> = mutableListOf()
 
-        testParams.add(CockpitParam("doubleParam", Double::class.javaObjectType, 3.0))
-        testParams.add(CockpitParam("booleanParam", Boolean::class.javaObjectType, false))
-        testParams.add(CockpitParam("stringParam", String::class.javaObjectType, "testValue"))
-        testParams.add(CockpitParam("integerParam", Int::class.javaObjectType, 2))
+        testParams.add(CockpitParam("doubleParam", 3.0))
+        testParams.add(CockpitParam("booleanParam", false))
+        testParams.add(CockpitParam("stringParam", "testValue"))
+        testParams.add(CockpitParam("integerParam", 2))
 
         return testParams
     }
