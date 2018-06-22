@@ -36,7 +36,7 @@ class CockpitYamlFileManager(filesDirPath: String, assetManager: AssetManager) :
         return readSavedParams(savedParamsFile.bufferedReader())
     }
 
-    override fun saveParams(params: List<CockpitParam>) {
+    override fun saveParams(params: List<CockpitParam<Any>>) {
         val fileWriter = FileWriter(savedCockpitFilePath)
 
         val data: LinkedHashMap<String, Any> = LinkedHashMap()

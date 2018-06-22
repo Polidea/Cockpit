@@ -9,11 +9,13 @@ import javax.lang.model.element.Modifier
 class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     override fun generate(params: List<Param<*>>, file: File?) {
-        val propertyMethods = params.fold(ArrayList<MethodSpec>(), { acc, param ->
-            acc.add(createGetterMethodSpecForParam(param))
-            acc.add(createSetterMethodSpecForParam(param))
-            acc
-        })
+        val propertyMethods = params.fold(ArrayList<MethodSpec>()) { acc, param ->
+            acc.apply {
+                add(createGetterMethodSpecForParam(param))
+                add(createSetterMethodSpecForParam(param))
+                add(createPropertyChangeListenerSetterMethodSpecForParam(param))
+            }
+        }
         generate(file) { builder ->
             builder.addMethods(propertyMethods)
                     .addMethod(generateShowCockpitMethod())

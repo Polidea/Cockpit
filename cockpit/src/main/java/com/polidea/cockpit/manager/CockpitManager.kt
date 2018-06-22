@@ -1,14 +1,16 @@
 package com.polidea.cockpit.manager
 
+import com.polidea.cockpit.listener.CockpitParamChangeListener
+
 object CockpitManager {
 
-    val params: MutableList<CockpitParam> = ArrayList()
+    val params: MutableList<CockpitParam<Any>> = ArrayList()
 
-    fun addParam(param: CockpitParam) {
+    fun addParam(param: CockpitParam<Any>) {
         checkIfExistsAndAddParam(param)
     }
 
-    private fun checkIfExistsAndAddParam(param: CockpitParam) {
+    private fun checkIfExistsAndAddParam(param: CockpitParam<Any>) {
         if (!exists(param.name)) {
             System.out.println("Param ${param.name} doesn't exist, adding")
             params.add(param)
@@ -17,21 +19,27 @@ object CockpitManager {
         }
     }
 
-    fun getParamValue(name: String): Any? = getParam(name)?.value
+    fun <T> getParamValue(name: String): T? = getParam<CockpitParam<T>>(name)?.value
 
-    fun setParamValue(key: String, value: Any) {
-        val param = getParam(key)
+    fun <T> setParamValue(key: String, value: T) {
+        val param = getParam<CockpitParam<T>>(key)
         param ?: throw IllegalArgumentException("Param with name $key undefined!")
         param.value = value
     }
 
-    fun exists(key: String): Boolean {
-        return params.find { it.name == key } != null
+    fun <T> setOnParamChangeListener(key: String, listener: CockpitParamChangeListener<T>?) {
+        val param = getParam<CockpitParam<T>>(key)
+        param ?: throw IllegalArgumentException("Param with name $key undefined!")
+        param.cockpitParamChangeListener = listener
     }
+
+    fun exists(key: String) =
+            params.find { it.name == key } != null
 
     fun clear() {
         params.clear()
     }
 
-    private fun getParam(name: String): CockpitParam? = params.find { it.name == name }
+    private inline fun <reified T> getParam(name: String): T? =
+            params.find { it.name == name }?.let { if (it !is T) null else it }
 }

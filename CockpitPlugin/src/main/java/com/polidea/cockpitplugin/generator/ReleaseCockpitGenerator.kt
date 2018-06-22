@@ -7,7 +7,13 @@ import java.io.File
 class ReleaseCockpitGenerator : BaseCockpitGenerator() {
 
     override fun generate(params: List<Param<*>>, file: File?) {
-        val propertyMethods = params.map { createGetterMethodSpecForParam(it) }
+        val propertyMethods = params.fold(ArrayList<MethodSpec>()) { acc, param ->
+            acc.apply {
+                add(createGetterMethodSpecForParam(param))
+                add(createPropertyChangeListenerSetterMethodSpecForParam(param))
+            }
+        }
+
         generate(file) { builder ->
             builder.addMethods(propertyMethods)
         }

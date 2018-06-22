@@ -18,5 +18,5 @@ abstract class CockpitFileManager(private val filesDirPath: String, protected va
 
     abstract fun readSavedParams(): Map<String, Any>
 
-    abstract fun saveParams(params: List<CockpitParam>)
+    abstract fun saveParams(params: List<CockpitParam<Any>>)
 }
