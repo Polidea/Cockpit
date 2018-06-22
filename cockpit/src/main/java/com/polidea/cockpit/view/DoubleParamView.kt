@@ -13,22 +13,27 @@ import kotlinx.android.synthetic.main.cockpit_number_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class DoubleParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-                      override val paramName: String, override var value: Double) : ParamView<Double>, LinearLayout(context, attrs, defStyleAttr) {
-    override fun getCurrentValue(): Double {
-        try {
-            return (getValueView() as EditText).text.toString().toDouble()
-        } catch (e: NumberFormatException) {
-            throw CockpitFormatException()
-        }
-    }
+                      override val paramName: String) : ParamView<Double>, LinearLayout(context, attrs, defStyleAttr) {
 
-    override fun getValueView(): View {
-        return cockpit_number_param_value as View
-    }
+    override var value: Double = 0.0
+        get() {
+            try {
+                return (getValueView() as EditText).text.toString().toDouble()
+            } catch (e: NumberFormatException) {
+                throw CockpitFormatException()
+            }
+        }
+        set(value) {
+            field = value
+            cockpit_number_param_value.setText(value.toString())
+        }
+
+    override fun getValueView(): View = cockpit_number_param_value
+
+    override fun getRestoreButton(): View = cockpit_number_param_restore_button
 
     init {
         LayoutInflater.from(context).inflate(R.layout.cockpit_number_param_line, this, true)
-        cockpit_number_param_value.setText(value.toString())
         cockpit_number_param_name.text = paramName
         cockpit_number_param_name.isSelected = true
     }
