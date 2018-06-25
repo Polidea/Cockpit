@@ -2,4 +2,5 @@
 <resources>
     <dimen name="cockpit_margin">16dp</dimen>
     <dimen name="cockpit_value_width">100dp</dimen>
+    <dimen name="restore_button_size">32dp</dimen>
 </resources>

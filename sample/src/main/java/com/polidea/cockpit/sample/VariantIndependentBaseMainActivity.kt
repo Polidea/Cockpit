@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.TypedValue
 import android.view.View
-import android.widget.Toast
 import com.polidea.cockpit.cockpit.Cockpit
-import com.polidea.cockpit.event.PropertyChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class VariantIndependentBaseMainActivity : AppCompatActivity() {
@@ -18,15 +16,6 @@ abstract class VariantIndependentBaseMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViews()
-
-        Cockpit.addOnFontSizeChangeListener(
-                object : PropertyChangeListener<Int> {
-                    override fun onValueChange(oldValue: Int, newValue: Int) {
-                        Toast.makeText(this@VariantIndependentBaseMainActivity,
-                                "fontSize changed, old value = $oldValue, new value = $newValue",
-                                Toast.LENGTH_SHORT).show()
-                    }
-                })
     }
 
     override fun onResume() {
@@ -40,7 +29,7 @@ abstract class VariantIndependentBaseMainActivity : AppCompatActivity() {
         cockpit_color_textview.text = Cockpit.getColorDescription()
         cockpit_color_textview.setTextColor(Color.parseColor(Cockpit.getColor()))
         footer_text_view.text = Cockpit.getFooter()
-        if (Cockpit.getShowFooter()) {
+        if (Cockpit.isShowFooter()) {
             footer_container.visibility = View.VISIBLE
         } else {
             footer_container.visibility = View.INVISIBLE

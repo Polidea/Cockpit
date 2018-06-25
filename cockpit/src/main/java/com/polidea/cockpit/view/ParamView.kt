@@ -8,6 +8,5 @@ interface ParamView<T : Any> {
     var value: T
 
     fun getValueView(): View
-
-    fun getCurrentValue(): T
+    fun getRestoreButton(): View
 }

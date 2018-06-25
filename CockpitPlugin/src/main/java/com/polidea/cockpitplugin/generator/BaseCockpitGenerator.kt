@@ -53,7 +53,11 @@ abstract class BaseCockpitGenerator {
 
     inline protected fun createGetterMethodSpecForParamAndConfigurator(param: Param<*>,
                                                                        configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
-        return configurator(MethodSpec.methodBuilder("get${param.name.capitalize()}")
+        val prefix = when(param) {
+            is BooleanParam -> "is"
+            else -> "get"
+        }
+        return configurator(MethodSpec.methodBuilder("$prefix${param.name.capitalize()}")
                 .returns(mapToTypeClass(param))
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
                 .build()

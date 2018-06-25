@@ -35,7 +35,7 @@ class ReleaseCockpitGeneratorTest {
         val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false))
 
         val expectedBooleanGetterMethodSpecString = """
-            |public static boolean getBooleanParam() {
+            |public static boolean isBooleanParam() {
             |  return false;
             |}"""
         assertEquals(expectedBooleanGetterMethodSpecString.trimMargin(), booleanGetterMethodSpec.toString().trimMargin())

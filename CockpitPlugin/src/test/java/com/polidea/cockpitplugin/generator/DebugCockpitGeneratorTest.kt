@@ -60,7 +60,7 @@ class DebugCockpitGeneratorTest {
         val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false))
 
         val expectedBooleanGetterMethodSpecString = """
-            |public static boolean getBooleanParam() {
+            |public static boolean isBooleanParam() {
             |  return (boolean) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("booleanParam");
             |}"""
         assertEquals(expectedBooleanGetterMethodSpecString.trimMargin(), booleanGetterMethodSpec.toString().trimMargin())
