@@ -1,6 +1,6 @@
 package com.polidea.cockpit.manager
 
-import com.polidea.cockpit.listener.CockpitParamChangeListener
+import com.polidea.cockpit.event.PropertyChangeListener
 
 object CockpitManager {
 
@@ -19,18 +19,21 @@ object CockpitManager {
         }
     }
 
-    fun <T> getParamValue(name: String): T? = getParam<CockpitParam<T>>(name)?.value
+    fun <T> getParamValue(name: String): T? = getParam<CockpitParam<T>>(name).value
 
     fun <T> setParamValue(key: String, value: T) {
         val param = getParam<CockpitParam<T>>(key)
-        param ?: throw IllegalArgumentException("Param with name $key undefined!")
         param.value = value
     }
 
-    fun <T> setOnParamChangeListener(key: String, listener: CockpitParamChangeListener<T>?) {
+    fun <T> addOnParamChangeListener(key: String, listener: PropertyChangeListener<T>) {
         val param = getParam<CockpitParam<T>>(key)
-        param ?: throw IllegalArgumentException("Param with name $key undefined!")
-        param.cockpitParamChangeListener = listener
+        param.addPropertyChangeListener(listener)
+    }
+
+    fun <T> removeOnParamChangeListener(key: String, listener: PropertyChangeListener<T>) {
+        val param = getParam<CockpitParam<T>>(key)
+        param.removePropertyChangeListener(listener)
     }
 
     fun exists(key: String) =
@@ -40,6 +43,8 @@ object CockpitManager {
         params.clear()
     }
 
-    private inline fun <reified T> getParam(name: String): T? =
-            params.find { it.name == name }?.let { if (it !is T) null else it }
+    private inline fun <reified T> getParam(name: String): T =
+            (params.find { it.name == name }
+                    ?: throw IllegalArgumentException("Param with name $name undefined!"))
+                    .let { it as T }
 }

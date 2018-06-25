@@ -13,7 +13,8 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
             acc.apply {
                 add(createGetterMethodSpecForParam(param))
                 add(createSetterMethodSpecForParam(param))
-                add(createPropertyChangeListenerSetterMethodSpecForParam(param))
+                add(createAddPropertyChangeListenerMethodSpecForParam(param))
+                add(createRemovePropertyChangeListenerMethodSpecForParam(param))
             }
         }
         generate(file) { builder ->
@@ -39,6 +40,28 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", ${param.name})",
                         cockpitManagerClassName)
                 .addStatement("persistChanges()")
+                .build()
+    }
+
+    internal fun createAddPropertyChangeListenerMethodSpecForParam(param: Param<*>): MethodSpec {
+        val typeClass = mapToJavaObjectTypeClass(param)
+        val listenerParamName = "listener"
+        return MethodSpec.methodBuilder("addOn${param.name.capitalize()}ChangeListener")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(ParameterSpec.builder(getParametrizedCockpitPropertyChangeListenerClassName(typeClass), listenerParamName).build())
+                .addStatement("\$T.INSTANCE.addOnParamChangeListener(\"${param.name}\", $listenerParamName)",
+                        cockpitManagerClassName)
+                .build()
+    }
+
+    internal fun createRemovePropertyChangeListenerMethodSpecForParam(param: Param<*>): MethodSpec {
+        val typeClass = mapToJavaObjectTypeClass(param)
+        val listenerParamName = "listener"
+        return MethodSpec.methodBuilder("removeOn${param.name.capitalize()}ChangeListener")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(ParameterSpec.builder(getParametrizedCockpitPropertyChangeListenerClassName(typeClass), listenerParamName).build())
+                .addStatement("\$T.INSTANCE.removeOnParamChangeListener(\"${param.name}\", $listenerParamName)",
+                        cockpitManagerClassName)
                 .build()
     }
 

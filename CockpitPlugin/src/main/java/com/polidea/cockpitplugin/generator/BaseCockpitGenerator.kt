@@ -14,7 +14,7 @@ abstract class BaseCockpitGenerator {
     protected val androidContentPackage = "android.content"
     protected val cockpitActivityPackage = "com.polidea.cockpit.activity"
     protected val cockpitUtilsPackage = "com.polidea.cockpit.utils"
-    protected val cockpitListenerPackage = "com.polidea.cockpit.listener"
+    protected val cockpitEventPackage = "com.polidea.cockpit.event"
 
     protected val cockpit = "Cockpit"
     protected val cockpitManager = "CockpitManager"
@@ -23,7 +23,7 @@ abstract class BaseCockpitGenerator {
     protected val context = "Context"
     protected val cockpitActivity = "CockpitActivity"
     protected val fileUtils = "FileUtils"
-    protected val cockpitParamChangeListener = "CockpitParamChangeListener"
+    protected val propertyChangeListener = "PropertyChangeListener"
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
     protected val cockpitParamClassName = ClassName.get(cockpitManagerPackage, cockpitParam)
@@ -31,10 +31,10 @@ abstract class BaseCockpitGenerator {
     protected val androidContextClassName = ClassName.get(androidContentPackage, context)
     protected val cockpitActivityClassName = ClassName.get(cockpitActivityPackage, cockpitActivity)
     protected val fileUtilsClassName = ClassName.get(cockpitUtilsPackage, fileUtils)
-    protected val CockpitParamChangeListenerClassName = ClassName.get(cockpitListenerPackage, cockpitParamChangeListener)
+    protected val PropertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
 
-    protected fun getParametrizedCockpitParamChangeListenerClassName(clazz: Class<*>) =
-            ParameterizedTypeName.get(CockpitParamChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
+    protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
+            ParameterizedTypeName.get(PropertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
 
     protected fun generate(file: File?, configurator: (TypeSpec.Builder) -> TypeSpec.Builder) {
 
@@ -56,17 +56,6 @@ abstract class BaseCockpitGenerator {
         return configurator(MethodSpec.methodBuilder("get${param.name.capitalize()}")
                 .returns(mapToTypeClass(param))
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
-                .build()
-    }
-
-    protected fun createPropertyChangeListenerSetterMethodSpecForParam(param: Param<*>): MethodSpec {
-        val typeClass = mapToJavaObjectTypeClass(param)
-        val listenerParamName = "listener"
-        return MethodSpec.methodBuilder("setOn${param.name.capitalize()}ChangeListener")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(getParametrizedCockpitParamChangeListenerClassName(typeClass), listenerParamName).build())
-                .addStatement("\$T.INSTANCE.setOnParamChangeListener(\"${param.name}\", $listenerParamName)",
-                        cockpitManagerClassName)
                 .build()
     }
 
