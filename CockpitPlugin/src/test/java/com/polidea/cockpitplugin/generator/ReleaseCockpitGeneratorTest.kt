@@ -10,7 +10,7 @@ class ReleaseCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForDoubleParamTest() {
-        val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
+        val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(DoubleParam("doubleParam", 3.0, null, null))
 
         val expectedDoubleGetterMethodSpecString = """
             |public static double getDoubleParam() {
@@ -21,7 +21,7 @@ class ReleaseCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForIntParamTest() {
-        val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(IntegerParam("integerParam", 2))
+        val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(IntegerParam("integerParam", 2, null, null))
 
         val expectedIntegerGetterMethodSpecString = """
             |public static int getIntegerParam() {
@@ -32,7 +32,7 @@ class ReleaseCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForBooleanParamTest() {
-        val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false))
+        val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false, null, null))
 
         val expectedBooleanGetterMethodSpecString = """
             |public static boolean isBooleanParam() {
@@ -43,7 +43,7 @@ class ReleaseCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForStringParamTest() {
-        val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(StringParam("stringParam", "testValue"))
+        val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(StringParam("stringParam", "testValue", null, null))
 
         val expectedStringGetterMethodSpecString = """
             |public static java.lang.String getStringParam() {

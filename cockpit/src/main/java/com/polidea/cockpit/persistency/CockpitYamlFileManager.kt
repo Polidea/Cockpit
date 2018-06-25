@@ -1,31 +1,23 @@
 package com.polidea.cockpit.persistency
 
 import android.content.res.AssetManager
+import com.polidea.cockpit.core.YamlParam
 import com.polidea.cockpit.manager.CockpitParam
-import org.yaml.snakeyaml.LoaderOptions
-import org.yaml.snakeyaml.Yaml
+import com.polidea.cockpit.core.YamlReaderAndWriter
 import java.io.BufferedReader
 import java.io.File
-import java.io.FileWriter
-import java.util.*
 
 class CockpitYamlFileManager(filesDirPath: String, assetManager: AssetManager) : CockpitFileManager(filesDirPath, assetManager) {
 
     override val savedCockpitFileName = "savedCockpit.yml"
     override val inputCockpitFileName = "mergedCockpit.yml"
-    private val yaml: Yaml
+    private val yamlReaderAndWriter = YamlReaderAndWriter()
 
-    init {
-        val loaderOptions = LoaderOptions()
-        loaderOptions.isAllowDuplicateKeys = false
-        yaml = Yaml(loaderOptions)
-    }
-
-    override fun readInputParams(): Map<String, Any> =
+    override fun readInputParams(): Map<String, YamlParam<*>> =
             readSavedParams(assetManager.open(inputCockpitFileName).bufferedReader())
 
 
-    override fun readSavedParams(): Map<String, Any> {
+    override fun readSavedParams(): Map<String, YamlParam<*>> {
 
         val savedParamsFile = File(savedCockpitFilePath)
 
@@ -37,19 +29,13 @@ class CockpitYamlFileManager(filesDirPath: String, assetManager: AssetManager) :
     }
 
     override fun saveParams(params: List<CockpitParam<Any>>) {
-        val fileWriter = FileWriter(savedCockpitFilePath)
+        val file = File(savedCockpitFilePath)
 
-        val data: LinkedHashMap<String, Any> = LinkedHashMap()
-        params.forEach {
-            data[it.name] = it.value
-        }
-
-        yaml.dump(data, fileWriter)
+        val data = linkedMapOf(*params.map { Pair(it.name, YamlParam(it.description, it.value, it.group)) }.toTypedArray())
+        yamlReaderAndWriter.saveParamsToYaml(data, file)
     }
 
-    private fun readSavedParams(bufferedReader: BufferedReader): Map<String, Any> {
-        return yaml.load(bufferedReader.use {
-            it.readText()
-        })
+    private fun readSavedParams(bufferedReader: BufferedReader): Map<String, YamlParam<*>> {
+        return yamlReaderAndWriter.loadParamsFromReader(bufferedReader)
     }
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.polidea.cockpit.R
+import com.polidea.cockpit.core.YamlParam
 import com.polidea.cockpit.exception.CockpitFormatException
 import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.persistency.CockpitYamlFileManager
@@ -23,7 +24,7 @@ class CockpitActivity : AppCompatActivity() {
 
     private var params = CockpitManager.params
 
-    private lateinit var defaultParams: Map<String, Any>
+    private lateinit var defaultParams: Map<String, YamlParam<*>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +39,13 @@ class CockpitActivity : AppCompatActivity() {
         params.forEach {
             val key = it.name
             val value = it.value
+            val description = it.description
+            val group = it.group
             val paramView: View? = when (value) {
-                is Double -> DoubleParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Double) }
-                is Int -> IntParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Int) }
-                is String -> TextParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as String) }
-                is Boolean -> BooleanParamView(this, null, 0, key).also { configureView(it, value, defaultParams[it.paramName] as Boolean) }
+                is Double -> DoubleParamView(this, null, 0, key, description, group).also { configureView(it, value) }
+                is Int -> IntParamView(this, null, 0, key, description, group).also { configureView(it, value) }
+                is String -> TextParamView(this, null, 0, key, description, group).also { configureView(it, value) }
+                is Boolean -> BooleanParamView(this, null, 0, key, description, group).also { configureView(it, value) }
                 else -> null
             }
             paramView?.let { cockpit_view.addView(it, layoutParams) }
@@ -52,15 +55,18 @@ class CockpitActivity : AppCompatActivity() {
         cockpit_save_button.setOnClickListener { saveCockpit() }
     }
 
-    private fun <T : Any> configureView(view: ParamView<T>, value: T, defaultValue: T) {
+    private fun <T : Any> configureView(view: ParamView<T>, value: T) {
         view.value = value
+        val defaultValue = defaultParams[view.paramName]?.value as? T
+                ?: throw IllegalStateException("Not found default value for ${view.paramName} parameter")
         view.getRestoreButton().setOnClickListener { view.value = defaultValue }
     }
 
     private fun restoreDefaults() {
         val cockpitViews = ViewUtils.getFlatChildren(cockpit_view)
         cockpitViews.forEach {
-            val defaultValue = defaultParams[it.paramName]
+            val defaultValue = defaultParams[it.paramName]?.value
+                    ?: throw IllegalStateException("Not found default value for ${it.paramName} parameter")
             val view = it
             when (view) {
                 is DoubleParamView -> view.value = defaultValue as Double

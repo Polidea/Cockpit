@@ -23,13 +23,11 @@ object FileUtils {
         val savedParams = cockpitYamlFileManager.readSavedParams()
 
         inputParams.forEach {
-            val savedParamValue = savedParams[it.key]
-
-            if (savedParamValue != null) {
-                CockpitManager.addParam(CockpitParam(it.key, savedParamValue))
-            } else {
-                CockpitManager.addParam(CockpitParam(it.key, it.value))
-            }
+            val extendedParam = savedParams[it.key] ?: it.value
+            val description = extendedParam.description
+            val value = extendedParam.value
+            val group = extendedParam.group
+            CockpitManager.addParam(CockpitParam(it.key, value, description, group))
         }
     }
 

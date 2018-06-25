@@ -64,11 +64,11 @@ abstract class BaseCockpitGenerator {
     }
 
     protected fun mapToTypeClass(param: Param<*>): Class<*> {
-        return when (param) {
-            is BooleanParam -> Boolean::class.java
-            is DoubleParam -> Double::class.java
-            is IntegerParam -> Int::class.java
-            is StringParam -> String::class.java
+        return when (param.value) {
+            is Boolean -> Boolean::class.java
+            is Double -> Double::class.java
+            is Int -> Int::class.java
+            is String -> String::class.java
             else -> throw IllegalArgumentException("Param type undefined: $param!")
         }
     }
@@ -89,5 +89,4 @@ abstract class BaseCockpitGenerator {
             else -> param.value
         }
     }
-
 }

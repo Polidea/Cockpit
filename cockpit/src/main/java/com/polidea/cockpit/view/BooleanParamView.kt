@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.cockpit_boolean_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class BooleanParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-                       override val paramName: String) : ParamView<Boolean>, LinearLayout(context, attrs, defStyleAttr) {
+                       override val paramName: String, override val description: String?,
+                       override val group: String?) : ParamView<Boolean>, LinearLayout(context, attrs, defStyleAttr) {
 
     override var value: Boolean = false
         get() {
@@ -29,7 +30,7 @@ class BooleanParamView(context: Context, attrs: AttributeSet? = null, defStyleAt
 
     init {
         LayoutInflater.from(context).inflate(R.layout.cockpit_boolean_param_line, this, true)
-        cockpit_boolean_param_name.text = paramName
+        cockpit_boolean_param_name.text = description ?: paramName
         cockpit_boolean_param_name.isSelected = true
     }
 }

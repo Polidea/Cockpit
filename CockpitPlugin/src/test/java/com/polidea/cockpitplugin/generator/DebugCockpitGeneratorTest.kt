@@ -11,7 +11,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForDoubleParamTest() {
-        val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
+        val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(DoubleParam("doubleParam", 3.0, null,null))
 
         val expectedDoubleGetterMethodSpecString = """
             |public static double getDoubleParam() {
@@ -22,7 +22,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForDoubleParamTest() {
-        val doubleSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(DoubleParam("doubleParam", 3.0))
+        val doubleSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(DoubleParam("doubleParam", 3.0, null, null))
 
         val expectedDoubleSetterMethodSpecString = """
             |public static void setDoubleParam(double doubleParam) {
@@ -34,7 +34,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForIntParamTest() {
-        val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(IntegerParam("integerParam", 2))
+        val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(IntegerParam("integerParam", 2, null, null))
 
         val expectedIntegerGetterMethodSpecString = """
             |public static int getIntegerParam() {
@@ -45,7 +45,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForIntParamTest() {
-        val intSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(IntegerParam("integerParam", 2))
+        val intSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(IntegerParam("integerParam", 2, null, null))
 
         val expectedDoubleSetterMethodSpecString = """
             |public static void setIntegerParam(int integerParam) {
@@ -57,7 +57,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForBooleanParamTest() {
-        val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false))
+        val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(BooleanParam("booleanParam", false, null, null))
 
         val expectedBooleanGetterMethodSpecString = """
             |public static boolean isBooleanParam() {
@@ -68,7 +68,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForBooleanParamTest() {
-        val booleanSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(BooleanParam("booleanParam", false))
+        val booleanSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(BooleanParam("booleanParam", false, null, null))
 
         val expectedBooleanSetterMethodSpecString = """
             |public static void setBooleanParam(boolean booleanParam) {
@@ -80,7 +80,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForStringParamTest() {
-        val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(StringParam("stringParam", "testValue"))
+        val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(StringParam("stringParam", "testValue", null, null))
 
         val expectedStringGetterMethodSpecString = """
             |public static java.lang.String getStringParam() {
@@ -91,7 +91,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForStringParamTest() {
-        val stringSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(StringParam("stringParam", "testValue"))
+        val stringSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(StringParam("stringParam", "testValue", null, null))
 
         val expectedStringSetterMethodSpecString = """
             |public static void setStringParam(java.lang.String stringParam) {
@@ -103,7 +103,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForBooleanParamTest() {
-        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(BooleanParam("boolParam", false))
+        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(BooleanParam("boolParam", false, null, null))
 
         val expectedBooleanParamChangeListenerMethodSpecString = """
             |public static void addOnBoolParamChangeListener(
@@ -115,7 +115,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForIntParamTest() {
-        val integerParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(IntegerParam("intParam", 0))
+        val integerParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(IntegerParam("intParam", 0, null, null))
 
         val expectedIntegerParamChangeListenerMethodSpecString = """
             |public static void addOnIntParamChangeListener(
@@ -127,7 +127,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForDoubleParamTest() {
-        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(DoubleParam("doubleParam", .0))
+        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(DoubleParam("doubleParam", .0, null, null))
 
         val expectedDoubleParamChangeListenerMethodSpecString = """
             |public static void addOnDoubleParamChangeListener(
@@ -139,7 +139,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForStringParamTest() {
-        val stringParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(StringParam("stringParam", ""))
+        val stringParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(StringParam("stringParam", "", null, null))
 
         val expectedStringParamChangeListenerMethodSpecString = """
             |public static void addOnStringParamChangeListener(
@@ -151,7 +151,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createRemoveParamChangeListenerMethodSpecForBooleanParamTest() {
-        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(BooleanParam("boolParam", false))
+        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(BooleanParam("boolParam", false, null, null))
 
         val expectedBooleanParamChangeListenerMethodSpecString = """
             |public static void removeOnBoolParamChangeListener(
@@ -163,7 +163,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createRemoveParamChangeListenerMethodSpecForIntParamTest() {
-        val integerParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(IntegerParam("intParam", 0))
+        val integerParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(IntegerParam("intParam", 0, null, null))
 
         val expectedIntegerParamChangeListenerMethodSpecString = """
             |public static void removeOnIntParamChangeListener(
@@ -175,7 +175,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createRemoveParamChangeListenerMethodSpecForDoubleParamTest() {
-        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(DoubleParam("doubleParam", .0))
+        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(DoubleParam("doubleParam", .0, null, null))
 
         val expectedDoubleParamChangeListenerMethodSpecString = """
             |public static void removeOnDoubleParamChangeListener(
@@ -187,7 +187,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createRemoveParamChangeListenerMethodSpecForStringParamTest() {
-        val stringParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(StringParam("stringParam", ""))
+        val stringParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(StringParam("stringParam", "", null, null))
 
         val expectedStringParamChangeListenerMethodSpecString = """
             |public static void removeOnStringParamChangeListener(
@@ -225,10 +225,10 @@ class DebugCockpitGeneratorTest {
     private fun getTestParams(): List<Param<*>> {
         val testParams: MutableList<Param<*>> = mutableListOf()
 
-        testParams.add(DoubleParam("doubleParam", 3.0))
-        testParams.add(BooleanParam("booleanParam", false))
-        testParams.add(StringParam("stringParam", "testValue"))
-        testParams.add(IntegerParam("integerParam", 2))
+        testParams.add(DoubleParam("doubleParam", 3.0, null, null))
+        testParams.add(BooleanParam("booleanParam", false, null, null))
+        testParams.add(StringParam("stringParam", "testValue", null, null))
+        testParams.add(IntegerParam("integerParam", 2, null, null))
 
         return testParams
     }

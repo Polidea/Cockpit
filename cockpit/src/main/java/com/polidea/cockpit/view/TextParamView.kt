@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.cockpit_string_param_line.view.*
 
 @SuppressLint("ViewConstructor")
 class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-                    override val paramName: String) : ParamView<String>, LinearLayout(context, attrs, defStyleAttr) {
+                    override val paramName: String, override val description: String?,
+                    override val group: String?) : ParamView<String>, LinearLayout(context, attrs, defStyleAttr) {
 
     override var value: String = ""
         get() {
@@ -29,7 +30,7 @@ class TextParamView(context: Context, attrs: AttributeSet? = null, defStyleAttr:
 
     init {
         LayoutInflater.from(context).inflate(R.layout.cockpit_string_param_line, this, true)
-        cockpit_string_param_name.text = paramName
+        cockpit_string_param_name.text = description ?: paramName
         cockpit_string_param_name.isSelected = true
     }
 }
