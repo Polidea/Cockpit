@@ -31,10 +31,10 @@ abstract class BaseCockpitGenerator {
     protected val androidContextClassName = ClassName.get(androidContentPackage, context)
     protected val cockpitActivityClassName = ClassName.get(cockpitActivityPackage, cockpitActivity)
     protected val fileUtilsClassName = ClassName.get(cockpitUtilsPackage, fileUtils)
-    protected val PropertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
+    protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
 
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
-            ParameterizedTypeName.get(PropertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
+            ParameterizedTypeName.get(propertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
 
     protected fun generate(file: File?, configurator: (TypeSpec.Builder) -> TypeSpec.Builder) {
 
