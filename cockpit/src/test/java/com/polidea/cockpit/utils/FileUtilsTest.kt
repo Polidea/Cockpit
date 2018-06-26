@@ -29,7 +29,7 @@ class FileUtilsTest {
         every { context.assets } returns mockk(relaxed = true)
         FileUtils.cockpitYamlFileManager = cockpitYamlFileManager
 
-        every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam::name, CockpitParam::value, { e1, _ -> e1 }, ::LinkedHashMap))
+        every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam<Any>::name, CockpitParam<Any>::value, { e1, _ -> e1 }, ::LinkedHashMap))
     }
 
     @Test
@@ -51,8 +51,8 @@ class FileUtilsTest {
         System.out.println("Deleted directory $directory: $directoryResult")
     }
 
-    private fun getTestCockpitParams(): MutableList<CockpitParam> {
-        val testParams: MutableList<CockpitParam> = mutableListOf()
+    private fun getTestCockpitParams(): MutableList<CockpitParam<Any>> {
+        val testParams: MutableList<CockpitParam<Any>> = mutableListOf()
 
         testParams.add(CockpitParam("doubleParam", 3.0))
         testParams.add(CockpitParam("booleanParam", false))

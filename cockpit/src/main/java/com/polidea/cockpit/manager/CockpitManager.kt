@@ -1,14 +1,16 @@
 package com.polidea.cockpit.manager
 
+import com.polidea.cockpit.event.PropertyChangeListener
+
 object CockpitManager {
 
-    val params: MutableList<CockpitParam> = ArrayList()
+    val params: MutableList<CockpitParam<Any>> = ArrayList()
 
-    fun addParam(param: CockpitParam) {
+    fun addParam(param: CockpitParam<Any>) {
         checkIfExistsAndAddParam(param)
     }
 
-    private fun checkIfExistsAndAddParam(param: CockpitParam) {
+    private fun checkIfExistsAndAddParam(param: CockpitParam<Any>) {
         if (!exists(param.name)) {
             System.out.println("Param ${param.name} doesn't exist, adding")
             params.add(param)
@@ -17,21 +19,32 @@ object CockpitManager {
         }
     }
 
-    fun getParamValue(name: String): Any? = getParam(name)?.value
+    fun <T> getParamValue(name: String): T? = getParam<CockpitParam<T>>(name).value
 
-    fun setParamValue(key: String, value: Any) {
-        val param = getParam(key)
-        param ?: throw IllegalArgumentException("Param with name $key undefined!")
+    fun <T> setParamValue(key: String, value: T) {
+        val param = getParam<CockpitParam<T>>(key)
         param.value = value
     }
 
-    fun exists(key: String): Boolean {
-        return params.find { it.name == key } != null
+    fun <T> addOnParamChangeListener(key: String, listener: PropertyChangeListener<T>) {
+        val param = getParam<CockpitParam<T>>(key)
+        param.addPropertyChangeListener(listener)
     }
+
+    fun <T> removeOnParamChangeListener(key: String, listener: PropertyChangeListener<T>) {
+        val param = getParam<CockpitParam<T>>(key)
+        param.removePropertyChangeListener(listener)
+    }
+
+    fun exists(key: String) =
+            params.find { it.name == key } != null
 
     fun clear() {
         params.clear()
     }
 
-    private fun getParam(name: String): CockpitParam? = params.find { it.name == name }
+    private inline fun <reified T> getParam(name: String): T =
+            (params.find { it.name == name }
+                    ?: throw IllegalArgumentException("Param with name $name undefined!"))
+                    .let { it as T }
 }

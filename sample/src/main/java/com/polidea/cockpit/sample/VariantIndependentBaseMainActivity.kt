@@ -10,20 +10,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 abstract class VariantIndependentBaseMainActivity : AppCompatActivity() {
 
-    abstract fun initViews()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViews()
     }
 
-    override fun onResume() {
-        super.onResume()
-        displayMainActivity()
-    }
-
-    private fun displayMainActivity() {
+    private fun initViews() {
         cockpit_textview.setTextColor(Color.parseColor(Cockpit.getColor()))
         cockpit_textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, Cockpit.getFontSize().toFloat())
         cockpit_color_textview.text = Cockpit.getColorDescription()

@@ -8,6 +8,7 @@ class ReleaseCockpitGenerator : BaseCockpitGenerator() {
 
     override fun generate(params: List<Param<*>>, file: File?) {
         val propertyMethods = params.map { createGetterMethodSpecForParam(it) }
+
         generate(file) { builder ->
             builder.addMethods(propertyMethods)
         }
