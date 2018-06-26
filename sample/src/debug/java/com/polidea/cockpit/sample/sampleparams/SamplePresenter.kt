@@ -1,64 +1,71 @@
-package com.polidea.cockpit.sample
+package com.polidea.cockpit.sample.sampleparams
 
 import android.graphics.Color
-import android.os.Bundle
-import android.util.TypedValue
-import android.view.View
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.event.PropertyChangeListener
-import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : VariantIndependentBaseMainActivity() {
+class SamplePresenter(override val sampleView: SampleContract.View)
+    : SampleBasePresenter(sampleView), SampleContract.Presenter {
 
     private lateinit var onColorChangeListener: PropertyChangeListener<String>
     private lateinit var onFontSizeChangeListener: PropertyChangeListener<Int>
     private lateinit var onColorDescriptionChangeListener: PropertyChangeListener<String>
     private lateinit var onFooterChangeListener: PropertyChangeListener<String>
     private lateinit var onShowFooterChangeListener: PropertyChangeListener<Boolean>
+    private lateinit var onDebugDescriptionChangeListener: PropertyChangeListener<String>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setOnChangeListeners()
-
-        findViewById<View>(R.id.edit_values_button).setOnClickListener {
-            Cockpit.showCockpit(this)
-        }
+    init {
+        sampleView.presenter = this
     }
 
-    override fun onDestroy() {
+    override fun start() {
+        super.start()
+        setOnChangeListeners()
+    }
+
+    override fun stop() {
         removeOnChangeListeners()
-        super.onDestroy()
+    }
+
+    override fun editValues() {
+        sampleView.showCockpitUi()
+    }
+
+    override fun initViews() {
+        super.initViews()
+        sampleView.setDebugDescription(Cockpit.getDebugDescription())
     }
 
     private fun setOnChangeListeners() {
-
         onColorChangeListener = PropertyChangeListener { _, newColor ->
-            val color = Color.parseColor(newColor)
-            cockpit_textview.setTextColor(color)
-            cockpit_color_textview.setTextColor(color)
+            sampleView.setTextColor(Color.parseColor(newColor))
         }
         Cockpit.addOnColorChangeListener(onColorChangeListener)
 
         onFontSizeChangeListener = PropertyChangeListener { _, newSize ->
-            cockpit_textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, newSize.toFloat())
+            sampleView.setFontSize(newSize.toFloat())
         }
         Cockpit.addOnFontSizeChangeListener(onFontSizeChangeListener)
 
         onColorDescriptionChangeListener = PropertyChangeListener { _, newColorDescription ->
-            cockpit_color_textview.text = newColorDescription
+            sampleView.setColorDescription(newColorDescription)
         }
         Cockpit.addOnColorDescriptionChangeListener(onColorDescriptionChangeListener)
 
         onFooterChangeListener = PropertyChangeListener { _, newFooter ->
-            footer_text_view.text = newFooter
+            sampleView.setFooterText(newFooter)
         }
         Cockpit.addOnFooterChangeListener(onFooterChangeListener)
 
         onShowFooterChangeListener = PropertyChangeListener { _, isFooterVisible ->
-            footer_container.visibility = if (isFooterVisible) View.VISIBLE else View.INVISIBLE
+            sampleView.showFooter(isFooterVisible)
         }
         Cockpit.addOnShowFooterChangeListener(onShowFooterChangeListener)
+
+        onDebugDescriptionChangeListener = PropertyChangeListener { _, newDescription ->
+            sampleView.setDebugDescription(newDescription)
+        }
+        Cockpit.addOnDebugDescriptionChangeListener(onDebugDescriptionChangeListener)
     }
 
     private fun removeOnChangeListeners() {
@@ -67,5 +74,6 @@ class MainActivity : VariantIndependentBaseMainActivity() {
         Cockpit.removeOnColorDescriptionChangeListener(onColorDescriptionChangeListener)
         Cockpit.removeOnFooterChangeListener(onFooterChangeListener)
         Cockpit.removeOnShowFooterChangeListener(onShowFooterChangeListener)
+        Cockpit.removeOnDebugDescriptionChangeListener(onDebugDescriptionChangeListener)
     }
 }
