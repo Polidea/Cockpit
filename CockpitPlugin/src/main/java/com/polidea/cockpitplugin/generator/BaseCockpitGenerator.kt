@@ -1,6 +1,6 @@
 package com.polidea.cockpitplugin.generator
 
-import com.polidea.cockpitplugin.model.*
+import com.polidea.cockpitplugin.core.Param
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -51,10 +51,10 @@ abstract class BaseCockpitGenerator {
         }
     }
 
-    inline protected fun createGetterMethodSpecForParamAndConfigurator(param: Param<*>,
-                                                                       configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
-        val prefix = when(param) {
-            is BooleanParam -> "is"
+    inline protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: Param<T>,
+                                                                                 configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
+        val prefix = when(param.value) {
+            is Boolean -> "is"
             else -> "get"
         }
         return configurator(MethodSpec.methodBuilder("$prefix${param.name.capitalize()}")
@@ -74,11 +74,11 @@ abstract class BaseCockpitGenerator {
     }
 
     protected fun mapToJavaObjectTypeClass(param: Param<*>): Class<*> {
-        return when (param) {
-            is BooleanParam -> Boolean::class.javaObjectType
-            is DoubleParam -> Double::class.javaObjectType
-            is IntegerParam -> Int::class.javaObjectType
-            is StringParam -> String::class.javaObjectType
+        return when (param.value) {
+            is Boolean -> Boolean::class.javaObjectType
+            is Double -> Double::class.javaObjectType
+            is Int -> Int::class.javaObjectType
+            is String -> String::class.javaObjectType
             else -> throw IllegalArgumentException("Param type undefined: $param!")
         }
     }

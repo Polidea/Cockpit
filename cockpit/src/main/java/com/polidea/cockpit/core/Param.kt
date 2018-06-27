@@ -1,5 +1,4 @@
-package com.polidea.cockpitplugin.model
-
+package com.polidea.cockpit.core
 
 interface Param<T : Any> {
     val name: String

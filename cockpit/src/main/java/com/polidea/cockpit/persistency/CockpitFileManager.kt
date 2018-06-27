@@ -1,8 +1,7 @@
 package com.polidea.cockpit.persistency
 
 import android.content.res.AssetManager
-import com.polidea.cockpit.core.YamlParam
-import com.polidea.cockpit.manager.CockpitParam
+import com.polidea.cockpit.core.Param
 import java.io.File
 
 abstract class CockpitFileManager(private val filesDirPath: String, protected val assetManager: AssetManager) {
@@ -15,9 +14,9 @@ abstract class CockpitFileManager(private val filesDirPath: String, protected va
         filesDirPath + File.separator + savedCockpitFileName
     }
 
-    abstract fun readInputParams(): Map<String, YamlParam<*>>
+    abstract fun readInputParams(): List<Param<*>>
 
-    abstract fun readSavedParams(): Map<String, YamlParam<*>>
+    abstract fun readSavedParams(): List<Param<*>>
 
-    abstract fun saveParams(params: List<CockpitParam<Any>>)
+    abstract fun saveParams(params: List<Param<*>>)
 }

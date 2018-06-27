@@ -1,9 +1,10 @@
 package com.polidea.cockpit.utils
 
 import android.content.Context
-import com.polidea.cockpit.core.YamlParam
+import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.Param
 import com.polidea.cockpit.manager.CockpitManager
-import com.polidea.cockpit.manager.CockpitParam
+import com.polidea.cockpit.manager.NotifiableParam
 import com.polidea.cockpit.persistency.CockpitYamlFileManager
 import io.mockk.every
 import io.mockk.mockk
@@ -29,9 +30,8 @@ class FileUtilsTest {
         every { context.assets } returns mockk(relaxed = true)
         FileUtils.cockpitYamlFileManager = cockpitYamlFileManager
 
-        val map = mapOf(*getTestCockpitParams().map { Pair(it.name, YamlParam(it.description, it.value, it.group)) }.toTypedArray())
-        every { cockpitYamlFileManager.readInputParams() } returns map
-        every { cockpitYamlFileManager.readSavedParams() } returns emptyMap()
+        every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams()
+        every { cockpitYamlFileManager.readSavedParams() } returns emptyList()
     }
 
     @Test
@@ -54,13 +54,13 @@ class FileUtilsTest {
         System.out.println("Deleted directory $directory: $directoryResult")
     }
 
-    private fun getTestCockpitParams(): MutableList<CockpitParam<Any>> {
-        val testParams: MutableList<CockpitParam<Any>> = mutableListOf()
+    private fun getTestCockpitParams(): MutableList<Param<*>> {
+        val testParams: MutableList<Param<*>> = mutableListOf()
 
-        testParams.add(CockpitParam("doubleParam", 3.0, null, null))
-        testParams.add(CockpitParam("booleanParam", false, null, null))
-        testParams.add(CockpitParam("stringParam", "testValue", null, null))
-        testParams.add(CockpitParam("integerParam", 2, null, null))
+        testParams.add(NotifiableParam("doubleParam", 3.0, null, null))
+        testParams.add(NotifiableParam("booleanParam", false, null, null))
+        testParams.add(NotifiableParam("stringParam", "testValue", null, null))
+        testParams.add(NotifiableParam("integerParam", 2, null, null))
 
         return testParams
     }

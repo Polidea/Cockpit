@@ -1,6 +1,6 @@
 package com.polidea.cockpitplugin.generator
 
-import com.polidea.cockpitplugin.model.*
+import com.polidea.cockpitplugin.core.Param
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -24,7 +24,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
         }
     }
 
-    internal fun createGetterMethodSpecForParam(param: Param<*>): MethodSpec {
+    internal fun <T : Any> createGetterMethodSpecForParam(param: Param<T>): MethodSpec {
         return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
             builder.addStatement("return (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
                     mapToTypeClass(param), cockpitManagerClassName)

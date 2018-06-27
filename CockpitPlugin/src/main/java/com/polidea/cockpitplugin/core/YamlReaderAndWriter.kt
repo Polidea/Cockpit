@@ -13,19 +13,19 @@ class YamlReaderAndWriter {
 
     private val mapper = ParamsMapper()
 
-    fun loadParamsFromYaml(yamlFile: File): Map<String, YamlParam<*>> {
+    fun loadParamsFromYaml(yamlFile: File): List<Param<*>> {
         return loadParamsFromReader(yamlFile.bufferedReader())
     }
 
-    fun loadParamsFromReader(reader: Reader): Map<String, YamlParam<*>> {
-        return mapper.toMapOfParams(yaml.load<Map<String, Map<String, *>>>(reader.use {
+    fun loadParamsFromReader(reader: Reader): List<Param<*>> {
+        return mapper.toListOfParams(yaml.load(reader.use {
             it.readText()
         }))
     }
 
-    fun saveParamsToYaml(params: Map<String, YamlParam<*>>, yamlFile: File) {
+    fun saveParamsToYaml(params: List<Param<*>>, yamlFile: File) {
         val writer = FileWriter(yamlFile)
-        yaml.dump(mapper.toMapOfMaps(params), writer)
+        yaml.dump(mapper.toYamlMap(params), writer)
     }
 
     private fun yamlLoaderOptions(): LoaderOptions {

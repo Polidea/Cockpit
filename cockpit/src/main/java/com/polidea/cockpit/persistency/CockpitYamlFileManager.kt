@@ -1,8 +1,7 @@
 package com.polidea.cockpit.persistency
 
 import android.content.res.AssetManager
-import com.polidea.cockpit.core.YamlParam
-import com.polidea.cockpit.manager.CockpitParam
+import com.polidea.cockpit.core.Param
 import com.polidea.cockpit.core.YamlReaderAndWriter
 import java.io.BufferedReader
 import java.io.File
@@ -13,29 +12,27 @@ class CockpitYamlFileManager(filesDirPath: String, assetManager: AssetManager) :
     override val inputCockpitFileName = "mergedCockpit.yml"
     private val yamlReaderAndWriter = YamlReaderAndWriter()
 
-    override fun readInputParams(): Map<String, YamlParam<*>> =
+    override fun readInputParams(): List<Param<*>> =
             readSavedParams(assetManager.open(inputCockpitFileName).bufferedReader())
 
 
-    override fun readSavedParams(): Map<String, YamlParam<*>> {
+    override fun readSavedParams(): List<Param<*>> {
 
         val savedParamsFile = File(savedCockpitFilePath)
 
         if (!savedParamsFile.exists()) {
-            return emptyMap()
+            return emptyList()
         }
 
         return readSavedParams(savedParamsFile.bufferedReader())
     }
 
-    override fun saveParams(params: List<CockpitParam<Any>>) {
+    override fun saveParams(params: List<Param<*>>) {
         val file = File(savedCockpitFilePath)
-
-        val data = linkedMapOf(*params.map { Pair(it.name, YamlParam(it.description, it.value, it.group)) }.toTypedArray())
-        yamlReaderAndWriter.saveParamsToYaml(data, file)
+        yamlReaderAndWriter.saveParamsToYaml(params, file)
     }
 
-    private fun readSavedParams(bufferedReader: BufferedReader): Map<String, YamlParam<*>> {
+    private fun readSavedParams(bufferedReader: BufferedReader): List<Param<*>> {
         return yamlReaderAndWriter.loadParamsFromReader(bufferedReader)
     }
 }
