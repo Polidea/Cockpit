@@ -8,29 +8,22 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.polidea.cockpit.R
-import com.polidea.cockpit.core.YamlParam
 import com.polidea.cockpit.exception.CockpitFormatException
 import com.polidea.cockpit.manager.CockpitManager
-import com.polidea.cockpit.persistency.CockpitYamlFileManager
 import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.utils.ViewUtils
 import com.polidea.cockpit.view.*
 import kotlinx.android.synthetic.main.cockpit_include_activity_layout.*
-import java.util.*
 
 class CockpitActivity : AppCompatActivity() {
 
     private val TAG = CockpitActivity::class.java.simpleName
 
     private var params = CockpitManager.params
-
-    private lateinit var defaultParams: Map<String, YamlParam<*>>
+    private var defaultParams = CockpitManager.defaultParams
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val cockpitYamlFileManager = CockpitYamlFileManager(filesDir.path, assets)
-        defaultParams = Collections.unmodifiableMap(cockpitYamlFileManager.readInputParams())
-
         setContentView(R.layout.cockpit_activity)
 
         val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -57,24 +50,26 @@ class CockpitActivity : AppCompatActivity() {
 
     private fun <T : Any> configureView(view: ParamView<T>, value: T) {
         view.value = value
-        val defaultValue = defaultParams[view.paramName]?.value as? T
-                ?: throw IllegalStateException("Not found default value for ${view.paramName} parameter")
+        val defaultValue = defaultValue<T>(view.paramName)
         view.getRestoreButton().setOnClickListener { view.value = defaultValue }
     }
 
     private fun restoreDefaults() {
         val cockpitViews = ViewUtils.getFlatChildren(cockpit_view)
-        cockpitViews.forEach {
-            val defaultValue = defaultParams[it.paramName]?.value
-                    ?: throw IllegalStateException("Not found default value for ${it.paramName} parameter")
-            val view = it
-            when (view) {
-                is DoubleParamView -> view.value = defaultValue as Double
-                is IntParamView -> view.value = defaultValue as Int
-                is TextParamView -> view.value = defaultValue as String
-                is BooleanParamView -> view.value = defaultValue as Boolean
+        cockpitViews.forEach { paramView ->
+            val paramName = paramView.paramName
+            when (paramView) {
+                is DoubleParamView -> paramView.value = defaultValue(paramName)
+                is IntParamView -> paramView.value = defaultValue(paramName)
+                is TextParamView -> paramView.value = defaultValue(paramName)
+                is BooleanParamView -> paramView.value = defaultValue(paramName)
             }
         }
+    }
+
+    private fun <T> defaultValue(paramName: String): T {
+        return defaultParams.find { it.name == paramName }?.value as? T
+                ?: throw IllegalStateException("Not found default value for $paramName parameter")
     }
 
 

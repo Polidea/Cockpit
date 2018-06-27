@@ -41,6 +41,7 @@ class FileUtilsTest {
         CockpitManager.clear()
         FileUtils.loadCockpitParams()
         assertEquals(getTestCockpitParams(), CockpitManager.params)
+        assertEquals(getTestCockpitParams(), CockpitManager.defaultParams)
     }
 
     @AfterTest

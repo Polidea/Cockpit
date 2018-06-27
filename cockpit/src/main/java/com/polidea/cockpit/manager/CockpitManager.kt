@@ -1,10 +1,13 @@
 package com.polidea.cockpit.manager
 
 import com.polidea.cockpit.event.PropertyChangeListener
+import kotlin.collections.ArrayList
 
 object CockpitManager {
 
     val params: MutableList<CockpitParam<Any>> = ArrayList()
+
+    var defaultParams: MutableList<CockpitParam<Any>> = mutableListOf()
 
     fun addParam(param: CockpitParam<Any>) {
         checkIfExistsAndAddParam(param)
@@ -41,6 +44,7 @@ object CockpitManager {
 
     fun clear() {
         params.clear()
+        defaultParams.clear()
     }
 
     private inline fun <reified T> getParam(name: String): T =
