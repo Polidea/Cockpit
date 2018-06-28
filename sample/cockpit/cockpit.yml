@@ -1,4 +1,6 @@
-color: "#00ff33"
+color:
+  description: "Text color"
+  value: "#00ff33"
 colorDescription: "Calm green"
 fontSize: 30
 footer: "Created by Polidea"

@@ -2,7 +2,6 @@ package com.polidea.cockpit.utils
 
 import android.content.res.AssetManager
 import com.polidea.cockpit.manager.CockpitManager
-import com.polidea.cockpit.manager.CockpitParam
 import com.polidea.cockpit.persistency.CockpitYamlFileManager
 
 
@@ -22,15 +21,11 @@ object FileUtils {
         val inputParams = cockpitYamlFileManager.readInputParams()
         val savedParams = cockpitYamlFileManager.readSavedParams()
 
-        inputParams.forEach {
-            val savedParamValue = savedParams[it.key]
-
-            if (savedParamValue != null) {
-                CockpitManager.addParam(CockpitParam(it.key, savedParamValue))
-            } else {
-                CockpitManager.addParam(CockpitParam(it.key, it.value))
-            }
+        inputParams.forEach { inputParam ->
+            val latestParam = savedParams.find { it.name == inputParam.name } ?: inputParam
+            CockpitManager.addParam(latestParam)
         }
+        CockpitManager.defaultParams = inputParams.toMutableList()
     }
 
 }

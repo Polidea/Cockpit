@@ -1,1 +1,3 @@
-baseUrl: "https://base.staging.url"
+baseUrl:
+  description: "Base API url"
+  value: "https://base.staging.url"

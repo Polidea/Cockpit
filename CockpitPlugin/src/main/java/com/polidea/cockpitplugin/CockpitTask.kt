@@ -1,10 +1,10 @@
 package com.polidea.cockpitplugin
 
+import com.polidea.cockpitplugin.core.YamlReaderAndWriter
 import com.polidea.cockpitplugin.generator.DebugCockpitGenerator
 import com.polidea.cockpitplugin.generator.ReleaseCockpitGenerator
 import com.polidea.cockpitplugin.input.FileFactory
 import com.polidea.cockpitplugin.input.InputFilesProvider
-import com.polidea.cockpitplugin.model.*
 import com.polidea.cockpitplugin.util.Util
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
@@ -18,7 +18,6 @@ open class CockpitTask : DefaultTask() {
     private val cockpitOutputDirectory = "${project.buildDir}/generated/source/cockpit/"
     private val cockpitAssetsOutputDirectory = "${project.buildDir}/generated/assets/"
     private val yamlReaderAndWriter = YamlReaderAndWriter()
-    private val parameterParser = ParameterParser()
 
     private val inputFilesProvider = InputFilesProvider(cockpitDirectoryPath, object : FileFactory {
         override fun file(path: String): File {
@@ -46,18 +45,21 @@ open class CockpitTask : DefaultTask() {
 
     @TaskAction
     fun CockpitAction() {
-        val cockpitMaps = cockpitFiles().map { yamlReaderAndWriter.loadParamsFromYaml(it) }.toMutableList()
+        val cockpitLists = cockpitFiles().map { yamlReaderAndWriter.loadParamsFromYaml(it) }
 
-        if (cockpitMaps.isNotEmpty()) {
-            val lowestProrityMap = cockpitMaps.removeAt(0).toMutableMap()
-            val mergedParametersMap = Util.deepMerge(lowestProrityMap, *cockpitMaps.toTypedArray())
+        if (cockpitLists.isNotEmpty()) {
+            val cockpitMaps = cockpitLists.map { linkedMapOf(*it.map { Pair(it.name, it) }.toTypedArray()) }.toMutableList()
 
+            val lowestPriorityMap = cockpitMaps.removeAt(0).toMutableMap()
+            val mergedParametersMap = Util.deepMerge(lowestPriorityMap, *cockpitMaps.toTypedArray())
+
+            val mergedParametersList = mergedParametersMap.values.toList()
             val mergedCockpitFile = File(getCockpitAssetsOutputDirectory(), "mergedCockpit.yml")
-            yamlReaderAndWriter.saveParamsToYaml(mergedParametersMap, mergedCockpitFile)
 
-            val params: List<Param<*>> = parameterParser.parseValueMap(mergedParametersMap)
+            yamlReaderAndWriter.saveParamsToYaml(mergedParametersList, mergedCockpitFile)
+
             val generator = if (buildTypeName.isRelease()) ReleaseCockpitGenerator() else DebugCockpitGenerator()
-            generator.generate(params, getCockpitOutputDirectory())
+            generator.generate(mergedParametersList, getCockpitOutputDirectory())
         } else {
             throw IllegalStateException("Empty cockpit map collection. Please make sure, you added your .yml files to $cockpitDirectoryPath directory, NOT to src/<variant>/assets")
         }
