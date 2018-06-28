@@ -53,7 +53,7 @@ abstract class BaseCockpitGenerator {
 
     inline protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: Param<T>,
                                                                                  configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
-        val prefix = when(param.value) {
+        val prefix = when (param.value) {
             is Boolean -> "is"
             else -> "get"
         }
@@ -63,25 +63,9 @@ abstract class BaseCockpitGenerator {
                 .build()
     }
 
-    protected fun mapToTypeClass(param: Param<*>): Class<*> {
-        return when (param.value) {
-            is Boolean -> Boolean::class.java
-            is Double -> Double::class.java
-            is Int -> Int::class.java
-            is String -> String::class.java
-            else -> throw IllegalArgumentException("Param type undefined: $param!")
-        }
-    }
+    protected fun mapToTypeClass(param: Param<*>) = param.value::class.java
 
-    protected fun mapToJavaObjectTypeClass(param: Param<*>): Class<*> {
-        return when (param.value) {
-            is Boolean -> Boolean::class.javaObjectType
-            is Double -> Double::class.javaObjectType
-            is Int -> Int::class.javaObjectType
-            is String -> String::class.javaObjectType
-            else -> throw IllegalArgumentException("Param type undefined: $param!")
-        }
-    }
+    protected fun mapToJavaObjectTypeClass(param: Param<*>) = param.value::class.javaObjectType
 
     protected fun createWrappedValueForParam(param: Param<*>): Any {
         return when (param.value.javaClass) {

@@ -5,7 +5,6 @@ import com.polidea.cockpitplugin.generator.DebugCockpitGenerator
 import com.polidea.cockpitplugin.generator.ReleaseCockpitGenerator
 import com.polidea.cockpitplugin.input.FileFactory
 import com.polidea.cockpitplugin.input.InputFilesProvider
-import com.polidea.cockpitplugin.model.*
 import com.polidea.cockpitplugin.util.Util
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.*
@@ -51,8 +50,8 @@ open class CockpitTask : DefaultTask() {
         if (cockpitLists.isNotEmpty()) {
             val cockpitMaps = cockpitLists.map { linkedMapOf(*it.map { Pair(it.name, it) }.toTypedArray()) }.toMutableList()
 
-            val lowestProrityMap = cockpitMaps.removeAt(0).toMutableMap()
-            val mergedParametersMap = Util.deepMerge(lowestProrityMap, *cockpitMaps.toTypedArray())
+            val lowestPriorityMap = cockpitMaps.removeAt(0).toMutableMap()
+            val mergedParametersMap = Util.deepMerge(lowestPriorityMap, *cockpitMaps.toTypedArray())
 
             val mergedParametersList = mergedParametersMap.values.toList()
             val mergedCockpitFile = File(getCockpitAssetsOutputDirectory(), "mergedCockpit.yml")
