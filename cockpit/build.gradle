@@ -43,8 +43,9 @@ dependencies {
     api "org.yaml:snakeyaml:1.20"
 
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    api 'com.android.support:appcompat-v7:27.1.1'
-    api 'com.android.support.constraint:constraint-layout:1.1.1'
+    api "com.android.support:appcompat-v7:$supportLibraryVersion"
+    api "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
