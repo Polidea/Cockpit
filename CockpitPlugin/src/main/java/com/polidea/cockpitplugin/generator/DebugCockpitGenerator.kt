@@ -1,14 +1,15 @@
 package com.polidea.cockpitplugin.generator
 
-import com.polidea.cockpitplugin.core.Param
-import com.squareup.javapoet.*
+import com.polidea.cockpitplugin.core.CockpitParam
+import com.squareup.javapoet.MethodSpec
+import com.squareup.javapoet.ParameterSpec
 import java.io.File
 import javax.lang.model.element.Modifier
 
 
 class DebugCockpitGenerator : BaseCockpitGenerator() {
 
-    override fun generate(params: List<Param<*>>, file: File?) {
+    override fun generate(params: List<CockpitParam<*>>, file: File?) {
         val propertyMethods = params.fold(ArrayList<MethodSpec>()) { acc, param ->
             acc.apply {
                 add(createGetterMethodSpecForParam(param))
@@ -20,11 +21,10 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
         generate(file) { builder ->
             builder.addMethods(propertyMethods)
                     .addMethod(generateShowCockpitMethod())
-                    .addMethod(generatePersistChangesMethod())
         }
     }
 
-    internal fun <T : Any> createGetterMethodSpecForParam(param: Param<T>): MethodSpec {
+    internal fun <T : Any> createGetterMethodSpecForParam(param: CockpitParam<T>): MethodSpec {
         return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
             builder.addStatement("return (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
                     mapToTypeClass(param), cockpitManagerClassName)
@@ -32,18 +32,17 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
     }
 
 
-    internal fun createSetterMethodSpecForParam(param: Param<*>): MethodSpec {
+    internal fun createSetterMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
         val typeClass = mapToTypeClass(param)
         return MethodSpec.methodBuilder("set${param.name.capitalize()}")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(typeClass, param.name).build())
                 .addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", ${param.name})",
                         cockpitManagerClassName)
-                .addStatement("persistChanges()")
                 .build()
     }
 
-    internal fun createAddPropertyChangeListenerMethodSpecForParam(param: Param<*>): MethodSpec {
+    internal fun createAddPropertyChangeListenerMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
         val typeClass = mapToJavaObjectTypeClass(param)
         val listenerParamName = "listener"
         return MethodSpec.methodBuilder("addOn${param.name.capitalize()}ChangeListener")
@@ -54,7 +53,7 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .build()
     }
 
-    internal fun createRemovePropertyChangeListenerMethodSpecForParam(param: Param<*>): MethodSpec {
+    internal fun createRemovePropertyChangeListenerMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
         val typeClass = mapToJavaObjectTypeClass(param)
         val listenerParamName = "listener"
         return MethodSpec.methodBuilder("removeOn${param.name.capitalize()}ChangeListener")
@@ -72,13 +71,6 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addStatement("\$T intent = new \$T(context, \$T.class)",
                         androidIntentClassName, androidIntentClassName, cockpitActivityClassName)
                 .addStatement("context.startActivity(intent)")
-                .build()
-    }
-
-    internal fun generatePersistChangesMethod(): MethodSpec {
-        return MethodSpec.methodBuilder("persistChanges")
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .addStatement("\$T.INSTANCE.saveCockpitAsYaml()", fileUtilsClassName)
                 .build()
     }
 }

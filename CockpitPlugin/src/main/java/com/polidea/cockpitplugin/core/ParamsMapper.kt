@@ -3,7 +3,7 @@ package com.polidea.cockpitplugin.core
 // TODO: extract to core library
 class ParamsMapper {
 
-    fun toListOfParams(yamlMap: Map<String, Any>): List<Param<*>> {
+    fun toListOfParams(yamlMap: Map<String, Any>): List<CockpitParam<*>> {
         // TODO: move deserializing to library, or use different library, if snakeyaml doesn't handle custom objects properly
         return yamlMap.map {
             val value = it.value
@@ -15,13 +15,13 @@ class ParamsMapper {
                         value[KEY_DESCRIPTION] as String?,
                         value[KEY_GROUP] as String?)
             // previous simple yaml format
-                else -> CockpitParam(it.key, value, null, null)
+                else -> CockpitParam(it.key, value)
             }
             param
         }
     }
 
-    fun toYamlMap(params: List<Param<*>>): Map<String, Any> {
+    fun toYamlMap(params: List<CockpitParam<*>>): Map<String, Any> {
         // TODO: move serializing to library, or use different library, if snakeyaml doesn't handle custom objects properly
         return linkedMapOf(*params.map {
             if (it.description == null && it.group == null) { // simple parameter with value only
