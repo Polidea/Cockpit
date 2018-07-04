@@ -5,6 +5,7 @@ import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.utils.copy
 import com.polidea.cockpit.utils.getParam
+import org.jetbrains.annotations.TestOnly
 
 object CockpitManager {
 
@@ -57,15 +58,16 @@ object CockpitManager {
         paramChangeNotifier.remove(name, listener)
     }
 
-    internal fun clear() {
-        params.clear()
-    }
-
     internal fun getParamsCopy(): List<CockpitParam<Any>> = params.copy()
 
     internal fun getDefaultParamsCopy(): List<CockpitParam<Any>> = defaultParams.copy()
 
     fun save() {
         FileUtils.saveCockpitAsYaml(params)
+    }
+
+    @TestOnly
+    internal fun clear() {
+        params.clear()
     }
 }

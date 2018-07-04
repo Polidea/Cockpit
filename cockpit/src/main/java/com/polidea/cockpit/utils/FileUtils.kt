@@ -3,6 +3,7 @@ package com.polidea.cockpit.utils
 import android.content.res.AssetManager
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.persistency.CockpitYamlFileManager
+import org.jetbrains.annotations.TestOnly
 
 
 object FileUtils {
@@ -34,4 +35,9 @@ object FileUtils {
 
     fun getSavedParams() =
             cockpitYamlFileManager.readSavedParams()
+
+    @TestOnly
+    fun setCockpitYamlFileManager(manager: CockpitYamlFileManager) {
+        cockpitYamlFileManager = manager
+    }
 }

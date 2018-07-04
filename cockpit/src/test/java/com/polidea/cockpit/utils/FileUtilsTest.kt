@@ -2,9 +2,7 @@ package com.polidea.cockpit.utils
 
 import android.content.Context
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.core.Param
 import com.polidea.cockpit.manager.CockpitManager
-import com.polidea.cockpit.manager.NotifiableParam
 import com.polidea.cockpit.persistency.CockpitYamlFileManager
 import io.mockk.every
 import io.mockk.mockk
@@ -28,7 +26,7 @@ class FileUtilsTest {
     @BeforeTest
     fun setup() {
         every { context.assets } returns mockk(relaxed = true)
-        FileUtils.cockpitYamlFileManager = cockpitYamlFileManager
+        FileUtils.setCockpitYamlFileManager(cockpitYamlFileManager)
 
         every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams()
         every { cockpitYamlFileManager.readSavedParams() } returns emptyList()
@@ -37,11 +35,11 @@ class FileUtilsTest {
     @Test
     fun saveAndReadCockpit() {
         getTestCockpitParams().forEach { CockpitManager.addParam(it) }
-        FileUtils.saveCockpitAsYaml()
+        FileUtils.saveCockpitAsYaml(CockpitManager.getParamsCopy())
         CockpitManager.clear()
-        FileUtils.loadCockpitParams()
-        assertEquals(getTestCockpitParams(), CockpitManager.params)
-        assertEquals(getTestCockpitParams(), CockpitManager.defaultParams)
+        FileUtils.getParams().forEach { CockpitManager.addParam(it) }
+        assertEquals(getTestCockpitParams(), CockpitManager.getParamsCopy())
+        assertEquals(getTestCockpitParams(), CockpitManager.getDefaultParamsCopy())
     }
 
     @AfterTest
@@ -54,13 +52,13 @@ class FileUtilsTest {
         System.out.println("Deleted directory $directory: $directoryResult")
     }
 
-    private fun getTestCockpitParams(): MutableList<Param<*>> {
-        val testParams: MutableList<Param<*>> = mutableListOf()
+    private fun getTestCockpitParams(): MutableList<CockpitParam<Any>> {
+        val testParams: MutableList<CockpitParam<Any>> = mutableListOf()
 
-        testParams.add(NotifiableParam("doubleParam", 3.0, null, null))
-        testParams.add(NotifiableParam("booleanParam", false, null, null))
-        testParams.add(NotifiableParam("stringParam", "testValue", null, null))
-        testParams.add(NotifiableParam("integerParam", 2, null, null))
+        testParams.add(CockpitParam("doubleParam", 3.0))
+        testParams.add(CockpitParam("booleanParam", false))
+        testParams.add(CockpitParam("stringParam", "testValue"))
+        testParams.add(CockpitParam("integerParam", 2))
 
         return testParams
     }
