@@ -1,55 +1,73 @@
 package com.polidea.cockpit.manager
 
-import com.polidea.cockpit.core.Param
+import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.event.PropertyChangeListener
-import kotlin.collections.ArrayList
+import com.polidea.cockpit.utils.FileUtils
+import com.polidea.cockpit.utils.copy
+import com.polidea.cockpit.utils.getParam
+import org.jetbrains.annotations.TestOnly
 
 object CockpitManager {
 
-    val params: MutableList<Param<*>> = ArrayList()
+    private val params: MutableList<CockpitParam<Any>> by lazy {
+        FileUtils.getParams().toMutableList()
+    }
 
-    var defaultParams: MutableList<Param<*>> = mutableListOf()
+    private val defaultParams: List<CockpitParam<Any>> by lazy {
+        FileUtils.getDefaultParams()
+    }
 
-    fun addParam(param: Param<*>) {
+    private val paramChangeNotifier = ParamChangeNotifier()
+
+    internal fun addParam(param: CockpitParam<*>) {
         checkIfExistsAndAddParam(param)
     }
 
-    private fun checkIfExistsAndAddParam(param: Param<*>) {
+    private fun checkIfExistsAndAddParam(param: CockpitParam<*>) {
         if (!exists(param.name)) {
             System.out.println("Param ${param.name} doesn't exist, adding")
-            params.add(NotifiableParam(param.name, param.value, param.description, param.group))
+            params.add(CockpitParam(param.name, param.value, param.description, param.group))
         } else {
             System.out.println("Param ${param.name} already exists")
         }
     }
 
-    fun <T : Any> getParamValue(name: String): T? = getParam<Param<T>>(name).value
-
-    fun <T : Any> setParamValue(key: String, value: T) {
-        val param = getParam<Param<T>>(key)
-        param.value = value
-    }
-
-    fun <T : Any> addOnParamChangeListener(key: String, listener: PropertyChangeListener<T>) {
-        val param = getParam<NotifiableParam<T>>(key)
-        param.addPropertyChangeListener(listener)
-    }
-
-    fun <T : Any> removeOnParamChangeListener(key: String, listener: PropertyChangeListener<T>) {
-        val param = getParam<NotifiableParam<T>>(key)
-        param.removePropertyChangeListener(listener)
-    }
-
-    fun exists(key: String) =
+    private fun exists(key: String) =
             params.find { it.name == key } != null
 
-    fun clear() {
-        params.clear()
-        defaultParams.clear()
+    fun <T : Any> getParamValue(name: String): T = params.getParam<CockpitParam<T>>(name).value
+
+    fun <T : Any> getParamDefaultValue(name: String): T = defaultParams.getParam<CockpitParam<T>>(name).value
+
+    internal fun setParamValues(params: Collection<CockpitParam<Any>>) {
+        params.forEach { setParamValue(it.name, it.value) }
     }
 
-    private inline fun <reified T : Any> getParam(name: String): T =
-            (params.find { it.name == name }
-                    ?: throw IllegalArgumentException("Param with name $name undefined!"))
-                    .let { it as T }
+    fun <T : Any> setParamValue(name: String, newValue: T) {
+        val param = params.getParam<CockpitParam<T>>(name)
+        val oldValue = param.value
+        param.value = newValue
+        paramChangeNotifier.firePropertyChange(name, oldValue, newValue)
+    }
+
+    fun <T : Any> addOnParamChangeListener(name: String, listener: PropertyChangeListener<T>) {
+        paramChangeNotifier.add(name, listener)
+    }
+
+    fun <T : Any> removeOnParamChangeListener(name: String, listener: PropertyChangeListener<T>) {
+        paramChangeNotifier.remove(name, listener)
+    }
+
+    internal fun getParamsCopy(): List<CockpitParam<Any>> = params.copy()
+
+    internal fun getDefaultParamsCopy(): List<CockpitParam<Any>> = defaultParams.copy()
+
+    fun save() {
+        FileUtils.saveCockpitAsYaml(params)
+    }
+
+    @TestOnly
+    internal fun clear() {
+        params.clear()
+    }
 }

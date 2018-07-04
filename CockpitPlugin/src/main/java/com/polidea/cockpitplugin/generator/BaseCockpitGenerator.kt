@@ -1,13 +1,13 @@
 package com.polidea.cockpitplugin.generator
 
-import com.polidea.cockpitplugin.core.Param
+import com.polidea.cockpitplugin.core.CockpitParam
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
 
 abstract class BaseCockpitGenerator {
 
-    abstract fun generate(params: List<Param<*>>, file: File?)
+    abstract fun generate(params: List<CockpitParam<*>>, file: File?)
 
     protected val cockpitPackage = "com.polidea.cockpit.cockpit"
     protected val cockpitManagerPackage = "com.polidea.cockpit.manager"
@@ -51,7 +51,7 @@ abstract class BaseCockpitGenerator {
         }
     }
 
-    inline protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: Param<T>,
+    protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: CockpitParam<T>,
                                                                                  configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
         val prefix = when (param.value) {
             is Boolean -> "is"
@@ -63,11 +63,19 @@ abstract class BaseCockpitGenerator {
                 .build()
     }
 
-    protected fun mapToTypeClass(param: Param<*>) = param.value::class.java
+    protected fun mapToTypeClass(param: CockpitParam<*>): Class<*> {
+        return when (param.value) {
+            is Boolean -> Boolean::class.java
+            is Double -> Double::class.java
+            is Int -> Int::class.java
+            else -> param.value::class.java
+        }
+    }
 
-    protected fun mapToJavaObjectTypeClass(param: Param<*>) = param.value::class.javaObjectType
 
-    protected fun createWrappedValueForParam(param: Param<*>): Any {
+    protected fun mapToJavaObjectTypeClass(param: CockpitParam<*>) = param.value::class.javaObjectType
+
+    protected fun createWrappedValueForParam(param: CockpitParam<*>): Any {
         return when (param.value.javaClass) {
             String::class.java -> "\"${param.value}\""
             else -> param.value

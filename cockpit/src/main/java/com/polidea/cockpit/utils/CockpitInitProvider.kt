@@ -9,7 +9,6 @@ class CockpitInitProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         FileUtils.init(context.filesDir.path, context.assets)
-        FileUtils.loadCockpitParams()
         return false
     }
 
