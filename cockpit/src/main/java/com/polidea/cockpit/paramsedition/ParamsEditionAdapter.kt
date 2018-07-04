@@ -12,34 +12,10 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParamBaseViewHolder<*> {
         return when (ParamType.fromOrdinal(viewType)) {
-            ParamType.BOOL -> BooleanParamViewHolder(inflateViewForHolder(R.layout.cockpit_boolean_param, parent))
-                    .apply {
-                        valueChangeListener = { v ->
-                            presenter.onParamChange(adapterPosition, v)
-                        }
-                        restoreClickListener = { presenter.restore(adapterPosition) }
-                    }
-            ParamType.INT -> IntParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent))
-                    .apply {
-                        valueChangeListener = { v ->
-                            presenter.onParamChange(adapterPosition, v)
-                        }
-                        restoreClickListener = { presenter.restore(adapterPosition) }
-                    }
-            ParamType.DOUBLE -> DoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent))
-                    .apply {
-                        valueChangeListener = { v ->
-                            presenter.onParamChange(adapterPosition, v)
-                        }
-                        restoreClickListener = { presenter.restore(adapterPosition) }
-                    }
-            ParamType.STRING -> StringParamViewHolder(inflateViewForHolder(R.layout.cockpit_string_param, parent))
-                    .apply {
-                        valueChangeListener = { v ->
-                            presenter.onParamChange(adapterPosition, v)
-                        }
-                        restoreClickListener = { presenter.restore(adapterPosition) }
-                    }
+            ParamType.BOOL -> BooleanParamViewHolder(inflateViewForHolder(R.layout.cockpit_boolean_param, parent)).configure()
+            ParamType.INT -> IntParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
+            ParamType.DOUBLE -> DoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
+            ParamType.STRING -> StringParamViewHolder(inflateViewForHolder(R.layout.cockpit_string_param, parent)).configure()
         }
     }
 
@@ -67,4 +43,10 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
 
     override fun getItemViewType(position: Int) =
             presenter.getParamAt<Any>(position).paramType().ordinal
+
+    private fun <T : Any> ParamBaseViewHolder<T>.configure(): ParamBaseViewHolder<T> {
+        valueChangeListener = { presenter.onParamChange(adapterPosition, it) }
+        restoreClickListener = { presenter.restore(adapterPosition) }
+        return this
+    }
 }

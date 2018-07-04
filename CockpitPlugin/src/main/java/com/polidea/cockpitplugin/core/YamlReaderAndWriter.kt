@@ -13,17 +13,17 @@ class YamlReaderAndWriter {
 
     private val mapper = ParamsMapper()
 
-    fun loadParamsFromYaml(yamlFile: File): List<CockpitParam<*>> {
+    fun loadParamsFromYaml(yamlFile: File): List<CockpitParam<Any>> {
         return loadParamsFromReader(yamlFile.bufferedReader())
     }
 
-    fun loadParamsFromReader(reader: Reader): List<CockpitParam<*>> {
+    fun loadParamsFromReader(reader: Reader): List<CockpitParam<Any>> {
         return mapper.toListOfParams(yaml.load(reader.use {
             it.readText()
         }))
     }
 
-    fun saveParamsToYaml(params: List<CockpitParam<*>>, yamlFile: File) {
+    fun saveParamsToYaml(params: List<CockpitParam<Any>>, yamlFile: File) {
         val writer = FileWriter(yamlFile)
         yaml.dump(mapper.toYamlMap(params), writer)
     }

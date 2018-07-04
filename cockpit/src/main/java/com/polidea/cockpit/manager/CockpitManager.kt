@@ -12,13 +12,13 @@ object CockpitManager {
         FileUtils.getParams().toMutableList()
     }
 
-    val defaultParams: List<CockpitParam<Any>> by lazy {
+    private val defaultParams: List<CockpitParam<Any>> by lazy {
         FileUtils.getDefaultParams()
     }
 
     private val paramChangeNotifier = ParamChangeNotifier()
 
-    fun addParam(param: CockpitParam<*>) {
+    internal fun addParam(param: CockpitParam<*>) {
         checkIfExistsAndAddParam(param)
     }
 
@@ -38,22 +38,15 @@ object CockpitManager {
 
     fun <T : Any> getParamDefaultValue(name: String): T = defaultParams.getParam<CockpitParam<T>>(name).value
 
-    fun setParamsValue(params: Collection<CockpitParam<Any>>) {
-        params.forEach { setParamValueWithAutoSave(it.name, it.value, false) }
-        save()
+    internal fun setParamValues(params: Collection<CockpitParam<Any>>) {
+        params.forEach { setParamValue(it.name, it.value) }
     }
 
     fun <T : Any> setParamValue(name: String, newValue: T) {
-        setParamValueWithAutoSave(name, newValue, true)
-    }
-
-    private fun <T : Any> setParamValueWithAutoSave(name: String, newValue: T, autoSave: Boolean) {
         val param = params.getParam<CockpitParam<T>>(name)
         val oldValue = param.value
         param.value = newValue
         paramChangeNotifier.firePropertyChange(name, oldValue, newValue)
-        if (autoSave)
-            save()
     }
 
     fun <T : Any> addOnParamChangeListener(name: String, listener: PropertyChangeListener<T>) {
@@ -64,15 +57,15 @@ object CockpitManager {
         paramChangeNotifier.remove(name, listener)
     }
 
-    fun clear() {
+    internal fun clear() {
         params.clear()
     }
 
-    fun getParamsCopy(): List<CockpitParam<Any>> = params.copy()
+    internal fun getParamsCopy(): List<CockpitParam<Any>> = params.copy()
 
-    fun getDefaultParamsCopy(): List<CockpitParam<Any>> = defaultParams.copy()
+    internal fun getDefaultParamsCopy(): List<CockpitParam<Any>> = defaultParams.copy()
 
-    private fun save() {
+    fun save() {
         FileUtils.saveCockpitAsYaml(params)
     }
 }

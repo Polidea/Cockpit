@@ -23,12 +23,8 @@ object FileUtils {
 
         val params = mutableListOf<CockpitParam<Any>>()
         inputParams.forEach { inputParam ->
-            val savedParam = savedParams.firstOrNull { inputParam.name == it.name }
-            if (savedParam != null) {
-                params.add(savedParam)
-            } else {
-                params.add(inputParam)
-            }
+            val param = savedParams.firstOrNull { inputParam.name == it.name } ?: inputParam
+            params.add(param)
         }
         return params
     }

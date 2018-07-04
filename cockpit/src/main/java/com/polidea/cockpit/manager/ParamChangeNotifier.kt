@@ -13,8 +13,7 @@ class ParamChangeNotifier {
     }
 
     fun <T : Any> remove(paramName: String, listener: PropertyChangeListener<T>) {
-        val paramListeners = listeners[paramName] ?: return
-        paramListeners.remove(listener)
+        listeners[paramName]?.remove(listener)
     }
 
     fun <T : Any> firePropertyChange(paramName: String, oldValue: T, newValue: T) {

@@ -8,7 +8,7 @@ class ParamsEditionModel {
 
     private var paramsCopy: List<CockpitParam<Any>> = CockpitManager.getParamsCopy()
 
-    val size : Int
+    val size: Int
         get() = paramsCopy.size
 
     fun <T : Any> getParamAt(position: Int): CockpitParam<T> =
@@ -28,6 +28,7 @@ class ParamsEditionModel {
     }
 
     fun save() {
-        CockpitManager.setParamsValue(paramsCopy)
+        CockpitManager.setParamValues(paramsCopy)
+        CockpitManager.save()
     }
 }
