@@ -4,7 +4,7 @@ import com.polidea.cockpit.BasePresenter
 import com.polidea.cockpit.BaseView
 import com.polidea.cockpit.core.CockpitParam
 
-interface ParamsEditionContract {
+internal interface ParamsEditionContract {
 
     interface View : BaseView<Presenter>, ParamView {
         fun expand()
@@ -27,6 +27,8 @@ interface ParamsEditionContract {
         fun getParamsSize(): Int
 
         fun <T : Any> onParamChange(position: Int, newValue: T)
+
+        fun <T : Any> onParamValueSelected(position: Int, selectedItemIndex: Int)
 
         fun requestAction(position: Int)
 

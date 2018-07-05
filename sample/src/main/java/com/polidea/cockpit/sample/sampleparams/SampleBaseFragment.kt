@@ -1,5 +1,6 @@
 package com.polidea.cockpit.sample.sampleparams
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.TypedValue
@@ -34,6 +35,10 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
 
     override fun setFooterText(footerText: String) {
         footer_text_view.text = footerText
+    }
+
+    override fun setTypeface(typeface: Typeface) {
+        cockpit_textview.typeface = typeface
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

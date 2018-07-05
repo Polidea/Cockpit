@@ -1,6 +1,6 @@
 package com.polidea.cockpitplugin.util
 
-class Util {
+internal class Util {
 
     companion object {
         // Kotlin version of following deep merge map method:

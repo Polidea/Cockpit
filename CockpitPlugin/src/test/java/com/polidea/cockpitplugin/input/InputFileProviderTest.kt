@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class InputFileProviderTest {
+internal class InputFileProviderTest {
 
     /* ******** No build types, no variant name test ******** */
 

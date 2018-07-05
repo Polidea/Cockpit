@@ -5,7 +5,7 @@ import com.android.build.gradle.api.BaseVariant
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class CockpitPlugin : Plugin<Project> {
+internal class CockpitPlugin : Plugin<Project> {
 
     override fun apply(project: Project?) {
         project?.plugins?.withId("com.android.application") {

@@ -2,8 +2,10 @@ package com.polidea.cockpit.manager
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.core.type.CockpitListType
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
+import com.polidea.cockpit.event.SelectionChangeListener
 import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.utils.copy
 import com.polidea.cockpit.utils.getParam
@@ -59,6 +61,27 @@ object CockpitManager {
     }
 
     fun <T : Any> removeOnParamChangeListener(name: String, listener: PropertyChangeListener<T>) {
+        paramChangeNotifier.remove(name, listener)
+    }
+
+    fun <T : Any> selectParamValue(name: String, selectedIndex: Int) {
+        val param = params.getParam<CockpitParam<CockpitListType<T>>>(name)
+        val previouslySelectedValue = param.value.getSelectedItem()
+        param.value.selectedIndex = selectedIndex
+        val currentlySelectedValue = param.value.getSelectedItem()
+        paramChangeNotifier.fireValueSelection(name, previouslySelectedValue, currentlySelectedValue)
+    }
+
+    fun <T : Any> getSelectedValue(name: String): T {
+        val param = params.getParam<CockpitParam<CockpitListType<T>>>(name)
+        return param.value.getSelectedItem()
+    }
+
+    fun <T : Any> addSelectionChangeListener(name: String, listener: SelectionChangeListener<T>) {
+        paramChangeNotifier.add(name, listener)
+    }
+
+    fun <T : Any> removeSelectionChangeListener(name: String, listener: SelectionChangeListener<T>) {
         paramChangeNotifier.remove(name, listener)
     }
 

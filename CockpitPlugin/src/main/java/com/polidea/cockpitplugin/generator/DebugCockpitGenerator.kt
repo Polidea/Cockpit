@@ -2,13 +2,14 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.core.type.CockpitListType
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.ParameterSpec
 import java.io.File
 import javax.lang.model.element.Modifier
 
 
-class DebugCockpitGenerator : BaseCockpitGenerator() {
+internal class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     override fun generate(params: List<CockpitParam<*>>, file: File?) {
         val propertyMethods = params.fold(mutableListOf<MethodSpec>()) { acc, param ->
@@ -17,6 +18,12 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                     is CockpitAction -> {
                         add(createAddActionRequestCallbackMethodSpecForParam(param))
                         add(createRemoveActionRequestCallbackMethodSpecForParam(param))
+                    }
+                    is CockpitListType<*> -> {
+                        val listTypeParam = param as CockpitParam<CockpitListType<*>>
+                        add(createAddSelectionChangeListenerMethodSpecForParam(listTypeParam))
+                        add(createRemoveSelectionChangeListenerMethodSpecForParam(listTypeParam))
+                        add(createSelectedValueGetterMethodSpecForParam(listTypeParam))
                     }
                     else -> {
                         add(createGetterMethodSpecForParam(param))
@@ -39,7 +46,6 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                     mapToTypeClass(param), cockpitManagerClassName)
         }
     }
-
 
     internal fun createSetterMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
         val typeClass = mapToTypeClass(param)
@@ -90,6 +96,36 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addParameter(ParameterSpec.builder(actionRequestCallbackClassName, callbackParamName).build())
                 .addStatement("\$T.INSTANCE.removeActionRequestCallback(\"${param.name}\", $callbackParamName)",
                         cockpitManagerClassName)
+                .build()
+    }
+
+    internal fun createAddSelectionChangeListenerMethodSpecForParam(param: CockpitParam<CockpitListType<*>>): MethodSpec {
+        val listenerParamName = "listener"
+        return MethodSpec.methodBuilder("add${param.name.capitalize()}SelectionChangeListener")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(ParameterSpec.builder(getParametrizedCockpitSelectionChangeListenerClassName(param.value.getSelectedItem()::class.java), listenerParamName).build())
+                .addStatement("\$T.INSTANCE.addSelectionChangeListener(\"${param.name}\", $listenerParamName)",
+                        cockpitManagerClassName)
+                .build()
+    }
+
+    internal fun createRemoveSelectionChangeListenerMethodSpecForParam(param: CockpitParam<CockpitListType<*>>): MethodSpec {
+        val listenerParamName = "listener"
+        return MethodSpec.methodBuilder("remove${param.name.capitalize()}SelectionChangeListener")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(ParameterSpec.builder(getParametrizedCockpitSelectionChangeListenerClassName(param.value.getSelectedItem()::class.java), listenerParamName).build())
+                .addStatement("\$T.INSTANCE.removeSelectionChangeListener(\"${param.name}\", $listenerParamName)",
+                        cockpitManagerClassName)
+                .build()
+    }
+
+    internal fun createSelectedValueGetterMethodSpecForParam(param: CockpitParam<CockpitListType<*>>): MethodSpec {
+        val returnType = param.value.items[0]::class.java
+
+        return MethodSpec.methodBuilder("get${param.name.capitalize()}SelectedValue")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .returns(returnType)
+                .addStatement("return \$T.INSTANCE.getSelectedValue(\"${param.name}\")", cockpitManagerClassName)
                 .build()
     }
 

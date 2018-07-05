@@ -1,6 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.type.CockpitListType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -50,5 +51,18 @@ class ReleaseCockpitGeneratorTest {
             |  return "testValue";
             |}"""
         assertEquals(expectedStringGetterMethodSpecString.trimMargin(), stringGetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createSelectedValueGetterMethodSpecForParamTest() {
+        val arrayList = listOf("a", "b", "c")
+        val funSpec = cockpitGenerator.createSelectedValueGetterMethodSpecForParam(CockpitParam("name", CockpitListType(arrayList, 1)))
+
+        val expectedFunSpecString = """
+            |public static java.lang.String getNameSelectedValue() {
+            |  return "b";
+            |}"""
+
+        assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
     }
 }

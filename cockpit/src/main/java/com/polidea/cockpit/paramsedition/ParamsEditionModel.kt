@@ -4,7 +4,7 @@ import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.manager.CockpitManager
 import com.polidea.cockpit.utils.getParam
 
-class ParamsEditionModel {
+internal class ParamsEditionModel {
 
     private var paramsCopy: List<CockpitParam<Any>> = CockpitManager.getParamsCopy()
 
@@ -18,6 +18,11 @@ class ParamsEditionModel {
         val param = paramsCopy[position]
         param.value = newValue
         CockpitManager.setParamValue(param.name, newValue)
+    }
+
+    fun <T : Any> selectValue(position: Int, selectedItemIndex: Int) {
+        val param = paramsCopy[position]
+        CockpitManager.selectParamValue<T>(param.name, selectedItemIndex)
     }
 
     fun restoreValue(position: Int) {

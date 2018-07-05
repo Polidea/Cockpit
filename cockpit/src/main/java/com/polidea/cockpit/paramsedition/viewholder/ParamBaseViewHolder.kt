@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 
-abstract class ParamBaseViewHolder<T : Any>(protected val view: View) : RecyclerView.ViewHolder(view) {
+internal abstract class ParamBaseViewHolder<T : Any>(protected val view: View) : RecyclerView.ViewHolder(view) {
 
     val name: TextView = view.findViewById(R.id.cockpit_param_name)
 

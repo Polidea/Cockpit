@@ -9,3 +9,6 @@ version:
   type: action
   description: "About application"
   buttonText: "Show"
+fontList:
+  type: list
+  values: [ "sans-serif", "sans-serif-thin", "sans-serif-medium", "sans-serif-condensed" ]

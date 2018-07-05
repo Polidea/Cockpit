@@ -11,7 +11,7 @@ import com.polidea.cockpit.R
 import com.polidea.cockpit.utils.getScreenHeight
 import com.polidea.cockpit.utils.removeDimmedBackground
 
-class CockpitDialog internal constructor() : BottomSheetDialogFragment(), ParamsEditionContract.View {
+internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(), ParamsEditionContract.View {
 
     private val peekHeight = getScreenHeight() / 2
     override lateinit var presenter: ParamsEditionContract.Presenter

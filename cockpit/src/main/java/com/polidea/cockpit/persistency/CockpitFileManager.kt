@@ -4,7 +4,7 @@ import android.content.res.AssetManager
 import com.polidea.cockpit.core.CockpitParam
 import java.io.File
 
-abstract class CockpitFileManager(private val filesDirPath: String, protected val assetManager: AssetManager) {
+internal abstract class CockpitFileManager(private val filesDirPath: String, protected val assetManager: AssetManager) {
 
     protected abstract val savedCockpitFileName: String
 
