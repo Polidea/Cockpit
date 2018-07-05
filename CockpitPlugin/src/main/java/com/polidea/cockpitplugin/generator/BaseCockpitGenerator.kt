@@ -1,11 +1,12 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.type.core.CockpitListType
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
 
-abstract class BaseCockpitGenerator {
+internal abstract class BaseCockpitGenerator {
 
     abstract fun generate(params: List<CockpitParam<*>>, file: File?)
 
@@ -15,18 +16,26 @@ abstract class BaseCockpitGenerator {
     private val cockpitDialogPackage = "com.polidea.cockpit.paramsedition"
     private val cockpitEventPackage = "com.polidea.cockpit.event"
 
+    protected val javaUtilPackage = "java.util"
+
     private val cockpit = "Cockpit"
     private val cockpitManager = "CockpitManager"
     private val fragmentManager = "FragmentManager"
     private val cockpitDialog = "CockpitDialog"
     private val propertyChangeListener = "PropertyChangeListener"
     private val actionRequestCallback = "ActionRequestCallback"
+    private val selectionChangeListener = "SelectionChangeListener"
+
+    protected val arrays = "Arrays"
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
     protected val androidFragmentManagerClassName = ClassName.get(androidSupportV4Package, fragmentManager)
     protected val cockpitDialogClassName = ClassName.get(cockpitDialogPackage, cockpitDialog)
     protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
     protected val actionRequestCallbackClassName = ClassName.get(cockpitEventPackage, actionRequestCallback)
+    protected val selectionChangeListenerClassName = ClassName.get(cockpitEventPackage, selectionChangeListener)
+
+    protected val arraysClassName = ClassName.get(javaUtilPackage, arrays)
 
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(propertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
@@ -67,13 +76,5 @@ abstract class BaseCockpitGenerator {
         }
     }
 
-
     protected fun mapToJavaObjectTypeClass(param: CockpitParam<*>) = param.value::class.javaObjectType
-
-    protected fun createWrappedValueForParam(param: CockpitParam<*>): Any {
-        return when (param.value.javaClass) {
-            String::class.java -> "\"${param.value}\""
-            else -> param.value
-        }
-    }
 }

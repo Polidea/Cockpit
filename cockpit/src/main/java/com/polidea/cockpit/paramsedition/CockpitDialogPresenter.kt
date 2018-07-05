@@ -3,7 +3,7 @@ package com.polidea.cockpit.paramsedition
 import com.polidea.cockpit.core.CockpitParam
 
 
-class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {
+internal class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {
 
     init {
         view.presenter = this
@@ -35,6 +35,10 @@ class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : Par
 
     override fun <T : Any> onParamChange(position: Int, newValue: T) {
         model.setValue(position, newValue)
+    }
+
+    override fun onParamValueSelected(position: Int, selectedItemIndex: Int) {
+        model.selectValue(position, selectedItemIndex)
     }
 
     override fun requestAction(position: Int) {

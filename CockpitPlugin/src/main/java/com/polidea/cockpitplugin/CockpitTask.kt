@@ -11,9 +11,9 @@ import org.gradle.api.tasks.*
 import java.io.File
 import java.io.Serializable
 
-class Flavor(val name: String, val dimension: String) : Serializable
+internal class Flavor(val name: String, val dimension: String) : Serializable
 
-open class CockpitTask : DefaultTask() {
+internal open class CockpitTask : DefaultTask() {
     private val cockpitDirectoryPath = "cockpit/"
     private val cockpitOutputDirectory = "${project.buildDir}/generated/source/cockpit/"
     private val cockpitAssetsOutputDirectory = "${project.buildDir}/generated/assets/"

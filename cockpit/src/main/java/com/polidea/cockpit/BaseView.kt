@@ -1,5 +1,5 @@
 package com.polidea.cockpit
 
-interface BaseView<T> {
+internal interface BaseView<T> {
     var presenter: T
 }

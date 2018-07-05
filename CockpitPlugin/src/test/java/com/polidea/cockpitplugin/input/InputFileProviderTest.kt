@@ -422,12 +422,12 @@ class InputFileProviderTest {
         val dimensionsApiMode = listOf("api", "mode")
         val dimensionsApiModeReversed = dimensionsApiMode.reversed()
 
-        val noFlavors = emptyList<Flavor>()
-        val flavorsApi = listOf(
+        internal val noFlavors = emptyList<Flavor>()
+        internal val flavorsApi = listOf(
                 Flavor("prod", "api"),
                 Flavor("staging", "api")
         )
-        val flavorsApiMode = listOf(
+        internal val flavorsApiMode = listOf(
                 Flavor("demo", "mode"),
                 Flavor("full", "mode"),
                 Flavor("prod", "api"),

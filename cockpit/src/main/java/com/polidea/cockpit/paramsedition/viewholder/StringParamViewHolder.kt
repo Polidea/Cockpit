@@ -6,7 +6,7 @@ import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.utils.TextWatcherAdapter
 
-class StringParamViewHolder(view: View) : ParamBaseValueWithRestoreViewHolder<String>(view) {
+internal class StringParamViewHolder(view: View) : ParamBaseValueWithRestoreViewHolder<String>(view) {
 
     private val value: AppCompatEditText = view.findViewById(R.id.cockpit_string_param_value)
 

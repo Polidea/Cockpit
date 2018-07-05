@@ -5,7 +5,7 @@ import android.view.View
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 
-class BooleanParamViewHolder(view: View) : ParamBaseValueViewHolder<Boolean>(view) {
+internal class BooleanParamViewHolder(view: View) : ParamBaseValueViewHolder<Boolean>(view) {
 
     private val selectionState: SwitchCompat = view.findViewById(R.id.cockpit_boolean_param_value)
 

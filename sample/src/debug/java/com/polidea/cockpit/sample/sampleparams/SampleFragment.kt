@@ -10,7 +10,6 @@ import com.polidea.cockpit.sample.R
 import kotlinx.android.synthetic.main.fragment_sample.*
 
 class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleContract.View {
-
     override lateinit var presenter: SampleContract.Presenter
 
     private val debugDescriptionView: TextView by lazy {

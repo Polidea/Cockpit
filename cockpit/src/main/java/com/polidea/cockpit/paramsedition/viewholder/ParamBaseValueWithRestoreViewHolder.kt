@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageButton
 import com.polidea.cockpit.R
 
-abstract class ParamBaseValueWithRestoreViewHolder<T : Any>(view: View) : ParamBaseValueViewHolder<T>(view) {
+internal abstract class ParamBaseValueWithRestoreViewHolder<T : Any>(view: View) : ParamBaseValueViewHolder<T>(view) {
 
     var restoreClickListener: (() -> Unit)? = null
 

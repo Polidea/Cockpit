@@ -2,7 +2,7 @@ package com.polidea.cockpit.manager
 
 import com.polidea.cockpit.event.ActionRequestCallback
 
-class CallbackNotifier {
+internal class CallbackNotifier {
 
     private val callbacks: MutableMap<String, MutableSet<ActionRequestCallback>> = mutableMapOf()
 

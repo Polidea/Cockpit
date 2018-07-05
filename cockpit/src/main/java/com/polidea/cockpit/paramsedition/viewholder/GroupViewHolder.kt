@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import com.polidea.cockpit.R
 
-class GroupViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+internal class GroupViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
     val name: TextView = view.findViewById(R.id.cockpit_group_name)
 

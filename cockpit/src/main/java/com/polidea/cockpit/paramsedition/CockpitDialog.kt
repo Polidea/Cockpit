@@ -11,7 +11,7 @@ import com.polidea.cockpit.R
 import com.polidea.cockpit.utils.getScreenHeight
 import com.polidea.cockpit.utils.removeDimmedBackground
 
-class CockpitDialog internal constructor() : BottomSheetDialogFragment(), ParamsEditionContract.View {
+internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(), ParamsEditionContract.View {
 
     private val peekHeight = getScreenHeight() / 2
     override lateinit var presenter: ParamsEditionContract.Presenter
@@ -59,7 +59,7 @@ class CockpitDialog internal constructor() : BottomSheetDialogFragment(), Params
     }
 
     private fun setupViews(view: View) {
-        paramsEditionAdapter = ParamsEditionAdapter(presenter)
+        paramsEditionAdapter = ParamsEditionAdapter(presenter, context!!)
         view.findViewById<RecyclerView>(R.id.params_list).adapter = paramsEditionAdapter
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)

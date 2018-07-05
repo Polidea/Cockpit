@@ -3,7 +3,7 @@ package com.polidea.cockpitplugin.input
 import com.polidea.cockpitplugin.Flavor
 import java.io.File
 
-class InputFilesProvider(private val cockpitDirectoryPath: String,
+internal class InputFilesProvider(private val cockpitDirectoryPath: String,
                          private val fileFactory: FileFactory) {
 
     fun getAllCockpitFilesForCurrentVariant(dimensions: List<String>, flavors: List<Flavor>, variantName: String, buildTypes: List<String>): List<File> {

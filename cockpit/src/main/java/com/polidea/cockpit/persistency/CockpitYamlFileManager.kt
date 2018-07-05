@@ -1,12 +1,12 @@
 package com.polidea.cockpit.persistency
 
+import android.content.res.AssetManager
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.YamlReaderAndWriter
-import android.content.res.AssetManager
 import java.io.BufferedReader
 import java.io.File
 
-class CockpitYamlFileManager(filesDirPath: String, assetManager: AssetManager) : CockpitFileManager(filesDirPath, assetManager) {
+internal class CockpitYamlFileManager(filesDirPath: String, assetManager: AssetManager) : CockpitFileManager(filesDirPath, assetManager) {
 
     override val savedCockpitFileName = "savedCockpit.yml"
     override val inputCockpitFileName = "mergedCockpit.yml"

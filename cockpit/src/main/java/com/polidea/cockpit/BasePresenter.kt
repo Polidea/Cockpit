@@ -1,6 +1,6 @@
 package com.polidea.cockpit
 
-interface BasePresenter {
+internal interface BasePresenter {
 
     fun start()
 

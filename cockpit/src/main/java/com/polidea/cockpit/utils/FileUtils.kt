@@ -6,7 +6,7 @@ import com.polidea.cockpit.persistency.CockpitYamlFileManager
 import org.jetbrains.annotations.TestOnly
 
 
-object FileUtils {
+internal object FileUtils {
 
     private lateinit var cockpitYamlFileManager: CockpitYamlFileManager
 

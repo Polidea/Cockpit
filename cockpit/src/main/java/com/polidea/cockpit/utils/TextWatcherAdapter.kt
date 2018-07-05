@@ -3,7 +3,7 @@ package com.polidea.cockpit.utils
 import android.text.Editable
 import android.text.TextWatcher
 
-open class TextWatcherAdapter : TextWatcher {
+internal open class TextWatcherAdapter : TextWatcher {
     override fun afterTextChanged(s: Editable?) {
     }
 

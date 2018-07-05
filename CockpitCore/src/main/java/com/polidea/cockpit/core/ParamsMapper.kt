@@ -1,6 +1,8 @@
 package com.polidea.cockpit.core
 
+import com.polidea.cockpit.core.exception.CockpitParseException
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.type.core.CockpitListType
 
 class ParamsMapper {
 
@@ -15,12 +17,30 @@ class ParamsMapper {
         }
     }
 
-    private fun fromSimpleYamlFormat(paramName: String, value: Any) = CockpitParam(paramName, value)
+    private fun fromSimpleYamlFormat(paramName: String, value: Any): CockpitParam<Any> {
+        System.out.println(paramName + " " + value::class.java)
+        val paramValue = when (value) {
+            is List<*> -> {
+                System.out.println("Is a list")
+                val values = value as List<Any>
+                values.forEach { System.out.println(it)}
+                CockpitListType(ArrayList<Any>(values), 0)
+            }
+            else -> value
+        }
+        return CockpitParam(paramName, paramValue)
+    }
 
     private fun fromExtendedYamlFormat(paramName: String, valueMap: Map<*, *>): CockpitParam<Any> {
         val type = ParamType.forValue(valueMap[KEY_TYPE] as String?)
         val value = when (type) {
             ParamsMapper.ParamType.ACTION -> CockpitAction(valueMap[KEY_ACTION_BUTTON_TEXT] as? String)
+            ParamsMapper.ParamType.LIST -> {
+                val values = valueMap[KEY_LIST_VALUES] as? List<*>
+                        ?: throw CockpitParseException("$paramName parameter must contain list of elements in `$KEY_LIST_VALUES` field")
+                val selectedIndex = (valueMap[KEY_LIST_SELECTION_INDEX] as Int?) ?: throw CockpitParseException("$KEY_LIST_SELECTION_INDEX field must be an integer")
+                CockpitListType(ArrayList<Any>(values), selectedIndex)
+            }
             ParamsMapper.ParamType.DEFAULT -> valueMap[KEY_VALUE] as Any
         }
         val description = valueMap[KEY_DESCRIPTION] as String?
@@ -31,7 +51,11 @@ class ParamsMapper {
     fun toYamlMap(params: List<CockpitParam<Any>>): Map<String, Any> {
         return linkedMapOf(*params.map {
             if (it.description == null && it.group == null) { // simple parameter with value only
-                toSimpleYamlFormat(it)
+                val value = it.value
+                when(value) {
+                    is CockpitListType<*> -> toExtendedYamlFormat(it)
+                    else -> toSimpleYamlFormat(it)
+                }
             } else { // parameter with description or group (or both of them)
                 toExtendedYamlFormat(it)
             }
@@ -47,6 +71,11 @@ class ParamsMapper {
             is CockpitAction -> {
                 map[KEY_TYPE] = ParamType.ACTION.value
                 value.buttonText?.let { map[KEY_ACTION_BUTTON_TEXT] = it }
+            }
+            is CockpitListType<*> -> {
+                map[KEY_TYPE] = ParamType.LIST.value
+                map[KEY_LIST_VALUES] = value.items
+                map[KEY_LIST_SELECTION_INDEX] = value.selectedIndex
             }
             else -> {
                 value.let { map[KEY_VALUE] = it }
@@ -65,10 +94,14 @@ class ParamsMapper {
         private const val KEY_GROUP = "group"
 
         private const val KEY_ACTION_BUTTON_TEXT = "buttonText"
+
+        private const val KEY_LIST_VALUES = "values"
+        private const val KEY_LIST_SELECTION_INDEX = "selectedItemIndex"
     }
 
     private enum class ParamType(val value: String) {
         ACTION("action"),
+        LIST("list"),
         DEFAULT("");
 
         companion object {

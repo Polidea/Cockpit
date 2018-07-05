@@ -6,7 +6,7 @@ import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
 
-class ActionParamViewHolder(view: View): ParamBaseViewHolder<CockpitAction>(view) {
+internal class ActionParamViewHolder(view: View): ParamBaseViewHolder<CockpitAction>(view) {
 
     var actionButtonClickListener: (() -> Unit)? = null
 
