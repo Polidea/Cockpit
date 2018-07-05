@@ -1,6 +1,6 @@
 package com.polidea.cockpitplugin.generator
 
-import com.polidea.cockpitplugin.core.CockpitParam
+import com.polidea.cockpit.core.CockpitParam
 import com.squareup.javapoet.MethodSpec
 import java.io.File
 

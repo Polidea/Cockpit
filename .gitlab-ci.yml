@@ -8,6 +8,7 @@ before_script:
 build:
   stage: build
   script:
+  - "cd CockpitCore && ./gradlew build && cd .."
   - "cd CockpitPlugin && ./gradlew build && cd .."
   - "./gradlew build"
   tags:
@@ -16,6 +17,7 @@ build:
 release_gradle_plugin:
   stage: release
   script:
+  - "cd CockpitCore && ./gradlew build && cd .."
   - "cd CockpitPlugin && ./gradlew build && cd .."
   - "./gradlew build"
   - "echo \"\ngradle.publish.key=$GRADLE_PUBLISH_KEY\" >> CockpitPlugin/gradle.properties"
@@ -29,6 +31,7 @@ release_gradle_plugin:
 release_sonatype_library:
   stage: release
   script:
+  - "cd CockpitCore && ./gradlew build && cd .."
   - "cd CockpitPlugin && ./gradlew build && cd .."
   - "./gradlew build"
   - "echo \"\nSONATYPE_NEXUS_USERNAME=$SONATYPE_NEXUS_USERNAME\" >> gradle.properties"
