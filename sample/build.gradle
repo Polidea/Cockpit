@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.polidea.cockpit'
 
 buildscript {
+    ext.cockpit_core_version = '1.1.1-SNAPSHOT'
     repositories {
         jcenter()
         mavenCentral()
@@ -13,7 +14,7 @@ buildscript {
     }
 
     dependencies {
-        classpath files('../CockpitPlugin/build/libs/CockpitPlugin-1.1.1-SNAPSHOT.jar')
+        classpath files("../CockpitPlugin/build/libs/CockpitPlugin-${cockpit_core_version}.jar")
         classpath "org.yaml:snakeyaml:1.20"
         classpath "com.squareup:javapoet:1.10.0"
     }
