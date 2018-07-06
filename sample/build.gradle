@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.polidea.cockpit'
 
 buildscript {
+    ext.cockpit_version = '1.1.1-SNAPSHOT'
+
     repositories {
         jcenter()
         mavenCentral()
@@ -11,11 +13,8 @@ buildscript {
             url "https://plugins.gradle.org/m2/"
         }
     }
-
     dependencies {
-        classpath files("../CockpitPlugin/build/libs/CockpitPlugin-${cockpit_core_version}.jar")
-        classpath "org.yaml:snakeyaml:1.20"
-        classpath "com.squareup:javapoet:1.10.0"
+        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:$cockpit_version"
     }
 }
 
@@ -83,7 +82,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    debugImplementation project(':cockpit')
+    debugImplementation "com.polidea.cockpit:cockpit:$cockpit_version"
+
 }
 
 task wrapper(type: Wrapper) {
