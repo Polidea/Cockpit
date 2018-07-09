@@ -1,4 +1,4 @@
-package com.polidea.cockpitplugin.core
+package com.polidea.cockpit.core
 
 // TODO: extract to core library
 data class CockpitParam<T : Any>(val name: String,
