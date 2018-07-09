@@ -12,11 +12,11 @@ class SampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
-        val apiPresentationFragment = supportFragmentManager.findFragmentById(R.id.contentFrame)
+        val sampleFragment = supportFragmentManager.findFragmentById(R.id.contentFrame)
                 as SampleFragment? ?: SampleFragment.newInstance().also {
             replaceFragmentInActivity(it, R.id.contentFrame)
         }
 
-        SamplePresenter(apiPresentationFragment)
+        SamplePresenter(sampleFragment)
     }
 }

@@ -67,10 +67,10 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
     internal fun generateShowCockpitMethod(): MethodSpec {
         return MethodSpec.methodBuilder("showCockpit")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(androidContextClassName, "context").build())
-                .addStatement("\$T intent = new \$T(context, \$T.class)",
-                        androidIntentClassName, androidIntentClassName, cockpitActivityClassName)
-                .addStatement("context.startActivity(intent)")
+                .addParameter(ParameterSpec.builder(androidFragmentManagerClassName, "fragmentManager").build())
+                .addStatement("\$T cockpitDialog = \$T.Companion.newInstance()",
+                        cockpitDialogClassName, cockpitDialogClassName)
+                .addStatement("cockpitDialog.show(fragmentManager, \"Cockpit\")")
                 .build()
     }
 }

@@ -3,28 +3,25 @@ package com.polidea.cockpit.paramsedition
 import com.polidea.cockpit.core.CockpitParam
 
 
-class ParamsEditionPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {
-
-    private val model = ParamsEditionModel()
+class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {
 
     init {
         view.presenter = this
     }
+
+    private val model = ParamsEditionModel()
 
     override fun start() {
         view.reloadAll()
     }
 
     override fun stop() {
+        model.save()
     }
 
     override fun <T : Any> getParamAt(position: Int): CockpitParam<T> = model.getParamAt(position)
 
     override fun getParamsSize() = model.size
-
-    override fun <T : Any> onParamChange(position: Int, newValue: T) {
-        model.setValue(position, newValue)
-    }
 
     override fun restore(position: Int) {
         model.restoreValue(position)
@@ -36,8 +33,15 @@ class ParamsEditionPresenter(private val view: ParamsEditionContract.View) : Par
         view.reloadAll()
     }
 
-    override fun save() {
-        model.save()
-        view.dismiss()
+    override fun <T : Any> onParamChange(position: Int, newValue: T) {
+        model.setValue(position, newValue)
+    }
+
+    override fun expand() {
+        view.expand()
+    }
+
+    override fun collapse() {
+        view.collapse()
     }
 }

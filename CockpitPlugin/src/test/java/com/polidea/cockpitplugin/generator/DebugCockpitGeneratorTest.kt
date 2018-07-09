@@ -198,9 +198,9 @@ class DebugCockpitGeneratorTest {
         val funSpec = cockpitGenerator.generateShowCockpitMethod()
 
         val expectedFunSpecString = """
-            |public static void showCockpit(android.content.Context context) {
-            |  android.content.Intent intent = new android.content.Intent(context, com.polidea.cockpit.activity.CockpitActivity.class);
-            |  context.startActivity(intent);
+            |public static void showCockpit(android.support.v4.app.FragmentManager fragmentManager) {
+            |  com.polidea.cockpit.paramsedition.CockpitDialog cockpitDialog = com.polidea.cockpit.paramsedition.CockpitDialog.Companion.newInstance();
+            |  cockpitDialog.show(fragmentManager, "Cockpit");
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
