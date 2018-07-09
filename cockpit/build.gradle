@@ -4,8 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply from: rootProject.file('gradle/publishing.gradle')
 
 buildscript {
-    ext.cockpit_core_version = '1.1.1-SNAPSHOT'
-
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.android.tools.build:gradle:3.1.3'
