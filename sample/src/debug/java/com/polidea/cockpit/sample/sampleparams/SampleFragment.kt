@@ -21,7 +21,7 @@ class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleCon
     }
 
     override fun showCockpitUi() {
-        Cockpit.showCockpit(activity)
+        Cockpit.showCockpit(fragmentManager)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

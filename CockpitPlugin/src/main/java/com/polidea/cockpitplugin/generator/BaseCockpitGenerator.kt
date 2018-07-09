@@ -9,28 +9,21 @@ abstract class BaseCockpitGenerator {
 
     abstract fun generate(params: List<CockpitParam<*>>, file: File?)
 
-    protected val cockpitPackage = "com.polidea.cockpit.cockpit"
-    protected val cockpitManagerPackage = "com.polidea.cockpit.manager"
-    protected val androidContentPackage = "android.content"
-    protected val cockpitActivityPackage = "com.polidea.cockpit.activity"
-    protected val cockpitUtilsPackage = "com.polidea.cockpit.utils"
-    protected val cockpitEventPackage = "com.polidea.cockpit.event"
+    private val cockpitPackage = "com.polidea.cockpit.cockpit"
+    private val cockpitManagerPackage = "com.polidea.cockpit.manager"
+    private val androidSupportV4Package = "android.support.v4.app"
+    private val cockpitDialogPackage = "com.polidea.cockpit.paramsedition"
+    private val cockpitEventPackage = "com.polidea.cockpit.event"
 
-    protected val cockpit = "Cockpit"
-    protected val cockpitManager = "CockpitManager"
-    protected val cockpitParam = "CockpitParam"
-    protected val intent = "Intent"
-    protected val context = "Context"
-    protected val cockpitActivity = "CockpitActivity"
-    protected val fileUtils = "FileUtils"
-    protected val propertyChangeListener = "PropertyChangeListener"
+    private val cockpit = "Cockpit"
+    private val cockpitManager = "CockpitManager"
+    private val fragmentManager = "FragmentManager"
+    private val cockpitDialog = "CockpitDialog"
+    private val propertyChangeListener = "PropertyChangeListener"
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
-    protected val cockpitParamClassName = ClassName.get(cockpitManagerPackage, cockpitParam)
-    protected val androidIntentClassName = ClassName.get(androidContentPackage, intent)
-    protected val androidContextClassName = ClassName.get(androidContentPackage, context)
-    protected val cockpitActivityClassName = ClassName.get(cockpitActivityPackage, cockpitActivity)
-    protected val fileUtilsClassName = ClassName.get(cockpitUtilsPackage, fileUtils)
+    protected val androidFragmentManagerClassName = ClassName.get(androidSupportV4Package, fragmentManager)
+    protected val cockpitDialogClassName = ClassName.get(cockpitDialogPackage, cockpitDialog)
     protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
 
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
@@ -52,7 +45,7 @@ abstract class BaseCockpitGenerator {
     }
 
     protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: CockpitParam<T>,
-                                                                                 configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
+                                                                          configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
         val prefix = when (param.value) {
             is Boolean -> "is"
             else -> "get"

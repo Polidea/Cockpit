@@ -7,8 +7,5 @@
             android:authorities="${applicationId}.CockpitInitProvider"
             android:name=".utils.CockpitInitProvider"
             android:exported="false"/>
-        <activity android:name="com.polidea.cockpit.activity.CockpitActivity"
-                  android:launchMode="singleTask"
-            android:theme="@style/CockpitTheme"/>
     </application>
 </manifest>

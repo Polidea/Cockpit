@@ -2,12 +2,15 @@ package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.BasePresenter
 import com.polidea.cockpit.BaseView
-import com.polidea.cockpit.Dismissable
 import com.polidea.cockpit.core.CockpitParam
 
 interface ParamsEditionContract {
 
-    interface View : BaseView<Presenter>, ParamView, Dismissable
+    interface View : BaseView<Presenter>, ParamView {
+        fun expand()
+
+        fun collapse()
+    }
 
     interface ParamView {
         fun reloadParam(position: Int)
@@ -27,6 +30,8 @@ interface ParamsEditionContract {
 
         fun restoreAll()
 
-        fun save()
+        fun expand()
+
+        fun collapse()
     }
 }

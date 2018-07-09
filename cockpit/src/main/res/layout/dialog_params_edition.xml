@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/action_bar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/expand_collapse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="▼▲"
+        app:layout_constraintBottom_toTopOf="@+id/params_list"
+        app:layout_constraintStart_toStartOf="@+id/action_bar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/params_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar" />
+
+    <Button
+        android:id="@+id/restore_defaults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="♻"
+        app:layout_constraintBottom_toTopOf="@+id/params_list"
+        app:layout_constraintEnd_toEndOf="@+id/action_bar"
+        app:layout_constraintTop_toTopOf="@+id/action_bar" />
+
+</android.support.constraint.ConstraintLayout>

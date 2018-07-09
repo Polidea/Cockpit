@@ -15,7 +15,9 @@ class ParamsEditionModel {
             paramsCopy.getParam(position)
 
     fun <T : Any> setValue(position: Int, newValue: T) {
-        paramsCopy[position].value = newValue
+        val param = paramsCopy[position]
+        param.value = newValue
+        CockpitManager.setParamValue(param.name, newValue)
     }
 
     fun restoreValue(position: Int) {
