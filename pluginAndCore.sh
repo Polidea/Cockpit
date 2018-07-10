@@ -18,30 +18,21 @@ perform() {
     cd ..
 }
 
-# http://linuxcommand.org/lc3_wss0120.php
-if [ "$1" = "" ]
-then
-    usage
-    exit 1
-fi
-
 # https://stackoverflow.com/a/16349776/4137318
 cd "${0%/*}"
 
-while [ "$1" != "" ]; do
-    case $1 in
-        -b | --build )      perform build
-                            exit
-                            ;;
-        -c | --clean )      perform clean
-                            exit
-                            ;;
-        -r | --rebuild )    perform clean
-                            perform build
-                            exit
-                            ;;
-        * )                 usage
-                            exit 1
-    esac
-    shift
-done
+# http://linuxcommand.org/lc3_wss0120.php
+case $1 in
+    -b | --build )      perform build
+                        exit
+                        ;;
+    -c | --clean )      perform clean
+                        exit
+                        ;;
+    -r | --rebuild )    perform clean
+                        perform build
+                        exit
+                        ;;
+    * )                 usage
+                        exit 1
+esac
