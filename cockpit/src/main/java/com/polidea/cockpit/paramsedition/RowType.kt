@@ -1,15 +1,17 @@
 package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.ParamType
 import com.polidea.cockpit.exception.UnsupportedCockpitTypeException
 import com.polidea.cockpit.utils.isTypeOf
 
-enum class ParamType {
-    BOOL, INT, DOUBLE, STRING;
+enum class RowType {
+    BOOL, INT, DOUBLE, STRING, ACTION;
 
     companion object {
-        fun getParamType(param: CockpitParam<Any>) =
+        fun getRowType(param: CockpitParam<Any>) =
                 when {
+                    param.type == ParamType.ACTION -> ACTION
                     param.isTypeOf<Boolean>() -> BOOL
                     param.isTypeOf<Int>() -> INT
                     param.isTypeOf<Double>() -> DOUBLE

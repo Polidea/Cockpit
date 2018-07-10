@@ -1,6 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.ParamType
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.ParameterSpec
 import java.io.File
@@ -14,8 +15,16 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
             acc.apply {
                 add(createGetterMethodSpecForParam(param))
                 add(createSetterMethodSpecForParam(param))
-                add(createAddPropertyChangeListenerMethodSpecForParam(param))
-                add(createRemovePropertyChangeListenerMethodSpecForParam(param))
+                when (param.type) {
+                    ParamType.ACTION -> {
+                        add(createAddActionCallbackMethodSpecForParam(param))
+                        add(createRemoveActionCallbackMethodSpecForParam(param))
+                    }
+                    ParamType.DEFAULT -> {
+                        add(createAddPropertyChangeListenerMethodSpecForParam(param))
+                        add(createRemovePropertyChangeListenerMethodSpecForParam(param))
+                    }
+                }
             }
         }
         generate(file) { builder ->
@@ -60,6 +69,26 @@ class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(getParametrizedCockpitPropertyChangeListenerClassName(typeClass), listenerParamName).build())
                 .addStatement("\$T.INSTANCE.removeOnParamChangeListener(\"${param.name}\", $listenerParamName)",
+                        cockpitManagerClassName)
+                .build()
+    }
+
+    internal fun createAddActionCallbackMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
+        val callbackParamName = "callback"
+        return MethodSpec.methodBuilder("add${param.name.capitalize()}ActionCallback")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(ParameterSpec.builder(actionCallbackClassName, callbackParamName).build())
+                .addStatement("\$T.INSTANCE.addActionCallback(\"${param.name}\", $callbackParamName)",
+                        cockpitManagerClassName)
+                .build()
+    }
+
+    internal fun createRemoveActionCallbackMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
+        val callbackParamName = "callback"
+        return MethodSpec.methodBuilder("remove${param.name.capitalize()}ActionCallback")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(ParameterSpec.builder(actionCallbackClassName, callbackParamName).build())
+                .addStatement("\$T.INSTANCE.removeActionCallback(\"${param.name}\", $callbackParamName)",
                         cockpitManagerClassName)
                 .build()
     }

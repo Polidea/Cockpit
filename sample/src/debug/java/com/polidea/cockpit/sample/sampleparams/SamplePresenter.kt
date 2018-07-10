@@ -3,7 +3,9 @@ package com.polidea.cockpit.sample.sampleparams
 import android.graphics.Color
 import android.util.Log
 import com.polidea.cockpit.cockpit.Cockpit
+import com.polidea.cockpit.event.ActionCallback
 import com.polidea.cockpit.event.PropertyChangeListener
+import com.polidea.cockpit.sample.BuildConfig
 
 class SamplePresenter(override val sampleView: SampleContract.View)
     : SampleBasePresenter(sampleView), SampleContract.Presenter {
@@ -14,6 +16,7 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     private lateinit var onFooterChangeListener: PropertyChangeListener<String>
     private lateinit var onShowFooterChangeListener: PropertyChangeListener<Boolean>
     private lateinit var onDebugDescriptionChangeListener: PropertyChangeListener<String>
+    private lateinit var versionActionCallback: ActionCallback
 
     init {
         sampleView.presenter = this
@@ -22,10 +25,21 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     override fun start() {
         super.start()
         setOnChangeListeners()
+        setCallbacks()
+    }
+
+    private fun setCallbacks() {
+        versionActionCallback = ActionCallback { sampleView.showMessage(BuildConfig.VERSION_NAME) }
+        Cockpit.addVersionActionCallback(versionActionCallback)
     }
 
     override fun stop() {
         removeOnChangeListeners()
+        removeCallbacks()
+    }
+
+    private fun removeCallbacks() {
+        Cockpit.removeVersionActionCallback(versionActionCallback)
     }
 
     override fun editValues() {

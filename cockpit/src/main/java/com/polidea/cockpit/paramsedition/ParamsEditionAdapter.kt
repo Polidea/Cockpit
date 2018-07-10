@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.polidea.cockpit.R
 import com.polidea.cockpit.paramsedition.viewholder.*
-import com.polidea.cockpit.utils.paramType
 
 class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : RecyclerView.Adapter<ParamBaseViewHolder<*>>(), ParamsEditionContract.ParamView {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParamBaseViewHolder<*> {
-        return when (ParamType.fromOrdinal(viewType)) {
-            ParamType.BOOL -> BooleanParamViewHolder(inflateViewForHolder(R.layout.cockpit_boolean_param, parent)).configure()
-            ParamType.INT -> IntParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
-            ParamType.DOUBLE -> DoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
-            ParamType.STRING -> StringParamViewHolder(inflateViewForHolder(R.layout.cockpit_string_param, parent)).configure()
+        return when (RowType.fromOrdinal(viewType)) {
+            RowType.BOOL -> BooleanParamViewHolder(inflateViewForHolder(R.layout.cockpit_boolean_param, parent)).configure()
+            RowType.INT -> IntParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
+            RowType.DOUBLE -> DoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
+            RowType.STRING -> StringParamViewHolder(inflateViewForHolder(R.layout.cockpit_string_param, parent)).configure()
+            RowType.ACTION -> ActionParamViewHolder(inflateViewForHolder(R.layout.cockpit_action_param, parent)).configure()
         }
     }
 
@@ -23,11 +23,12 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
             .inflate(layoutId, parent, false)
 
     override fun onBindViewHolder(holder: ParamBaseViewHolder<*>, position: Int) {
-        when (ParamType.fromOrdinal(getItemViewType(position))) {
-            ParamType.BOOL -> (holder as BooleanParamViewHolder).displayParam(presenter.getParamAt(position))
-            ParamType.INT -> (holder as IntParamViewHolder).displayParam(presenter.getParamAt(position))
-            ParamType.DOUBLE -> (holder as DoubleParamViewHolder).displayParam(presenter.getParamAt(position))
-            ParamType.STRING -> (holder as StringParamViewHolder).displayParam(presenter.getParamAt(position))
+        when (RowType.fromOrdinal(getItemViewType(position))) {
+            RowType.BOOL -> (holder as BooleanParamViewHolder).displayParam(presenter.getParamAt(position))
+            RowType.INT -> (holder as IntParamViewHolder).displayParam(presenter.getParamAt(position))
+            RowType.DOUBLE -> (holder as DoubleParamViewHolder).displayParam(presenter.getParamAt(position))
+            RowType.STRING -> (holder as StringParamViewHolder).displayParam(presenter.getParamAt(position))
+            RowType.ACTION -> (holder as ActionParamViewHolder).displayParam(presenter.getParamAt(position))
         }
     }
 
@@ -41,12 +42,19 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
 
     override fun getItemCount() = presenter.getParamsSize()
 
-    override fun getItemViewType(position: Int) =
-            presenter.getParamAt<Any>(position).paramType().ordinal
+    override fun getItemViewType(position: Int): Int {
+        val param = presenter.getParamAt<Any>(position)
+        return RowType.getRowType(param).ordinal
+    }
 
-    private fun <T : Any> ParamBaseViewHolder<T>.configure(): ParamBaseViewHolder<T> {
+    private fun <T : Any> ParamBaseValueViewHolder<T>.configure(): ParamBaseValueViewHolder<T> {
         valueChangeListener = { presenter.onParamChange(adapterPosition, it) }
         restoreClickListener = { presenter.restore(adapterPosition) }
+        return this
+    }
+
+    private fun ActionParamViewHolder.configure(): ActionParamViewHolder {
+        actionButtonClickListener = { presenter.performAction(adapterPosition) }
         return this
     }
 }

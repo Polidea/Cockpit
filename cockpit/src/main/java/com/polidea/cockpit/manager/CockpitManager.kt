@@ -1,6 +1,7 @@
 package com.polidea.cockpit.manager
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.event.ActionCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.utils.copy
@@ -19,6 +20,8 @@ object CockpitManager {
 
     private val paramChangeNotifier = ParamChangeNotifier()
 
+    private val callbackNotifier = CallbackNotifier()
+
     internal fun addParam(param: CockpitParam<*>) {
         checkIfExistsAndAddParam(param)
     }
@@ -26,7 +29,7 @@ object CockpitManager {
     private fun checkIfExistsAndAddParam(param: CockpitParam<*>) {
         if (!exists(param.name)) {
             System.out.println("Param ${param.name} doesn't exist, adding")
-            params.add(CockpitParam(param.name, param.value, param.description, param.group))
+            params.add(CockpitParam(param.name, param.value, param.type, param.description, param.group))
         } else {
             System.out.println("Param ${param.name} already exists")
         }
@@ -56,6 +59,18 @@ object CockpitManager {
 
     fun <T : Any> removeOnParamChangeListener(name: String, listener: PropertyChangeListener<T>) {
         paramChangeNotifier.remove(name, listener)
+    }
+
+    fun addActionCallback(name: String, callback: ActionCallback) {
+        callbackNotifier.add(name, callback)
+    }
+
+    fun removeActionCallback(name: String, callback: ActionCallback) {
+        callbackNotifier.remove(name, callback)
+    }
+
+    fun performAction(name: String) {
+        callbackNotifier.firePerformAction(name)
     }
 
     internal fun getParamsCopy(): List<CockpitParam<Any>> = params.copy()

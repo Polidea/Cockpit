@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.sample.R
 import kotlinx.android.synthetic.main.fragment_sample.*
@@ -22,6 +23,10 @@ class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleCon
 
     override fun showCockpitUi() {
         Cockpit.showCockpit(fragmentManager)
+    }
+
+    override fun showMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

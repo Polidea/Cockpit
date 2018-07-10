@@ -6,7 +6,6 @@ import java.io.File
 import java.io.FileWriter
 import java.io.Reader
 
-// TODO: extract to core library
 class YamlReaderAndWriter {
 
     private val yaml = Yaml(yamlLoaderOptions())

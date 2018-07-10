@@ -6,6 +6,8 @@ interface SampleContract {
         fun setDebugDescription(description: String)
 
         fun showCockpitUi()
+
+        fun showMessage(message: String)
     }
 
     interface Presenter : SampleBaseContract.Presenter {

@@ -5,3 +5,7 @@ colorDescription: "Calm green"
 fontSize: 30
 footer: "Created by Polidea"
 showFooter: true
+version:
+  type: action
+  description: "O aplikacji"
+  value: "Pokaż"

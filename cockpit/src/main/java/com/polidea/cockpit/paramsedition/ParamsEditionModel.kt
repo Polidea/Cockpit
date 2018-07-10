@@ -25,6 +25,11 @@ class ParamsEditionModel {
         param.value = CockpitManager.getParamDefaultValue(param.name)
     }
 
+    fun performAction(position: Int) {
+        val param = paramsCopy[position]
+        CockpitManager.performAction(param.name)
+    }
+
     fun restoreAll() {
         paramsCopy = CockpitManager.getDefaultParamsCopy()
     }
