@@ -8,6 +8,33 @@ import kotlin.test.assertEquals
 
 class InputFileProviderTest {
 
+    /* ******** No build types, no variant name test ******** */
+
+    @Test
+    fun createCockpitFilesNoBuildTypesNoVariantNameTest() {
+        val inputFilesProvider = createInputFilesProvider()
+        val variantName = ""
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(noDimensions, noFlavors, variantName, noBuildTypes)
+                .map { it.name }
+        val expectedFileNames = listOf("cockpit.yml")
+        assertEquals(expectedFileNames, fileNames)
+    }
+
+    /* ******** No build types test ******** */
+
+    @Test
+    fun createCockpitFilesNoBuildTypesTest() {
+        val inputFilesProvider = createInputFilesProvider()
+        val variantName = "debug"
+        val fileNames = inputFilesProvider.getAllCockpitFilesForCurrentVariant(noDimensions, noFlavors, variantName, noBuildTypes)
+                .map { it.name }
+        val expectedFileNames = listOf(
+                "cockpit.yml",
+                "cockpitDebug.yml"
+        )
+        assertEquals(expectedFileNames, fileNames)
+    }
+
     /* ******** No flavor dimensions test ******** */
 
     @Test
@@ -408,5 +435,6 @@ class InputFileProviderTest {
         )
 
         val buildTypes = listOf("debug", "release")
+        val noBuildTypes = emptyList<String>()
     }
 }

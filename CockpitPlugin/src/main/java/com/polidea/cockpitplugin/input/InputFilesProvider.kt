@@ -134,9 +134,12 @@ class InputFilesProvider(private val cockpitDirectoryPath: String,
             } // debug
         }
 
-        // At the end, we should add variantName as the last item, as variantName has the highest priority in
-        // resource merging order
-        variantsOrderedFromLowestPriority.add(variantName.capitalize()) // stagingDemoDebug
+        // If, for some reason, variant name is empty, we shouldn't take it under consideration
+        if (variantName.isNotEmpty()) {
+            // At the end, we should add variantName as the last item, as variantName has the highest priority in
+            // resource merging order
+            variantsOrderedFromLowestPriority.add(variantName.capitalize()) // stagingDemoDebug
+        }
 
         // Now we convert ["", "Demo", "Staging", "DemoStaging", ...] list to
         // ["cockpit.yml", "cockpitDemo.yml", "cockpitStaging.yml", "cockpitStagingDemo.yml", ... ] list

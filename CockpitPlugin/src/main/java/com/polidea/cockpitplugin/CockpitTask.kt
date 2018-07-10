@@ -70,11 +70,7 @@ open class CockpitTask : DefaultTask() {
         val dimensions = flavorDimensionList
         val flavors = productFlavorList
         val buildTypes = buildTypeList
-
-        val variantName = this.variantName ?: return emptyList()
-        if (dimensions.isEmpty()) return emptyList()
-        if (flavors.isEmpty()) return emptyList()
-        if (buildTypes.isEmpty()) return emptyList()
+        val variantName = this.variantName ?: ""
 
         return inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensions, flavors, variantName, buildTypes)
                 .filter { it.exists() }
