@@ -16,9 +16,9 @@ class CockpitPlugin : Plugin<Project> {
                     it.variantName = variant.name
                     it.variantDirName = variant.dirName
                     it.buildTypeName = variant.buildType.name
-                    it.flavorDimensionList = android.flavorDimensionList
-                    it.productFlavorList = android.productFlavors.map { Flavor(it.name, it.dimension) }
-                    it.buildTypeList = android.buildTypes.map { it.name }
+                    it.flavorDimensionList = android.flavorDimensionList ?: emptyList()
+                    it.productFlavorList = android.productFlavors.map { Flavor(it.name, it.dimension) } ?: emptyList()
+                    it.buildTypeList = android.buildTypes.map { it.name } ?: emptyList()
                 }
 
                 variant.registerJavaGeneratingTask(task, task.getCockpitOutputDirectory())

@@ -35,13 +35,13 @@ open class CockpitTask : DefaultTask() {
     var variantDirName: String? = null
 
     @Input
-    var flavorDimensionList: List<String>? = null
+    var flavorDimensionList: List<String> = emptyList()
 
     @Input
-    var productFlavorList: List<Flavor>? = null
+    var productFlavorList: List<Flavor> = emptyList()
 
     @Input
-    var buildTypeList: List<String>? = null
+    var buildTypeList: List<String> = emptyList()
 
     @TaskAction
     fun CockpitAction() {
@@ -67,10 +67,10 @@ open class CockpitTask : DefaultTask() {
 
     @InputFiles
     fun cockpitFiles(): List<File> {
-        val dimensions = flavorDimensionList ?: return emptyList()
-        val flavors = productFlavorList ?: return emptyList()
-        val variantName = this.variantName ?: return emptyList()
-        val buildTypes = buildTypeList ?: return emptyList()
+        val dimensions = flavorDimensionList
+        val flavors = productFlavorList
+        val buildTypes = buildTypeList
+        val variantName = this.variantName ?: ""
 
         return inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensions, flavors, variantName, buildTypes)
                 .filter { it.exists() }
