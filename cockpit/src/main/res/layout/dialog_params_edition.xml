@@ -4,22 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
+    <LinearLayout
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/action_bar"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="@dimen/peek_width"
+        android:background="@color/peek"
+        android:elevation="@dimen/peek_elevation"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/expand_collapse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:text="▼▲"
-        app:layout_constraintBottom_toTopOf="@+id/params_list"
-        app:layout_constraintStart_toStartOf="@+id/action_bar"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageButton
+            android:id="@+id/expand_collapse"
+            android:layout_width="@dimen/peek_button_width"
+            android:layout_height="@dimen/peek_button_width"
+            android:layout_marginEnd="@dimen/cockpit_margin"
+            android:layout_marginStart="@dimen/cockpit_margin"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/expanded" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/title"
+            android:textColor="@color/title"
+            android:textSize="@dimen/peek_title_font_size" />
+
+        <ImageButton
+            android:id="@+id/restore_defaults"
+            android:layout_width="@dimen/peek_button_width"
+            android:layout_height="@dimen/peek_button_width"
+            android:layout_marginEnd="@dimen/cockpit_margin"
+            android:layout_marginStart="@dimen/cockpit_margin"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/restore_gray" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/params_list"
@@ -31,14 +51,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_bar" />
-
-    <Button
-        android:id="@+id/restore_defaults"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="♻"
-        app:layout_constraintBottom_toTopOf="@+id/params_list"
-        app:layout_constraintEnd_toEndOf="@+id/action_bar"
-        app:layout_constraintTop_toTopOf="@+id/action_bar" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="action_bar">#377dcc</color>
+    <color name="peek">#f5f5f5</color>
+    <color name="title">#de000000</color>
+    <color name="content_background">#fafafa</color>
 </resources>
