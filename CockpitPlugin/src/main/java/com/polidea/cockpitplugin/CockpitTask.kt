@@ -45,7 +45,7 @@ open class CockpitTask : DefaultTask() {
 
     @TaskAction
     fun CockpitAction() {
-        val cockpitLists = cockpitFiles().map { yamlReaderAndWriter.loadParamsFromYaml(it) }
+        val cockpitLists = cockpitFiles.map { yamlReaderAndWriter.loadParamsFromYaml(it) }
 
         if (cockpitLists.isNotEmpty()) {
             val cockpitMaps = cockpitLists.map { linkedMapOf(*it.map { Pair(it.name, it) }.toTypedArray()) }.toMutableList()
@@ -65,17 +65,18 @@ open class CockpitTask : DefaultTask() {
         }
     }
 
-    @InputFiles
-    fun cockpitFiles(): List<File> {
-        val dimensions = flavorDimensionList
-        val flavors = productFlavorList
-        val buildTypes = buildTypeList
-        val variantName = this.variantName ?: ""
+    val cockpitFiles: List<File>
+        @InputFiles
+        get() {
+            val dimensions = flavorDimensionList
+            val flavors = productFlavorList
+            val buildTypes = buildTypeList
+            val variantName = this.variantName ?: ""
 
-        return inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensions, flavors, variantName, buildTypes)
-                .filter { it.exists() }
+            return inputFilesProvider.getAllCockpitFilesForCurrentVariant(dimensions, flavors, variantName, buildTypes)
+                    .filter { it.exists() }
 
-    }
+        }
 
     @OutputDirectory
     fun getCockpitOutputDirectory(): File {
