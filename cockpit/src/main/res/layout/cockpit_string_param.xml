@@ -3,48 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/cockpit_param_vertical_margin">
 
-    <include
-        layout="@layout/cockpit_param_name"
+    <TextView
+        android:id="@+id/cockpit_param_name"
+        style="@style/CockpitParamName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cockpit_string_param_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/cockpit_string_param_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cockpit_boolean_param_restore"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="string value" />
-
-    <include
-        android:id="@+id/cockpit_boolean_param_restore"
-        layout="@layout/cockpit_param_restore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/cockpit_margin"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        android:textColor="@color/cockpit_string_param_name"
+        android:textSize="@dimen/cockpit_string_param_text_size"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Param Name" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/cockpit_string_param_value"
+        style="@style/CockpitValueEditText"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        android:maxLines="5"
+        android:paddingTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_param_restore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cockpit_param_name"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida venenatis accumsan. In mi massa, tempus" />
+
+    <ImageButton
+        android:id="@+id/cockpit_param_restore"
+        style="@style/CockpitRestoreValueImageButton"
+        android:layout_marginEnd="@dimen/cockpit_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

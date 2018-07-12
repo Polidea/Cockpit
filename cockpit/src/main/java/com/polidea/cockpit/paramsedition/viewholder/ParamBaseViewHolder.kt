@@ -15,10 +15,10 @@ abstract class ParamBaseViewHolder<T : Any>(protected val view: View) : Recycler
 
     val name: TextView = view.findViewById(R.id.cockpit_param_name)
 
-    private val restore: ImageButton = view.findViewById(R.id.cockpit_param_restore)
+    private val restore: ImageButton? = view.findViewById(R.id.cockpit_param_restore)
 
     init {
-        restore.setOnClickListener { restoreClickListener?.invoke() }
+        restore?.setOnClickListener { restoreClickListener?.invoke() }
     }
 
     open fun displayParam(param: CockpitParam<T>) {

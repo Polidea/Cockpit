@@ -1,14 +1,14 @@
 package com.polidea.cockpit.paramsedition.viewholder
 
+import android.support.v7.widget.AppCompatEditText
 import android.view.View
-import android.widget.EditText
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.utils.TextWatcherAdapter
 
 class StringParamViewHolder(view: View) : ParamBaseViewHolder<String>(view) {
 
-    private val value: EditText = view.findViewById(R.id.cockpit_string_param_value)
+    private val value: AppCompatEditText = view.findViewById(R.id.cockpit_string_param_value)
 
     init {
         value.addTextChangedListener(object : TextWatcherAdapter() {

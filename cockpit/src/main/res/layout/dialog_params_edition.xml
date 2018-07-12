@@ -2,22 +2,24 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/cockpit_content_background"
+    android:theme="@style/CockpitTheme">
 
     <LinearLayout
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/peek_width"
-        android:background="@color/peek"
-        android:elevation="@dimen/peek_elevation"
+        android:layout_height="@dimen/cockpit_peek_width"
+        android:background="@color/cockpit_peek"
+        android:elevation="@dimen/cockpit_peek_elevation"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/expand_collapse"
-            android:layout_width="@dimen/peek_button_width"
-            android:layout_height="@dimen/peek_button_width"
+            android:layout_width="@dimen/cockpit_peek_button_width"
+            android:layout_height="@dimen/cockpit_peek_button_width"
             android:layout_marginEnd="@dimen/cockpit_margin"
             android:layout_marginStart="@dimen/cockpit_margin"
             android:background="?android:attr/selectableItemBackgroundBorderless"
@@ -28,13 +30,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/title"
-            android:textColor="@color/title"
-            android:textSize="@dimen/peek_title_font_size" />
+            android:textColor="@color/cockpit_text"
+            android:textSize="@dimen/cockpit_peek_title_font_size" />
 
         <ImageButton
             android:id="@+id/restore_defaults"
-            android:layout_width="@dimen/peek_button_width"
-            android:layout_height="@dimen/peek_button_width"
+            android:layout_width="@dimen/cockpit_peek_button_width"
+            android:layout_height="@dimen/cockpit_peek_button_width"
             android:layout_marginEnd="@dimen/cockpit_margin"
             android:layout_marginStart="@dimen/cockpit_margin"
             android:background="?android:attr/selectableItemBackgroundBorderless"
