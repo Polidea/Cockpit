@@ -1,7 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.core.ParamType
+import com.polidea.cockpit.core.type.CockpitAction
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -195,29 +195,27 @@ class DebugCockpitGeneratorTest {
     }
 
     @Test
-    fun createAddActionCallbackMethodSpecForStringParamTest() {
-        val actionCallbackMethodSpec = cockpitGenerator.createAddActionCallbackMethodSpecForParam(CockpitParam("value", "show", ParamType.ACTION))
+    fun createAddActionRequestCallbackMethodSpecForStringParamTest() {
+        val actionCallbackMethodSpec = cockpitGenerator.createAddActionRequestCallbackMethodSpecForParam(CockpitParam("value", CockpitAction("show")))
 
-        val expectedActionCallbackMethodSpecString = """
-            |public static void addValueActionCallback(com.polidea.cockpit.event.ActionCallback callback) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addActionCallback("value", callback);
+        val expectedActionRequestCallbackMethodSpecString = """
+            |public static void addValueActionRequestCallback(
+            |    com.polidea.cockpit.event.ActionRequestCallback callback) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addActionRequestCallback("value", callback);
             |}"""
-        System.out.println("Expected:\n${expectedActionCallbackMethodSpecString.trimMargin()}")
-        System.out.println("Given   :\n${actionCallbackMethodSpec.toString().trimMargin()}")
-        assertEquals(expectedActionCallbackMethodSpecString.trimMargin(), actionCallbackMethodSpec.toString().trimMargin())
+        assertEquals(expectedActionRequestCallbackMethodSpecString.trimMargin(), actionCallbackMethodSpec.toString().trimMargin())
     }
 
     @Test
-    fun createRemoveActionCallbackMethodSpecForStringParamTest() {
-        val actionCallbackMethodSpec = cockpitGenerator.createRemoveActionCallbackMethodSpecForParam(CockpitParam("value", "show", ParamType.ACTION))
+    fun createRemoveActionRequestCallbackMethodSpecForStringParamTest() {
+        val actionCallbackMethodSpec = cockpitGenerator.createRemoveActionRequestCallbackMethodSpecForParam(CockpitParam("value", CockpitAction("show")))
 
-        val expectedActionCallbackMethodSpecString = """
-            |public static void removeValueActionCallback(com.polidea.cockpit.event.ActionCallback callback) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeActionCallback("value", callback);
+        val expectedActionRequestCallbackMethodSpecString = """
+            |public static void removeValueActionRequestCallback(
+            |    com.polidea.cockpit.event.ActionRequestCallback callback) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeActionRequestCallback("value", callback);
             |}"""
-        System.out.println("Expected:\n${expectedActionCallbackMethodSpecString.trimMargin()}")
-        System.out.println("Given   :\n${actionCallbackMethodSpec.toString().trimMargin()}")
-        assertEquals(expectedActionCallbackMethodSpecString.trimMargin(), actionCallbackMethodSpec.toString().trimMargin())
+        assertEquals(expectedActionRequestCallbackMethodSpecString.trimMargin(), actionCallbackMethodSpec.toString().trimMargin())
     }
 
     @Test
@@ -231,16 +229,5 @@ class DebugCockpitGeneratorTest {
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
-    }
-
-    private fun getTestParams(): List<CockpitParam<*>> {
-        val testParams: MutableList<CockpitParam<*>> = mutableListOf()
-
-        testParams.add(CockpitParam("doubleParam", 3.0))
-        testParams.add(CockpitParam("booleanParam", false))
-        testParams.add(CockpitParam("stringParam", "testValue"))
-        testParams.add(CockpitParam("integerParam", 2))
-
-        return testParams
     }
 }

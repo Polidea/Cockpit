@@ -26,7 +26,7 @@ interface ParamsEditionContract {
 
         fun <T : Any> onParamChange(position: Int, newValue: T)
 
-        fun performAction(position: Int)
+        fun requestAction(position: Int)
 
         fun restore(position: Int)
 

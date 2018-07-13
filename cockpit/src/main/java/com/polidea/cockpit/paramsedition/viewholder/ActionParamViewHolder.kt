@@ -4,8 +4,9 @@ import android.view.View
 import android.widget.Button
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.type.CockpitAction
 
-class ActionParamViewHolder(view: View): ParamBaseViewHolder<String>(view) {
+class ActionParamViewHolder(view: View): ParamBaseViewHolder<CockpitAction>(view) {
 
     var actionButtonClickListener: (() -> Unit)? = null
 
@@ -15,8 +16,8 @@ class ActionParamViewHolder(view: View): ParamBaseViewHolder<String>(view) {
         actionButton.setOnClickListener { actionButtonClickListener?.invoke() }
     }
 
-    override fun displayParam(param: CockpitParam<String>) {
+    override fun displayParam(param: CockpitParam<CockpitAction>) {
         super.displayParam(param)
-        actionButton.text = param.value
+        actionButton.text = param.value.buttonText
     }
 }

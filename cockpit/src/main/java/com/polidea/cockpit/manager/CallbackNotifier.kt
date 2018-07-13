@@ -1,27 +1,27 @@
 package com.polidea.cockpit.manager
 
-import com.polidea.cockpit.event.ActionCallback
+import com.polidea.cockpit.event.ActionRequestCallback
 
 class CallbackNotifier {
 
-    private val callbacks: MutableMap<String, MutableSet<ActionCallback>> = mutableMapOf()
+    private val callbacks: MutableMap<String, MutableSet<ActionRequestCallback>> = mutableMapOf()
 
-    fun add(paramName: String, callback: ActionCallback) {
+    fun add(paramName: String, callback: ActionRequestCallback) {
         val paramListeners = getCallbacks(paramName)
         paramListeners.add(callback)
         callbacks[paramName] = paramListeners
     }
 
-    fun remove(paramName: String, callback: ActionCallback) {
+    fun remove(paramName: String, callback: ActionRequestCallback) {
         callbacks[paramName]?.remove(callback)
     }
 
-    fun firePerformAction(paramName: String) {
+    fun fireRequestAction(paramName: String) {
         val paramListeners = getCallbacks(paramName)
         paramListeners.forEach {
-            it.onActionPerform(paramName)
+            it.onActionRequested()
         }
     }
 
-    private fun getCallbacks(name: String): MutableSet<ActionCallback> = callbacks[name] ?: mutableSetOf()
+    private fun getCallbacks(name: String): MutableSet<ActionRequestCallback> = callbacks[name] ?: mutableSetOf()
 }

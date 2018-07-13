@@ -7,5 +7,5 @@ footer: "Created by Polidea"
 showFooter: true
 version:
   type: action
-  description: "O aplikacji"
-  value: "Pokaż"
+  description: "About application"
+  buttonText: "Show"
