@@ -9,7 +9,7 @@ enum class ParamType {
     BOOL, INT, DOUBLE, STRING, ACTION;
 
     companion object {
-        fun getRowType(param: CockpitParam<Any>) =
+        fun getParamType(param: CockpitParam<Any>) =
                 when {
                     param.isTypeOf<Boolean>() -> BOOL
                     param.isTypeOf<Int>() -> INT

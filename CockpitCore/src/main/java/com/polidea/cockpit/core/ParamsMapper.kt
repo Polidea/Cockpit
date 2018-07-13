@@ -20,7 +20,7 @@ class ParamsMapper {
     private fun fromExtendedYamlFormat(paramName: String, valueMap: Map<*, *>): CockpitParam<Any> {
         val type = ParamType.forValue(valueMap[KEY_TYPE] as String?)
         val value = when (type) {
-            ParamsMapper.ParamType.ACTION -> CockpitAction(valueMap[KEY_ACTION_BUTTON_TEXT] as? String ?: "")
+            ParamsMapper.ParamType.ACTION -> CockpitAction(valueMap[KEY_ACTION_BUTTON_TEXT] as? String)
             ParamsMapper.ParamType.DEFAULT -> valueMap[KEY_VALUE] as Any
         }
         val description = valueMap[KEY_DESCRIPTION] as String?
@@ -46,7 +46,7 @@ class ParamsMapper {
         when (value) {
             is CockpitAction -> {
                 map[KEY_TYPE] = ParamType.ACTION.value
-                map[KEY_ACTION_BUTTON_TEXT] = value.buttonText
+                value.buttonText?.let { map[KEY_ACTION_BUTTON_TEXT] = it }
             }
             else -> {
                 value.let { map[KEY_VALUE] = it }

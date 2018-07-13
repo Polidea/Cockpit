@@ -18,6 +18,6 @@ class ActionParamViewHolder(view: View): ParamBaseViewHolder<CockpitAction>(view
 
     override fun displayParam(param: CockpitParam<CockpitAction>) {
         super.displayParam(param)
-        actionButton.text = param.value.buttonText
+        actionButton.text = param.value.buttonText ?: view.context.getText(R.string.action_button_text_default)
     }
 }

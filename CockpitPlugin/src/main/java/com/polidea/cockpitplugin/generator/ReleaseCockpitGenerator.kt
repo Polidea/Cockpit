@@ -10,7 +10,6 @@ class ReleaseCockpitGenerator : BaseCockpitGenerator() {
     override fun generate(params: List<CockpitParam<*>>, file: File?) {
         val propertyMethods = params.fold(mutableListOf<MethodSpec>()) { acc, param ->
             acc.apply {
-                System.out.println(param.name + " " + param.value::class.java)
                 when (param.value) {
                     is CockpitAction -> Unit // we don't need getter for action
                     else -> add(createGetterMethodSpecForParam(param))

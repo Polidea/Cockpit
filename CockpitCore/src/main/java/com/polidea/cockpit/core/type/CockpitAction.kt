@@ -1,3 +1,3 @@
 package com.polidea.cockpit.core.type
 
-class CockpitAction(val buttonText: String)
+class CockpitAction(val buttonText: String?)

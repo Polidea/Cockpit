@@ -16,7 +16,7 @@ class CallbackNotifier {
         callbacks[paramName]?.remove(callback)
     }
 
-    fun fireRequestAction(paramName: String) {
+    fun requestAction(paramName: String) {
         val paramListeners = getCallbacks(paramName)
         paramListeners.forEach {
             it.onActionRequested()

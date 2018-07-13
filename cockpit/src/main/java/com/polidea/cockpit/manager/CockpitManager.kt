@@ -1,6 +1,7 @@
 package com.polidea.cockpit.manager
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.utils.FileUtils
@@ -70,7 +71,7 @@ object CockpitManager {
     }
 
     fun requestAction(name: String) {
-        callbackNotifier.fireRequestAction(name)
+        callbackNotifier.requestAction(name)
     }
 
     internal fun getParamsCopy(): List<CockpitParam<Any>> = params.copy()
@@ -78,7 +79,9 @@ object CockpitManager {
     internal fun getDefaultParamsCopy(): List<CockpitParam<Any>> = defaultParams.copy()
 
     fun save() {
-        FileUtils.saveCockpitAsYaml(params)
+        // CockpitAction param should not be persisted because there is no getter and setter that
+        // can change its value. `buttonText` property should be always loaded from cockpit.yml
+        FileUtils.saveCockpitAsYaml(params.filter { it.value !is CockpitAction })
     }
 
     @TestOnly

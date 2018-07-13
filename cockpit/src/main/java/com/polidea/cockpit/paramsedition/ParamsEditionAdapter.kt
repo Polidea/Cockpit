@@ -44,12 +44,17 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
 
     override fun getItemViewType(position: Int): Int {
         val param = presenter.getParamAt<Any>(position)
-        return ParamType.getRowType(param).ordinal
+        return ParamType.getParamType(param).ordinal
+    }
+
+    private fun <T : Any> ParamBaseValueWithRestoreViewHolder<T>.configure(): ParamBaseValueWithRestoreViewHolder<T> {
+        (this as ParamBaseValueViewHolder<T>).configure()
+        restoreClickListener = { presenter.restore(adapterPosition) }
+        return this
     }
 
     private fun <T : Any> ParamBaseValueViewHolder<T>.configure(): ParamBaseValueViewHolder<T> {
         valueChangeListener = { presenter.onParamChange(adapterPosition, it) }
-        restoreClickListener = { presenter.restore(adapterPosition) }
         return this
     }
 
