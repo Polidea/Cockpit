@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/cockpit_group_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/cockpit_group_separator_height"
+        android:background="@color/cockpit_group_separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cockpit_group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/cockpit_margin"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        android:layout_marginTop="@dimen/cockpit_group_top_margin"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/cockpit_dark_blue"
+        android:textSize="@dimen/cockpit_group_title_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cockpit_group_separator"
+        tools:text="Group Name" />
+</android.support.constraint.ConstraintLayout>

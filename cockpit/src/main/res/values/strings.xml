@@ -1,5 +1,4 @@
 <resources>
     <public />
-    <string name="cockpit_save_button">SAVE</string>
-    <string name="cockpit_restore_defaults">Restore defaults</string>
+    <string name="title">Cockpit</string>
 </resources>
