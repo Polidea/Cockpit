@@ -24,8 +24,12 @@ object FileUtils {
 
         val params = mutableListOf<CockpitParam<Any>>()
         inputParams.forEach { inputParam ->
+            // latest version of param: saved param, if exists, or default - otherwise
             val param = savedParams.firstOrNull { inputParam.name == it.name } ?: inputParam
-            params.add(param)
+            val lastValue = param.value
+            // we need only value from saved param, the rest:
+            // group, description, etc. should be taken from default (cockpit*.yml) param
+            params.add(inputParam.copy(value = lastValue))
         }
         return params
     }

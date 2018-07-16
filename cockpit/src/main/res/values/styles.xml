@@ -33,4 +33,5 @@
         <item name="android:layout_width">@dimen/cockpit_restore_value_button_size</item>
         <item name="android:layout_height">@dimen/cockpit_restore_value_button_size</item>
     </style>
+
 </resources>

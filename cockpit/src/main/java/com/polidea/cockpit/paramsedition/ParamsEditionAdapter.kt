@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.polidea.cockpit.R
 import com.polidea.cockpit.paramsedition.viewholder.*
-import com.polidea.cockpit.utils.paramType
 
 class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : RecyclerView.Adapter<ParamBaseViewHolder<*>>(), ParamsEditionContract.ParamView {
 
@@ -16,6 +15,7 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
             ParamType.INT -> IntParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
             ParamType.DOUBLE -> DoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_number_param, parent)).configure()
             ParamType.STRING -> StringParamViewHolder(inflateViewForHolder(R.layout.cockpit_string_param, parent)).configure()
+            ParamType.ACTION -> ActionParamViewHolder(inflateViewForHolder(R.layout.cockpit_action_param, parent)).configure()
         }
     }
 
@@ -28,6 +28,7 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
             ParamType.INT -> (holder as IntParamViewHolder).displayParam(presenter.getParamAt(position))
             ParamType.DOUBLE -> (holder as DoubleParamViewHolder).displayParam(presenter.getParamAt(position))
             ParamType.STRING -> (holder as StringParamViewHolder).displayParam(presenter.getParamAt(position))
+            ParamType.ACTION -> (holder as ActionParamViewHolder).displayParam(presenter.getParamAt(position))
         }
     }
 
@@ -41,12 +42,24 @@ class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : Rec
 
     override fun getItemCount() = presenter.getParamsSize()
 
-    override fun getItemViewType(position: Int) =
-            presenter.getParamAt<Any>(position).paramType().ordinal
+    override fun getItemViewType(position: Int): Int {
+        val param = presenter.getParamAt<Any>(position)
+        return ParamType.getParamType(param).ordinal
+    }
 
-    private fun <T : Any> ParamBaseViewHolder<T>.configure(): ParamBaseViewHolder<T> {
-        valueChangeListener = { presenter.onParamChange(adapterPosition, it) }
+    private fun <T : Any> ParamBaseValueWithRestoreViewHolder<T>.configure(): ParamBaseValueWithRestoreViewHolder<T> {
+        (this as ParamBaseValueViewHolder<T>).configure()
         restoreClickListener = { presenter.restore(adapterPosition) }
+        return this
+    }
+
+    private fun <T : Any> ParamBaseValueViewHolder<T>.configure(): ParamBaseValueViewHolder<T> {
+        valueChangeListener = { presenter.onParamChange(adapterPosition, it) }
+        return this
+    }
+
+    private fun ActionParamViewHolder.configure(): ActionParamViewHolder {
+        actionButtonClickListener = { presenter.requestAction(adapterPosition) }
         return this
     }
 }

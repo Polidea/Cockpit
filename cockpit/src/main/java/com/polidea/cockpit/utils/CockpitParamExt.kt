@@ -1,14 +1,9 @@
 package com.polidea.cockpit.utils
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.paramsedition.ParamType
-
 
 inline fun <reified T : Any> CockpitParam<Any>.isTypeOf(): Boolean =
         this.value is T
-
-fun CockpitParam<Any>.paramType(): ParamType =
-        ParamType.getParamType(this)
 
 inline fun <reified T : Any> Collection<CockpitParam<Any>>.getParam(name: String): T =
         (this.find { it.name == name }

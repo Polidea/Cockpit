@@ -20,11 +20,13 @@ abstract class BaseCockpitGenerator {
     private val fragmentManager = "FragmentManager"
     private val cockpitDialog = "CockpitDialog"
     private val propertyChangeListener = "PropertyChangeListener"
+    private val actionRequestCallback = "ActionRequestCallback"
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
     protected val androidFragmentManagerClassName = ClassName.get(androidSupportV4Package, fragmentManager)
     protected val cockpitDialogClassName = ClassName.get(cockpitDialogPackage, cockpitDialog)
     protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
+    protected val actionRequestCallbackClassName = ClassName.get(cockpitEventPackage, actionRequestCallback)
 
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(propertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))

@@ -37,6 +37,10 @@ class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : Par
         model.setValue(position, newValue)
     }
 
+    override fun requestAction(position: Int) {
+        model.requestAction(position)
+    }
+
     override fun expand() {
         view.expand()
     }
