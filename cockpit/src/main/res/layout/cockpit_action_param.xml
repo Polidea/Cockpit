@@ -19,7 +19,9 @@
 
     <Button
         android:id="@+id/cockpit_action_button"
-        style="@style/CockpitButton"
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:paddingStart="@dimen/cockpit_action_button_padding_horizontal"
+        android:paddingEnd="@dimen/cockpit_action_button_padding_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

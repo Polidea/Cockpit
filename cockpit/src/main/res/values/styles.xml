@@ -34,9 +34,4 @@
         <item name="android:layout_height">@dimen/cockpit_restore_value_button_size</item>
     </style>
 
-    <style name="CockpitButton" parent="Base.Widget.AppCompat.Button.Colored">
-        <item name="android:paddingStart">@dimen/cockpit_action_button_padding_horizontal</item>
-        <item name="android:paddingEnd">@dimen/cockpit_action_button_padding_horizontal</item>
-    </style>
-
 </resources>
