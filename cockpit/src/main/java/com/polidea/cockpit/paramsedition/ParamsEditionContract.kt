@@ -10,6 +10,8 @@ interface ParamsEditionContract {
         fun expand()
 
         fun collapse()
+
+        fun dismiss()
     }
 
     interface ParamView {
@@ -35,5 +37,7 @@ interface ParamsEditionContract {
         fun expand()
 
         fun collapse()
+
+        fun hidden()
     }
 }

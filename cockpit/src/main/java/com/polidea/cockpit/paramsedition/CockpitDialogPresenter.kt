@@ -48,4 +48,8 @@ class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : Par
     override fun collapse() {
         view.collapse()
     }
+
+    override fun hidden() {
+        view.dismiss()
+    }
 }
