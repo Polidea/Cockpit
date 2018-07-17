@@ -59,7 +59,7 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
     }
 
     private fun setupViews(view: View) {
-        paramsEditionAdapter = ParamsEditionAdapter(presenter, context!!)
+        paramsEditionAdapter = ParamsEditionAdapter(presenter)
         view.findViewById<RecyclerView>(R.id.params_list).adapter = paramsEditionAdapter
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)
