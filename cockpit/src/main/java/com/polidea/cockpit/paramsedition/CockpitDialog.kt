@@ -46,7 +46,10 @@ class CockpitDialog internal constructor() : BottomSheetDialogFragment(), Params
                 animateExpandCollapseIcon(slideOffset)
             }
 
-            override fun onStateChanged(bottomSheet: View, newState: Int) {}
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN)
+                    presenter.hidden()
+            }
         })
     }
 
