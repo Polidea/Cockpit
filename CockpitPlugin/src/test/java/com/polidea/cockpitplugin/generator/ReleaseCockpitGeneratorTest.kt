@@ -1,7 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.type.core.CockpitListType
+import com.polidea.cockpit.core.type.CockpitListType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

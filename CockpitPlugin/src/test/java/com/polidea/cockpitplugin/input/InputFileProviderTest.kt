@@ -6,7 +6,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 
-class InputFileProviderTest {
+internal class InputFileProviderTest {
 
     /* ******** No build types, no variant name test ******** */
 
@@ -422,12 +422,12 @@ class InputFileProviderTest {
         val dimensionsApiMode = listOf("api", "mode")
         val dimensionsApiModeReversed = dimensionsApiMode.reversed()
 
-        internal val noFlavors = emptyList<Flavor>()
-        internal val flavorsApi = listOf(
+        val noFlavors = emptyList<Flavor>()
+        val flavorsApi = listOf(
                 Flavor("prod", "api"),
                 Flavor("staging", "api")
         )
-        internal val flavorsApiMode = listOf(
+        val flavorsApiMode = listOf(
                 Flavor("demo", "mode"),
                 Flavor("full", "mode"),
                 Flavor("prod", "api"),

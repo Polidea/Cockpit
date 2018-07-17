@@ -3,7 +3,6 @@ package com.polidea.cockpit.sample.sampleparams
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +39,6 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
 
     override fun setTypeface(typeface: Typeface) {
         cockpit_textview.typeface = typeface
-        Log.d("SampleBaseFragment", "typeface: ${cockpit_textview.typeface.style}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

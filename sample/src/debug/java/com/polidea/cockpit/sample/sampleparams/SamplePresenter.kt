@@ -48,7 +48,7 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     }
 
     private fun removeOnValueSelectedListeners() {
-        Cockpit.removeOnFontSizeChangeListener(onFontSizeChangeListener)
+        Cockpit.removeFontListSelectionChangeListener(fontSelectedListener)
     }
 
     override fun editValues() {

@@ -1,7 +1,6 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.type.core.CockpitListType
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier

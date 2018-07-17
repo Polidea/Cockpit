@@ -2,10 +2,10 @@ package com.polidea.cockpit.manager
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.core.type.CockpitListType
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
-import com.polidea.cockpit.type.core.CockpitListType
 import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.utils.copy
 import com.polidea.cockpit.utils.getParam
@@ -70,8 +70,8 @@ object CockpitManager {
         paramChangeNotifier.fireValueSelected(name, selectedIndex)
     }
 
-    fun getSelectedValue(name: String): Any {
-        val param = params.getParam<CockpitParam<CockpitListType<*>>>(name)
+    fun <T : Any> getSelectedValue(name: String): T {
+        val param = params.getParam<CockpitParam<CockpitListType<T>>>(name)
         return param.value.items[param.value.selectedIndex]
     }
 

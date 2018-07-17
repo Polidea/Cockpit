@@ -2,7 +2,7 @@ package com.polidea.cockpit.core
 
 import com.polidea.cockpit.core.exception.CockpitParseException
 import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.type.core.CockpitListType
+import com.polidea.cockpit.core.type.CockpitListType
 
 class ParamsMapper {
 
@@ -20,12 +20,7 @@ class ParamsMapper {
     private fun fromSimpleYamlFormat(paramName: String, value: Any): CockpitParam<Any> {
         System.out.println(paramName + " " + value::class.java)
         val paramValue = when (value) {
-            is List<*> -> {
-                System.out.println("Is a list")
-                val values = value as List<Any>
-                values.forEach { System.out.println(it)}
-                CockpitListType(ArrayList<Any>(values), 0)
-            }
+            is List<*> -> CockpitListType(ArrayList<Any>(value), 0)
             else -> value
         }
         return CockpitParam(paramName, paramValue)
@@ -38,7 +33,7 @@ class ParamsMapper {
             ParamsMapper.ParamType.LIST -> {
                 val values = valueMap[KEY_LIST_VALUES] as? List<*>
                         ?: throw CockpitParseException("$paramName parameter must contain list of elements in `$KEY_LIST_VALUES` field")
-                val selectedIndex = (valueMap[KEY_LIST_SELECTION_INDEX] as Int?) ?: throw CockpitParseException("$KEY_LIST_SELECTION_INDEX field must be an integer")
+                val selectedIndex = (valueMap[KEY_LIST_SELECTION_INDEX] as Int?) ?: 0
                 CockpitListType(ArrayList<Any>(values), selectedIndex)
             }
             ParamsMapper.ParamType.DEFAULT -> valueMap[KEY_VALUE] as Any
@@ -52,7 +47,7 @@ class ParamsMapper {
         return linkedMapOf(*params.map {
             if (it.description == null && it.group == null) { // simple parameter with value only
                 val value = it.value
-                when(value) {
+                when (value) {
                     is CockpitListType<*> -> toExtendedYamlFormat(it)
                     else -> toSimpleYamlFormat(it)
                 }

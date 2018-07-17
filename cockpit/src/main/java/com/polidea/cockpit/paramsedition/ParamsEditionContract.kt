@@ -28,7 +28,7 @@ internal interface ParamsEditionContract {
 
         fun <T : Any> onParamChange(position: Int, newValue: T)
 
-        fun onParamValueSelected(position: Int, selectedItemIndex: Int)
+        fun onParamValueSelected(position: Int, selectedItemIndex: Int?)
 
         fun requestAction(position: Int)
 

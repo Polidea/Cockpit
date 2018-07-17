@@ -2,7 +2,7 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.type.core.CockpitListType
+import com.polidea.cockpit.core.type.CockpitListType
 import com.squareup.javapoet.MethodSpec
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -28,38 +28,17 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
         return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
             val value = param.value
             when (value) {
-                is List<*> -> builder.addStatement(createArrayListStatement(value as ArrayList<*>).toString(), arraysClassName)
+                is List<*> -> builder.addStatement(createListStatement(value as List<Any>), arraysClassName)
                 else -> builder.addStatement("return ${createWrappedValueForParamValue(param.value)}")
             }
         }
     }
 
-    private fun createArrayListStatement(value: ArrayList<*>): StringBuilder {
-        val stringBuilder = StringBuilder()
-        stringBuilder.append("return new ArrayList<>(\$T.asList(")
-
-        val itemSeparator = ", "
-        value.forEach {
-            it?.let {
-                stringBuilder.append(createWrappedValueForParamValue(it))
-            } ?: stringBuilder.append("null")
-            stringBuilder.append(itemSeparator)
-        }
-        val lastIndexOf = stringBuilder.lastIndexOf(itemSeparator)
-        if (lastIndexOf != -1) {
-            stringBuilder.delete(lastIndexOf, lastIndexOf + itemSeparator.length) // remove comma and space after last value
-        }
-        stringBuilder.append("))")
-
-        return stringBuilder
-    }
+    private fun createListStatement(value: List<Any>) = value.map { createWrappedValueForParamValue(it) }
+            .joinToString(separator = ", ", prefix = "return new List<>(\$T.asList(", postfix = "))")
 
     internal fun createSelectedValueGetterMethodSpecForParam(param: CockpitParam<CockpitListType<*>>): MethodSpec {
-        val returnValue: String = if (param.value.items[0] is String) {
-            "\"${param.value.items[param.value.selectedIndex]}\""
-        } else {
-            "${param.value.items[param.value.selectedIndex]}"
-        }
+        val returnValue = createWrappedValueForParamValue(param.value.items[param.value.selectedIndex])
 
         return MethodSpec.methodBuilder("get${param.name.capitalize()}SelectedValue")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)

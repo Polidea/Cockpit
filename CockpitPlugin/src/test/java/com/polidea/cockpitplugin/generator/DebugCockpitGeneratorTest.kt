@@ -2,7 +2,7 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.type.core.CockpitListType
+import com.polidea.cockpit.core.type.CockpitListType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -266,7 +266,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedFunSpecString = """
             |public static java.lang.String getNameSelectedValue() {
-            |  return (java.lang.String) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getSelectedValue("name");
+            |  return com.polidea.cockpit.manager.CockpitManager.INSTANCE.getSelectedValue("name");
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())

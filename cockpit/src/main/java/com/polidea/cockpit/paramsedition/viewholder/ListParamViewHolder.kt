@@ -6,7 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.type.core.CockpitListType
+import com.polidea.cockpit.core.type.CockpitListType
 
 internal class ListParamViewHolder(view: View) : SelectionParamBaseViewHolder<CockpitListType<*>>(view), AdapterView.OnItemSelectedListener {
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -17,7 +17,6 @@ internal class ListParamViewHolder(view: View) : SelectionParamBaseViewHolder<Co
     }
 
     private val itemsSpinner: AppCompatSpinner = view.findViewById(R.id.cockpit_list_param_value)
-    private var arrayAdapter: ArrayAdapter<Any>? = null
 
     init {
         itemsSpinner.onItemSelectedListener = this
@@ -26,8 +25,8 @@ internal class ListParamViewHolder(view: View) : SelectionParamBaseViewHolder<Co
     override fun displayParam(param: CockpitParam<CockpitListType<*>>) {
         super.displayParam(param)
         val cockpitList = param.value
-        arrayAdapter = ArrayAdapter(view.context, android.R.layout.simple_spinner_dropdown_item, cockpitList.items)
-        arrayAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val arrayAdapter = ArrayAdapter(view.context, android.R.layout.simple_spinner_dropdown_item, cockpitList.items)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         itemsSpinner.adapter = arrayAdapter
         itemsSpinner.setSelection(cockpitList.selectedIndex)
     }

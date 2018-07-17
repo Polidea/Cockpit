@@ -2,8 +2,8 @@ package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.core.type.CockpitListType
 import com.polidea.cockpit.exception.UnsupportedCockpitTypeException
-import com.polidea.cockpit.type.core.CockpitListType
 import com.polidea.cockpit.utils.isTypeOf
 
 internal enum class ParamType {

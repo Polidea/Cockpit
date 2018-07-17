@@ -2,7 +2,7 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.type.core.CockpitListType
+import com.polidea.cockpit.core.type.CockpitListType
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.ParameterSpec
 import java.io.File
@@ -124,7 +124,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         return MethodSpec.methodBuilder("get${param.name.capitalize()}SelectedValue")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .returns(returnType)
-                .addStatement("return (\$T) \$T.INSTANCE.getSelectedValue(\"${param.name}\")", returnType, cockpitManagerClassName)
+                .addStatement("return \$T.INSTANCE.getSelectedValue(\"${param.name}\")", cockpitManagerClassName)
                 .build()
     }
 
