@@ -64,7 +64,7 @@ object CockpitManager {
         paramChangeNotifier.remove(name, listener)
     }
 
-    fun <T: Any> selectParamValue(name: String, selectedIndex: Int) {
+    fun <T : Any> selectParamValue(name: String, selectedIndex: Int) {
         val param = params.getParam<CockpitParam<CockpitListType<T>>>(name)
         val previouslySelectedValue = param.value.getSelectedItem()
         param.value.selectedIndex = selectedIndex
