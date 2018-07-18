@@ -19,7 +19,7 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     private lateinit var onShowFooterChangeListener: PropertyChangeListener<Boolean>
     private lateinit var onDebugDescriptionChangeListener: PropertyChangeListener<String>
     private lateinit var versionActionRequestCallback: ActionRequestCallback
-    private lateinit var fontSelectedListener: SelectionChangeListener
+    private lateinit var fontSelectedListener: SelectionChangeListener<Any>
 
     init {
         sampleView.presenter = this

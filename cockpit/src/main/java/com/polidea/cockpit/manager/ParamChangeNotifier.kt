@@ -6,7 +6,7 @@ import com.polidea.cockpit.event.SelectionChangeListener
 internal class ParamChangeNotifier {
 
     private val listeners: MutableMap<String, MutableSet<*>> = mutableMapOf()
-    private val selectionListeners: MutableMap<String, MutableSet<SelectionChangeListener>> = mutableMapOf()
+    private val selectionListeners: MutableMap<String, MutableSet<SelectionChangeListener<Any>>> = mutableMapOf()
 
     fun <T : Any> add(paramName: String, listener: PropertyChangeListener<T>) {
         val paramListeners = getListeners<MutableSet<PropertyChangeListener<T>>>(paramName)
@@ -28,25 +28,27 @@ internal class ParamChangeNotifier {
         }
     }
 
-    fun add(paramName: String, listener: SelectionChangeListener) {
+    fun add(paramName: String, listener: SelectionChangeListener<Any>) {
         val paramListeners = getSelectionListeners(paramName)
         paramListeners.add(listener)
         selectionListeners[paramName] = paramListeners
     }
 
-    fun remove(paramName: String, listener: SelectionChangeListener) {
+    fun remove(paramName: String, listener: SelectionChangeListener<Any>) {
         selectionListeners[paramName]?.remove(listener)
     }
 
-    fun fireValueSelection(paramName: String, selectionIndex: Int) {
+    fun fireValueSelection(paramName: String, previouslySelectedItem: Any, selectedItem: Any) {
         val paramListeners = getSelectionListeners(paramName)
         paramListeners.forEach {
-            it.onValueSelected(selectionIndex)
+            if (previouslySelectedItem != selectedItem) {
+                it.onValueSelected(selectedItem)
+            }
         }
     }
 
     private inline fun <reified T : Any> getListeners(name: String): T =
             (listeners[name] ?: mutableSetOf<T>()).let { it as T }
 
-    private fun getSelectionListeners(name: String): MutableSet<SelectionChangeListener> = selectionListeners[name] ?: mutableSetOf()
+    private fun getSelectionListeners(name: String): MutableSet<SelectionChangeListener<Any>> = selectionListeners[name] ?: mutableSetOf()
 }

@@ -1,5 +1,5 @@
 package com.polidea.cockpit.event;
 
-public interface SelectionChangeListener {
-    void onValueSelected(int selectedIndex);
+public interface SelectionChangeListener<T> {
+    void onValueSelected(T selectedValue);
 }
