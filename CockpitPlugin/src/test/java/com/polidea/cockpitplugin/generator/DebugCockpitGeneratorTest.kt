@@ -239,7 +239,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedFunSpecString = """
             |public static void addNameSelectionChangeListener(
-            |    com.polidea.cockpit.event.SelectionChangeListener listener) {
+            |    com.polidea.cockpit.event.SelectionChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addSelectionChangeListener("name", listener);
             |}"""
 
@@ -248,11 +248,11 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createRemoveSelectionChangeListenerMethodSpecForParamTest() {
-        val funSpec = cockpitGenerator.createRemoveSelectionChangeListenerMethodSpecForParam(CockpitParam("name", CockpitListType(emptyList(), 1)))
+        val funSpec = cockpitGenerator.createRemoveSelectionChangeListenerMethodSpecForParam(CockpitParam("name", CockpitListType(listOf("a", "b", "c"), 1)))
 
         val expectedFunSpecString = """
             |public static void removeNameSelectionChangeListener(
-            |    com.polidea.cockpit.event.SelectionChangeListener listener) {
+            |    com.polidea.cockpit.event.SelectionChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeSelectionChangeListener("name", listener);
             |}"""
 

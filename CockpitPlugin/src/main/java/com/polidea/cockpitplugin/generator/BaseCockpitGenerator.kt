@@ -39,6 +39,9 @@ internal abstract class BaseCockpitGenerator {
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(propertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
 
+    protected fun getParametrizedCockpitSelectionChangeListenerClassName(clazz: Class<*>) =
+            ParameterizedTypeName.get(selectionChangeListenerClassName, TypeName.get(clazz))
+
     protected fun generate(file: File?, configurator: (TypeSpec.Builder) -> TypeSpec.Builder) {
 
         val cockpitClass = configurator(TypeSpec.classBuilder(cockpit)

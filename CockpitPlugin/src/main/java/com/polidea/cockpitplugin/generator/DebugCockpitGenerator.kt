@@ -20,9 +20,10 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                         add(createRemoveActionRequestCallbackMethodSpecForParam(param))
                     }
                     is CockpitListType<*> -> {
-                        add(createAddSelectionChangeListenerMethodSpecForParam(param))
-                        add(createRemoveSelectionChangeListenerMethodSpecForParam(param))
-                        add(createSelectedValueGetterMethodSpecForParam(param as CockpitParam<CockpitListType<*>>))
+                        val listTypeParam = param as CockpitParam<CockpitListType<*>>
+                        add(createAddSelectionChangeListenerMethodSpecForParam(listTypeParam))
+                        add(createRemoveSelectionChangeListenerMethodSpecForParam(listTypeParam))
+                        add(createSelectedValueGetterMethodSpecForParam(listTypeParam))
                     }
                     else -> {
                         add(createGetterMethodSpecForParam(param))
@@ -98,21 +99,21 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .build()
     }
 
-    internal fun createAddSelectionChangeListenerMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
+    internal fun createAddSelectionChangeListenerMethodSpecForParam(param: CockpitParam<CockpitListType<*>>): MethodSpec {
         val listenerParamName = "listener"
         return MethodSpec.methodBuilder("add${param.name.capitalize()}SelectionChangeListener")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(selectionChangeListenerClassName, listenerParamName).build())
+                .addParameter(ParameterSpec.builder(getParametrizedCockpitSelectionChangeListenerClassName(param.value.getSelectedItem()::class.java), listenerParamName).build())
                 .addStatement("\$T.INSTANCE.addSelectionChangeListener(\"${param.name}\", $listenerParamName)",
                         cockpitManagerClassName)
                 .build()
     }
 
-    internal fun createRemoveSelectionChangeListenerMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
+    internal fun createRemoveSelectionChangeListenerMethodSpecForParam(param: CockpitParam<CockpitListType<*>>): MethodSpec {
         val listenerParamName = "listener"
         return MethodSpec.methodBuilder("remove${param.name.capitalize()}SelectionChangeListener")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(selectionChangeListenerClassName, listenerParamName).build())
+                .addParameter(ParameterSpec.builder(getParametrizedCockpitSelectionChangeListenerClassName(param.value.getSelectedItem()::class.java), listenerParamName).build())
                 .addStatement("\$T.INSTANCE.removeSelectionChangeListener(\"${param.name}\", $listenerParamName)",
                         cockpitManagerClassName)
                 .build()

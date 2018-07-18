@@ -20,9 +20,9 @@ internal class ParamsEditionModel {
         CockpitManager.setParamValue(param.name, newValue)
     }
 
-    fun selectValue(position: Int, selectedItemIndex: Int) {
+    fun <T : Any> selectValue(position: Int, selectedItemIndex: Int) {
         val param = paramsCopy[position]
-        CockpitManager.selectParamValue(param.name, selectedItemIndex)
+        CockpitManager.selectParamValue<T>(param.name, selectedItemIndex)
     }
 
     fun restoreValue(position: Int) {

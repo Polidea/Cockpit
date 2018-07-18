@@ -6,7 +6,7 @@ import com.polidea.cockpit.event.SelectionChangeListener
 internal class ParamChangeNotifier {
 
     private val listeners: MutableMap<String, MutableSet<*>> = mutableMapOf()
-    private val selectionListeners: MutableMap<String, MutableSet<SelectionChangeListener<Any>>> = mutableMapOf()
+    private val selectionListeners: MutableMap<String, MutableSet<*>> = mutableMapOf()
 
     fun <T : Any> add(paramName: String, listener: PropertyChangeListener<T>) {
         val paramListeners = getListeners<MutableSet<PropertyChangeListener<T>>>(paramName)
@@ -28,18 +28,18 @@ internal class ParamChangeNotifier {
         }
     }
 
-    fun add(paramName: String, listener: SelectionChangeListener<Any>) {
-        val paramListeners = getSelectionListeners(paramName)
+    fun <T: Any> add(paramName: String, listener: SelectionChangeListener<T>) {
+        val paramListeners = getSelectionListeners<T>(paramName)
         paramListeners.add(listener)
         selectionListeners[paramName] = paramListeners
     }
 
-    fun remove(paramName: String, listener: SelectionChangeListener<Any>) {
+    fun <T: Any> remove(paramName: String, listener: SelectionChangeListener<T>) {
         selectionListeners[paramName]?.remove(listener)
     }
 
-    fun fireValueSelection(paramName: String, previouslySelectedItem: Any, selectedItem: Any) {
-        val paramListeners = getSelectionListeners(paramName)
+    fun <T: Any >fireValueSelection(paramName: String, previouslySelectedItem: T, selectedItem: T) {
+        val paramListeners = getSelectionListeners<T>(paramName)
         paramListeners.forEach {
             if (previouslySelectedItem != selectedItem) {
                 it.onValueSelected(selectedItem)
@@ -50,5 +50,5 @@ internal class ParamChangeNotifier {
     private inline fun <reified T : Any> getListeners(name: String): T =
             (listeners[name] ?: mutableSetOf<T>()).let { it as T }
 
-    private fun getSelectionListeners(name: String): MutableSet<SelectionChangeListener<Any>> = selectionListeners[name] ?: mutableSetOf()
+    private fun <T: Any> getSelectionListeners(name: String): MutableSet<SelectionChangeListener<T>> = selectionListeners[name] as MutableSet<SelectionChangeListener<T>>? ?: mutableSetOf()
 }

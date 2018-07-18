@@ -66,7 +66,7 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
     }
 
     private fun <T : Any> SelectionParamBaseViewHolder<T>.configure(): SelectionParamBaseViewHolder<T> {
-        valueSelectedListener = { presenter.onParamValueSelected(adapterPosition, it) }
+        valueSelectedListener = { presenter.onParamValueSelected<T>(adapterPosition, it) }
         return this
     }
 }

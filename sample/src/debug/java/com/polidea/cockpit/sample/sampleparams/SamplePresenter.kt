@@ -19,7 +19,7 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     private lateinit var onShowFooterChangeListener: PropertyChangeListener<Boolean>
     private lateinit var onDebugDescriptionChangeListener: PropertyChangeListener<String>
     private lateinit var versionActionRequestCallback: ActionRequestCallback
-    private lateinit var fontSelectedListener: SelectionChangeListener<Any>
+    private lateinit var fontSelectedListener: SelectionChangeListener<String>
 
     init {
         sampleView.presenter = this
@@ -61,8 +61,8 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     }
 
     private fun setOnValueSelectedListener() {
-        fontSelectedListener = SelectionChangeListener { _ ->
-            sampleView.setTypeface(Typeface.create(Cockpit.getFontListSelectedValue(), Typeface.NORMAL))
+        fontSelectedListener = SelectionChangeListener { selectedValue ->
+            sampleView.setTypeface(Typeface.create(selectedValue, Typeface.NORMAL))
         }
         Cockpit.addFontListSelectionChangeListener(fontSelectedListener)
     }
