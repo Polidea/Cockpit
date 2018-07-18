@@ -16,7 +16,7 @@ internal enum class ParamType {
                     param.isTypeOf<Int>() -> INT
                     param.isTypeOf<Double>() -> DOUBLE
                     param.isTypeOf<String>() -> STRING
-                    param.isTypeOf<CockpitListType<*>>() -> LIST
+                    param.isTypeOf<CockpitListType<Any>>() -> LIST
                     param.isTypeOf<CockpitAction>() -> ACTION
                     else -> throw UnsupportedCockpitTypeException(param.name, param.value::class.java)
                 }

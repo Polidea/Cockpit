@@ -38,7 +38,7 @@ internal class ParamChangeNotifier {
         selectionListeners[paramName]?.remove(listener)
     }
 
-    fun fireValueSelected(paramName: String, selectionIndex: Int) {
+    fun fireValueSelection(paramName: String, selectionIndex: Int) {
         val paramListeners = getSelectionListeners(paramName)
         paramListeners.forEach {
             it.onValueSelected(selectionIndex)

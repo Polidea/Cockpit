@@ -37,7 +37,7 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         model.setValue(position, newValue)
     }
 
-    override fun onParamValueSelected(position: Int, selectedItemIndex: Int?) {
+    override fun onParamValueSelected(position: Int, selectedItemIndex: Int) {
         model.selectValue(position, selectedItemIndex ?: 0)
     }
 

@@ -65,14 +65,14 @@ object CockpitManager {
     }
 
     fun selectParamValue(name: String, selectedIndex: Int) {
-        val param = params.getParam<CockpitParam<CockpitListType<*>>>(name)
+        val param = params.getParam<CockpitParam<CockpitListType<Any>>>(name)
         param.value.selectedIndex = selectedIndex
-        paramChangeNotifier.fireValueSelected(name, selectedIndex)
+        paramChangeNotifier.fireValueSelection(name, selectedIndex)
     }
 
     fun <T : Any> getSelectedValue(name: String): T {
         val param = params.getParam<CockpitParam<CockpitListType<T>>>(name)
-        return param.value.items[param.value.selectedIndex]
+        return param.value.getSelectedItem()
     }
 
     fun addSelectionChangeListener(name: String, listener: SelectionChangeListener) {

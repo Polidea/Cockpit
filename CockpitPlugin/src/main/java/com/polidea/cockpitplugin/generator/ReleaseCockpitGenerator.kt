@@ -26,16 +26,9 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
 
     internal fun createGetterMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
         return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
-            val value = param.value
-            when (value) {
-                is List<*> -> builder.addStatement(createListStatement(value as List<Any>), arraysClassName)
-                else -> builder.addStatement("return ${createWrappedValueForParamValue(param.value)}")
-            }
+            builder.addStatement("return ${createWrappedValueForParamValue(param.value)}")
         }
     }
-
-    private fun createListStatement(value: List<Any>) = value.map { createWrappedValueForParamValue(it) }
-            .joinToString(separator = ", ", prefix = "return new List<>(\$T.asList(", postfix = "))")
 
     internal fun createSelectedValueGetterMethodSpecForParam(param: CockpitParam<CockpitListType<*>>): MethodSpec {
         val returnValue = createWrappedValueForParamValue(param.value.items[param.value.selectedIndex])
