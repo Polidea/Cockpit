@@ -12,17 +12,15 @@ internal class ListParamViewHolder(view: View) : SelectionParamBaseViewHolder<Co
 
     private val itemsSpinner: AppCompatSpinner = view.findViewById(R.id.cockpit_list_param_value)
 
-    init {
-        itemsSpinner.onItemSelectedListener = this
-    }
-
     override fun displayParam(param: CockpitParam<CockpitListType<Any>>) {
         super.displayParam(param)
         val cockpitList = param.value
         val arrayAdapter = ArrayAdapter(view.context, android.R.layout.simple_spinner_dropdown_item, cockpitList.items)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         itemsSpinner.adapter = arrayAdapter
+        itemsSpinner.onItemSelectedListener = null
         itemsSpinner.setSelection(cockpitList.selectedIndex)
+        itemsSpinner.onItemSelectedListener = this
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
