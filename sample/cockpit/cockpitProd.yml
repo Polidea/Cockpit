@@ -1,0 +1,3 @@
+baseUrl:
+  description: "Base API url"
+  value: "https://base.prod.url"

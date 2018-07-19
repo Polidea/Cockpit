@@ -1,13 +1,13 @@
 package com.polidea.cockpit.utils
 
 import android.content.Context
+import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.manager.CockpitManager
-import com.polidea.cockpit.manager.CockpitParam
+import com.polidea.cockpit.persistency.CockpitYamlFileManager
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import java.io.File
-import java.util.stream.Collectors
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -16,7 +16,7 @@ import kotlin.test.assertEquals
 class FileUtilsTest {
 
     private val context: Context = mockk(relaxed = true)
-    private val inputParamsProvider: InputParamsProvider = spyk(InputParamsProvider(context.assets))
+    private val cockpitYamlFileManager: CockpitYamlFileManager = spyk(CockpitYamlFileManager(DIRECTORY_PATH, context.assets))
 
     init {
         File(DIRECTORY_PATH).mkdirs()
@@ -26,18 +26,20 @@ class FileUtilsTest {
     @BeforeTest
     fun setup() {
         every { context.assets } returns mockk(relaxed = true)
-        FileUtils.inputParamsProvider = inputParamsProvider
+        FileUtils.setCockpitYamlFileManager(cockpitYamlFileManager)
 
-        every { inputParamsProvider.getInputParams() } returns getTestCockpitParams().stream().collect(Collectors.toMap(CockpitParam::name, CockpitParam::value))
+        every { cockpitYamlFileManager.readInputParams() } returns getTestCockpitParams()
+        every { cockpitYamlFileManager.readSavedParams() } returns emptyList()
     }
 
     @Test
     fun saveAndReadCockpit() {
         getTestCockpitParams().forEach { CockpitManager.addParam(it) }
-        FileUtils.saveCockpitAsYaml()
+        FileUtils.saveCockpitAsYaml(CockpitManager.getParamsCopy())
         CockpitManager.clear()
-        FileUtils.readCockpitFromFile()
-        assertEquals(getTestCockpitParams(), CockpitManager.params)
+        FileUtils.getParams().forEach { CockpitManager.addParam(it) }
+        assertEquals(getTestCockpitParams(), CockpitManager.getParamsCopy())
+        assertEquals(getTestCockpitParams(), CockpitManager.getDefaultParamsCopy())
     }
 
     @AfterTest
@@ -50,13 +52,13 @@ class FileUtilsTest {
         System.out.println("Deleted directory $directory: $directoryResult")
     }
 
-    private fun getTestCockpitParams(): MutableList<CockpitParam> {
-        val testParams: MutableList<CockpitParam> = mutableListOf()
+    private fun getTestCockpitParams(): MutableList<CockpitParam<Any>> {
+        val testParams: MutableList<CockpitParam<Any>> = mutableListOf()
 
-        testParams.add(CockpitParam("doubleParam", Double::class.javaObjectType, 3.0))
-        testParams.add(CockpitParam("booleanParam", Boolean::class.javaObjectType, false))
-        testParams.add(CockpitParam("stringParam", String::class.javaObjectType, "testValue"))
-        testParams.add(CockpitParam("integerParam", Int::class.javaObjectType, 2))
+        testParams.add(CockpitParam("doubleParam", 3.0))
+        testParams.add(CockpitParam("booleanParam", false))
+        testParams.add(CockpitParam("stringParam", "testValue"))
+        testParams.add(CockpitParam("integerParam", 2))
 
         return testParams
     }

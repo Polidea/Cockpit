@@ -1,4 +1,5 @@
 <resources>
     <public />
-    <string name="cockpit_save_button">SAVE</string>
+    <string name="title">Cockpit</string>
+    <string name="action_button_text_default">Perform</string>
 </resources>

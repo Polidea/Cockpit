@@ -5,11 +5,10 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 
-class CockpitInitProvider : ContentProvider() {
+internal class CockpitInitProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         FileUtils.init(context.filesDir.path, context.assets)
-        FileUtils.readCockpitFromFile()
         return false
     }
 

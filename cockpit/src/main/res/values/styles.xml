@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="CockpitTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+    <style name="CockpitTheme" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/cockpit_dark_blue</item>
+    </style>
+
+    <style name="CockpitParamName" parent="Base.TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/cockpit_param_name_text_size</item>
+        <item name="android:textColor">@color/cockpit_text</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="CockpitValueEditText" parent="Base.V7.Widget.AppCompat.EditText">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">@dimen/cockpit_param_value_text_size</item>
+        <item name="android:textColor">@color/cockpit_text</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">@dimen/cockpit_value_line_spacing</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:layout_width">@dimen/cockpit_value_edit_text_width</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CockpitRestoreValueImageButton" parent="Base.Widget.AppCompat.ImageButton">
+        <item name="android:src">@drawable/restore_green</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_marginBottom">@dimen/cockpit_restore_value_button_margin</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">@dimen/cockpit_restore_value_button_size</item>
+        <item name="android:layout_height">@dimen/cockpit_restore_value_button_size</item>
+    </style>
 
 </resources>

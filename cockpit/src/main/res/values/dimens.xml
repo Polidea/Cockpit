@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="cockpit_margin">16dp</dimen>
-    <dimen name="cockpit_value_width">100dp</dimen>
+
+    <dimen name="cockpit_peek_width">40dp</dimen>
+    <dimen name="cockpit_peek_elevation">4dp</dimen>
+    <dimen name="cockpit_peek_title_font_size">20sp</dimen>
+    <dimen name="cockpit_peek_button_width">30dp</dimen>
+
+    <dimen name="cockpit_group_separator_height">2dp</dimen>
+    <dimen name="cockpit_group_title_text_size">14sp</dimen>
+    <dimen name="cockpit_group_top_margin">20sp</dimen>
+
+    <dimen name="cockpit_param_name_text_size">16sp</dimen>
+    <dimen name="cockpit_param_value_text_size">16sp</dimen>
+    <dimen name="cockpit_param_vertical_margin">10dp</dimen>
+
+    <dimen name="cockpit_switch_width">50dp</dimen>
+
+    <dimen name="cockpit_value_edit_text_width">74dp</dimen>
+    <dimen name="cockpit_value_line_spacing">8sp</dimen>
+
+    <dimen name="cockpit_restore_value_button_size">20dp</dimen>
+    <dimen name="cockpit_restore_value_button_margin">10dp</dimen>
+
+    <dimen name="cockpit_string_param_text_size">12sp</dimen>
+
+    <dimen name="cockpit_action_button_padding_horizontal">25dp</dimen>
 </resources>

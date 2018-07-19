@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/CockpitTheme">
+
+    <TextView
+        android:id="@+id/cockpit_param_name"
+        style="@style/CockpitParamName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_number_param_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Param Name" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/cockpit_number_param_value"
+        style="@style/CockpitValueEditText"
+        android:inputType="number"
+        android:maxLines="1"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_param_restore"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="100.0" />
+
+    <ImageButton
+        android:id="@+id/cockpit_param_restore"
+        style="@style/CockpitRestoreValueImageButton"
+        android:layout_marginEnd="@dimen/cockpit_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

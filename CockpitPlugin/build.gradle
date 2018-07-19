@@ -1,5 +1,6 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.51'
+    ext.cockpit_core_version = '1.1.1-SNAPSHOT'
     repositories {
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -7,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath "com.gradle.publish:plugin-publish-plugin:0.9.10"
+        classpath files("../CockpitCore/build/libs/CockpitCore-${cockpit_core_version}.jar")
     }
 }
 
@@ -14,12 +16,12 @@ plugins {
     id 'groovy'
     id 'maven'
     id "com.gradle.plugin-publish" version "0.9.10"
-    id 'org.jetbrains.kotlin.jvm' version '1.2.41'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.51'
     id 'java-gradle-plugin'
 }
 
 group = 'com.polidea.cockpit'
-version = '1.0.3'
+version = '1.1.1-SNAPSHOT'
 
 sourceCompatibility = 1.7
 
@@ -39,6 +41,11 @@ sourceSets {
     }
 
     test.java.srcDirs += 'src/test/kotlin'
+    main.java.srcDirs += project(':CockpitCore').file('src/main/java')
+}
+
+jar {
+    from zipTree("../CockpitCore/build/libs/CockpitCore-${cockpit_core_version}.jar")
 }
 
 dependencies {
@@ -52,6 +59,7 @@ dependencies {
 
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    compile files("../CockpitCore/build/libs/CockpitCore-${cockpit_core_version}.jar")
 }
 
 pluginBundle {

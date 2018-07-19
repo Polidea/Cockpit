@@ -1,0 +1,14 @@
+color:
+  description: "Text color"
+  value: "#00ff33"
+colorDescription: "Calm green"
+fontSize: 30
+footer: "Created by Polidea"
+showFooter: true
+version:
+  type: action
+  description: "About application"
+  buttonText: "Show"
+fontList:
+  type: list
+  values: [ "sans-serif", "sans-serif-thin", "sans-serif-medium", "sans-serif-condensed" ]
