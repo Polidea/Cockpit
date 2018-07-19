@@ -18,7 +18,7 @@ Each defined value is called `param`. The set of params is called `cockpit`.
 
 ### Defining params
 To define cockpit, you need to create **cockpit.yml** file and place it in your application's **your_app_module_name/cockpit** folder. Params defined in **cockpit.yml** are applied to all flavors. In order to extend or change cockpit depending on the flavor, create additional files using following naming convention:
-cockpitFlavorNames.yml where `FlavorNames` is a list of desired flavors.
+cockpit<flavor_name>.yml where `<flavorName>` is a desired flavor.
 
 Examples:
 ```
@@ -27,12 +27,16 @@ cockpitStaging.yml
 cockpitStagingDebug.yml
 ```
 
-File structure is as follows:
-
-- for primitive types (integer, double, string, boolean) you can use either simple or complex structure:
+For basic functionality can use simple, flat yaml structure:
 ```
 paramName1: paramValue1
+listSimpleTypeName: [ "staging", "testing", "prod" ]
+
 ```
+
+If you need some more attributes or want to use action param, you can use more complex structure:
+- for primitive types (integer, double, string, boolean):
+
 ```
 paramName2:
   description: "paramName2 description" # this field is optional; if provided, it's used for display instead of param name
@@ -44,19 +48,15 @@ paramName2:
 actionTypeName:
   type: action
   description: "Action description"
-  buttonText: "Perform" # this value if optional
+  buttonText: "Perform" # this value is optional
 ```
 
-- for list type you can use either simple or complex structure:
+- for list type:
 ```
 listComplexTypeName:
   type: list
   values: [ "staging", "testing", "prod" ]
   selectedItemIndex: 1 # this field is optional; if not provided, 0 is assumed
-```
-
-```
-listSimpleTypeName: [ "staging", "testing", "prod" ]
 ```
 
 > Supported param types are integer, double, string, boolean, list and action. All items inside a list have to be the same type.
@@ -80,7 +80,7 @@ You can access the params via generated getters and setters. Each primitive type
 You can listen for value changes by adding PropertyChangeListeners.\
 Each changeable param has methods: `addOnParamNameChangeListener()` and `removeOnParamNameChangeListener()`, where `paramName` is param's name.
 
-### Listening for selection changes
+### Listening for list selection changes
 List params provide SelectionChangeListeners. You can use methods `addParamNameSelectionChangeListener` and `removeParamNameSelectionChangeListener`, where `paramName` is param's name.
 
 ### Listening for action requests
@@ -90,7 +90,7 @@ To listen for those requests action param has `addParamNameActionRequestCallback
 ### Displaying Cockpit
 Cockpit library offers you an easy way to display and edit all the params you defined. All you need to do is call
 `Cockpit.showCockpit(fragmentManager: FragmentManager)`
-This will display our compact, built-in UI where you can edit the params' values. When you're done, just dismiss the dialog. To make it easy to observe your changes, you can pull the Cockpit fragment down to fit half of the screen's height and pull it up to be displayed in full.
+This will display our compact, built-in UI where you can edit the params' values. When you're done, just dismiss the dialog. To make it easy to observe your changes, you can pull the Cockpit fragment down to fit half of the screen's height and pull it up to get it displayed in full.
 
 ### Restoring default values
 After you've made some changes in Cockpit and decided you didn't like them, it's helpful to be able to restore default values. You can do it globally or for selected param only using curved arrow icon.
