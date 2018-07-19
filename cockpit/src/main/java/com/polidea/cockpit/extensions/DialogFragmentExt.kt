@@ -1,4 +1,4 @@
-package com.polidea.cockpit.utils
+package com.polidea.cockpit.extensions
 
 import android.support.v7.app.AppCompatDialogFragment
 import android.view.WindowManager

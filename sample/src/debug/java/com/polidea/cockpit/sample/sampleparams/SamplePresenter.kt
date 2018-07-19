@@ -1,9 +1,8 @@
 package com.polidea.cockpit.sample.sampleparams
 
-import android.graphics.Color
 import android.graphics.Typeface
-import android.util.Log
 import com.polidea.cockpit.cockpit.Cockpit
+import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
@@ -12,7 +11,7 @@ import com.polidea.cockpit.sample.BuildConfig
 class SamplePresenter(override val sampleView: SampleContract.View)
     : SampleBasePresenter(sampleView), SampleContract.Presenter {
 
-    private lateinit var onColorChangeListener: PropertyChangeListener<String>
+    private lateinit var onColorChangeListener: PropertyChangeListener<CockpitColor>
     private lateinit var onFontSizeChangeListener: PropertyChangeListener<Int>
     private lateinit var onColorDescriptionChangeListener: PropertyChangeListener<String>
     private lateinit var onFooterChangeListener: PropertyChangeListener<String>
@@ -69,11 +68,7 @@ class SamplePresenter(override val sampleView: SampleContract.View)
 
     private fun setOnChangeListeners() {
         onColorChangeListener = PropertyChangeListener { _, newColor ->
-            try {
-                sampleView.setTextColor(Color.parseColor(newColor))
-            } catch (e: IllegalArgumentException) {
-                Log.w(TAG, "Unable to parse $newColor color")
-            }
+            sampleView.setTextColor(newColor.color)
         }
         Cockpit.addOnColorChangeListener(onColorChangeListener)
 
@@ -110,9 +105,5 @@ class SamplePresenter(override val sampleView: SampleContract.View)
         Cockpit.removeOnFooterChangeListener(onFooterChangeListener)
         Cockpit.removeOnShowFooterChangeListener(onShowFooterChangeListener)
         Cockpit.removeOnDebugDescriptionChangeListener(onDebugDescriptionChangeListener)
-    }
-
-    companion object {
-        val TAG: String = SamplePresenter::class.java.simpleName
     }
 }

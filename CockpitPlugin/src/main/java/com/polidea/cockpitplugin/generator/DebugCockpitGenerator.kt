@@ -2,6 +2,7 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.core.type.CockpitListType
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.ParameterSpec

@@ -25,6 +25,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="Widget.Cockpit.EditText.Value.Color">
+        <item name="android:layout_width">@dimen/cockpit_color_edit_text_width</item>
+    </style>
+
     <style name="Widget.Cockpit.ImageButton.RestoreValue" parent="Base.Widget.AppCompat.ImageButton">
         <item name="android:src">@drawable/restore_green</item>
         <item name="android:scaleType">fitCenter</item>

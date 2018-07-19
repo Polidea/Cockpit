@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="cockpit_margin">16dp</dimen>
+    <dimen name="cockpit_margin_medium">12dp</dimen>
 
     <dimen name="cockpit_peek_width">40dp</dimen>
     <dimen name="cockpit_peek_elevation">4dp</dimen>
@@ -18,6 +19,7 @@
     <dimen name="cockpit_switch_width">50dp</dimen>
 
     <dimen name="cockpit_value_edit_text_width">74dp</dimen>
+    <dimen name="cockpit_color_edit_text_width">98dp</dimen>
     <dimen name="cockpit_value_line_spacing">8sp</dimen>
 
     <dimen name="cockpit_restore_value_button_size">20dp</dimen>

@@ -1,4 +1,4 @@
-package com.polidea.cockpit.utils
+package com.polidea.cockpit.extensions
 
 import com.polidea.cockpit.core.CockpitParam
 

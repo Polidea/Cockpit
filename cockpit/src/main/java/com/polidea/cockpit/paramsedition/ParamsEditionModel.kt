@@ -2,8 +2,8 @@ package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.manager.CockpitManager
-import com.polidea.cockpit.utils.getParam
-import com.polidea.cockpit.utils.toGroupedParams
+import com.polidea.cockpit.extensions.getParam
+import com.polidea.cockpit.extensions.toGroupedParams
 
 internal class ParamsEditionModel : ParamsModel {
 
