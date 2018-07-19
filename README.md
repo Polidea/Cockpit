@@ -11,14 +11,14 @@ It consists of two parts:
 – Gradle plugin generating a set of params based on user-defined yaml file,  
 – Android library containing classes to manage and display those params.
 
-<img src="https://github.com/Polidea/Cockpit/blob/master/images/sample_gif.gif" width="270" height="480">
+<img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-2.gif" width="270" height="480">
 
 ## Usage
 Each defined value is called `param`. The set of params is called `cockpit`.
 
 ### Defining params
-To define cockpit, you need to create **cockpit.yml** file and place it in your application's **your_app_module_name/cockpit** folder. Params defined in **cockpit.yml** are applied to all flavors. In order to extend cockpit depending on a flavor, create additional files using following naming convention:
-cockpitFlavorNames.yml where **FlavorNames** is a list of desired flavors.
+To define cockpit, you need to create **cockpit.yml** file and place it in your application's **your_app_module_name/cockpit** folder. Params defined in **cockpit.yml** are applied to all flavors. In order to extend or change cockpit depending on the flavor, create additional files using following naming convention:
+cockpitFlavorNames.yml where `FlavorNames` is a list of desired flavors.
 
 Examples:
 ```
@@ -59,50 +59,41 @@ listComplexTypeName:
 listSimpleTypeName: [ "staging", "testing", "prod" ]
 ```
 
-Let's consider example cockpit.yml file:
-```
-double_param: 1.0  
-string_param: "testValue"  
-int_param: 1  
-boolean_param: true
-action_param:
-  type: action
-  description: "Action description"
-  buttonText: "Perform"
-```
+> Supported param types are integer, double, string, boolean, list and action. All items inside a list have to be the same type.
 
-This will get parsed into:
-```
-Double double_param = 1.0;
-String string_param = "testValue";
-Integer int_param = 1;
-Boolean boolean_param = true;
-CockpitAction actionParam: "action description"
-```
-> Supported param types are integer, double, string, boolean, list and action.
-
-> Please note that param names are case-sensitive.
+> Please note that param names are case-sensitive and have to be unique.
 
 ### Generating Cockpit
 
 CockpitPlugin will generate `Cockpit.java` file for you. 
-Cockpit functionality is by design available only for debug builds, so `Cockpit.java` file will contain only getters in the release build. This is to prevent any unauthorized param value changes.
+Cockpit functionality is by design available only for debug builds, so `Cockpit.java` file in the release build will contain:
+- only getters for primitive param types,
+- selected value getter for list type,
+- nothing for action type.
+
+This is to prevent any unauthorized param value changes.
 
 ### Accessing param values
-You can access the params via generated getters and setters. Each param has corresponding `getParam_name()` and `setParam_name()`, where `param_name` is your param's name.
+You can access the params via generated getters and setters. Each primitive type param has corresponding `getParamName()` and `setParamName()`, where `paramName` is your param's name. List param has `getParamNameSelectedValue()`.
 
 ### Listening for value changes
 You can listen for value changes by adding PropertyChangeListeners.\
-Each changeable param has methods: `addOnParamNameChangeListener()` and `removeOnParamNameChangeListener()` where `paramName` is param's name.
+Each changeable param has methods: `addOnParamNameChangeListener()` and `removeOnParamNameChangeListener()`, where `paramName` is param's name.
+
+### Listening for selection changes
+List params provide SelectionChangeListeners. You can use methods `addParamNameSelectionChangeListener` and `removeParamNameSelectionChangeListener`, where `paramName` is param's name.
 
 ### Listening for action requests
-Action params don't change theirs values. They request taking some action every time you click the corresponding button.
-To listen for that requests every action param has methods: `addParamNameActionRequestCallback()` and `removeParamNameActionRequestCallback()` where `paramName` is param's name.
+Action params don't change their values. They request performing an action every time you click the corresponding button.
+To listen for those requests action param has `addParamNameActionRequestCallback()` and `removeParamNameActionRequestCallback()` methods, where `paramName` is param's name.
 
-### Displaying cockpit
+### Displaying Cockpit
 Cockpit library offers you an easy way to display and edit all the params you defined. All you need to do is call
 `Cockpit.showCockpit(fragmentManager: FragmentManager)`
-This will display our compact, built-in UI where you can edit the params' values. When you're done, just dismiss the dialog.
+This will display our compact, built-in UI where you can edit the params' values. When you're done, just dismiss the dialog. To make it easy to observe your changes, you can pull the Cockpit fragment down to fit half of the screen's height and pull it up to be displayed in full.
+
+### Restoring default values
+After you've made some changes in Cockpit and decided you didn't like them, it's helpful to be able to restore default values. You can do it globally or for selected param only using curved arrow icon.
 
 ## Download
 ```
