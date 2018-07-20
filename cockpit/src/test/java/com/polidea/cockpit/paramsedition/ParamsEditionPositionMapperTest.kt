@@ -35,39 +35,84 @@ class ParamsEditionPositionMapperTest {
     }
 
     @Test
-    fun toItemPosition() {
+    fun toItemPositionAGroup() {
         addParamsToCockpit(getTestCockpitParams())
-        val paramsEditionModel = ParamsEditionModel()
-        val mapper = ParamsEditionPositionMapper(paramsEditionModel)
+        val mapper = createMapper()
 
-        var itemPosition = mapper.toItemPosition(0)
+        val itemPosition = mapper.toItemPosition(0)
         assertTrue(itemPosition.isGroupPosition())
         assertEquals(0, itemPosition.groupIndex)
 
-        itemPosition = mapper.toItemPosition(1)
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toItemPositionDoubleParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val itemPosition = mapper.toItemPosition(1)
         assertFalse(itemPosition.isGroupPosition())
         assertEquals(0, itemPosition.groupIndex)
         assertEquals(0, itemPosition.paramIndex)
 
-        itemPosition = mapper.toItemPosition(2)
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toItemPositionBooleanParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val itemPosition = mapper.toItemPosition(2)
         assertFalse(itemPosition.isGroupPosition())
         assertEquals(0, itemPosition.groupIndex)
         assertEquals(1, itemPosition.paramIndex)
 
-        itemPosition = mapper.toItemPosition(3)
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toItemPositionDefaultGroup() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val itemPosition = mapper.toItemPosition(3)
         assertTrue(itemPosition.isGroupPosition())
         assertEquals(1, itemPosition.groupIndex)
+    }
 
-        itemPosition = mapper.toItemPosition(4)
+    @Test
+    fun toItemPositionStringParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val itemPosition = mapper.toItemPosition(4)
         assertFalse(itemPosition.isGroupPosition())
         assertEquals(1, itemPosition.groupIndex)
         assertEquals(0, itemPosition.paramIndex)
 
-        itemPosition = mapper.toItemPosition(5)
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toItemPositionBGroup() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val itemPosition = mapper.toItemPosition(5)
         assertTrue(itemPosition.isGroupPosition())
         assertEquals(2, itemPosition.groupIndex)
 
-        itemPosition = mapper.toItemPosition(6)
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toItemPositionIntParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val itemPosition = mapper.toItemPosition(6)
         assertFalse(itemPosition.isGroupPosition())
         assertEquals(2, itemPosition.groupIndex)
         assertEquals(0, itemPosition.paramIndex)
@@ -76,34 +121,84 @@ class ParamsEditionPositionMapperTest {
     }
 
     @Test
-    fun toAdapterPosition() {
+    fun toAdapterPositionAGroup() {
         addParamsToCockpit(getTestCockpitParams())
-        val paramsEditionModel = ParamsEditionModel()
-        val mapper = ParamsEditionPositionMapper(paramsEditionModel)
+        val mapper = createMapper()
 
-        var adapterPosition = mapper.toAdapterPosition(ItemPosition(0))
+        val adapterPosition = mapper.toAdapterPosition(ItemPosition(0))
         assertEquals(0, adapterPosition)
 
-        adapterPosition = mapper.toAdapterPosition(ItemPosition(0, 0))
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toAdapterPositionDoubleParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val adapterPosition = mapper.toAdapterPosition(ItemPosition(0, 0))
         assertEquals(1, adapterPosition)
 
-        adapterPosition = mapper.toAdapterPosition(ItemPosition(0, 1))
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toAdapterPositionBooleanParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val adapterPosition = mapper.toAdapterPosition(ItemPosition(0, 1))
         assertEquals(2, adapterPosition)
 
-        adapterPosition = mapper.toAdapterPosition(ItemPosition(1))
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toAdapterPositionDefaultGroup() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val adapterPosition = mapper.toAdapterPosition(ItemPosition(1))
         assertEquals(3, adapterPosition)
 
-        adapterPosition = mapper.toAdapterPosition(ItemPosition(1, 0))
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toAdapterPositionStringParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val adapterPosition = mapper.toAdapterPosition(ItemPosition(1, 0))
         assertEquals(4, adapterPosition)
 
-        adapterPosition = mapper.toAdapterPosition(ItemPosition(2))
+        CockpitManager.clear()
+    }
+
+    @Test
+    fun toAdapterPositionBGroup() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val adapterPosition = mapper.toAdapterPosition(ItemPosition(2))
         assertEquals(5, adapterPosition)
 
-        adapterPosition = mapper.toAdapterPosition(ItemPosition(2, 0))
+        CockpitManager.clear()
+    }
+
+
+    @Test
+    fun toAdapterPositionIntParam() {
+        addParamsToCockpit(getTestCockpitParams())
+        val mapper = createMapper()
+
+        val adapterPosition = mapper.toAdapterPosition(ItemPosition(2, 0))
         assertEquals(6, adapterPosition)
 
         CockpitManager.clear()
     }
+
+    private fun createMapper() = ParamsEditionPositionMapper(ParamsEditionModel())
 
     private fun addParamsToCockpit(params: List<CockpitParam<Any>>) {
         params.forEach { CockpitManager.addParam(it) }

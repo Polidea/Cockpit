@@ -25,7 +25,7 @@ internal class ParamsEditionModel : ParamsModel {
 
     override fun <T : Any> getParamAt(itemPosition: ItemPosition): CockpitParam<T> =
             groupedParamsCopy[getGroupName(itemPosition.groupIndex)]?.getParam(itemPosition.paramIndex)
-                    ?: throw IllegalArgumentException("Cannot find param for $itemPosition.groupIndex group index and $itemPosition.paramIndex param index")
+                    ?: throw IllegalArgumentException("Cannot find param for ${itemPosition.groupIndex} group index and ${itemPosition.paramIndex} param index")
 
     fun <T : Any> setValue(itemPosition: ItemPosition, newValue: T) {
         val param = getParamAt<T>(itemPosition)
