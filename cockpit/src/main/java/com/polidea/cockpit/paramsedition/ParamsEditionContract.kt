@@ -2,7 +2,6 @@ package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.BasePresenter
 import com.polidea.cockpit.BaseView
-import com.polidea.cockpit.core.CockpitParam
 
 internal interface ParamsEditionContract {
 
@@ -15,24 +14,22 @@ internal interface ParamsEditionContract {
     }
 
     interface ParamView {
-        fun reloadParam(position: Int)
+        fun reloadParam(itemPosition: ItemPosition)
 
         fun reloadAll()
     }
 
     interface Presenter : BasePresenter {
 
-        fun <T : Any> getParamAt(position: Int): CockpitParam<T>
+        fun getParamsModel(): ParamsModel
 
-        fun getParamsSize(): Int
+        fun <T : Any> onParamChange(itemPosition: ItemPosition, newValue: T)
 
-        fun <T : Any> onParamChange(position: Int, newValue: T)
+        fun <T : Any> onParamValueSelected(itemPosition: ItemPosition, selectedItemIndex: Int)
 
-        fun <T : Any> onParamValueSelected(position: Int, selectedItemIndex: Int)
+        fun requestAction(itemPosition: ItemPosition)
 
-        fun requestAction(position: Int)
-
-        fun restore(position: Int)
+        fun restore(itemPosition: ItemPosition)
 
         fun restoreAll()
 

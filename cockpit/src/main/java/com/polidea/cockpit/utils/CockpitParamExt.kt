@@ -18,3 +18,15 @@ internal fun List<CockpitParam<Any>>.copy(): List<CockpitParam<Any>> {
     this.forEach { paramsCopy.add(it.copy()) }
     return paramsCopy.toList()
 }
+
+internal fun List<CockpitParam<Any>>.toGroupedParams(): Map<String?, List<CockpitParam<Any>>> {
+    val mutableGroupedParams = LinkedHashMap<String?, MutableList<CockpitParam<Any>>>()
+
+    forEach {
+        val params = mutableGroupedParams[it.group] ?: mutableListOf()
+        params.add(it)
+        mutableGroupedParams[it.group] = params
+    }
+
+    return mutableGroupedParams
+}

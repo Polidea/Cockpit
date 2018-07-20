@@ -20,7 +20,5 @@ internal enum class ParamType {
                     param.isTypeOf<CockpitAction>() -> ACTION
                     else -> throw UnsupportedCockpitTypeException(param.name, param.value::class.java)
                 }
-
-        fun fromOrdinal(ordinal: Int) = values()[ordinal]
     }
 }

@@ -9,7 +9,7 @@ internal class GroupViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
     val name: TextView = view.findViewById(R.id.cockpit_group_name)
 
-    fun display(groupName: String) {
-        name.text = groupName
+    fun display(groupName: String?) {
+        name.text = groupName ?: view.context.getString(R.string.default_group_name)
     }
 }
