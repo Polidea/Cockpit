@@ -7,9 +7,9 @@
     <dimen name="cockpit_peek_title_font_size">20sp</dimen>
     <dimen name="cockpit_peek_button_width">30dp</dimen>
 
-    <dimen name="cockpit_group_separator_height">2dp</dimen>
+    <dimen name="cockpit_group_separator_height">1dp</dimen>
     <dimen name="cockpit_group_title_text_size">14sp</dimen>
-    <dimen name="cockpit_group_top_margin">20sp</dimen>
+    <dimen name="cockpit_group_top_margin">16dp</dimen>
 
     <dimen name="cockpit_param_name_text_size">16sp</dimen>
     <dimen name="cockpit_param_value_text_size">16sp</dimen>

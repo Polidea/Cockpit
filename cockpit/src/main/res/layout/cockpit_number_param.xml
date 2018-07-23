@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/cockpit_param_vertical_margin"
     android:theme="@style/CockpitTheme">
 
     <TextView
         android:id="@+id/cockpit_param_name"
-        style="@style/CockpitParamName"
+        style="@style/TextAppearance.Cockpit.ParamName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/cockpit_margin"
@@ -20,7 +21,7 @@
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/cockpit_number_param_value"
-        style="@style/CockpitValueEditText"
+        style="@style/Widget.Cockpit.EditText.Value"
         android:inputType="number"
         android:maxLines="1"
         android:textAlignment="center"
@@ -31,7 +32,7 @@
 
     <ImageButton
         android:id="@+id/cockpit_param_restore"
-        style="@style/CockpitRestoreValueImageButton"
+        style="@style/Widget.Cockpit.ImageButton.RestoreValue"
         android:layout_marginEnd="@dimen/cockpit_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

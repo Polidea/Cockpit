@@ -76,8 +76,8 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
         presenter.stop()
     }
 
-    override fun reloadParam(position: Int) {
-        paramsEditionAdapter.reloadParam(position)
+    override fun reloadParam(itemPosition: ItemPosition) {
+        paramsEditionAdapter.reloadParam(itemPosition)
     }
 
     override fun reloadAll() {
