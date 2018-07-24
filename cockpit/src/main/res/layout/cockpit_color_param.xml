@@ -32,7 +32,7 @@
 
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/cockpit_color_param_value"
-        style="@style/Widget.Cockpit.EditText.Value.Color"
+        style="@style/Widget.Cockpit.EditText.Value"
         android:digits="#0123456789ABCDEF"
         android:inputType="textCapCharacters"
         android:maxLines="1"
