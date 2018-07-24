@@ -43,19 +43,40 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     internal fun <T : Any> createGetterMethodSpecForParam(param: CockpitParam<T>): MethodSpec {
         return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
-            builder.addStatement("return (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
-                    mapToTypeClass(param), cockpitManagerClassName)
+            val value = param.value
+            when (value) {
+                is CockpitColor -> {
+                    val cockpitColorClass = CockpitColor::class.java
+                    builder.addStatement("\$T cockpitColor = (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
+                            cockpitColorClass, cockpitColorClass, cockpitManagerClassName)
+                    builder.addStatement("return cockpitColor.getValue()")
+                }
+                else -> {
+                    builder.addStatement("return (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
+                            mapToTypeClass(param), cockpitManagerClassName)
+                }
+            }
         }
     }
 
     internal fun createSetterMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
-        val typeClass = mapToTypeClass(param)
-        return MethodSpec.methodBuilder("set${param.name.capitalize()}")
+        val typeClass = when (param.value) {
+            is CockpitColor -> String::class.java
+            else -> mapToTypeClass(param)
+        }
+        val builder = MethodSpec.methodBuilder("set${param.name.capitalize()}")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(typeClass, param.name).build())
-                .addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", ${param.name})",
-                        cockpitManagerClassName)
-                .build()
+        when (param.value) {
+            is CockpitColor -> {
+                val cockpitColorClass = CockpitColor::class.java
+                builder.addStatement("\$T cockpitColor = new \$T(${param.name})", cockpitColorClass, cockpitColorClass)
+                builder.addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", cockpitColor)", cockpitManagerClassName)
+            }
+            else -> builder.addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", ${param.name})",
+                    cockpitManagerClassName)
+        }
+        return builder.build()
     }
 
     internal fun createAddPropertyChangeListenerMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
