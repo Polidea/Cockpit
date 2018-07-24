@@ -2,6 +2,7 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.core.type.CockpitListType
 import com.squareup.javapoet.MethodSpec
 import java.io.File
@@ -41,8 +42,9 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
     }
 
     private fun createWrappedValueForParamValue(value: Any): Any {
-        return when (value.javaClass) {
-            String::class.java -> "\"$value\""
+        return when (value) {
+            is String -> "\"$value\""
+            is CockpitColor -> "\"${value.value}\""
             else -> value
         }
     }

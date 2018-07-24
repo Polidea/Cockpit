@@ -1,6 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.type.CockpitColor
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -59,12 +60,17 @@ internal abstract class BaseCockpitGenerator {
 
     protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: CockpitParam<T>,
                                                                           configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
-        val prefix = when (param.value) {
+        val paramValue = param.value
+        val prefix = when (paramValue) {
             is Boolean -> "is"
             else -> "get"
         }
+        val returnedTypeClass = when (paramValue) {
+            is CockpitColor -> String::class.java
+            else -> mapToTypeClass(param)
+        }
         return configurator(MethodSpec.methodBuilder("$prefix${param.name.capitalize()}")
-                .returns(mapToTypeClass(param))
+                .returns(returnedTypeClass)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
                 .build()
     }

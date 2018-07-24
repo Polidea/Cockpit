@@ -1,5 +1,6 @@
 package com.polidea.cockpit.sample.sampleparams
 
+import android.graphics.Color
 import android.graphics.Typeface
 import com.polidea.cockpit.cockpit.Cockpit
 
@@ -18,6 +19,6 @@ abstract class SampleBasePresenter(open val sampleView: SampleBaseContract.View<
         sampleView.setFontSize(Cockpit.getFontSize().toFloat())
         sampleView.showFooter(true)
         sampleView.setTypeface(Typeface.create(Cockpit.getFontListSelectedValue(), Typeface.NORMAL))
-        sampleView.setTextColor(Cockpit.getColor().color)
+        sampleView.setTextColor(Color.parseColor(Cockpit.getColor()))
     }
 }
