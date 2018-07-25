@@ -105,7 +105,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedBooleanParamChangeListenerMethodSpecString = """
             |public static void addOnBoolParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Boolean> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Boolean> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("boolParam", listener);
             |}"""
         assertEquals(expectedBooleanParamChangeListenerMethodSpecString.trimMargin(), booleanParamChangeListenerMethodSpec.toString().trimMargin())
@@ -117,7 +117,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedIntegerParamChangeListenerMethodSpecString = """
             |public static void addOnIntParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Integer> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("intParam", listener);
             |}"""
         assertEquals(expectedIntegerParamChangeListenerMethodSpecString.trimMargin(), integerParamChangeListenerMethodSpec.toString().trimMargin())
@@ -129,7 +129,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedDoubleParamChangeListenerMethodSpecString = """
             |public static void addOnDoubleParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Double> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("doubleParam", listener);
             |}"""
         assertEquals(expectedDoubleParamChangeListenerMethodSpecString.trimMargin(), doubleParamChangeListenerMethodSpec.toString().trimMargin())
@@ -141,7 +141,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedStringParamChangeListenerMethodSpecString = """
             |public static void addOnStringParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.String> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("stringParam", listener);
             |}"""
         assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), stringParamChangeListenerMethodSpec.toString().trimMargin())
@@ -153,7 +153,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedBooleanParamChangeListenerMethodSpecString = """
             |public static void removeOnBoolParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Boolean> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Boolean> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("boolParam", listener);
             |}"""
         assertEquals(expectedBooleanParamChangeListenerMethodSpecString.trimMargin(), booleanParamChangeListenerMethodSpec.toString().trimMargin())
@@ -165,7 +165,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedIntegerParamChangeListenerMethodSpecString = """
             |public static void removeOnIntParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Integer> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("intParam", listener);
             |}"""
         assertEquals(expectedIntegerParamChangeListenerMethodSpecString.trimMargin(), integerParamChangeListenerMethodSpec.toString().trimMargin())
@@ -177,7 +177,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedDoubleParamChangeListenerMethodSpecString = """
             |public static void removeOnDoubleParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Double> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("doubleParam", listener);
             |}"""
         assertEquals(expectedDoubleParamChangeListenerMethodSpecString.trimMargin(), doubleParamChangeListenerMethodSpec.toString().trimMargin())
@@ -189,7 +189,7 @@ class DebugCockpitGeneratorTest {
 
         val expectedStringParamChangeListenerMethodSpecString = """
             |public static void removeOnStringParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.String> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("stringParam", listener);
             |}"""
         assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), stringParamChangeListenerMethodSpec.toString().trimMargin())

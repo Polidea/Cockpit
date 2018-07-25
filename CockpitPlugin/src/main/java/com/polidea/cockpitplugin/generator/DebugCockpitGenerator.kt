@@ -4,13 +4,13 @@ import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.core.type.CockpitListType
-import com.squareup.javapoet.MethodSpec
-import com.squareup.javapoet.ParameterSpec
+import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
 
-
 internal class DebugCockpitGenerator : BaseCockpitGenerator() {
+
+    private var shouldGenerateColorFields = false
 
     override fun generate(params: List<CockpitParam<*>>, file: File?) {
         val propertyMethods = params.fold(mutableListOf<MethodSpec>()) { acc, param ->
@@ -26,19 +26,54 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                         add(createRemoveSelectionChangeListenerMethodSpecForParam(listTypeParam))
                         add(createSelectedValueGetterMethodSpecForParam(listTypeParam))
                     }
+                    is CockpitColor -> {
+                        shouldGenerateColorFields = true
+                        addGetterSetterAndPropertyChangeListenerMethods(param)
+                    }
                     else -> {
-                        add(createGetterMethodSpecForParam(param))
-                        add(createSetterMethodSpecForParam(param))
-                        add(createAddPropertyChangeListenerMethodSpecForParam(param))
-                        add(createRemovePropertyChangeListenerMethodSpecForParam(param))
+                        addGetterSetterAndPropertyChangeListenerMethods(param)
                     }
                 }
             }
         }
         generate(file) { builder ->
             builder.addMethods(propertyMethods)
+                    .addFields(generateFields())
                     .addMethod(generateShowCockpitMethod())
         }
+    }
+
+    private fun MutableList<MethodSpec>.addGetterSetterAndPropertyChangeListenerMethods(param: CockpitParam<*>) {
+        add(createGetterMethodSpecForParam(param))
+        add(createSetterMethodSpecForParam(param))
+        add(createAddPropertyChangeListenerMethodSpecForParam(param))
+        add(createRemovePropertyChangeListenerMethodSpecForParam(param))
+    }
+
+    private fun generateFields(): MutableIterable<FieldSpec> {
+        return mutableListOf<FieldSpec>().apply {
+            if (shouldGenerateColorFields) {
+                add(createColorListenerMapFieldSpec())
+                add(createColorColorMapperFieldSpec())
+                shouldGenerateColorFields = false
+            }
+        }
+    }
+
+    private fun createColorListenerMapFieldSpec(): FieldSpec {
+        return FieldSpec.builder(ParameterizedTypeName.get(mapClassName,
+                getParametrizedCockpitPropertyChangeListenerClassName(String::class.java),
+                getParametrizedCockpitPropertyChangeListenerClassName(cockpitColorClassName)),
+                "colorListenerMap", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+                .initializer("new \$T<>()", hashMapClassName)
+                .build()
+    }
+
+    private fun createColorColorMapperFieldSpec(): FieldSpec {
+        return FieldSpec.builder(cockpitColorMapperClassName, "cockpitColorMapper",
+                Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+                .initializer("new \$T()", cockpitColorMapperClassName)
+                .build()
     }
 
     internal fun <T : Any> createGetterMethodSpecForParam(param: CockpitParam<T>): MethodSpec {
@@ -49,7 +84,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                     val cockpitColorClass = CockpitColor::class.java
                     builder.addStatement("\$T cockpitColor = (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
                             cockpitColorClass, cockpitColorClass, cockpitManagerClassName)
-                    builder.addStatement("return cockpitColor.getValue()")
+                    builder.addStatement("return cockpitColorMapper.unwrap(cockpitColor)")
                 }
                 else -> {
                     builder.addStatement("return (\$T) \$T.INSTANCE.getParamValue(\"${param.name}\")",
@@ -69,8 +104,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addParameter(ParameterSpec.builder(typeClass, param.name).build())
         when (param.value) {
             is CockpitColor -> {
-                val cockpitColorClass = CockpitColor::class.java
-                builder.addStatement("\$T cockpitColor = new \$T(${param.name})", cockpitColorClass, cockpitColorClass)
+                builder.addStatement("\$T cockpitColor = cockpitColorMapper.wrap(color)", cockpitColorClassName)
                 builder.addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", cockpitColor)", cockpitManagerClassName)
             }
             else -> builder.addStatement("\$T.INSTANCE.setParamValue(\"${param.name}\", ${param.name})",
@@ -80,25 +114,50 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
     }
 
     internal fun createAddPropertyChangeListenerMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
-        val typeClass = mapToJavaObjectTypeClass(param)
+        val typeClass = when (param.value) {
+            is CockpitColor -> String::class.java
+            else -> mapToJavaObjectTypeClass(param)
+        }
         val listenerParamName = "listener"
-        return MethodSpec.methodBuilder("addOn${param.name.capitalize()}ChangeListener")
+        val builder = MethodSpec.methodBuilder("addOn${param.name.capitalize()}ChangeListener")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(getParametrizedCockpitPropertyChangeListenerClassName(typeClass), listenerParamName).build())
-                .addStatement("\$T.INSTANCE.addOnParamChangeListener(\"${param.name}\", $listenerParamName)",
-                        cockpitManagerClassName)
+        when (param.value) {
+            is CockpitColor -> {
+                builder.addStatement("\$T colorListener = new \$T($listenerParamName, cockpitColorMapper)",
+                        getParametrizedCockpitPropertyChangeListenerClassName(cockpitColorClassName),
+                        ParameterizedTypeName.get(mappingPropertyChangeListenerClassName, cockpitColorClassName, TypeName.get(String::class.java)))
+                builder.addStatement("colorListenerMap.put($listenerParamName, colorListener)")
+                builder.addStatement("\$T.INSTANCE.addOnParamChangeListener(\"${param.name}\", colorListener)", cockpitManagerClassName)
+            }
+            else -> builder.addStatement("\$T.INSTANCE.addOnParamChangeListener(\"${param.name}\", $listenerParamName)",
+                    cockpitManagerClassName)
+        }
+        return builder
                 .build()
     }
 
     internal fun createRemovePropertyChangeListenerMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
-        val typeClass = mapToJavaObjectTypeClass(param)
+        val typeClass = when (param.value) {
+            is CockpitColor -> String::class.java
+            else -> mapToJavaObjectTypeClass(param)
+        }
         val listenerParamName = "listener"
-        return MethodSpec.methodBuilder("removeOn${param.name.capitalize()}ChangeListener")
+        val builder = MethodSpec.methodBuilder("removeOn${param.name.capitalize()}ChangeListener")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(getParametrizedCockpitPropertyChangeListenerClassName(typeClass), listenerParamName).build())
-                .addStatement("\$T.INSTANCE.removeOnParamChangeListener(\"${param.name}\", $listenerParamName)",
+        when (param.value) {
+            is CockpitColor -> {
+                builder.addStatement("\$T colorListener = colorListenerMap.get($listenerParamName)",
+                        getParametrizedCockpitPropertyChangeListenerClassName(cockpitColorClassName))
+                builder.addStatement("colorListenerMap.remove($listenerParamName)")
+                builder.addStatement("\$T.INSTANCE.removeOnParamChangeListener(\"${param.name}\", colorListener)",
                         cockpitManagerClassName)
-                .build()
+            }
+            else -> builder.addStatement("\$T.INSTANCE.removeOnParamChangeListener(\"${param.name}\", $listenerParamName)",
+                    cockpitManagerClassName)
+        }
+        return builder.build()
     }
 
     internal fun createAddActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>): MethodSpec {

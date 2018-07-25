@@ -15,8 +15,10 @@ internal abstract class BaseCockpitGenerator {
     private val androidSupportV4Package = "android.support.v4.app"
     private val cockpitDialogPackage = "com.polidea.cockpit.paramsedition"
     private val cockpitEventPackage = "com.polidea.cockpit.event"
+    private val cockpitMapperPackage = "com.polidea.cockpit.mapper"
+    private val cockpitCoreTypePackage = "com.polidea.cockpit.core.type"
 
-    protected val javaUtilPackage = "java.util"
+    private val javaUtilPackage = "java.util"
 
     private val cockpit = "Cockpit"
     private val cockpitManager = "CockpitManager"
@@ -25,8 +27,12 @@ internal abstract class BaseCockpitGenerator {
     private val propertyChangeListener = "PropertyChangeListener"
     private val actionRequestCallback = "ActionRequestCallback"
     private val selectionChangeListener = "SelectionChangeListener"
+    private val cockpitColor = "CockpitColor"
+    private val cockpitColorMapper = "CockpitColorMapper"
+    private val mappingPropertyChangeListener = "MappingPropertyChangeListener"
 
-    protected val arrays = "Arrays"
+    protected val map = "Map"
+    protected val hashMap = "HashMap"
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
     protected val androidFragmentManagerClassName = ClassName.get(androidSupportV4Package, fragmentManager)
@@ -34,11 +40,18 @@ internal abstract class BaseCockpitGenerator {
     protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
     protected val actionRequestCallbackClassName = ClassName.get(cockpitEventPackage, actionRequestCallback)
     protected val selectionChangeListenerClassName = ClassName.get(cockpitEventPackage, selectionChangeListener)
+    protected val cockpitColorClassName = ClassName.get(cockpitCoreTypePackage, cockpitColor)
+    protected val cockpitColorMapperClassName = ClassName.get(cockpitMapperPackage, cockpitColorMapper)
+    protected val mappingPropertyChangeListenerClassName = ClassName.get(cockpitMapperPackage, mappingPropertyChangeListener)
 
-    protected val arraysClassName = ClassName.get(javaUtilPackage, arrays)
+    protected val mapClassName = ClassName.get(javaUtilPackage, map)
+    protected val hashMapClassName = ClassName.get(javaUtilPackage, hashMap)
 
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
-            ParameterizedTypeName.get(propertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
+            getParametrizedCockpitPropertyChangeListenerClassName(TypeName.get(clazz))
+
+    protected fun getParametrizedCockpitPropertyChangeListenerClassName(typeName: TypeName) =
+            ParameterizedTypeName.get(propertyChangeListenerClassName, typeName)
 
     protected fun getParametrizedCockpitSelectionChangeListenerClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(selectionChangeListenerClassName, TypeName.get(clazz))
