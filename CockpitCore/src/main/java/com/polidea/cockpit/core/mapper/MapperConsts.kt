@@ -1,6 +1,6 @@
 package com.polidea.cockpit.core.mapper
 
-internal class Consts {
+internal class MapperConsts {
 
     internal companion object {
         const val KEY_TYPE = "type"

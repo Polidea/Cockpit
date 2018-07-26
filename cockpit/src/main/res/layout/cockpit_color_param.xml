@@ -19,12 +19,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Param Name"/>
 
-    <View
+    <com.polidea.cockpit.paramsedition.view.ColorPreviewView
         android:id="@+id/cockpit_color_preview_view"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="@dimen/cockpit_color_preview_size"
+        android:layout_height="@dimen/cockpit_color_preview_size"
         android:layout_marginEnd="@dimen/cockpit_margin_medium"
-        android:background="@android:color/holo_orange_light"
+        tools:background="@android:color/holo_orange_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cockpit_color_param_value"
         app:layout_constraintTop_toTopOf="parent"

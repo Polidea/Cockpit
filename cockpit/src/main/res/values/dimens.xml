@@ -27,4 +27,6 @@
     <dimen name="cockpit_string_param_text_size">12sp</dimen>
 
     <dimen name="cockpit_action_button_padding_horizontal">25dp</dimen>
+
+    <dimen name="cockpit_color_preview_size">20dp</dimen>
 </resources>

@@ -10,8 +10,6 @@ import javax.lang.model.element.Modifier
 
 internal class DebugCockpitGenerator : BaseCockpitGenerator() {
 
-    private var shouldGenerateColorFields = false
-
     override fun generate(params: List<CockpitParam<*>>, file: File?) {
         val propertyMethods = params.fold(mutableListOf<MethodSpec>()) { acc, param ->
             acc.apply {
@@ -26,36 +24,29 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                         add(createRemoveSelectionChangeListenerMethodSpecForParam(listTypeParam))
                         add(createSelectedValueGetterMethodSpecForParam(listTypeParam))
                     }
-                    is CockpitColor -> {
-                        shouldGenerateColorFields = true
-                        addGetterSetterAndPropertyChangeListenerMethods(param)
-                    }
                     else -> {
-                        addGetterSetterAndPropertyChangeListenerMethods(param)
+                        add(createGetterMethodSpecForParam(param))
+                        add(createSetterMethodSpecForParam(param))
+                        add(createAddPropertyChangeListenerMethodSpecForParam(param))
+                        add(createRemovePropertyChangeListenerMethodSpecForParam(param))
                     }
                 }
             }
         }
+
         generate(file) { builder ->
             builder.addMethods(propertyMethods)
-                    .addFields(generateFields())
+                    .addFields(generateFields(params))
                     .addMethod(generateShowCockpitMethod())
         }
     }
 
-    private fun MutableList<MethodSpec>.addGetterSetterAndPropertyChangeListenerMethods(param: CockpitParam<*>) {
-        add(createGetterMethodSpecForParam(param))
-        add(createSetterMethodSpecForParam(param))
-        add(createAddPropertyChangeListenerMethodSpecForParam(param))
-        add(createRemovePropertyChangeListenerMethodSpecForParam(param))
-    }
-
-    private fun generateFields(): MutableIterable<FieldSpec> {
+    private fun generateFields(params: List<CockpitParam<*>>): MutableIterable<FieldSpec> {
         return mutableListOf<FieldSpec>().apply {
-            if (shouldGenerateColorFields) {
+            val listenerMapAndColorMapperNeeded = params.find { it.value is CockpitColor } != null
+            if (listenerMapAndColorMapperNeeded) {
                 add(createColorListenerMapFieldSpec())
                 add(createColorColorMapperFieldSpec())
-                shouldGenerateColorFields = false
             }
         }
     }
