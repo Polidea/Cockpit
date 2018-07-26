@@ -71,31 +71,30 @@ internal abstract class BaseCockpitGenerator {
         }
     }
 
-    protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: CockpitParam<T>,
+    protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(paramName: String, value: T,
                                                                           configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
-        val paramValue = param.value
-        val prefix = when (paramValue) {
+        val prefix = when (value) {
             is Boolean -> "is"
             else -> "get"
         }
-        val returnedTypeClass = when (paramValue) {
+        val returnedTypeClass = when (value) {
             is CockpitColor -> String::class.java
-            else -> mapToTypeClass(param)
+            else -> mapToTypeClass(value)
         }
-        return configurator(MethodSpec.methodBuilder("$prefix${param.name.capitalize()}")
+        return configurator(MethodSpec.methodBuilder("$prefix${paramName.capitalize()}")
                 .returns(returnedTypeClass)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
                 .build()
     }
 
-    protected fun mapToTypeClass(param: CockpitParam<*>): Class<*> {
-        return when (param.value) {
+    protected fun mapToTypeClass(value: Any): Class<*> {
+        return when (value) {
             is Boolean -> Boolean::class.java
             is Double -> Double::class.java
             is Int -> Int::class.java
-            else -> param.value::class.java
+            else -> value::class.java
         }
     }
 
-    protected fun mapToJavaObjectTypeClass(param: CockpitParam<*>) = param.value::class.javaObjectType
+    protected fun mapToJavaObjectTypeClass(value: Any) = value::class.javaObjectType
 }
