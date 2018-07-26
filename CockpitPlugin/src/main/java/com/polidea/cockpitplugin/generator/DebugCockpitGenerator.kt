@@ -133,9 +133,11 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         return MethodSpec.methodBuilder("showCockpit")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(androidFragmentManagerClassName, "fragmentManager").build())
+                .beginControlFlow("if (fragmentManager.findFragmentByTag(\"Cockpit\") == null)")
                 .addStatement("\$T cockpitDialog = \$T.Companion.newInstance()",
                         cockpitDialogClassName, cockpitDialogClassName)
                 .addStatement("cockpitDialog.show(fragmentManager, \"Cockpit\")")
+                .endControlFlow()
                 .build()
     }
 }

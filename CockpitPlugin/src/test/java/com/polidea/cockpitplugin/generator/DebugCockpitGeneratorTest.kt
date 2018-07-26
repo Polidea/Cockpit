@@ -225,8 +225,10 @@ class DebugCockpitGeneratorTest {
 
         val expectedFunSpecString = """
             |public static void showCockpit(android.support.v4.app.FragmentManager fragmentManager) {
-            |  com.polidea.cockpit.paramsedition.CockpitDialog cockpitDialog = com.polidea.cockpit.paramsedition.CockpitDialog.Companion.newInstance();
-            |  cockpitDialog.show(fragmentManager, "Cockpit");
+            |  if (fragmentManager.findFragmentByTag("Cockpit") == null) {
+            |    com.polidea.cockpit.paramsedition.CockpitDialog cockpitDialog = com.polidea.cockpit.paramsedition.CockpitDialog.Companion.newInstance();
+            |    cockpitDialog.show(fragmentManager, "Cockpit");
+            |  }
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())

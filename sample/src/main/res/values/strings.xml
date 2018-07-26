@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">CockpitSample</string>
-    <string name="edit_values">EDIT VALUES</string>
     <string name="cockpit_header">Cockpit:</string>
 </resources>
