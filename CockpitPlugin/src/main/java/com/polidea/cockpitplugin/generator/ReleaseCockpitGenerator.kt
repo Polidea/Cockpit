@@ -14,11 +14,11 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
         val propertyMethods = params.fold(mutableListOf<MethodSpec>()) { acc, param ->
             acc.apply {
                 val paramName = param.name
-                val value = param.value
-                when (value) {
+                val paramValue = param.value
+                when (paramValue) {
                     is CockpitAction -> Unit // we don't need getter for action
                     is CockpitListType<*> -> add(createSelectedValueGetterMethodSpecForParam(param as CockpitParam<CockpitListType<*>>))
-                    else -> add(createGetterMethodSpecForParam(paramName, value))
+                    else -> add(createGetterMethodSpecForParam(paramName, paramValue))
                 }
             }
         }
@@ -27,9 +27,9 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
         }
     }
 
-    internal fun createGetterMethodSpecForParam(paramName: String, value: Any): MethodSpec {
-        return createGetterMethodSpecForParamAndConfigurator(paramName, value) { builder ->
-            builder.addStatement("return ${createWrappedValueForParamValue(value)}")
+    internal fun createGetterMethodSpecForParam(paramName: String, paramValue: Any): MethodSpec {
+        return createGetterMethodSpecForParamAndConfigurator(paramName, paramValue) { builder ->
+            builder.addStatement("return ${createWrappedValueForParamValue(paramValue)}")
         }
     }
 

@@ -19,10 +19,10 @@ internal class YamlToParamMapper {
         }
     }
 
-    private fun fromSimpleYamlFormat(paramName: String, value: Any): CockpitParam<Any> {
-        val paramValue = when (value) {
-            is List<*> -> CockpitListType(ArrayList<Any>(value), 0)
-            else -> value
+    private fun fromSimpleYamlFormat(paramName: String, paramValue: Any): CockpitParam<Any> {
+        val paramValue = when (paramValue) {
+            is List<*> -> CockpitListType(ArrayList<Any>(paramValue), 0)
+            else -> paramValue
         }
         return CockpitParam(paramName, paramValue)
     }
