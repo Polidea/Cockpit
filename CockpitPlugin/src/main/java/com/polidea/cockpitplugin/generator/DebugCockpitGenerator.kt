@@ -53,7 +53,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         }
     }
 
-    private fun createColorListenerMapFieldSpec(): FieldSpec {
+    internal fun createColorListenerMapFieldSpec(): FieldSpec {
         return FieldSpec.builder(ParameterizedTypeName.get(mapClassName,
                 getParametrizedCockpitPropertyChangeListenerClassName(String::class.java),
                 getParametrizedCockpitPropertyChangeListenerClassName(cockpitColorClassName)),
@@ -62,7 +62,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .build()
     }
 
-    private fun createColorColorMapperFieldSpec(): FieldSpec {
+    internal fun createColorColorMapperFieldSpec(): FieldSpec {
         return FieldSpec.builder(cockpitColorMapperClassName, "cockpitColorMapper",
                 Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
                 .initializer("new \$T()", cockpitColorMapperClassName)
