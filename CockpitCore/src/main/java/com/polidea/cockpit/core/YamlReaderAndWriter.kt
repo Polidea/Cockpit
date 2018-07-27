@@ -5,7 +5,7 @@ import org.yaml.snakeyaml.Yaml
 import java.io.File
 import java.io.FileWriter
 import java.io.Reader
-
+// TODO [PU] I would consider creating an interface of Reader/Writer that is unaware of whether it's yaml/xml or something else
 class YamlReaderAndWriter {
 
     private val yaml = Yaml(yamlLoaderOptions())
