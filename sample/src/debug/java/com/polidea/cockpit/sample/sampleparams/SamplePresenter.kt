@@ -51,7 +51,7 @@ class SamplePresenter(override val sampleView: SampleContract.View)
         Cockpit.removeFontListSelectionChangeListener(fontSelectedListener)
     }
 
-    override fun editValues() {
+    override fun shakeDetected() {
         sampleView.showCockpitUi()
     }
 

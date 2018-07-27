@@ -11,6 +11,6 @@ interface SampleContract {
     }
 
     interface Presenter : SampleBaseContract.Presenter {
-        fun editValues()
+        fun shakeDetected()
     }
 }

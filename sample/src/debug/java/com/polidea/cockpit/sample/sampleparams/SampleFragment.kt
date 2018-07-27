@@ -21,7 +21,7 @@ class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleCon
     private val shakeDetector = ShakeDetector(this)
 
     override fun hearShake() {
-        showCockpitUi()
+        presenter.shakeDetected()
     }
 
     private fun setShakeDetector() {
