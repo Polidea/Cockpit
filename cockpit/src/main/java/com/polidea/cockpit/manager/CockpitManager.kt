@@ -22,7 +22,6 @@ object CockpitManager {
     }
 
     private val paramChangeNotifier = ParamChangeNotifier()
-
     private val callbackNotifier = CallbackNotifier()
 
     internal fun addParam(param: CockpitParam<*>) {
@@ -38,8 +37,9 @@ object CockpitManager {
         }
     }
 
+    // TODO [PU] Can be replaced with params.any{it.name == key}
     private fun exists(key: String) =
-            params.find { it.name == key } != null
+        params.any { it.name == key }
 
     fun <T : Any> getParamValue(name: String): T = params.getParam<CockpitParam<T>>(name).value
 

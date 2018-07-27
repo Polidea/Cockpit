@@ -3,6 +3,17 @@ package com.polidea.cockpit.manager
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
 
+/*
+ TODO [PU]
+ 1. A little bit inconsistent, this class effectively does the same as the [CallbackNotifier].
+ Property and selection listeners seems to do exactly the same.
+ From the user perspective I doesn't seem to be any different if you observe selected item or value change
+ (effectively it's a value change anyway).
+
+ 2. Another inconsistency is that the selection checks whether the value was changed and property change does not.
+
+ 3. I think that better place for this class would be near callback event interfaces.
+ */
 internal class ParamChangeNotifier {
 
     private val listeners: MutableMap<String, MutableSet<*>> = mutableMapOf()

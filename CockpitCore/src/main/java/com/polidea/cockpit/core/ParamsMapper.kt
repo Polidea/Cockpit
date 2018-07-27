@@ -4,6 +4,7 @@ import com.polidea.cockpit.core.exception.CockpitParseException
 import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.core.type.CockpitListType
 
+// TODO [PU] It would be nice to see this class tested
 class ParamsMapper {
 
     fun toListOfParams(yamlMap: Map<String, Any>): List<CockpitParam<Any>> {
