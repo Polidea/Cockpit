@@ -2,6 +2,7 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
+import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.core.type.CockpitListType
 import com.squareup.javapoet.MethodSpec
 import java.io.File
@@ -12,10 +13,12 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
     override fun generate(params: List<CockpitParam<*>>, file: File?) {
         val propertyMethods = params.fold(mutableListOf<MethodSpec>()) { acc, param ->
             acc.apply {
-                when (param.value) {
+                val paramName = param.name
+                val paramValue = param.value
+                when (paramValue) {
                     is CockpitAction -> Unit // we don't need getter for action
                     is CockpitListType<*> -> add(createSelectedValueGetterMethodSpecForParam(param as CockpitParam<CockpitListType<*>>))
-                    else -> add(createGetterMethodSpecForParam(param))
+                    else -> add(createGetterMethodSpecForParam(paramName, paramValue))
                 }
             }
         }
@@ -24,9 +27,9 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
         }
     }
 
-    internal fun createGetterMethodSpecForParam(param: CockpitParam<*>): MethodSpec {
-        return createGetterMethodSpecForParamAndConfigurator(param) { builder ->
-            builder.addStatement("return ${createWrappedValueForParamValue(param.value)}")
+    internal fun createGetterMethodSpecForParam(paramName: String, paramValue: Any): MethodSpec {
+        return createGetterMethodSpecForParamAndConfigurator(paramName, paramValue) { builder ->
+            builder.addStatement("return ${createWrappedValueForParamValue(paramValue)}")
         }
     }
 
@@ -41,8 +44,9 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
     }
 
     private fun createWrappedValueForParamValue(value: Any): Any {
-        return when (value.javaClass) {
-            String::class.java -> "\"$value\""
+        return when (value) {
+            is String -> "\"$value\""
+            is CockpitColor -> "\"${value.value}\""
             else -> value
         }
     }

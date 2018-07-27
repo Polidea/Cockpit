@@ -1,6 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.type.CockpitColor
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -14,8 +15,10 @@ internal abstract class BaseCockpitGenerator {
     private val androidSupportV4Package = "android.support.v4.app"
     private val cockpitDialogPackage = "com.polidea.cockpit.paramsedition"
     private val cockpitEventPackage = "com.polidea.cockpit.event"
+    private val cockpitMapperPackage = "com.polidea.cockpit.mapper"
+    private val cockpitCoreTypePackage = "com.polidea.cockpit.core.type"
 
-    protected val javaUtilPackage = "java.util"
+    private val javaUtilPackage = "java.util"
 
     private val cockpit = "Cockpit"
     private val cockpitManager = "CockpitManager"
@@ -24,8 +27,12 @@ internal abstract class BaseCockpitGenerator {
     private val propertyChangeListener = "PropertyChangeListener"
     private val actionRequestCallback = "ActionRequestCallback"
     private val selectionChangeListener = "SelectionChangeListener"
+    private val cockpitColor = "CockpitColor"
+    private val cockpitColorMapper = "CockpitColorMapper"
+    private val mappingPropertyChangeListener = "MappingPropertyChangeListener"
 
-    protected val arrays = "Arrays"
+    protected val map = "Map"
+    protected val hashMap = "HashMap"
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
     protected val androidFragmentManagerClassName = ClassName.get(androidSupportV4Package, fragmentManager)
@@ -33,11 +40,18 @@ internal abstract class BaseCockpitGenerator {
     protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
     protected val actionRequestCallbackClassName = ClassName.get(cockpitEventPackage, actionRequestCallback)
     protected val selectionChangeListenerClassName = ClassName.get(cockpitEventPackage, selectionChangeListener)
+    protected val cockpitColorClassName = ClassName.get(cockpitCoreTypePackage, cockpitColor)
+    protected val cockpitColorMapperClassName = ClassName.get(cockpitMapperPackage, cockpitColorMapper)
+    protected val mappingPropertyChangeListenerClassName = ClassName.get(cockpitMapperPackage, mappingPropertyChangeListener)
 
-    protected val arraysClassName = ClassName.get(javaUtilPackage, arrays)
+    protected val mapClassName = ClassName.get(javaUtilPackage, map)
+    protected val hashMapClassName = ClassName.get(javaUtilPackage, hashMap)
 
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(clazz: Class<*>) =
-            ParameterizedTypeName.get(propertyChangeListenerClassName, WildcardTypeName.subtypeOf(clazz))
+            getParametrizedCockpitPropertyChangeListenerClassName(TypeName.get(clazz))
+
+    protected fun getParametrizedCockpitPropertyChangeListenerClassName(typeName: TypeName) =
+            ParameterizedTypeName.get(propertyChangeListenerClassName, typeName)
 
     protected fun getParametrizedCockpitSelectionChangeListenerClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(selectionChangeListenerClassName, TypeName.get(clazz))
@@ -57,26 +71,30 @@ internal abstract class BaseCockpitGenerator {
         }
     }
 
-    protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(param: CockpitParam<T>,
+    protected fun <T : Any> createGetterMethodSpecForParamAndConfigurator(paramName: String, value: T,
                                                                           configurator: (MethodSpec.Builder) -> MethodSpec.Builder): MethodSpec {
-        val prefix = when (param.value) {
+        val prefix = when (value) {
             is Boolean -> "is"
             else -> "get"
         }
-        return configurator(MethodSpec.methodBuilder("$prefix${param.name.capitalize()}")
-                .returns(mapToTypeClass(param))
+        val returnedTypeClass = when (value) {
+            is CockpitColor -> String::class.java
+            else -> mapToTypeClass(value)
+        }
+        return configurator(MethodSpec.methodBuilder("$prefix${paramName.capitalize()}")
+                .returns(returnedTypeClass)
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC))
                 .build()
     }
 
-    protected fun mapToTypeClass(param: CockpitParam<*>): Class<*> {
-        return when (param.value) {
+    protected fun mapToTypeClass(value: Any): Class<*> {
+        return when (value) {
             is Boolean -> Boolean::class.java
             is Double -> Double::class.java
             is Int -> Int::class.java
-            else -> param.value::class.java
+            else -> value::class.java
         }
     }
 
-    protected fun mapToJavaObjectTypeClass(param: CockpitParam<*>) = param.value::class.javaObjectType
+    protected fun mapToJavaObjectTypeClass(value: Any) = value::class.javaObjectType
 }

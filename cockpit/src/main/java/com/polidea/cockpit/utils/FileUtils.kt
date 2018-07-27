@@ -2,6 +2,7 @@ package com.polidea.cockpit.utils
 
 import android.content.res.AssetManager
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.paramsedition.ParamType
 import com.polidea.cockpit.persistency.CockpitYamlFileManager
 import org.jetbrains.annotations.TestOnly
 
@@ -26,6 +27,7 @@ internal object FileUtils {
         inputParams.forEach { inputParam ->
             // latest version of param: saved param, if exists, or default - otherwise
             val param = savedParams.firstOrNull { inputParam.name == it.name } ?: inputParam
+            // TODO: check if param has the same type, if not, use input value
             val lastValue = param.value
             // we need only value from saved param, the rest:
             // group, description, etc. should be taken from default (cockpit*.yml) param

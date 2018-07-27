@@ -1,4 +1,5 @@
 color:
+  type: color
   description: "Text color"
   value: "#00ff33"
 colorDescription: "Calm green"

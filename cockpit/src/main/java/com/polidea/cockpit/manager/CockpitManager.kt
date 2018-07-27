@@ -7,8 +7,8 @@ import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
 import com.polidea.cockpit.utils.FileUtils
-import com.polidea.cockpit.utils.copy
-import com.polidea.cockpit.utils.getParam
+import com.polidea.cockpit.extensions.copy
+import com.polidea.cockpit.extensions.getParam
 import org.jetbrains.annotations.TestOnly
 
 object CockpitManager {

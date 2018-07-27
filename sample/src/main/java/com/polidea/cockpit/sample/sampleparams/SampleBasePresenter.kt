@@ -2,7 +2,6 @@ package com.polidea.cockpit.sample.sampleparams
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.util.Log
 import com.polidea.cockpit.cockpit.Cockpit
 
 abstract class SampleBasePresenter(open val sampleView: SampleBaseContract.View<*>) : SampleBaseContract.Presenter {
@@ -20,15 +19,6 @@ abstract class SampleBasePresenter(open val sampleView: SampleBaseContract.View<
         sampleView.setFontSize(Cockpit.getFontSize().toFloat())
         sampleView.showFooter(true)
         sampleView.setTypeface(Typeface.create(Cockpit.getFontListSelectedValue(), Typeface.NORMAL))
-        val color = Cockpit.getColor()
-        try {
-            sampleView.setTextColor(Color.parseColor(color))
-        } catch (e: IllegalArgumentException) {
-            Log.w(TAG, "Unable to parse $color color")
-        }
-    }
-
-    companion object {
-        val TAG: String = SampleBasePresenter::class.java.simpleName
+        sampleView.setTextColor(Color.parseColor(Cockpit.getColor()))
     }
 }

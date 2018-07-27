@@ -3,6 +3,7 @@ package com.polidea.cockpitplugin.generator
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.core.type.CockpitListType
+import com.polidea.cockpit.core.type.CockpitColor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -13,7 +14,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForDoubleParamTest() {
-        val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(CockpitParam("doubleParam", 3.0))
+        val doubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam("doubleParam", 3.0)
 
         val expectedDoubleGetterMethodSpecString = """
             |public static double getDoubleParam() {
@@ -24,7 +25,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForDoubleParamTest() {
-        val doubleSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(CockpitParam("doubleParam", 3.0))
+        val doubleSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("doubleParam", 3.0)
 
         val expectedDoubleSetterMethodSpecString = """
             |public static void setDoubleParam(double doubleParam) {
@@ -35,7 +36,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForIntParamTest() {
-        val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(CockpitParam("integerParam", 2))
+        val intGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam("integerParam", 2)
 
         val expectedIntegerGetterMethodSpecString = """
             |public static int getIntegerParam() {
@@ -46,7 +47,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForIntParamTest() {
-        val intSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(CockpitParam("integerParam", 2))
+        val intSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("integerParam", 2)
 
         val expectedDoubleSetterMethodSpecString = """
             |public static void setIntegerParam(int integerParam) {
@@ -57,7 +58,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForBooleanParamTest() {
-        val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(CockpitParam("booleanParam", false))
+        val booleanGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam("booleanParam", false)
 
         val expectedBooleanGetterMethodSpecString = """
             |public static boolean isBooleanParam() {
@@ -68,7 +69,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForBooleanParamTest() {
-        val booleanSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(CockpitParam("booleanParam", false))
+        val booleanSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("booleanParam", false)
 
         val expectedBooleanSetterMethodSpecString = """
             |public static void setBooleanParam(boolean booleanParam) {
@@ -79,7 +80,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createGetterMethodSpecForStringParamTest() {
-        val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam(CockpitParam("stringParam", "testValue"))
+        val stringGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForParam("stringParam", "testValue")
 
         val expectedStringGetterMethodSpecString = """
             |public static java.lang.String getStringParam() {
@@ -90,7 +91,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createSetterMethodSpecForStringParamTest() {
-        val stringSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam(CockpitParam("stringParam", "testValue"))
+        val stringSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("stringParam", "testValue")
 
         val expectedStringSetterMethodSpecString = """
             |public static void setStringParam(java.lang.String stringParam) {
@@ -101,11 +102,11 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForBooleanParamTest() {
-        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(CockpitParam("boolParam", false))
+        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("boolParam", false)
 
         val expectedBooleanParamChangeListenerMethodSpecString = """
             |public static void addOnBoolParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Boolean> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Boolean> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("boolParam", listener);
             |}"""
         assertEquals(expectedBooleanParamChangeListenerMethodSpecString.trimMargin(), booleanParamChangeListenerMethodSpec.toString().trimMargin())
@@ -113,11 +114,11 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForIntParamTest() {
-        val integerParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(CockpitParam("intParam", 0))
+        val integerParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("intParam", 0)
 
         val expectedIntegerParamChangeListenerMethodSpecString = """
             |public static void addOnIntParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Integer> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("intParam", listener);
             |}"""
         assertEquals(expectedIntegerParamChangeListenerMethodSpecString.trimMargin(), integerParamChangeListenerMethodSpec.toString().trimMargin())
@@ -125,11 +126,11 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForDoubleParamTest() {
-        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(CockpitParam("doubleParam", .0))
+        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("doubleParam", .0)
 
         val expectedDoubleParamChangeListenerMethodSpecString = """
             |public static void addOnDoubleParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Double> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("doubleParam", listener);
             |}"""
         assertEquals(expectedDoubleParamChangeListenerMethodSpecString.trimMargin(), doubleParamChangeListenerMethodSpec.toString().trimMargin())
@@ -137,60 +138,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForStringParamTest() {
-        val stringParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam(CockpitParam("stringParam", ""))
+        val stringParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("stringParam", "")
 
         val expectedStringParamChangeListenerMethodSpecString = """
             |public static void addOnStringParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.String> listener) {
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("stringParam", listener);
-            |}"""
-        assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), stringParamChangeListenerMethodSpec.toString().trimMargin())
-    }
-
-    @Test
-    fun createRemoveParamChangeListenerMethodSpecForBooleanParamTest() {
-        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(CockpitParam("boolParam", false))
-
-        val expectedBooleanParamChangeListenerMethodSpecString = """
-            |public static void removeOnBoolParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Boolean> listener) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("boolParam", listener);
-            |}"""
-        assertEquals(expectedBooleanParamChangeListenerMethodSpecString.trimMargin(), booleanParamChangeListenerMethodSpec.toString().trimMargin())
-    }
-
-    @Test
-    fun createRemoveParamChangeListenerMethodSpecForIntParamTest() {
-        val integerParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(CockpitParam("intParam", 0))
-
-        val expectedIntegerParamChangeListenerMethodSpecString = """
-            |public static void removeOnIntParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Integer> listener) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("intParam", listener);
-            |}"""
-        assertEquals(expectedIntegerParamChangeListenerMethodSpecString.trimMargin(), integerParamChangeListenerMethodSpec.toString().trimMargin())
-    }
-
-    @Test
-    fun createRemoveParamChangeListenerMethodSpecForDoubleParamTest() {
-        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(CockpitParam("doubleParam", .0))
-
-        val expectedDoubleParamChangeListenerMethodSpecString = """
-            |public static void removeOnDoubleParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.Double> listener) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("doubleParam", listener);
-            |}"""
-        assertEquals(expectedDoubleParamChangeListenerMethodSpecString.trimMargin(), doubleParamChangeListenerMethodSpec.toString().trimMargin())
-    }
-
-    @Test
-    fun createRemoveParamChangeListenerMethodSpecForStringParamTest() {
-        val stringParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam(CockpitParam("stringParam", ""))
-
-        val expectedStringParamChangeListenerMethodSpecString = """
-            |public static void removeOnStringParamChangeListener(
-            |    com.polidea.cockpit.event.PropertyChangeListener<? extends java.lang.String> listener) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("stringParam", listener);
             |}"""
         assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), stringParamChangeListenerMethodSpec.toString().trimMargin())
     }
@@ -208,6 +161,68 @@ class DebugCockpitGeneratorTest {
     }
 
     @Test
+    fun createAddParamChangeListenerMethodSpecForCockpitColorParamTest() {
+        val colorParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("colorParam", CockpitColor("#112233"))
+
+        val expectedStringParamChangeListenerMethodSpecString = """
+            |public static void addOnColorParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor, java.lang.String>(listener, cockpitColorMapper);
+            |  colorListenerMap.put(listener, colorListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("colorParam", colorListener);
+            |}"""
+        assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), colorParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForBooleanParamTest() {
+        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam("boolParam", false)
+
+        val expectedBooleanParamChangeListenerMethodSpecString = """
+            |public static void removeOnBoolParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Boolean> listener) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("boolParam", listener);
+            |}"""
+        assertEquals(expectedBooleanParamChangeListenerMethodSpecString.trimMargin(), booleanParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForIntParamTest() {
+        val integerParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam("intParam", 0)
+
+        val expectedIntegerParamChangeListenerMethodSpecString = """
+            |public static void removeOnIntParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("intParam", listener);
+            |}"""
+        assertEquals(expectedIntegerParamChangeListenerMethodSpecString.trimMargin(), integerParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForDoubleParamTest() {
+        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam("doubleParam", .0)
+
+        val expectedDoubleParamChangeListenerMethodSpecString = """
+            |public static void removeOnDoubleParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("doubleParam", listener);
+            |}"""
+        assertEquals(expectedDoubleParamChangeListenerMethodSpecString.trimMargin(), doubleParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForStringParamTest() {
+        val stringParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam("stringParam", "")
+
+        val expectedStringParamChangeListenerMethodSpecString = """
+            |public static void removeOnStringParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("stringParam", listener);
+            |}"""
+        assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), stringParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
     fun createRemoveActionRequestCallbackMethodSpecForStringParamTest() {
         val actionCallbackMethodSpec = cockpitGenerator.createRemoveActionRequestCallbackMethodSpecForParam(CockpitParam("value", CockpitAction("show")))
 
@@ -218,6 +233,22 @@ class DebugCockpitGeneratorTest {
             |}"""
         assertEquals(expectedActionRequestCallbackMethodSpecString.trimMargin(), actionCallbackMethodSpec.toString().trimMargin())
     }
+    
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForColorParamTest() {
+        val colorParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam("colorParam", CockpitColor("#112233"))
+
+        val expectedColorParamChangeListenerMethodSpecString = """
+            |public static void removeOnColorParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorListener = colorListenerMap.get(listener);
+            |  colorListenerMap.remove(listener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("colorParam", colorListener);
+            |}"""
+
+        assertEquals(expectedColorParamChangeListenerMethodSpecString.trimMargin(), colorParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
 
     @Test
     fun generateShowCockpitMethodTest() {
@@ -257,6 +288,26 @@ class DebugCockpitGeneratorTest {
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createColorListenerMapFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createColorListenerMapFieldSpec()
+
+        val expectedFieldSpecString = """
+            |private static final java.util.Map<com.polidea.cockpit.event.PropertyChangeListener<java.lang.String>, com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor>> colorListenerMap = new java.util.HashMap<>();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createCockpitColorMapperFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createColorColorMapperFieldSpec()
+
+        val expectedFieldSpecString = """
+            |private static final com.polidea.cockpit.mapper.CockpitColorMapper cockpitColorMapper = new com.polidea.cockpit.mapper.CockpitColorMapper();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
     }
 
     @Test
