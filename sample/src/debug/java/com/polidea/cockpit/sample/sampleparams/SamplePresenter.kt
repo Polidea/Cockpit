@@ -3,7 +3,6 @@ package com.polidea.cockpit.sample.sampleparams
 import android.graphics.Color
 import android.graphics.Typeface
 import com.polidea.cockpit.cockpit.Cockpit
-import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
