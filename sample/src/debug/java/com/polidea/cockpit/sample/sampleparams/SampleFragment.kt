@@ -1,19 +1,32 @@
 package com.polidea.cockpit.sample.sampleparams
 
+import android.content.Context
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.sample.R
+import com.squareup.seismic.ShakeDetector
 import kotlinx.android.synthetic.main.fragment_sample.*
 
-class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleContract.View {
+class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleContract.View, ShakeDetector.Listener {
     override lateinit var presenter: SampleContract.Presenter
 
     private val debugDescriptionView: TextView by lazy {
         variant_include_container.findViewById<TextView>(R.id.cockpit_debug_textview)
+    }
+
+    private val shakeDetector = ShakeDetector(this)
+
+    override fun hearShake() {
+        presenter.shakeDetected()
+    }
+
+    private fun setShakeDetector() {
+        val sensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        shakeDetector.start(sensorManager)
     }
 
     override fun setDebugDescription(description: String) {
@@ -30,8 +43,12 @@ class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleCon
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        variant_include_container.findViewById<Button>(R.id.edit_values_button)
-                .setOnClickListener { _ -> presenter.editValues() }
+        setShakeDetector()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        shakeDetector.stop()
     }
 
     companion object {
