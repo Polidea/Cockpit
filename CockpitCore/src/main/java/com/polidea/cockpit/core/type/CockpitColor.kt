@@ -1,9 +1,11 @@
 package com.polidea.cockpit.core.type
 
+import com.polidea.cockpit.core.ColorMatcher
+
 class CockpitColor(val value: String) {
 
     init {
-        if (!value.matches(Regex("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})\$"))) {
+        if (!ColorMatcher.isHexColor(value)) {
             throw IllegalArgumentException("Unknown color")
         }
     }
