@@ -5,18 +5,43 @@
 
 ## Introduction
 
-Cockpit is a helpful tool for Android developers providing a way to define a set of params that can be used in the application and changed anytime without having to recompile the project. It also provides a compact built-in UI so using the library is as simple as possible.
+Cockpit is a helpful tool – a debug menu – for Android developers, testers and designers providing a way to define a set of params that can be used in the application and changed anytime without having to recompile the project. It also provides a compact built-in UI so using the library is as simple as possible.
 
-It consists of two parts:  
-– Gradle plugin generating a set of params based on user-defined yaml file,  
-– Android library containing classes to manage and display those params.
+It consists of three parts:  
+- Gradle plugin generating a set of params based on user-defined yaml file,  
+- Android library containing classes to manage and display those params,  
+- CockpitCore module containing classes common for plugin and the library.
 
 <img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-2.gif" width="270" height="480">
 
-## Usage
 Each defined value is called `param`. The set of params is called `cockpit`.
 
-### Defining params
+## Usage
+In `Getting started` we show the most basic example of how to get Cockpit to work in your project. If you're interested in more, please take a look at `Documentation` section below.
+
+### Getting started
+To start, you need to integrate Cockpit into your app. Please take a look at `Download` section to learn how to do it. When you're all set up, create **cockpit.yml** file and put it in your application's **your_app_module_name/cockpit** folder. It can can look like this:
+```
+color:
+  type: color
+  description: "Text color"
+  value: "#00ff33"
+colorDescription: "Calm green"
+fontSize: 30
+showDescription: true
+```
+After you've built your project, `Cockpit.java` file will get generated for you. You can use it like any other code in your project.
+
+<p float="left">
+    <img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-full.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-half.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-list.png" width="216" height="384" />
+</p>
+
+### Documentation
+
+Below, divided into sections, you can find a detailed description on how to use Cockpit and its features.
+#### Defining params
 To define cockpit, you need to create **cockpit.yml** file and place it in your application's **your_app_module_name/cockpit** folder. Params defined in **cockpit.yml** are applied to all flavors. In order to extend or change cockpit depending on the flavor, create additional files using following naming convention:
 cockpit<flavor_name>.yml where `<flavorName>` is a desired flavor.
 
@@ -27,15 +52,15 @@ cockpitStaging.yml
 cockpitStagingDebug.yml
 ```
 
-For basic functionality can use simple, flat yaml structure:
+For basic functionality you can use simple, flat yaml structure:
 ```
 paramName1: paramValue1
 listSimpleTypeName: [ "staging", "testing", "prod" ]
 
 ```
 
-If you need some more attributes or want to use action param, you can use more complex structure:
-- for primitive types (integer, double, string, boolean):
+If you need some more attributes or want to use action param, you can use more complex structure. Currently Cockpit debug panel supports following param types:
+##### primitives (integer, double, string, boolean)
 
 ```
 paramName2:
@@ -43,7 +68,7 @@ paramName2:
   value: paramValue2
 ```
 
-- for action type:
+##### action
 ```
 actionTypeName:
   type: action
@@ -51,7 +76,7 @@ actionTypeName:
   buttonText: "Perform" # this value is optional
 ```
 
-- for list type:
+##### list
 ```
 listComplexTypeName:
   type: list
@@ -63,60 +88,122 @@ listComplexTypeName:
 
 > Please note that param names are case-sensitive and have to be unique.
 
-### Generating Cockpit
+#### Generating Cockpit
 
 CockpitPlugin will generate `Cockpit.java` file for you. 
-Cockpit functionality is by design available only for debug builds, so `Cockpit.java` file in the release build will contain:
+Cockpit functionality is by design available only in debug builds, so `Cockpit.java` file in the release build will contain:
 - only getters for primitive param types,
 - selected value getter for list type,
 - nothing for action type.
 
 This is to prevent any unauthorized param value changes.
 
-### Accessing param values
+#### Accessing param values
 You can access the params via generated getters and setters. Each primitive type param has corresponding `getParamName()` and `setParamName()`, where `paramName` is your param's name. List param has `getParamNameSelectedValue()`.
 
-### Listening for value changes
-You can listen for value changes by adding PropertyChangeListeners.\
-Each changeable param has methods: `addOnParamNameChangeListener()` and `removeOnParamNameChangeListener()`, where `paramName` is param's name.
+#### Listening for value changes
+You can listen for value changes by adding appropriate PropertyChangeListeners.\
+Each changeable param has methods `addOnParamNameChangeListener()` and `removeOnParamNameChangeListener()`, where `paramName` is param's name.
 
-### Listening for list selection changes
+#### Listening for list selection changes
 List params provide SelectionChangeListeners. You can use methods `addParamNameSelectionChangeListener` and `removeParamNameSelectionChangeListener`, where `paramName` is param's name.
 
-### Listening for action requests
-Action params don't change their values. They request performing an action every time you click the corresponding button.
+#### Listening for action requests
+Action params don't change their values. They request performing an action every time you click on the corresponding button.
 To listen for those requests action param has `addParamNameActionRequestCallback()` and `removeParamNameActionRequestCallback()` methods, where `paramName` is param's name.
 
-### Displaying Cockpit
-Cockpit library offers you an easy way to display and edit all the params you defined. All you need to do is call
+#### Displaying Cockpit
+Cockpit library offers an easy way to display and edit all the params you defined. All you need to do is call
 `Cockpit.showCockpit(fragmentManager: FragmentManager)`
-This will display our compact, built-in UI where you can edit the params' values. When you're done, just dismiss the dialog. To make it easy to observe your changes, you can pull the Cockpit fragment down to fit half of the screen's height and pull it up to get it displayed in full.
+This will display our compact, built-in developer menu UI where you can edit the params' values. When you're done, just dismiss the dialog. To make it easy to observe your changes, you can pull the Cockpit fragment down to fit half of the screen's height and pull it up to get it displayed in full.
 
-### Restoring default values
+#### Restoring default values
 After you've made some changes in Cockpit and decided you didn't like them, it's helpful to be able to restore default values. You can do it globally or for selected param only using curved arrow icon.
 
-## Download
-```
-apply plugin: 'com.polidea.cockpit'  
+## Installation
+To integrate Cockpit debug menu into your project, you'll need to add several pieces of code to your `build.gradle`.
 
+First, add plugin declaration:
+```
+apply plugin: 'com.polidea.cockpit'
+```
+
+Add `mavenCentral()` and `maven` into your `buildscript#repositories` section:
+```
 buildscript {  
     repositories {
         mavenCentral()  
         maven {  
             url "https://plugins.gradle.org/m2/"
         }
-    }  
+    }
+}
+    
+```
+
+Then add CockpitPlugin classpath into your `buildscript#dependencies`:
+
+```
+buildscript {  
     dependencies {  
         classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:2.0.0"  
    }  
 }
+```
+Last thing is to add Cockpit library dependency:
 
+```
 dependencies {
     debugImplementation 'com.polidea.cockpit:cockpit:2.0.0'  
 }
 ```
-## License
+## Integration ideas
+When it comes to library integration with your app, it really depends on what is available in your particular case. We think it's a nice idea to use Seismic library by Square (https://github.com/square/seismic) and launch Cockpit panel on shake:
+```kotlin
+class SampleActivity: AppCompatActivity(), ShakeDetector.Listener {  
+  
+    private val shakeDetector = ShakeDetector(this)  
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_sample)
+
+        initShakeDetection()
+    }  
+    
+    private fun initShakeDetection() {
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        shakeDetector.start(sensorManager)
+    }  
+    
+    override fun onStop() {
+        super.onStop()
+        shakeDetector.stop()
+    }
+  
+    override fun hearShake() {
+        Cockpit.showCockpit(supportFragmentManager)
+    }
+}
 ```
+
+Another simple idea is to launch Cockpit debug panel on button click or on specific gesture (multi-touch, double tap, etc.).
+
+No matter which way you choose, to display Cockpit, you just have to call `Cockpit#showCockpit(FragmentManager fragmentManager)` method.
+## Troubleshooting
+When you attempt to build the sample project for the first time, you're most likely to encounter `plugin not found` error. That's because sample app uses local build of the plugin. To fix the problem:
+- on MacOS/Linux run `./pluginAndCore.sh -b` from your project and then build sample app,
+- on Windows build CockpitCore, CockpitPlugin and, at last, sample app.
+
+Another known issue is configuration on demand error:
+```
+org.gradle.api.tasks.StopExecutionException: Configuration on demand is not supported by the current version of the Android Gradle plugin since you are using Gradle version 4.6 or above.
+Suggestion: disable configuration on demand by setting org.gradle.configureondemand=false in your gradle.properties file or use a Gradle version less than 4.6.
+```
+
+Go get it to work, you need to disable configuration on demand in your Android Studio's settings (`Build, Execution, Deployment` -> `Compiler`, uncheck `configure on demand` option).
+       
+## License
 Copyright 2018 Polidea
 
 Licensed under the Apache License, Version 2.0 (the "License");
