@@ -12,5 +12,10 @@ internal class MapperConsts {
 
         const val KEY_LIST_VALUES = "values"
         const val KEY_LIST_SELECTION_INDEX = "selectedItemIndex"
+
+        const val KEY_RANGE_MIN = "min"
+        const val KEY_RANGE_MAX = "max"
+        const val KEY_RANGE_STEP = "step"
+        const val KEY_RANGE_VALUE = "value"
     }
 }

@@ -162,14 +162,14 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForCockpitColorParamTest() {
-        val colorParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("colorParam", CockpitColor("#112233"))
+        val colorParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForColorParam("colorParam", CockpitColor("#112233"))
 
         val expectedStringParamChangeListenerMethodSpecString = """
             |public static void addOnColorParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
-            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor, java.lang.String>(listener, cockpitColorMapper);
-            |  colorListenerMap.put(listener, colorListener);
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("colorParam", colorListener);
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor, java.lang.String>(listener, cockpitColorMapper);
+            |  colorListenerMap.put(listener, colorParamListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("colorParam", colorParamListener);
             |}"""
         assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), colorParamChangeListenerMethodSpec.toString().trimMargin())
     }
@@ -236,14 +236,14 @@ class DebugCockpitGeneratorTest {
     
     @Test
     fun createRemoveParamChangeListenerMethodSpecForColorParamTest() {
-        val colorParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForParam("colorParam", CockpitColor("#112233"))
+        val colorParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForColorParam("colorParam", CockpitColor("#112233"))
 
         val expectedColorParamChangeListenerMethodSpecString = """
             |public static void removeOnColorParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
-            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorListener = colorListenerMap.get(listener);
-            |  colorListenerMap.remove(listener);
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("colorParam", colorListener);
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorParamListener = colorListenerMap.get(listener);
+            |  colorListenerMap.remove(listener, colorParamListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("colorParam", colorParamListener);
             |}"""
 
         assertEquals(expectedColorParamChangeListenerMethodSpecString.trimMargin(), colorParamChangeListenerMethodSpec.toString().trimMargin())
@@ -304,7 +304,7 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createCockpitColorMapperFieldSpecTest() {
-        val fieldSpec = cockpitGenerator.createColorColorMapperFieldSpec()
+        val fieldSpec = cockpitGenerator.createColorMapperFieldSpec()
 
         val expectedFieldSpecString = """
             |private static final com.polidea.cockpit.mapper.CockpitColorMapper cockpitColorMapper = new com.polidea.cockpit.mapper.CockpitColorMapper();

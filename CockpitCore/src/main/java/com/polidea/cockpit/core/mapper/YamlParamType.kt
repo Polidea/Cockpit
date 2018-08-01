@@ -4,6 +4,7 @@ internal enum class YamlParamType(val value: String) {
     ACTION("action"),
     LIST("list"),
     COLOR("color"),
+    RANGE("range"),
     DEFAULT("");
 
     companion object {
