@@ -46,8 +46,8 @@ class SampleFragment : SampleBaseFragment<SampleContract.Presenter>(), SampleCon
         setShakeDetector()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStop() {
+        super.onStop()
         shakeDetector.stop()
     }
 
