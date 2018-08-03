@@ -6,4 +6,5 @@
     <color name="cockpit_content_background">#fafafa</color>
     <color name="cockpit_group_separator">#1e000000</color>
     <color name="cockpit_string_param_name">#61000000</color>
+    <color name="cockpit_range_value_text">#de767676</color>
 </resources>

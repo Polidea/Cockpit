@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/cockpit_param_vertical_margin"
+    android:theme="@style/CockpitTheme">
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/cockpit_range_param_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/cockpit_margin"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cockpit_param_name"
+            style="@style/TextAppearance.Cockpit.ParamName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/cockpit_param_value_text_size"
+            tools:text="Param Name" />
+
+        <TextView
+            android:id="@+id/cockpit_range_param_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/cockpit_margin_medium"
+            android:layout_marginStart="@dimen/cockpit_margin_medium"
+            android:textAlignment="center"
+            android:textColor="@color/cockpit_range_value_text"
+            tools:text="16" />
+
+        <ImageButton
+            android:id="@+id/cockpit_param_restore"
+            style="@style/Widget.Cockpit.ImageButton.RestoreValue"
+            android:layout_marginBottom="0dp" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <SeekBar
+        android:id="@+id/cockpit_range_param_seek_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/cockpit_range_seek_bar_margin"
+        android:layout_marginStart="@dimen/cockpit_range_seek_bar_margin"
+        android:layout_marginTop="@dimen/cockpit_margin_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cockpit_range_param_header" />
+
+</android.support.constraint.ConstraintLayout>
