@@ -2,8 +2,8 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitListType
 import com.polidea.cockpit.core.type.CockpitColor
+import com.polidea.cockpit.core.type.CockpitListType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -90,6 +90,55 @@ class DebugCockpitGeneratorTest {
     }
 
     @Test
+    fun createGetterMethodSpecForRangeIntParamTest() {
+        val rangeIntGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForRangeParam("rangeIntParam", 1)
+
+        val expectedRangeIntGetterMethodSpecString = """
+            |public static int getRangeIntParam() {
+            |  com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer> value = (com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("rangeIntParam");
+            |  return cockpitRangeIntegerMapper.unwrap(value);
+            |}"""
+
+        assertEquals(expectedRangeIntGetterMethodSpecString.trimMargin(), rangeIntGetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createSetterMethodSpecForRangeIntParamTest() {
+        val rangeIntSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("rangeIntParam", 1)
+
+        val expectedRangeIntSetterMethodSpecString = """
+            |public static void setRangeIntParam(int rangeIntParam) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("rangeIntParam", rangeIntParam);
+            |}"""
+        assertEquals(expectedRangeIntSetterMethodSpecString.trimMargin(), rangeIntSetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createGetterMethodSpecForRangeDoubleParamTest() {
+        val rangeDoubleGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForRangeParam("rangeDoubleParam", 1.0)
+
+        val expectedRangeDoubleGetterMethodSpecString = """
+            |public static double getRangeDoubleParam() {
+            |  com.polidea.cockpit.core.type.CockpitRange<java.lang.Double> value = (com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("rangeDoubleParam");
+            |  return cockpitRangeDoubleMapper.unwrap(value);
+            |}"""
+
+        assertEquals(expectedRangeDoubleGetterMethodSpecString.trimMargin(), rangeDoubleGetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createSetterMethodSpecForRangeDoubleParamTest() {
+        val rangeDoubleSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("rangeDoubleParam", 1.0)
+
+        val expectedRangeDoubleSetterMethodSpecString = """
+            |public static void setRangeDoubleParam(double rangeDoubleParam) {
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("rangeDoubleParam", rangeDoubleParam);
+            |}"""
+        assertEquals(expectedRangeDoubleSetterMethodSpecString.trimMargin(), rangeDoubleSetterMethodSpec.toString().trimMargin())
+    }
+
+
+    @Test
     fun createSetterMethodSpecForStringParamTest() {
         val stringSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("stringParam", "testValue")
 
@@ -146,6 +195,34 @@ class DebugCockpitGeneratorTest {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("stringParam", listener);
             |}"""
         assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), stringParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createAddParamChangeListenerMethodSpecForRangeIntParamTest() {
+        val rangeIntParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForRangeParam("rangeIntParam", 1)
+
+        val expectedRangeIntParamChangeListenerMethodSpecString = """
+            |public static void addOnRangeIntParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>> rangeIntParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>, java.lang.Integer>(listener, cockpitRangeIntegerMapper);
+            |  rangeIntegerListenerMap.put(listener, rangeIntParamListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("rangeIntParam", rangeIntParamListener);
+            |}"""
+        assertEquals(expectedRangeIntParamChangeListenerMethodSpecString.trimMargin(), rangeIntParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createAddParamChangeListenerMethodSpecForRangeDoubleParamTest() {
+        val rangeDoubleParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForRangeParam("rangeDoubleParam", 1.0)
+
+        val expectedRangeDoubleParamChangeListenerMethodSpecString = """
+            |public static void addOnRangeDoubleParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>> rangeDoubleParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>, java.lang.Double>(listener, cockpitRangeDoubleMapper);
+            |  rangeDoubleListenerMap.put(listener, rangeDoubleParamListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("rangeDoubleParam", rangeDoubleParamListener);
+            |}"""
+        assertEquals(expectedRangeDoubleParamChangeListenerMethodSpecString.trimMargin(), rangeDoubleParamChangeListenerMethodSpec.toString().trimMargin())
     }
 
     @Test
@@ -249,6 +326,36 @@ class DebugCockpitGeneratorTest {
         assertEquals(expectedColorParamChangeListenerMethodSpecString.trimMargin(), colorParamChangeListenerMethodSpec.toString().trimMargin())
     }
 
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForRangeIntParamTest() {
+        val rangeIntParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForRangeParam("rangeInt", 1)
+
+        val expectedRangeIntParamChangeListenerMethodSpecString = """
+            |public static void removeOnRangeIntChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>> rangeIntListener = rangeIntegerListenerMap.get(listener);
+            |  rangeIntegerListenerMap.remove(listener, rangeIntListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("rangeInt", rangeIntListener);
+            |}"""
+
+        assertEquals(expectedRangeIntParamChangeListenerMethodSpecString.trimMargin(), rangeIntParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForRangeDoubleParamTest() {
+        val rangeDoubleParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForRangeParam("rangeDouble", 1.0)
+
+        val expectedRangeDoubleParamChangeListenerMethodSpecString = """
+            |public static void removeOnRangeDoubleChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>> rangeDoubleListener = rangeDoubleListenerMap.get(listener);
+            |  rangeDoubleListenerMap.remove(listener, rangeDoubleListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("rangeDouble", rangeDoubleListener);
+            |}"""
+
+        assertEquals(expectedRangeDoubleParamChangeListenerMethodSpecString.trimMargin(), rangeDoubleParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
 
     @Test
     fun generateShowCockpitMethodTest() {
@@ -303,11 +410,51 @@ class DebugCockpitGeneratorTest {
     }
 
     @Test
+    fun createRangeIntListenerMapFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createRangeListenerMapFieldSpec(Int::class.javaObjectType)
+
+        val expectedFieldSpecString = """
+            |private static final java.util.Map<com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer>, com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>>> rangeIntegerListenerMap = new java.util.HashMap<>();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createRangeDoubleListenerMapFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createRangeListenerMapFieldSpec(Double::class.javaObjectType)
+
+        val expectedFieldSpecString = """
+            |private static final java.util.Map<com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double>, com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>>> rangeDoubleListenerMap = new java.util.HashMap<>();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
     fun createCockpitColorMapperFieldSpecTest() {
         val fieldSpec = cockpitGenerator.createColorMapperFieldSpec()
 
         val expectedFieldSpecString = """
             |private static final com.polidea.cockpit.mapper.CockpitColorMapper cockpitColorMapper = new com.polidea.cockpit.mapper.CockpitColorMapper();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createCockpitRangeIntMapperFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createRangeMapperFieldSpec(Int::class.javaObjectType)
+
+        val expectedFieldSpecString = """
+            |private static final com.polidea.cockpit.mapper.CockpitRangeMapper<java.lang.Integer> cockpitRangeIntegerMapper = new com.polidea.cockpit.mapper.CockpitRangeMapper<java.lang.Integer>();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createCockpitRangeDoubleMapperFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createRangeMapperFieldSpec(Double::class.javaObjectType)
+
+        val expectedFieldSpecString = """
+            |private static final com.polidea.cockpit.mapper.CockpitRangeMapper<java.lang.Double> cockpitRangeDoubleMapper = new com.polidea.cockpit.mapper.CockpitRangeMapper<java.lang.Double>();
             """
         assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
     }
