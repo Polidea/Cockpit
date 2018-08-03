@@ -21,6 +21,8 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.LIST.ordinal -> ListParamViewHolder(inflateViewForHolder(R.layout.cockpit_list_param, parent)).configure()
             ParamType.ACTION.ordinal -> ActionParamViewHolder(inflateViewForHolder(R.layout.cockpit_action_param, parent)).configure()
             ParamType.COLOR.ordinal -> ColorParamViewHolder(inflateViewForHolder(R.layout.cockpit_color_param, parent)).configure()
+            ParamType.RANGE_INT.ordinal -> RangeIntParamViewHolder(inflateViewForHolder(R.layout.cockpit_range_param, parent)).configure()
+            ParamType.RANGE_DOUBLE.ordinal -> RangeDoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_range_param, parent)).configure()
             else -> GroupViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
         }
     }
@@ -38,6 +40,8 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.LIST.ordinal -> (holder as ListParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.ACTION.ordinal -> (holder as ActionParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.COLOR.ordinal -> (holder as ColorParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
+            ParamType.RANGE_INT.ordinal -> (holder as RangeIntParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
+            ParamType.RANGE_DOUBLE.ordinal -> (holder as RangeDoubleParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             GROUP_TYPE_ID -> (holder as GroupViewHolder).display(paramsModel.getGroupName(itemPosition.groupIndex))
         }
     }

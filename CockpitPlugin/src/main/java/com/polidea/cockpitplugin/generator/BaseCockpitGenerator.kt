@@ -2,6 +2,7 @@ package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitColor
+import com.polidea.cockpit.core.type.CockpitRange
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -28,7 +29,9 @@ internal abstract class BaseCockpitGenerator {
     private val actionRequestCallback = "ActionRequestCallback"
     private val selectionChangeListener = "SelectionChangeListener"
     private val cockpitColor = "CockpitColor"
+    private val cockpitRange = "CockpitRange"
     private val cockpitColorMapper = "CockpitColorMapper"
+    private val cockpitRangeMapper = "CockpitRangeMapper"
     private val mappingPropertyChangeListener = "MappingPropertyChangeListener"
 
     protected val map = "Map"
@@ -41,7 +44,9 @@ internal abstract class BaseCockpitGenerator {
     protected val actionRequestCallbackClassName = ClassName.get(cockpitEventPackage, actionRequestCallback)
     protected val selectionChangeListenerClassName = ClassName.get(cockpitEventPackage, selectionChangeListener)
     protected val cockpitColorClassName = ClassName.get(cockpitCoreTypePackage, cockpitColor)
+    protected val cockpitRangeClassName = ClassName.get(cockpitCoreTypePackage, cockpitRange)
     protected val cockpitColorMapperClassName = ClassName.get(cockpitMapperPackage, cockpitColorMapper)
+    protected val cockpitRangeMapperClassName = ClassName.get(cockpitMapperPackage, cockpitRangeMapper)
     protected val mappingPropertyChangeListenerClassName = ClassName.get(cockpitMapperPackage, mappingPropertyChangeListener)
 
     protected val mapClassName = ClassName.get(javaUtilPackage, map)
@@ -55,6 +60,12 @@ internal abstract class BaseCockpitGenerator {
 
     protected fun getParametrizedCockpitSelectionChangeListenerClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(selectionChangeListenerClassName, TypeName.get(clazz))
+
+    protected fun getParametrizedCockpitRangeClassName(clazz: Class<*>) =
+            ParameterizedTypeName.get(cockpitRangeClassName, TypeName.get(clazz))
+
+    protected fun getParametrizedCockpitRangeMapperClassName(clazz: Class<*>) =
+            ParameterizedTypeName.get(cockpitRangeMapperClassName, TypeName.get(clazz))
 
     protected fun generate(file: File?, configurator: (TypeSpec.Builder) -> TypeSpec.Builder) {
 
@@ -79,6 +90,7 @@ internal abstract class BaseCockpitGenerator {
         }
         val returnedTypeClass = when (value) {
             is CockpitColor -> String::class.java
+            is CockpitRange<*> -> mapToTypeClass(value.value)
             else -> mapToTypeClass(value)
         }
         return configurator(MethodSpec.methodBuilder("$prefix${paramName.capitalize()}")

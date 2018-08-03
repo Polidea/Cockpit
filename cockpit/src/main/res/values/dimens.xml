@@ -29,4 +29,6 @@
     <dimen name="cockpit_action_button_padding_horizontal">25dp</dimen>
 
     <dimen name="cockpit_color_preview_size">20dp</dimen>
+
+    <dimen name="cockpit_range_seek_bar_margin">4dp</dimen>
 </resources>
