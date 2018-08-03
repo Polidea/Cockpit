@@ -186,7 +186,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                     addStatement("\$T $listenerName = $listenerMapName.get($LISTENER_ARGUMENT_NAME)",
                             getParametrizedCockpitPropertyChangeListenerClassName(wrappableClassName))
                 },
-                { addStatement("$listenerMapName.$REMOVE($LISTENER_ARGUMENT_NAME, $listenerName)") })
+                { addStatement("$listenerMapName.$REMOVE($LISTENER_ARGUMENT_NAME)") })
         return createPropertyChangeListenerMethodSpecForParam(paramName, paramClass, REMOVE, listenerName, actions)
     }
 

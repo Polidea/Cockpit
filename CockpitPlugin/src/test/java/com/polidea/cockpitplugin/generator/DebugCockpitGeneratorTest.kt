@@ -319,7 +319,7 @@ class DebugCockpitGeneratorTest {
             |public static void removeOnColorParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorParamListener = colorListenerMap.get(listener);
-            |  colorListenerMap.remove(listener, colorParamListener);
+            |  colorListenerMap.remove(listener);
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("colorParam", colorParamListener);
             |}"""
 
@@ -334,7 +334,7 @@ class DebugCockpitGeneratorTest {
             |public static void removeOnRangeIntChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>> rangeIntListener = rangeIntegerListenerMap.get(listener);
-            |  rangeIntegerListenerMap.remove(listener, rangeIntListener);
+            |  rangeIntegerListenerMap.remove(listener);
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("rangeInt", rangeIntListener);
             |}"""
 
@@ -349,7 +349,7 @@ class DebugCockpitGeneratorTest {
             |public static void removeOnRangeDoubleChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>> rangeDoubleListener = rangeDoubleListenerMap.get(listener);
-            |  rangeDoubleListenerMap.remove(listener, rangeDoubleListener);
+            |  rangeDoubleListenerMap.remove(listener);
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("rangeDouble", rangeDoubleListener);
             |}"""
 
