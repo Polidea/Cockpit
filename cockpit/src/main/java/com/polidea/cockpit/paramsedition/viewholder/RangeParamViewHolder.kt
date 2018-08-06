@@ -16,11 +16,19 @@ internal abstract class RangeParamViewHolder<T : Number>(view: View) : ParamBase
     private lateinit var seekBarProgressToRange: (Int) -> CockpitRange<T>
     private val cockpitRangeMapper = CockpitRangeMapper<T>()
 
-    init {
+    override fun displayParam(param: CockpitParam<CockpitRange<T>>) {
+        super.displayParam(param)
+        seekBarProgressToRange = seekBarProgressToRangeFunction(param.value)
+        valueSelector.setOnSeekBarChangeListener(null)
+
+        valueSelector.max = getStepsCount(param.value)
+        valueSelector.progress = rangeToSeekBarProgress(param.value)
+        value.text = rangeValueString(param.value)
+
         valueSelector.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val range = seekBarProgressToRange(progress)
-                value.text = range.value.toString()
+                value.text = rangeValueString(range)
                 valueChangeListener?.invoke(range)
             }
 
@@ -30,18 +38,11 @@ internal abstract class RangeParamViewHolder<T : Number>(view: View) : ParamBase
         })
     }
 
-    override fun displayParam(param: CockpitParam<CockpitRange<T>>) {
-        super.displayParam(param)
-        seekBarProgressToRange = seekBarProgressToRangeFunction(param.value)
-        valueSelector.max = getStepsCount(param.value)
-        valueSelector.progress = rangeToSeekBarProgress(param.value)
-    }
-
     private fun getStepsCount(range: CockpitRange<T>): Int =
             Math.ceil((range.max.toDouble() - range.min.toDouble()) / range.step.toDouble()).toInt()
 
     private fun rangeToSeekBarProgress(range: CockpitRange<T>): Int =
-            Math.ceil(range.value.toDouble() / range.step.toDouble()).toInt()
+            Math.ceil(range.value.toDouble() / range.step.toDouble() - range.min.toDouble()).toInt()
 
     private fun seekBarProgressToRangeFunction(range: CockpitRange<T>): (Int) -> CockpitRange<T> = { progress ->
         var newValue = range.min.toDouble() + progress.toDouble() * range.step.toDouble()
@@ -49,4 +50,6 @@ internal abstract class RangeParamViewHolder<T : Number>(view: View) : ParamBase
             newValue = range.max.toDouble()
         cockpitRangeMapper.wrap(range, doubleToValue(newValue))
     }
+
+    private fun rangeValueString(range: CockpitRange<T>) = range.value.toString()
 }
