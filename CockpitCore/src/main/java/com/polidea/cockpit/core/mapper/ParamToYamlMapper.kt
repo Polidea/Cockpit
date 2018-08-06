@@ -11,7 +11,7 @@ internal class ParamToYamlMapper {
 
     fun toYamlMap(params: List<CockpitParam<Any>>): Map<String, Any> {
         return linkedMapOf(*params.map {
-            if (it.value.isSimpleType())
+            if (it.value.isSimpleType() && hasNoOptionalFields(it))
                 toSimpleYamlFormat(it)
             else
                 toExtendedYamlFormat(it)
@@ -51,5 +51,9 @@ internal class ParamToYamlMapper {
         it.description?.let { map[MapperConsts.KEY_DESCRIPTION] = it }
         it.group?.let { map[MapperConsts.KEY_GROUP] = it }
         return Pair(it.name, map)
+    }
+
+    private fun hasNoOptionalFields(param: CockpitParam<Any>): Boolean {
+        return param.description == null && param.group == null
     }
 }
