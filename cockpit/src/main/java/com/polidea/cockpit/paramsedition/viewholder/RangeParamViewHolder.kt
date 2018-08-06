@@ -10,6 +10,7 @@ import com.polidea.cockpit.mapper.CockpitRangeMapper
 
 internal abstract class RangeParamViewHolder<T : Number>(view: View) : ParamBaseValueWithRestoreViewHolder<CockpitRange<T>>(view) {
 
+    protected abstract fun doubleToValue(double: Double): T
     private val value: TextView = view.findViewById(R.id.cockpit_range_param_value)
     private val valueSelector: SeekBar = view.findViewById(R.id.cockpit_range_param_seek_bar)
     private lateinit var seekBarProgressToRange: (Int) -> CockpitRange<T>
@@ -46,6 +47,6 @@ internal abstract class RangeParamViewHolder<T : Number>(view: View) : ParamBase
         var newValue = range.min.toDouble() + progress.toDouble() * range.step.toDouble()
         if (newValue > range.max.toDouble())
             newValue = range.max.toDouble()
-        cockpitRangeMapper.wrap(range, newValue as T)
+        cockpitRangeMapper.wrap(range, doubleToValue(newValue))
     }
 }
