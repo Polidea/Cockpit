@@ -1,17 +1,17 @@
 package com.polidea.cockpit.core.mapper
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.isSimpleParam
 import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.core.type.CockpitListType
 import com.polidea.cockpit.core.type.CockpitRange
-import isSimpleType
 
 internal class ParamToYamlMapper {
 
     fun toYamlMap(params: List<CockpitParam<Any>>): Map<String, Any> {
         return linkedMapOf(*params.map {
-            if (it.value.isSimpleType())
+            if (it.isSimpleParam())
                 toSimpleYamlFormat(it)
             else
                 toExtendedYamlFormat(it)
