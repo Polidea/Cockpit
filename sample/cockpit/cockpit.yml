@@ -3,7 +3,13 @@ color:
   description: "Text color"
   value: "#00ff33"
 colorDescription: "Calm green"
-fontSize: 30
+fontSize:
+  type: "range"
+  min: 5
+  max: 50
+  value: 30
+  step: 1
+  description: "Font size"
 footer: "Created by Polidea"
 showFooter: true
 version:
