@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="blueThemeGradientStartColor">#62cdf7</color>
+    <color name="blueThemeGradientEndColor">#515efe</color>
+    <color name="blueThemeItemTextColor">#5369fd</color>
+    <color name="itemPriceTextColor">#878787</color>
+    <color name="grayBackgroundColor">#f9fafb</color>
+    <color name="footerBackgroundColor">#c1c1c1</color>
+
 </resources>

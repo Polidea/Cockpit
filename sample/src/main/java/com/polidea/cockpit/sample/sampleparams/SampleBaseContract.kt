@@ -1,6 +1,5 @@
 package com.polidea.cockpit.sample.sampleparams
 
-import android.graphics.Typeface
 import android.support.annotation.ColorInt
 import com.polidea.cockpit.sample.BasePresenter
 import com.polidea.cockpit.sample.BaseView
@@ -12,13 +11,10 @@ interface SampleBaseContract {
 
         fun setFooterText(footerText: String)
 
-        fun setTextColor(@ColorInt color: Int)
+        fun setFooterTextColor(@ColorInt color: Int)
 
-        fun setFontSize(textSize: Float)
-
-        fun setColorDescription(description: String)
-
-        fun setTypeface(typeface: Typeface)
+        fun setTotalPriceFontSize(textSize: Float)
+        fun setHeadingText(headingText: String)
     }
 
     interface Presenter : BasePresenter

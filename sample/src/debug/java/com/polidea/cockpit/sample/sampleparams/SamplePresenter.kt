@@ -1,24 +1,22 @@
 package com.polidea.cockpit.sample.sampleparams
 
 import android.graphics.Color
-import android.graphics.Typeface
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
-import com.polidea.cockpit.sample.BuildConfig
 
 class SamplePresenter(override val sampleView: SampleContract.View)
     : SampleBasePresenter(sampleView), SampleContract.Presenter {
 
-    private lateinit var onColorChangeListener: PropertyChangeListener<String>
-    private lateinit var onFontSizeChangeListener: PropertyChangeListener<Int>
-    private lateinit var onColorDescriptionChangeListener: PropertyChangeListener<String>
-    private lateinit var onFooterChangeListener: PropertyChangeListener<String>
+    private lateinit var styleSelectedListener: SelectionChangeListener<String>
+    private lateinit var onAnimationSpeedChangeListener: PropertyChangeListener<Int>
+    private lateinit var onTotalPriceFontSizeChangeListener: PropertyChangeListener<Int>
+    private lateinit var resetCountCallback: ActionRequestCallback
+    private lateinit var onHeadingTextChangeListener: PropertyChangeListener<String>
+    private lateinit var onFooterColorChangeListener: PropertyChangeListener<String>
     private lateinit var onShowFooterChangeListener: PropertyChangeListener<Boolean>
-    private lateinit var onDebugDescriptionChangeListener: PropertyChangeListener<String>
-    private lateinit var versionActionRequestCallback: ActionRequestCallback
-    private lateinit var fontSelectedListener: SelectionChangeListener<String>
+    private lateinit var onFooterChangeListener: PropertyChangeListener<String>
 
     init {
         sampleView.presenter = this
@@ -32,8 +30,10 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     }
 
     private fun setCallbacks() {
-        versionActionRequestCallback = ActionRequestCallback { sampleView.showMessage(BuildConfig.VERSION_NAME) }
-        Cockpit.addVersionActionRequestCallback(versionActionRequestCallback)
+        resetCountCallback = ActionRequestCallback {
+            // TODO: implement
+        }
+        Cockpit.addResetCountActionRequestCallback(resetCountCallback)
     }
 
     override fun stop() {
@@ -43,67 +43,62 @@ class SamplePresenter(override val sampleView: SampleContract.View)
     }
 
     private fun removeCallbacks() {
-        Cockpit.removeVersionActionRequestCallback(versionActionRequestCallback)
+        Cockpit.removeResetCountActionRequestCallback(resetCountCallback)
     }
 
     private fun removeOnValueSelectedListeners() {
-        Cockpit.removeFontListSelectionChangeListener(fontSelectedListener)
+        Cockpit.removeStyleSelectionChangeListener(styleSelectedListener)
     }
 
     override fun shakeDetected() {
         sampleView.showCockpitUi()
     }
 
-    override fun initViews() {
-        super.initViews()
-        sampleView.setDebugDescription(Cockpit.getDebugDescription())
-    }
-
     private fun setOnValueSelectedListener() {
-        fontSelectedListener = SelectionChangeListener { selectedValue ->
-            sampleView.setTypeface(Typeface.create(selectedValue, Typeface.NORMAL))
+        styleSelectedListener = SelectionChangeListener { selectedValue ->
+            // TODO: implement
         }
-        Cockpit.addFontListSelectionChangeListener(fontSelectedListener)
+        Cockpit.addStyleSelectionChangeListener(styleSelectedListener)
     }
 
     private fun setOnChangeListeners() {
-        onColorChangeListener = PropertyChangeListener { _, newColor ->
-            sampleView.setTextColor(Color.parseColor(newColor))
+        onAnimationSpeedChangeListener = PropertyChangeListener { _, newValue ->
+            // TODO: implement
         }
-        Cockpit.addOnColorChangeListener(onColorChangeListener)
+        Cockpit.addOnAnimationSpeedChangeListener(onAnimationSpeedChangeListener)
 
-        onFontSizeChangeListener = PropertyChangeListener { _, newSize ->
-            sampleView.setFontSize(newSize.toFloat())
+        onTotalPriceFontSizeChangeListener = PropertyChangeListener { _, newValue ->
+            sampleView.setTotalPriceFontSize(newValue.toFloat())
         }
-        Cockpit.addOnFontSizeChangeListener(onFontSizeChangeListener)
+        Cockpit.addOnTotalPriceFontSizeChangeListener(onTotalPriceFontSizeChangeListener)
 
-        onColorDescriptionChangeListener = PropertyChangeListener { _, newColorDescription ->
-            sampleView.setColorDescription(newColorDescription)
+        onHeadingTextChangeListener = PropertyChangeListener { _, newValue ->
+            sampleView.setHeadingText(newValue)
         }
-        Cockpit.addOnColorDescriptionChangeListener(onColorDescriptionChangeListener)
+        Cockpit.addOnHeadingTextChangeListener(onHeadingTextChangeListener)
 
-        onFooterChangeListener = PropertyChangeListener { _, newFooter ->
-            sampleView.setFooterText(newFooter)
+        onFooterColorChangeListener = PropertyChangeListener { _, newValue ->
+            sampleView.setFooterTextColor(Color.parseColor(newValue))
         }
-        Cockpit.addOnFooterChangeListener(onFooterChangeListener)
+        Cockpit.addOnFooterFontColorChangeListener(onFooterColorChangeListener)
 
-        onShowFooterChangeListener = PropertyChangeListener { _, isFooterVisible ->
-            sampleView.showFooter(isFooterVisible)
+        onShowFooterChangeListener = PropertyChangeListener { _, newValue ->
+            sampleView.showFooter(newValue)
         }
         Cockpit.addOnShowFooterChangeListener(onShowFooterChangeListener)
 
-        onDebugDescriptionChangeListener = PropertyChangeListener { _, newDescription ->
-            sampleView.setDebugDescription(newDescription)
+        onFooterChangeListener = PropertyChangeListener { _, newValue ->
+            sampleView.setFooterText(newValue)
         }
-        Cockpit.addOnDebugDescriptionChangeListener(onDebugDescriptionChangeListener)
+        Cockpit.addOnFooterChangeListener(onFooterChangeListener)
     }
 
     private fun removeOnChangeListeners() {
-        Cockpit.removeOnColorChangeListener(onColorChangeListener)
-        Cockpit.removeOnFontSizeChangeListener(onFontSizeChangeListener)
-        Cockpit.removeOnColorDescriptionChangeListener(onColorDescriptionChangeListener)
-        Cockpit.removeOnFooterChangeListener(onFooterChangeListener)
+        Cockpit.removeOnAnimationSpeedChangeListener(onAnimationSpeedChangeListener)
+        Cockpit.removeOnTotalPriceFontSizeChangeListener(onTotalPriceFontSizeChangeListener)
+        Cockpit.removeOnHeadingTextChangeListener(onHeadingTextChangeListener)
+        Cockpit.removeOnFooterFontColorChangeListener(onFooterColorChangeListener)
         Cockpit.removeOnShowFooterChangeListener(onShowFooterChangeListener)
-        Cockpit.removeOnDebugDescriptionChangeListener(onDebugDescriptionChangeListener)
+        Cockpit.removeOnFooterChangeListener(onFooterChangeListener)
     }
 }

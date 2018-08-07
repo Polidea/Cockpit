@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_quarter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_25"/>
+
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_50"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/blue_theme_background"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_half"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/grayBackgroundColor"
+        app:layout_constraintBottom_toBottomOf="@+id/footer_container"
+        app:layout_constraintTop_toTopOf="@id/guideline_half"/>
+
+    <TextView
+        android:id="@+id/heading_text_view"
+        style="@style/AppTheme.Text.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:textAllCaps="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Shopping cart"/>
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_20"
+        android:src="@drawable/v_ic_info_icon"
+        app:layout_constraintBottom_toBottomOf="@id/heading_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/heading_text_view"/>
+
+    <TextView
+        android:id="@+id/total_price"
+        style="@style/AppTheme.Text.Headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_price_value"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_quarter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_quarter"/>
+
+    <TextView
+        style="@style/AppTheme.Text.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        android:text="@string/total_price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/total_price"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/items_container_height"
+        android:layout_margin="@dimen/margin_10"
+        android:background="@color/white"
+        android:elevation="@dimen/margin_2"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_button"/>
+
+    <Button
+        android:id="@+id/checkout_button"
+        style="@style/AppTheme.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_10"
+        android:text="@string/checkout"
+        app:layout_constraintBottom_toTopOf="@+id/footer_container"/>
+
+    <FrameLayout
+        android:id="@+id/footer_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/footer_container_height"
+        android:background="@color/footerBackgroundColor"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/footer_text_view"
+            style="@style/AppTheme.Text.Footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="Created with ❤️ by Polidea"/>
+
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,6 +1,4 @@
-color:
-  type: color
-  description: "Text color"
-  value: "#2C75FF"
-colorDescription: "Electric blue"
-footer: "Created with 💙 by Polidea"
+footer:
+  description: "Footer"
+  value: "Created with 💙 by Polidea"
+  group: "Footer"
