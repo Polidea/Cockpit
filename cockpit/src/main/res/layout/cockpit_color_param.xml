@@ -36,6 +36,7 @@
         android:digits="#0123456789ABCDEF"
         android:inputType="textCapCharacters"
         android:maxLines="1"
+        android:maxLength="9"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cockpit_param_restore"
