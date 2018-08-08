@@ -17,10 +17,10 @@ It consists of three parts:
 Each defined value is called `param`. The set of params is called `cockpit`.
 
 ## Usage
-In `Getting started` we show the most basic example of how to get Cockpit to work in your project. If you're interested in more, please take a look at `Documentation` section below.
+In [Getting started](#getting-started) we show the most basic example of how to get Cockpit to work in your project. If you're interested in more, please take a look at [Documentation](#documentation) section below.
 
 ### Getting started
-To start, you need to integrate Cockpit into your app. Please take a look at `Download` section to learn how to do it. When you're all set up, create **cockpit.yml** file and put it in your application's **your_app_module_name/cockpit** folder. It can can look like this:
+To start, you need to integrate Cockpit into your app. Please take a look at [Installation](#installation) section to learn how to do it. When you're all set up, create **cockpit.yml** file and put it in your application's **your_app_module_name/cockpit** folder. It can look like this:
 ```
 color:
   type: color
@@ -112,7 +112,7 @@ fontColor:
 
 #### Generating Cockpit
 
-CockpitPlugin will generate `Cockpit.java` file for you. 
+CockpitPlugin will generate `Cockpit.java` file for you.
 Cockpit functionality is by design available only in debug builds, so `Cockpit.java` file in the release build will contain:
 - only getters for primitive param types,
 - selected value getter for list type,
@@ -160,7 +160,7 @@ buildscript {
         }
     }
 }
-    
+
 ```
 
 Then add CockpitPlugin classpath into your `buildscript#dependencies`:
@@ -189,26 +189,26 @@ When you attempt to build the sample project for the first time, you're most lik
 When it comes to library integration with your app, it really depends on what is available in your particular case. We think it's a nice idea to use Seismic library by Square (https://github.com/square/seismic) and launch Cockpit panel on shake:
 ```kotlin
 class SampleActivity: AppCompatActivity(), ShakeDetector.Listener {  
-  
+
     private val shakeDetector = ShakeDetector(this)  
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
         initShakeDetection()
     }  
-    
+
     private fun initShakeDetection() {
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         shakeDetector.start(sensorManager)
     }  
-    
+
     override fun onStop() {
         super.onStop()
         shakeDetector.stop()
     }
-  
+
     override fun hearShake() {
         Cockpit.showCockpit(supportFragmentManager)
     }
@@ -226,7 +226,7 @@ Suggestion: disable configuration on demand by setting org.gradle.configureondem
 ```
 
 To get it to work, you need to disable configuration on demand in your Android Studio's settings (`Build, Execution, Deployment` -> `Compiler`, uncheck `configure on demand` option).
-       
+
 ## License
 ```
 Copyright 2018 Polidea
