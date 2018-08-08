@@ -7,4 +7,5 @@
     <string name="checkout">Checkout</string>
     <string name="info_title">Cockpit Sample</string>
     <string name="info_message">This app is made to show what is possible thanks to Cockpit.\n\n<b>Shake your phone</b> to launch Cockpit and see how it works.\n\nMake sure to play with the <b>Checkout</b> button animation! </string>
+    <string name="cart_item_image_description">Cart item image</string>
 </resources>

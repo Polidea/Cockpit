@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/cart_item_margin">
+
+    <ImageView
+        android:id="@+id/cart_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/cart_item_image_description"
+        android:paddingRight="@dimen/cart_item_margin"
+        android:src="@drawable/backpack" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/cart_item_image"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/cart_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:paddingBottom="@dimen/cart_name_price_padding"
+            android:textSize="@dimen/cart_item_font_size"
+            tools:text="Shoes" />
+
+        <TextView
+            android:id="@+id/cart_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textSize="@dimen/font_size_12"
+            tools:text="$95.99" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:layout_width="@dimen/add_remove_button_width"
+            android:layout_height="@dimen/remove_button_height"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/remove"
+            android:id="@+id/remove_button"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_count_bubble">
+
+            <ImageView
+                android:layout_width="@dimen/item_count_bubble_size"
+                android:layout_height="@dimen/item_count_bubble_size"
+                android:id="@+id/item_count_bubble_background"
+                android:paddingRight="@dimen/add_remove_bubble_padding"
+                android:paddingLeft="@dimen/add_remove_bubble_padding"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_count_number"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_12"/>
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:layout_width="@dimen/add_remove_button_width"
+            android:layout_height="@dimen/add_remove_button_width"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/add"
+            android:id="@+id/add_button"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
