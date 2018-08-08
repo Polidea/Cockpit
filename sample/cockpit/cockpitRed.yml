@@ -1,4 +1,5 @@
 color:
+  type: color
   description: "Text color"
   value: "#ff0033"
 colorDescription: "Torch red"

@@ -1,7 +1,5 @@
 package com.polidea.cockpit.paramsedition
 
-import com.polidea.cockpit.core.CockpitParam
-
 
 internal class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {
 
@@ -19,13 +17,11 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         model.save()
     }
 
-    override fun <T : Any> getParamAt(position: Int): CockpitParam<T> = model.getParamAt(position)
+    override fun getParamsModel() = model
 
-    override fun getParamsSize() = model.size
-
-    override fun restore(position: Int) {
-        model.restoreValue(position)
-        view.reloadParam(position)
+    override fun restore(itemPosition: ItemPosition) {
+        model.restoreValue(itemPosition)
+        view.reloadParam(itemPosition)
     }
 
     override fun restoreAll() {
@@ -33,16 +29,16 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         view.reloadAll()
     }
 
-    override fun <T : Any> onParamChange(position: Int, newValue: T) {
-        model.setValue(position, newValue)
+    override fun <T : Any> onParamChange(itemPosition: ItemPosition, newValue: T) {
+        model.setValue(itemPosition, newValue)
     }
 
-    override fun <T : Any> onParamValueSelected(position: Int, selectedItemIndex: Int) {
-        model.selectValue<T>(position, selectedItemIndex ?: 0)
+    override fun <T : Any> onParamValueSelected(itemPosition: ItemPosition, selectedItemIndex: Int) {
+        model.selectValue<T>(itemPosition, selectedItemIndex)
     }
 
-    override fun requestAction(position: Int) {
-        model.requestAction(position)
+    override fun requestAction(itemPosition: ItemPosition) {
+        model.requestAction(itemPosition)
     }
 
     override fun expand() {

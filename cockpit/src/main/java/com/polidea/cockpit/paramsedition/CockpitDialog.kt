@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.ImageButton
 import com.polidea.cockpit.R
 import com.polidea.cockpit.utils.getScreenHeight
-import com.polidea.cockpit.utils.removeDimmedBackground
+import com.polidea.cockpit.extensions.removeDimmedBackground
 
 internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(), ParamsEditionContract.View {
 
@@ -76,8 +76,8 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
         presenter.stop()
     }
 
-    override fun reloadParam(position: Int) {
-        paramsEditionAdapter.reloadParam(position)
+    override fun reloadParam(itemPosition: ItemPosition) {
+        paramsEditionAdapter.reloadParam(itemPosition)
     }
 
     override fun reloadAll() {

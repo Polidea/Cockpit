@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/CockpitTheme">
+
+    <TextView
+        android:id="@+id/cockpit_param_name"
+        style="@style/TextAppearance.Cockpit.ParamName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/cockpit_margin_medium"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_color_preview_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Param Name"/>
+
+    <com.polidea.cockpit.paramsedition.view.ColorPreviewView
+        android:id="@+id/cockpit_color_preview_view"
+        android:layout_width="@dimen/cockpit_color_preview_size"
+        android:layout_height="@dimen/cockpit_color_preview_size"
+        android:layout_marginEnd="@dimen/cockpit_margin_medium"
+        tools:background="@android:color/holo_orange_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_color_param_value"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/cockpit_color_param_value"
+        style="@style/Widget.Cockpit.EditText.Value"
+        android:digits="#0123456789ABCDEF"
+        android:inputType="textCapCharacters"
+        android:maxLines="1"
+        android:maxLength="9"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_param_restore"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="100.0"/>
+
+    <ImageButton
+        android:id="@+id/cockpit_param_restore"
+        style="@style/Widget.Cockpit.ImageButton.RestoreValue"
+        android:layout_marginEnd="@dimen/cockpit_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

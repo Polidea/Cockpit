@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/cockpit_param_vertical_margin">
 
     <View
         android:id="@+id/cockpit_group_separator"
@@ -18,7 +19,6 @@
         android:id="@+id/cockpit_group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/cockpit_margin"
         android:layout_marginStart="@dimen/cockpit_margin"
         android:layout_marginTop="@dimen/cockpit_group_top_margin"
         android:fontFamily="sans-serif-medium"

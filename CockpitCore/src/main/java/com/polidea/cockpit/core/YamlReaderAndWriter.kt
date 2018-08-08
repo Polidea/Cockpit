@@ -1,5 +1,6 @@
 package com.polidea.cockpit.core
 
+import com.polidea.cockpit.core.mapper.ParamsMapper
 import org.yaml.snakeyaml.LoaderOptions
 import org.yaml.snakeyaml.Yaml
 import java.io.File
