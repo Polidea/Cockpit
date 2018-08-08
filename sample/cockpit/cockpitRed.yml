@@ -1,7 +1,4 @@
-color:
-  type: color
-  description: "Text color"
-  value: "#ff0033"
-colorDescription: "Torch red"
-footer: "Created with ❤️ by Polidea"
-showFooter: true
+footer:
+  description: "Footer"
+  value: "Created with ❤️ by Polidea"
+  group: "Footer"

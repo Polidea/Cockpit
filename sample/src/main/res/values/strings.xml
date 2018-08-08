@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">CockpitSample</string>
     <string name="cockpit_header">Cockpit:</string>
+    <string name="action_info">Info</string>
+    <string name="total_price_value">$ 151.41</string>
+    <string name="total_price">Total Price</string>
+    <string name="checkout">Checkout</string>
 </resources>

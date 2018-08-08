@@ -14,11 +14,10 @@ abstract class SampleBasePresenter(open val sampleView: SampleBaseContract.View<
     }
 
     protected open fun initViews() {
-        sampleView.setColorDescription(Cockpit.getColorDescription())
+        sampleView.setTotalPriceFontSize(Cockpit.getTotalPriceFontSize().toFloat())
+        sampleView.setHeadingText(Cockpit.getHeadingText())
         sampleView.setFooterText(Cockpit.getFooter())
-        sampleView.setFontSize(Cockpit.getFontSize().toFloat())
+        sampleView.setFooterTextColor(Color.parseColor(Cockpit.getFooterFontColor()))
         sampleView.showFooter(true)
-        sampleView.setTypeface(Typeface.create(Cockpit.getFontListSelectedValue(), Typeface.NORMAL))
-        sampleView.setTextColor(Color.parseColor(Cockpit.getColor()))
     }
 }
