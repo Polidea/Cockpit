@@ -22,6 +22,7 @@
         app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_50"/>
 
     <View
+        android:id="@+id/colored_background_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/blue_theme_background"

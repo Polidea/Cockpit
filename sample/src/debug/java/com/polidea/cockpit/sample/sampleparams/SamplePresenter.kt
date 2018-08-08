@@ -5,6 +5,7 @@ import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
+import com.polidea.cockpit.sample.Style
 
 class SamplePresenter(override val sampleView: SampleContract.View)
     : SampleBasePresenter(sampleView), SampleContract.Presenter {
@@ -56,7 +57,7 @@ class SamplePresenter(override val sampleView: SampleContract.View)
 
     private fun setOnValueSelectedListener() {
         styleSelectedListener = SelectionChangeListener { selectedValue ->
-            // TODO: implement
+            sampleView.setStyle(Style.forValue(selectedValue))
         }
         Cockpit.addStyleSelectionChangeListener(styleSelectedListener)
     }
