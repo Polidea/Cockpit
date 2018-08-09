@@ -21,4 +21,8 @@ abstract class SampleBasePresenter(open val sampleView: SampleBaseContract.View<
         sampleView.setFooterTextColor(Color.parseColor(Cockpit.getFooterFontColor()))
         sampleView.showFooter(true)
     }
+
+    override fun infoClicked() {
+        sampleView.showInfoDialog()
+    }
 }

@@ -19,7 +19,11 @@ interface SampleBaseContract {
         fun setTotalPriceFontSize(textSize: Float)
 
         fun setHeadingText(headingText: String)
+
+        fun showInfoDialog()
     }
 
-    interface Presenter : BasePresenter
+    interface Presenter : BasePresenter {
+        fun infoClicked()
+    }
 }

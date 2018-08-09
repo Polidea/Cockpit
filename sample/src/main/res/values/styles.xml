@@ -56,4 +56,17 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/black_a54</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Red">
+        <item name="colorAccent">@color/redThemeAlertDialogButtonTextColor</item>
+    </style>
+
+    <style name="AppTheme.Dialog.Blue">
+        <item name="colorAccent">@color/blueThemeAlertDialogButtonTextColor</item>
+    </style>
+
+
 </resources>
