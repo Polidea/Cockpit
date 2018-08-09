@@ -81,10 +81,9 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
             AlertDialog.Builder(it, Style.forValue(Cockpit.getStyleSelectedValue()).alertDialogStyleResId)
                     .setTitle(R.string.info_title)
                     .setMessage(R.string.info_message)
-                    .setPositiveButton(android.R.string.ok) { dialog, which ->
-                        dialog.dismiss()
-                    }
-                    .create().show()
+                    .setPositiveButton(android.R.string.ok) { _, _ -> }
+                    .create()
+                    .show()
         }
     }
 }

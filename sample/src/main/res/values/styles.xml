@@ -57,7 +57,7 @@
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColorPrimary">@color/black_54</item>
+        <item name="android:textColorPrimary">@color/black_a54</item>
     </style>
 
     <style name="AppTheme.Dialog.Red">
