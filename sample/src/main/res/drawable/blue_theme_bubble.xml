@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:angle="0"
+        android:endColor="@color/blueThemeGradientEndColor"
+        android:startColor="@color/blueThemeGradientStartColor"
+        android:type="linear" />
+
+    <size
+        android:width="@dimen/item_count_bubble_size"
+        android:height="@dimen/item_count_bubble_size" />
+</shape>

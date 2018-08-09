@@ -28,6 +28,7 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
             colored_background_view.background = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
             checkout_button.background = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
             setStatusBarColor(style.statusBarColorResId)
+            //shoes.nameFontColor = ContextCompat.getColor(it, R.) // TODO
         }
     }
 
@@ -43,6 +44,21 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
             // finally change the color
             window.statusBarColor = ContextCompat.getColor(it, statusBarColor)
         }
+    }
+
+    private fun prepareCartItems() {
+        shoes.itemPrice = 95.99
+        shoes.itemName = "Shoes"
+        shoes.imageResource = R.drawable.shoes
+
+        hat.itemPrice = 4.99
+        hat.itemName = "Hat"
+        hat.imageResource = R.drawable.hat
+
+        backpack.itemPrice = 40.45
+        backpack.itemName = "Backpack"
+        backpack.imageResource = R.drawable.backpack
+
     }
 
     override fun showFooter(isVisible: Boolean) {
@@ -69,6 +85,7 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
         super.onViewCreated(view, savedInstanceState)
         presenter.start()
         info.setOnClickListener { presenter.infoClicked() }
+        prepareCartItems()
     }
 
     override fun onDestroyView() {
