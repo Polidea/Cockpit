@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/cart_item_margin">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/cart_item_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
         android:contentDescription="@string/cart_item_image_description"
-        android:paddingRight="@dimen/cart_item_margin"
-        android:src="@drawable/backpack" />
+        android:cropToPadding="false"
+        android:src="@drawable/backpack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/cart_item_image"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/cart_item_image"
+        app:layout_constraintLeft_toRightOf="@+id/cart_item_image"
+        app:layout_constraintTop_toTopOf="@+id/cart_item_image"
+        android:layout_marginStart="8dp">
 
         <TextView
             android:id="@+id/cart_item_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fontFamily="sans-serif-light"
             android:paddingBottom="@dimen/cart_name_price_padding"
             android:textSize="@dimen/cart_item_font_size"
@@ -32,55 +38,56 @@
         <TextView
             android:id="@+id/cart_item_price"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fontFamily="sans-serif-light"
-            android:textSize="@dimen/font_size_12"
+            android:textSize="@dimen/cart_item_price_font_size"
             tools:text="$95.99" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:orientation="horizontal"-->
+    <!--app:layout_constraintEnd_toEndOf="parent">-->
 
-        <ImageButton
-            android:layout_width="@dimen/add_remove_button_width"
-            android:layout_height="@dimen/remove_button_height"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/remove"
-            android:id="@+id/remove_button"/>
+    <!--<ImageButton-->
+    <!--android:id="@+id/remove_button"-->
+    <!--android:layout_width="@dimen/add_remove_button_width"-->
+    <!--android:layout_height="@dimen/remove_button_height"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:src="@drawable/remove" />-->
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_count_bubble">
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/item_count_bubble"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content">-->
 
-            <ImageView
-                android:layout_width="@dimen/item_count_bubble_size"
-                android:layout_height="@dimen/item_count_bubble_size"
-                android:id="@+id/item_count_bubble_background"
-                android:paddingRight="@dimen/add_remove_bubble_padding"
-                android:paddingLeft="@dimen/add_remove_bubble_padding"/>
+    <!--<ImageView-->
+    <!--android:id="@+id/item_count_bubble_background"-->
+    <!--android:layout_width="@dimen/item_count_bubble_size"-->
+    <!--android:layout_height="@dimen/item_count_bubble_size"-->
+    <!--android:paddingLeft="@dimen/add_remove_bubble_padding"-->
+    <!--android:paddingRight="@dimen/add_remove_bubble_padding" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/item_count_number"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@color/white"
-                android:textSize="@dimen/font_size_12"/>
+    <!--<TextView-->
+    <!--android:id="@+id/item_count_number"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:fontFamily="sans-serif-medium"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="@dimen/cart_item_price_font_size" />-->
 
-        </RelativeLayout>
+    <!--</RelativeLayout>-->
 
-        <ImageButton
-            android:layout_width="@dimen/add_remove_button_width"
-            android:layout_height="@dimen/add_remove_button_width"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/add"
-            android:id="@+id/add_button"/>
+    <!--<ImageButton-->
+    <!--android:id="@+id/add_button"-->
+    <!--android:layout_width="@dimen/add_remove_button_width"-->
+    <!--android:layout_height="@dimen/add_remove_button_width"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:src="@drawable/add" />-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

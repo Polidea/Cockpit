@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.polidea.cockpit.sample.R
 
 
-class CartItem() : Fragment() {
+class CartItem : Fragment() {
     private var itemName: String = ""
     private var itemPrice: Double = 0.0
     private var imageResource: Int = R.drawable.shoes
