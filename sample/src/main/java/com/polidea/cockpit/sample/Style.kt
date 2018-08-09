@@ -7,14 +7,17 @@ import android.support.annotation.StyleRes
 enum class Style(val value: String,
                  @ColorRes val statusBarColorResId: Int,
                  @DrawableRes val backgroundDrawableResId: Int,
+                 @ColorRes val successColorResId: Int,
                  @StyleRes val alertDialogStyleResId: Int) {
     RED("red",
-            R.color.redThemeGradientEndColor,
+            R.color.redStatusBarColor,
             R.drawable.red_theme_background,
+            R.color.redButtonDoneColor,
             R.style.AppTheme_Dialog_Red),
     BLUE("blue",
-            R.color.blueThemeGradientEndColor,
+            R.color.blueStatusBarColor,
             R.drawable.blue_theme_background,
+            R.color.blueButtonDoneColor,
             R.style.AppTheme_Dialog_Blue);
 
     companion object {
