@@ -6,9 +6,10 @@ import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
 import com.polidea.cockpit.sample.Style
+import com.polidea.cockpit.sample.model.SampleModel
 
-class SamplePresenter(override val sampleView: SampleContract.View)
-    : SampleBasePresenter(sampleView), SampleContract.Presenter {
+class SamplePresenter(override val sampleView: SampleContract.View, override val sampleModel: SampleModel)
+    : SampleBasePresenter(sampleView, sampleModel), SampleContract.Presenter {
 
     private lateinit var styleSelectedListener: SelectionChangeListener<String>
     private lateinit var onAnimationSpeedChangeListener: PropertyChangeListener<Int>
@@ -32,7 +33,8 @@ class SamplePresenter(override val sampleView: SampleContract.View)
 
     private fun setCallbacks() {
         resetCountCallback = ActionRequestCallback {
-            // TODO: implement
+            sampleModel.reset()
+            updateAll()
         }
         Cockpit.addResetCountActionRequestCallback(resetCountCallback)
     }
