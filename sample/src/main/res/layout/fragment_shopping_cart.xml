@@ -87,13 +87,11 @@
         android:elevation="@dimen/margin_2"
         app:layout_constraintBottom_toTopOf="@+id/checkout_button"/>
 
-    <Button
+    <com.polidea.cockpit.sample.widget.MorphingButton
         android:id="@+id/checkout_button"
-        style="@style/AppTheme.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_10"
-        android:text="@string/checkout"
         app:layout_constraintBottom_toTopOf="@+id/footer_container"/>
 
     <FrameLayout

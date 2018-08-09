@@ -25,5 +25,6 @@ interface SampleBaseContract {
 
     interface Presenter : BasePresenter {
         fun infoClicked()
+        fun checkoutClicked()
     }
 }
