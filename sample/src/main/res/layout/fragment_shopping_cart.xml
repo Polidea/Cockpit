@@ -108,9 +108,8 @@
 
     </LinearLayout>
 
-    <Button
+    <com.polidea.cockpit.sample.widget.MorphingButton
         android:id="@+id/checkout_button"
-        style="@style/AppTheme.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_10"

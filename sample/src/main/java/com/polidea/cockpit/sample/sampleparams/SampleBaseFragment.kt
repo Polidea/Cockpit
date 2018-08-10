@@ -27,7 +27,8 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
     private fun styleWith(style: Style) {
         context?.let {
             colored_background_view.background = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
-            checkout_button.background = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
+            checkout_button.buttonBackground = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
+            checkout_button.successBackground = ContextCompat.getDrawable(it, style.successColorResId)
             setStatusBarColor(style.statusBarColorResId)
             //shoes.nameFontColor = ContextCompat.getColor(it, R.) // TODO
         }
@@ -88,6 +89,7 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
         super.onViewCreated(view, savedInstanceState)
         presenter.start()
         info.setOnClickListener { presenter.infoClicked() }
+        checkout_button.setOnClickListener { presenter.checkoutClicked() }
         prepareCartItems()
     }
 

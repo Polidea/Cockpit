@@ -25,4 +25,8 @@ abstract class SampleBasePresenter(open val sampleView: SampleBaseContract.View<
     override fun infoClicked() {
         sampleView.showInfoDialog()
     }
+
+    override fun checkoutClicked() {
+        // TODO: reset items counter
+    }
 }
