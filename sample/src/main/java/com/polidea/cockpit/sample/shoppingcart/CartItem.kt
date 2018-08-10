@@ -29,6 +29,11 @@ class CartItem @JvmOverloads constructor(
             cart_item_name.setTextColor(value)
         }
 
+    var amount: Int = 0
+        set(value) {
+            item_count_number.text = value.toString()
+        }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.cart_item, this)
     }

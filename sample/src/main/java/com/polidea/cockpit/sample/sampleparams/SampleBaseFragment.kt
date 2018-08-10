@@ -51,15 +51,17 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
         shoes.setPrice(PriceFormatter().formatPrice(95.99))
         shoes.itemName = "Shoes"
         shoes.imageResource = R.drawable.shoes
+        shoes.amount = 1
 
         hat.setPrice(PriceFormatter().formatPrice(4.99))
         hat.itemName = "Hat"
         hat.imageResource = R.drawable.hat
+        hat.amount = 1
 
         backpack.setPrice(PriceFormatter().formatPrice(40.45))
         backpack.itemName = "Backpack"
         backpack.imageResource = R.drawable.backpack
-
+        backpack.amount = 1
     }
 
     override fun showFooter(isVisible: Boolean) {
