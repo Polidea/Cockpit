@@ -30,7 +30,7 @@ class CartItemView @JvmOverloads constructor(
     }
 
     fun setBubbleImageDrawable(@DrawableRes drawableResId: Int) {
-        item_count_bubble_background.setImageDrawable(getDrawable(drawableResId))
+        item_count_bubble_background.background = getDrawable(drawableResId)
     }
 
     fun setNameFontColor(@ColorInt color: Int) {

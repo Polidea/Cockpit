@@ -81,7 +81,7 @@
     <LinearLayout
         android:id="@+id/items_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/items_container_height"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_10"
         android:background="@color/white"
         android:elevation="@dimen/margin_2"
@@ -91,20 +91,17 @@
         <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/shoes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/items_container" />
+            android:layout_height="wrap_content" />
 
         <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/hat"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/shoes" />
+            android:layout_height="wrap_content" />
 
         <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/backpack"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/hat" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
