@@ -17,7 +17,6 @@ class SampleActivity : AppCompatActivity() {
             replaceFragmentInActivity(it, R.id.contentFrame)
         }
 
-        val sampleModel = SampleModel()
-        SamplePresenter(sampleFragment, sampleModel)
+        SamplePresenter(sampleFragment, SampleModel())
     }
 }

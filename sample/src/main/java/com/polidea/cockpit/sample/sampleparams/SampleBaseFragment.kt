@@ -97,6 +97,10 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
         info.setOnClickListener { presenter.infoClicked() }
         checkout_button.setOnClickListener { presenter.checkoutClicked() }
 
+        initializeCartItems()
+    }
+
+    private fun initializeCartItems() {
         shoes.setItemImageDrawable(R.drawable.shoes)
         shoes.setOnMinusClickListener(View.OnClickListener { presenter.minusClicked(ModelConstants.ITEM_NAME_SHOES) })
         shoes.setOnPlusClickListener(View.OnClickListener { presenter.plusClicked(ModelConstants.ITEM_NAME_SHOES) })
