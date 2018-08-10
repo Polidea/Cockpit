@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/cart_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/cart_item_image_description"
+        android:cropToPadding="false"
+        android:src="@drawable/backpack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/cart_item_image"
+        app:layout_constraintLeft_toRightOf="@+id/cart_item_image"
+        app:layout_constraintTop_toTopOf="@+id/cart_item_image">
+
+        <TextView
+            android:id="@+id/cart_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif-light"
+            android:paddingBottom="@dimen/cart_name_price_padding"
+            android:textSize="@dimen/cart_item_font_size"
+            tools:text="Shoes" />
+
+        <TextView
+            android:id="@+id/cart_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif-light"
+            android:textSize="@dimen/cart_item_price_font_size"
+            tools:text="$95.99" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/margin_20"
+        app:layout_constraintBottom_toBottomOf="@+id/cart_item_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cart_item_image">
+
+        <ImageButton
+            android:id="@+id/remove_button"
+            android:layout_width="@dimen/add_remove_button_width"
+            android:layout_height="@dimen/remove_button_height"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/remove" />
+
+        <RelativeLayout
+            android:id="@+id/item_count_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/add_remove_bubble_padding"
+            android:paddingRight="@dimen/add_remove_bubble_padding">
+
+            <ImageView
+                android:id="@+id/item_count_bubble_background"
+                android:layout_width="@dimen/item_count_bubble_size"
+                android:layout_height="@dimen/item_count_bubble_size"
+                android:background="@drawable/blue_theme_bubble" />
+
+            <TextView
+                android:id="@+id/item_count_number"
+                android:layout_width="@dimen/item_count_bubble_size"
+                android:layout_height="@dimen/item_count_bubble_size"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/cart_item_price_font_size"
+                tools:text="1" />
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/add_button"
+            android:layout_width="@dimen/add_remove_button_width"
+            android:layout_height="@dimen/add_remove_button_width"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/add" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

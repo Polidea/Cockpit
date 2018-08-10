@@ -12,6 +12,7 @@ import android.view.WindowManager
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.sample.R
 import com.polidea.cockpit.sample.Style
+import com.polidea.cockpit.sample.util.PriceFormatter
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 
 abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment(), SampleBaseContract.View<T> {
@@ -29,6 +30,7 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
             checkout_button.buttonBackground = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
             checkout_button.successBackground = ContextCompat.getDrawable(it, style.successColorResId)
             setStatusBarColor(style.statusBarColorResId)
+            //shoes.nameFontColor = ContextCompat.getColor(it, R.) // TODO
         }
     }
 
@@ -44,6 +46,23 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
             // finally change the color
             window.statusBarColor = ContextCompat.getColor(it, statusBarColor)
         }
+    }
+
+    private fun prepareCartItems() {
+        shoes.setPrice(PriceFormatter().formatPrice(95.99))
+        shoes.itemName = "Shoes"
+        shoes.imageResource = R.drawable.shoes
+        shoes.amount = 1
+
+        hat.setPrice(PriceFormatter().formatPrice(4.99))
+        hat.itemName = "Hat"
+        hat.imageResource = R.drawable.hat
+        hat.amount = 1
+
+        backpack.setPrice(PriceFormatter().formatPrice(40.45))
+        backpack.itemName = "Backpack"
+        backpack.imageResource = R.drawable.backpack
+        backpack.amount = 1
     }
 
     override fun showFooter(isVisible: Boolean) {
@@ -71,6 +90,7 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
         presenter.start()
         info.setOnClickListener { presenter.infoClicked() }
         checkout_button.setOnClickListener { presenter.checkoutClicked() }
+        prepareCartItems()
     }
 
     override fun onDestroyView() {

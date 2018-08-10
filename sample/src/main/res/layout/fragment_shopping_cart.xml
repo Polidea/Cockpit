@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_25"/>
+        app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_25" />
 
 
     <android.support.constraint.Guideline
@@ -19,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_50"/>
+        app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_50" />
 
     <View
         android:id="@+id/colored_background_view"
@@ -27,14 +26,14 @@
         android:layout_height="0dp"
         android:background="@drawable/blue_theme_background"
         app:layout_constraintBottom_toBottomOf="@id/guideline_half"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/grayBackgroundColor"
         app:layout_constraintBottom_toBottomOf="@+id/footer_container"
-        app:layout_constraintTop_toTopOf="@id/guideline_half"/>
+        app:layout_constraintTop_toTopOf="@id/guideline_half" />
 
     <TextView
         android:id="@+id/heading_text_view"
@@ -46,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Shopping cart"/>
+        tools:text="Shopping cart" />
 
     <ImageView
         android:id="@+id/info"
@@ -56,7 +55,7 @@
         android:src="@drawable/v_ic_info_icon"
         app:layout_constraintBottom_toBottomOf="@id/heading_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/heading_text_view"/>
+        app:layout_constraintTop_toTopOf="@id/heading_text_view" />
 
     <TextView
         android:id="@+id/total_price"
@@ -67,7 +66,7 @@
         app:layout_constraintBottom_toBottomOf="@id/guideline_quarter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_quarter"/>
+        app:layout_constraintTop_toTopOf="@id/guideline_quarter" />
 
     <TextView
         style="@style/AppTheme.Text.Subhead"
@@ -77,22 +76,45 @@
         android:text="@string/total_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/total_price"/>
+        app:layout_constraintTop_toBottomOf="@id/total_price" />
 
-    <View
+    <LinearLayout
+        android:id="@+id/items_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/items_container_height"
         android:layout_margin="@dimen/margin_10"
         android:background="@color/white"
         android:elevation="@dimen/margin_2"
-        app:layout_constraintBottom_toTopOf="@+id/checkout_button"/>
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_button">
+
+        <com.polidea.cockpit.sample.shoppingcart.CartItem
+            android:id="@+id/shoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/items_container" />
+
+        <com.polidea.cockpit.sample.shoppingcart.CartItem
+            android:id="@+id/hat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/shoes" />
+
+        <com.polidea.cockpit.sample.shoppingcart.CartItem
+            android:id="@+id/backpack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/hat" />
+
+    </LinearLayout>
 
     <com.polidea.cockpit.sample.widget.MorphingButton
         android:id="@+id/checkout_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_10"
-        app:layout_constraintBottom_toTopOf="@+id/footer_container"/>
+        android:text="@string/checkout"
+        app:layout_constraintBottom_toTopOf="@+id/footer_container" />
 
     <FrameLayout
         android:id="@+id/footer_container"
@@ -107,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            tools:text="Created with ❤️ by Polidea"/>
+            tools:text="Created with ❤️ by Polidea" />
 
     </FrameLayout>
 
