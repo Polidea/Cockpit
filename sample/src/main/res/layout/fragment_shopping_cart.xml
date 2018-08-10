@@ -62,11 +62,11 @@
         style="@style/AppTheme.Text.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/total_price_value"
         app:layout_constraintBottom_toBottomOf="@id/guideline_quarter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_quarter" />
+        app:layout_constraintTop_toTopOf="@id/guideline_quarter"
+        tools:text="@string/total_price_value" />
 
     <TextView
         style="@style/AppTheme.Text.Subhead"
@@ -93,10 +93,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <View style="@style/Divider" />
+
         <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/hat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <View style="@style/Divider" />
 
         <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/backpack"
