@@ -7,8 +7,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.polidea.cockpit.sample.R
 import kotlinx.android.synthetic.main.cart_item.view.*
-import java.text.NumberFormat
-import java.util.*
 
 
 class CartItem @JvmOverloads constructor(
@@ -21,24 +19,21 @@ class CartItem @JvmOverloads constructor(
             cart_item_name.text = value
         }
 
-    var itemPrice: Double = 0.0
-        set(value) {
-            val numberFormat = NumberFormat.getCurrencyInstance(Locale.US)
-            cart_item_price.text = numberFormat.format(value)
-        }
-
     var imageResource: Int = R.drawable.shoes
         set(value) {
             cart_item_image.setImageDrawable(ContextCompat.getDrawable(context, value))
         }
 
-    var nameFontColor: Int
-        get() = cart_item_name.currentTextColor
+    var nameFontColor: Int = R.color.blueThemeItemTextColor
         set(value) {
             cart_item_name.setTextColor(value)
         }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.cart_item, this)
+    }
+
+    fun setPrice(price: String) {
+        cart_item_price.text = price
     }
 }

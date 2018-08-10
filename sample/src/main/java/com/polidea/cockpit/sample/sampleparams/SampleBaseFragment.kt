@@ -12,6 +12,7 @@ import android.view.WindowManager
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.sample.R
 import com.polidea.cockpit.sample.Style
+import com.polidea.cockpit.sample.util.PriceFormatter
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 
 abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment(), SampleBaseContract.View<T> {
@@ -47,15 +48,15 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
     }
 
     private fun prepareCartItems() {
-        shoes.itemPrice = 95.99
+        shoes.setPrice(PriceFormatter().formatPrice(95.99))
         shoes.itemName = "Shoes"
         shoes.imageResource = R.drawable.shoes
 
-        hat.itemPrice = 4.99
+        hat.setPrice(PriceFormatter().formatPrice(4.99))
         hat.itemName = "Hat"
         hat.imageResource = R.drawable.hat
 
-        backpack.itemPrice = 40.45
+        backpack.setPrice(PriceFormatter().formatPrice(40.45))
         backpack.itemName = "Backpack"
         backpack.imageResource = R.drawable.backpack
 
