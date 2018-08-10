@@ -12,7 +12,8 @@ import android.view.WindowManager
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.sample.R
 import com.polidea.cockpit.sample.Style
-import com.polidea.cockpit.sample.util.PriceFormatter
+import com.polidea.cockpit.sample.model.ModelConstants
+import com.polidea.cockpit.sample.shoppingcart.CartItemView
 import kotlinx.android.synthetic.main.fragment_shopping_cart.*
 
 abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment(), SampleBaseContract.View<T> {
@@ -25,12 +26,15 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
     }
 
     private fun styleWith(style: Style) {
-        context?.let {
-            colored_background_view.background = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
-            checkout_button.buttonBackground = ContextCompat.getDrawable(it, style.backgroundDrawableResId)
-            checkout_button.successBackground = ContextCompat.getDrawable(it, style.successColorResId)
+        context?.let { context ->
+            colored_background_view.background = ContextCompat.getDrawable(context, style.backgroundDrawableResId)
+            checkout_button.buttonBackground = ContextCompat.getDrawable(context, style.backgroundDrawableResId)
+            checkout_button.successBackground = ContextCompat.getDrawable(context, style.successColorResId)
             setStatusBarColor(style.statusBarColorResId)
-            //shoes.nameFontColor = ContextCompat.getColor(it, R.) // TODO
+            listOf(shoes, hat, backpack).forEach {
+                it.setNameFontColor(ContextCompat.getColor(context, style.itemNameTextColorResId))
+                it.setBubbleImageDrawable(style.bubbleBackgroundDrawableResId)
+            }
         }
     }
 
@@ -46,23 +50,6 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
             // finally change the color
             window.statusBarColor = ContextCompat.getColor(it, statusBarColor)
         }
-    }
-
-    private fun prepareCartItems() {
-        shoes.setPrice(PriceFormatter().formatPrice(95.99))
-        shoes.itemName = "Shoes"
-        shoes.imageResource = R.drawable.shoes
-        shoes.amount = 1
-
-        hat.setPrice(PriceFormatter().formatPrice(4.99))
-        hat.itemName = "Hat"
-        hat.imageResource = R.drawable.hat
-        hat.amount = 1
-
-        backpack.setPrice(PriceFormatter().formatPrice(40.45))
-        backpack.itemName = "Backpack"
-        backpack.imageResource = R.drawable.backpack
-        backpack.amount = 1
     }
 
     override fun showFooter(isVisible: Boolean) {
@@ -85,12 +72,46 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
         heading_text_view.text = headingText
     }
 
+    override fun updateTotalPrice(price: String) {
+        total_price.text = price
+    }
+
+    override fun updateItem(itemName: String, price: String, count: String) {
+        when(itemName) {
+            ModelConstants.ITEM_NAME_SHOES -> updateItem(shoes, itemName, price, count)
+            ModelConstants.ITEM_NAME_HAT -> updateItem(hat, itemName, price, count)
+            ModelConstants.ITEM_NAME_BACKPACK -> updateItem(backpack, itemName, price, count)
+        }
+    }
+
+    private fun updateItem(view: CartItemView, name: String, price: String, count: String) {
+        view.itemName = name
+        view.setPrice(price)
+        view.setCount(count)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.start()
+
         info.setOnClickListener { presenter.infoClicked() }
         checkout_button.setOnClickListener { presenter.checkoutClicked() }
-        prepareCartItems()
+
+        initializeCartItems()
+    }
+
+    private fun initializeCartItems() {
+        shoes.setItemImageDrawable(R.drawable.shoes)
+        shoes.setOnMinusClickListener(View.OnClickListener { presenter.minusClicked(ModelConstants.ITEM_NAME_SHOES) })
+        shoes.setOnPlusClickListener(View.OnClickListener { presenter.plusClicked(ModelConstants.ITEM_NAME_SHOES) })
+
+        hat.setItemImageDrawable(R.drawable.hat)
+        hat.setOnMinusClickListener(View.OnClickListener { presenter.minusClicked(ModelConstants.ITEM_NAME_HAT) })
+        hat.setOnPlusClickListener(View.OnClickListener { presenter.plusClicked(ModelConstants.ITEM_NAME_HAT) })
+
+        backpack.setItemImageDrawable(R.drawable.backpack)
+        backpack.setOnMinusClickListener(View.OnClickListener { presenter.minusClicked(ModelConstants.ITEM_NAME_BACKPACK) })
+        backpack.setOnPlusClickListener(View.OnClickListener { presenter.plusClicked(ModelConstants.ITEM_NAME_BACKPACK) })
     }
 
     override fun onDestroyView() {

@@ -2,12 +2,10 @@ package com.polidea.cockpit.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import com.polidea.cockpit.sample.model.SampleModel
 import com.polidea.cockpit.sample.sampleparams.SampleFragment
 import com.polidea.cockpit.sample.sampleparams.SamplePresenter
 import com.polidea.cockpit.sample.util.replaceFragmentInActivity
-import kotlinx.android.synthetic.main.activity_sample.*
 
 class SampleActivity : AppCompatActivity() {
 
@@ -19,6 +17,6 @@ class SampleActivity : AppCompatActivity() {
             replaceFragmentInActivity(it, R.id.contentFrame)
         }
 
-        SamplePresenter(sampleFragment)
+        SamplePresenter(sampleFragment, SampleModel())
     }
 }

@@ -62,7 +62,7 @@
         style="@style/AppTheme.Text.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/total_price_value"
+        tools:text="@string/total_price_value"
         app:layout_constraintBottom_toBottomOf="@id/guideline_quarter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,19 +88,19 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/checkout_button">
 
-        <com.polidea.cockpit.sample.shoppingcart.CartItem
+        <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/shoes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/items_container" />
 
-        <com.polidea.cockpit.sample.shoppingcart.CartItem
+        <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/hat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/shoes" />
 
-        <com.polidea.cockpit.sample.shoppingcart.CartItem
+        <com.polidea.cockpit.sample.shoppingcart.CartItemView
             android:id="@+id/backpack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
