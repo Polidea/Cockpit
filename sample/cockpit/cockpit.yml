@@ -17,9 +17,10 @@ totalPriceFontSize:
   step: 1
   value: 36
   group: "Cart"
+
 resetCount:
   type: action
-  description: "Set item count to \"0\""
+  description: "Set item count to default"
   buttonText: "Reset"
   group: "Cart"
 
@@ -33,6 +34,7 @@ footerFontColor:
   description: "Font color"
   value: "#FFFFFF"
   group: "Footer"
+
 showFooter:
   description: "Show footer"
   value: true
