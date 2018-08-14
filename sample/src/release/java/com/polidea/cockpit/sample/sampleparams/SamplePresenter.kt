@@ -1,7 +1,9 @@
 package com.polidea.cockpit.sample.sampleparams
 
-class SamplePresenter(override val sampleView: SampleContract.View)
-    : SampleBasePresenter(sampleView), SampleContract.Presenter {
+import com.polidea.cockpit.sample.model.SampleModel
+
+class SamplePresenter(override val sampleView: SampleContract.View, override val sampleModel: SampleModel)
+    : SampleBasePresenter(sampleView, sampleModel), SampleContract.Presenter {
 
     init {
         sampleView.presenter = this
