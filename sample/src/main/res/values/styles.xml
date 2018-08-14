@@ -62,10 +62,12 @@
 
     <style name="AppTheme.Dialog.Red">
         <item name="colorAccent">@color/redThemeAlertDialogButtonTextColor</item>
+        <item name="android:textColorLink">@color/redThemeAlertDialogButtonTextColor</item>
     </style>
 
     <style name="AppTheme.Dialog.Blue">
         <item name="colorAccent">@color/blueThemeAlertDialogButtonTextColor</item>
+        <item name="android:textColorLink">@color/blueThemeAlertDialogButtonTextColor</item>
     </style>
 
     <style name="Divider">
