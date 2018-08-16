@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.TextView
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.sample.R
 import com.polidea.cockpit.sample.Style
@@ -77,7 +79,7 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
     }
 
     override fun updateItem(itemName: String, price: String, count: String) {
-        when(itemName) {
+        when (itemName) {
             ModelConstants.ITEM_NAME_SHOES -> updateItem(shoes, itemName, price, count)
             ModelConstants.ITEM_NAME_HAT -> updateItem(hat, itemName, price, count)
             ModelConstants.ITEM_NAME_BACKPACK -> updateItem(backpack, itemName, price, count)
@@ -120,13 +122,14 @@ abstract class SampleBaseFragment<T : SampleBaseContract.Presenter> : Fragment()
     }
 
     override fun showInfoDialog() {
-        context?.let {
-            AlertDialog.Builder(it, Style.forValue(Cockpit.getStyleSelectedValue()).alertDialogStyleResId)
-                    .setTitle(R.string.info_title)
-                    .setMessage(R.string.info_message)
-                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .create()
-                    .show()
-        }
+        val dialog = AlertDialog.Builder(context!!, Style.forValue(Cockpit.getStyleSelectedValue()).alertDialogStyleResId)
+                .setTitle(R.string.info_title)
+                .setMessage(R.string.info_message)
+                .setPositiveButton(android.R.string.ok) { _, _ -> }
+                .create()
+
+        dialog.show()
+
+        dialog.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance() // has to be called after dialog.show()
     }
 }
