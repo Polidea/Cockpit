@@ -64,9 +64,9 @@ internal class YamlToParamMapper {
 
     private fun createCockpitRange(paramName: String, valueMap: Map<*, *>): CockpitRange<*> {
         val min = valueMap[MapperConsts.KEY_RANGE_MIN] as? Number
-                ?: throw CockpitParseException("$paramName parameter must contain min field")
+                ?: throw CockpitParseException("$paramName parameter must contain min and max fields")
         val max = valueMap[MapperConsts.KEY_RANGE_MAX] as? Number
-                ?: throw CockpitParseException("$paramName parameter must contain max field")
+                ?: throw throw CockpitParseException("$paramName parameter must contain min and max fields")
         val step = valueMap[MapperConsts.KEY_RANGE_STEP] as? Number ?: 1
         val selectedValue = valueMap[MapperConsts.KEY_RANGE_VALUE] as? Number ?: min
 
