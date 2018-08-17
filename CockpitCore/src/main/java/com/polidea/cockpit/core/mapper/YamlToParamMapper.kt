@@ -48,6 +48,12 @@ internal class YamlToParamMapper {
     private fun createCockpitListType(paramName: String, valueMap: Map<*, *>): CockpitListType<Any> {
         val values = valueMap[MapperConsts.KEY_LIST_VALUES] as? List<*>
                 ?: throw CockpitParseException("$paramName parameter must contain list of elements in `${MapperConsts.KEY_LIST_VALUES}` field")
+
+        val types = values.distinctBy { it!!::class.java }.count()
+        if (types > 1) {
+            throw CockpitParseException("In $paramName: list with mixed types is not supported!")
+        }
+
         val selectedIndex = (valueMap[MapperConsts.KEY_LIST_SELECTION_INDEX] as Int?) ?: 0
         return CockpitListType(ArrayList<Any>(values), selectedIndex)
     }
