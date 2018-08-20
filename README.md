@@ -12,7 +12,7 @@ It consists of three parts:
 - Android library containing classes to manage and display those params,  
 - CockpitCore module containing classes common for plugin and the library.
 
-<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-2.1.gif" width="270" height="480">
+<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-2.1.1.gif" width="270" height="480">
 
 Each defined value is called `param`. The set of params is called `cockpit`.
 
@@ -109,6 +109,17 @@ fontColor:
 > Please note that param names are case-sensitive and have to be unique.
 
 > You can create **groups of params** and name them. To define a group, you need to use extended structure of a param and add "group" field. All parameters without defined groups will be listed as part of "Default" group.
+```
+fontSize:
+  description: "Font size"
+  value: 18
+  group: "Header"
+fontColor:
+  type: color
+  description: "Font color"
+  value: "#223344"
+  group: "Header"
+```
 
 #### Generating Cockpit
 

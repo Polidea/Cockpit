@@ -6,10 +6,11 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import com.polidea.cockpit.R
-import com.polidea.cockpit.utils.getScreenHeight
 import com.polidea.cockpit.extensions.removeDimmedBackground
+import com.polidea.cockpit.utils.getScreenHeight
 
 internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(), ParamsEditionContract.View {
 
@@ -33,6 +34,11 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
         setupViews(view)
         presenter.start()
         retainInstance = true
+
+        // force showing Cockpit as full screen when expanded
+        val bottomSheetDialogLayoutParams = dialog.findViewById<FrameLayout>(R.id.design_bottom_sheet).layoutParams
+        bottomSheetDialogLayoutParams.height = FrameLayout.LayoutParams.MATCH_PARENT
+
         return dialog
     }
 

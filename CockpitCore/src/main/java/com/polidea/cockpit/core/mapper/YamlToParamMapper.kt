@@ -46,8 +46,14 @@ internal class YamlToParamMapper {
             CockpitAction(valueMap[MapperConsts.KEY_ACTION_BUTTON_TEXT] as? String)
 
     private fun createCockpitListType(paramName: String, valueMap: Map<*, *>): CockpitListType<Any> {
-        val values = valueMap[MapperConsts.KEY_LIST_VALUES] as? List<*>
-                ?: throw CockpitParseException("$paramName parameter must contain list of elements in `${MapperConsts.KEY_LIST_VALUES}` field")
+        val values = (valueMap[MapperConsts.KEY_LIST_VALUES] as? List<*>
+                ?: throw CockpitParseException("$paramName parameter must contain list of elements in `${MapperConsts.KEY_LIST_VALUES}` field")).filterNotNull()
+
+        val types = values.distinctBy { it::class.java }.count()
+        if (types > 1) {
+            throw CockpitParseException("In $paramName: list with mixed types is not supported!")
+        }
+
         val selectedIndex = (valueMap[MapperConsts.KEY_LIST_SELECTION_INDEX] as Int?) ?: 0
         return CockpitListType(ArrayList<Any>(values), selectedIndex)
     }
@@ -64,9 +70,9 @@ internal class YamlToParamMapper {
 
     private fun createCockpitRange(paramName: String, valueMap: Map<*, *>): CockpitRange<*> {
         val min = valueMap[MapperConsts.KEY_RANGE_MIN] as? Number
-                ?: throw CockpitParseException("$paramName parameter must contain min field")
+                ?: throw CockpitParseException("$paramName parameter must contain min and max fields")
         val max = valueMap[MapperConsts.KEY_RANGE_MAX] as? Number
-                ?: throw CockpitParseException("$paramName parameter must contain max field")
+                ?: throw throw CockpitParseException("$paramName parameter must contain min and max fields")
         val step = valueMap[MapperConsts.KEY_RANGE_STEP] as? Number ?: 1
         val selectedValue = valueMap[MapperConsts.KEY_RANGE_VALUE] as? Number ?: min
 

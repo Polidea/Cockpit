@@ -22,7 +22,6 @@ internal abstract class RangeParamViewHolder<T : Number>(view: View) : ParamBase
         valueSelector.setOnSeekBarChangeListener(null)
 
         valueSelector.max = getStepsCount(param.value)
-        valueSelector.progress = rangeToSeekBarProgress(param.value)
         value.text = rangeValueString(param.value)
 
         valueSelector.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -36,6 +35,8 @@ internal abstract class RangeParamViewHolder<T : Number>(view: View) : ParamBase
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+
+        valueSelector.progress = rangeToSeekBarProgress(param.value)
     }
 
     private fun getStepsCount(range: CockpitRange<T>): Int =

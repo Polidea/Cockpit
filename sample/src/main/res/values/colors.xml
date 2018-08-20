@@ -3,4 +3,30 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="blueThemeGradientStartColor">#62cdf7</color>
+    <color name="blueThemeGradientEndColor">#515efe</color>
+    <color name="blueStatusBarColor">#515efe</color>
+    <color name="blueButtonDoneColor">#62cdf7</color>
+    <color name="blueThemeItemTextColor">#5369fd</color>
+    <color name="blueThemeAlertDialogButtonTextColor">#5260fe</color>
+
+    <color name="redThemeGradientStartColor">#ff8139</color>
+    <color name="redThemeGradientEndColor">#fa2d64</color>
+    <color name="redStatusBarColor">#fa2d64</color>
+    <color name="redButtonDoneColor">#ff8139</color>
+    <color name="redThemeItemTextColor">#fa3062</color>
+    <color name="redThemeAlertDialogButtonTextColor">#fd4049</color>
+
+    <color name="itemPriceTextColor">#878787</color>
+    <color name="grayBackgroundColor">#f9fafb</color>
+    <color name="footerBackgroundColor">#c1c1c1</color>
+
+    <color name="black_a54">#8a000000</color>
+
+    <color name="cart_buttons_gray">#d0d0d0</color>
+
+    <color name="divider_gray">#e3e9ec</color>
 </resources>
