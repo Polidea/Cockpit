@@ -12,7 +12,6 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
     : SampleBasePresenter(sampleView, sampleModel), SampleContract.Presenter {
 
     private lateinit var styleSelectedListener: SelectionChangeListener<String>
-    private lateinit var onAnimationSpeedChangeListener: PropertyChangeListener<Int>
     private lateinit var onTotalPriceFontSizeChangeListener: PropertyChangeListener<Int>
     private lateinit var resetCountCallback: ActionRequestCallback
     private lateinit var onHeadingTextChangeListener: PropertyChangeListener<String>
@@ -65,11 +64,6 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
     }
 
     private fun setOnChangeListeners() {
-        onAnimationSpeedChangeListener = PropertyChangeListener { _, newValue ->
-            // TODO: implement
-        }
-        Cockpit.addOnAnimationSpeedChangeListener(onAnimationSpeedChangeListener)
-
         onTotalPriceFontSizeChangeListener = PropertyChangeListener { _, newValue ->
             sampleView.setTotalPriceFontSize(newValue.toFloat())
         }
@@ -97,7 +91,6 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
     }
 
     private fun removeOnChangeListeners() {
-        Cockpit.removeOnAnimationSpeedChangeListener(onAnimationSpeedChangeListener)
         Cockpit.removeOnTotalPriceFontSizeChangeListener(onTotalPriceFontSizeChangeListener)
         Cockpit.removeOnHeadingTextChangeListener(onHeadingTextChangeListener)
         Cockpit.removeOnFooterFontColorChangeListener(onFooterColorChangeListener)
