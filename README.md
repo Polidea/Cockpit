@@ -109,6 +109,17 @@ fontColor:
 > Please note that param names are case-sensitive and have to be unique.
 
 > You can create **groups of params** and name them. To define a group, you need to use extended structure of a param and add "group" field. All parameters without defined groups will be listed as part of "Default" group.
+```
+fontSize:
+  description: "Font size"
+  value: 18
+  group: "Header"
+fontColor:
+  type: color
+  description: "Font color"
+  value: "#223344"
+  group: "Header"
+```
 
 #### Generating Cockpit
 
