@@ -12,7 +12,7 @@ It consists of three parts:
 - Android library containing classes to manage and display those params,  
 - CockpitCore module containing classes common for plugin and the library.
 
-<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-2.1.gif" width="270" height="480">
+<img src="https://github.com/Polidea/Cockpit/blob/feature/redesign/images/cockpit-2.1.1.gif" width="270" height="480">
 
 Each defined value is called `param`. The set of params is called `cockpit`.
 
@@ -33,9 +33,9 @@ showDescription: true
 After you've built your project, `Cockpit.java` file will get generated for you. You can use it like any other code in your project.
 
 <p float="left">
-    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-full.png" width="216" height="384" />
-    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-half.png" width="216" height="384" />
-    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-list.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/feature/redesign/images/cockpit-full.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/feature/redesign/images/cockpit-half.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/feature/redesign/images/cockpit-list.png" width="216" height="384" />
 </p>
 
 ### Documentation

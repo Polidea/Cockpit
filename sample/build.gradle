@@ -50,7 +50,7 @@ android {
         }
     }
 
-    flavorDimensions "api", "theme"
+    flavorDimensions "theme"
 
     productFlavors {
         red {
@@ -62,14 +62,6 @@ android {
             dimension "theme"
             applicationIdSuffix ".blue"
             versionNameSuffix "-blue"
-        }
-        prod {
-            dimension "api"
-            applicationIdSuffix ".prod"
-        }
-        staging {
-            dimension "api"
-            applicationIdSuffix ".staging"
         }
     }
 

@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="margin_tiny">4dp</dimen>
-    <dimen name="margin_small">8dp</dimen>
-    <dimen name="margin_large">16dp</dimen>
+
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="footer_container_height">34dp</dimen>
+    <dimen name="items_container_height">213dp</dimen>
+
+    <item name="vertical_margin_start_percent_50" format="float" type="dimen">0.50</item>
+    <item name="vertical_margin_start_percent_25" format="float" type="dimen">0.25</item>
+
+    <dimen name="cart_item_font_size">16sp</dimen>
+    <dimen name="cart_item_price_font_size">12sp</dimen>
+    <dimen name="cart_name_price_padding">5dp</dimen>
+    <dimen name="item_count_bubble_size">30dp</dimen>
+    <dimen name="add_remove_button_size">30dp</dimen>
+
 </resources>

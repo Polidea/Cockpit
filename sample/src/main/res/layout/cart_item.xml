@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/cart_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/cart_item_image_description"
+        android:cropToPadding="false"
+        android:src="@drawable/backpack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/vertical_margin_start_percent_50" />
+
+    <TextView
+        android:id="@+id/cart_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_8"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/cart_item_font_size"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_half"
+        app:layout_constraintStart_toEndOf="@id/cart_item_image"
+        tools:text="Shoes" />
+
+    <TextView
+        android:id="@+id/cart_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_2"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/cart_item_price_font_size"
+        app:layout_constraintStart_toStartOf="@id/cart_item_name"
+        app:layout_constraintTop_toTopOf="@id/guideline_half"
+        tools:text="$95.99" />
+
+    <ImageButton
+        android:id="@+id/remove_button"
+        android:layout_width="@dimen/add_remove_button_size"
+        android:layout_height="@dimen/add_remove_button_size"
+        android:layout_marginEnd="@dimen/margin_10"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/v_remove"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_count_bubble_background"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/item_count_bubble_background"
+        android:layout_width="@dimen/item_count_bubble_size"
+        android:layout_height="@dimen/item_count_bubble_size"
+        android:layout_marginEnd="@dimen/margin_10"
+        android:background="@drawable/blue_theme_bubble"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_count_number"
+        android:layout_width="@dimen/item_count_bubble_size"
+        android:layout_height="@dimen/item_count_bubble_size"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/cart_item_price_font_size"
+        app:layout_constraintBottom_toBottomOf="@+id/item_count_bubble_background"
+        app:layout_constraintEnd_toEndOf="@+id/item_count_bubble_background"
+        app:layout_constraintStart_toStartOf="@+id/item_count_bubble_background"
+        app:layout_constraintTop_toTopOf="@+id/item_count_bubble_background"
+        tools:text="1" />
+
+    <ImageButton
+        android:id="@+id/add_button"
+        android:layout_width="@dimen/add_remove_button_size"
+        android:layout_height="@dimen/add_remove_button_size"
+        android:layout_marginEnd="@dimen/margin_10"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/v_add"
+        app:layout_constraintBottom_toBottomOf="@+id/cart_item_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cart_item_image" />
+
+</android.support.constraint.ConstraintLayout>
