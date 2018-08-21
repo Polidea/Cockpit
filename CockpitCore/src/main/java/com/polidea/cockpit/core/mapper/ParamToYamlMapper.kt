@@ -2,10 +2,7 @@ package com.polidea.cockpit.core.mapper
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.isSimpleParam
-import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.core.type.CockpitListType
-import com.polidea.cockpit.core.type.CockpitRange
+import com.polidea.cockpit.core.type.*
 
 internal class ParamToYamlMapper {
 
@@ -44,6 +41,9 @@ internal class ParamToYamlMapper {
                 map[MapperConsts.KEY_RANGE_MAX] = value.max
                 map[MapperConsts.KEY_RANGE_STEP] = value.step
                 map[MapperConsts.KEY_RANGE_VALUE] = value.value
+            }
+            is CockpitReadOnly -> {
+                map[MapperConsts.KEY_TYPE] = YamlParamType.READ_ONLY.value
             }
 
             else -> value.let { map[MapperConsts.KEY_VALUE] = it }

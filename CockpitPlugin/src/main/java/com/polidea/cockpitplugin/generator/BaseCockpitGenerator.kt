@@ -30,6 +30,7 @@ internal abstract class BaseCockpitGenerator {
     private val selectionChangeListener = "SelectionChangeListener"
     private val cockpitColor = "CockpitColor"
     private val cockpitRange = "CockpitRange"
+    private val cockpitReadOnlyMapper = "CockpitReadOnlyMapper"
     private val cockpitColorMapper = "CockpitColorMapper"
     private val cockpitRangeMapper = "CockpitRangeMapper"
     private val mappingPropertyChangeListener = "MappingPropertyChangeListener"
@@ -45,6 +46,7 @@ internal abstract class BaseCockpitGenerator {
     protected val selectionChangeListenerClassName = ClassName.get(cockpitEventPackage, selectionChangeListener)
     protected val cockpitColorClassName = ClassName.get(cockpitCoreTypePackage, cockpitColor)
     protected val cockpitRangeClassName = ClassName.get(cockpitCoreTypePackage, cockpitRange)
+    protected val cockpitReadOnlyMapperClassName = ClassName.get(cockpitMapperPackage, cockpitReadOnlyMapper)
     protected val cockpitColorMapperClassName = ClassName.get(cockpitMapperPackage, cockpitColorMapper)
     protected val cockpitRangeMapperClassName = ClassName.get(cockpitMapperPackage, cockpitRangeMapper)
     protected val mappingPropertyChangeListenerClassName = ClassName.get(cockpitMapperPackage, mappingPropertyChangeListener)

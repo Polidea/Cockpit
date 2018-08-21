@@ -39,3 +39,7 @@ showFooter:
   description: "Show footer"
   value: true
   group: "Footer"
+
+appVersion:
+  type: read_only
+  description: "Version"
