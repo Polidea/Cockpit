@@ -1,15 +1,12 @@
 package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.core.type.CockpitListType
-import com.polidea.cockpit.core.type.CockpitRange
+import com.polidea.cockpit.core.type.*
 import com.polidea.cockpit.exception.UnsupportedCockpitTypeException
 import com.polidea.cockpit.extensions.isTypeOf
 
 internal enum class ParamType {
-    BOOL, INT, DOUBLE, STRING, LIST, ACTION, COLOR, RANGE_INT, RANGE_DOUBLE;
+    BOOL, INT, DOUBLE, STRING, LIST, ACTION, COLOR, RANGE_INT, RANGE_DOUBLE, READ_ONLY;
 
     companion object {
         fun getParamType(param: CockpitParam<Any>) =
@@ -28,6 +25,7 @@ internal enum class ParamType {
                         else
                             RANGE_DOUBLE
                     }
+                    param.isTypeOf<CockpitReadOnly>() -> READ_ONLY
                     else -> throw UnsupportedCockpitTypeException(param.name, param.value::class.java)
                 }
     }

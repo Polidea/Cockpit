@@ -1,10 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.core.type.CockpitListType
-import com.polidea.cockpit.core.type.CockpitRange
+import com.polidea.cockpit.core.type.*
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -39,6 +36,8 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                         add(createAddPropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
                         add(createRemovePropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
                     }
+                    is CockpitReadOnly ->
+                        add(createSetterMethodSpecForReadOnlyParam(paramName, paramValue))
                     else -> {
                         add(createGetterMethodSpecForParam(paramName, paramValue))
                         add(createSetterMethodSpecForParam(paramName, paramValue))
@@ -69,6 +68,11 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 add(createRangeListenerMapFieldSpec(it))
                 add(createRangeMapperFieldSpec(it))
             }
+
+            val readOnlyMapperNeeded = params.find { it.value is CockpitReadOnly } != null
+            if (readOnlyMapperNeeded) {
+                add(createReadOnlyMapperFieldSpec())
+            }
         }
     }
 
@@ -88,6 +92,9 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .initializer("new \$T<>()", hashMapClassName)
                 .build()
     }
+
+    internal fun createReadOnlyMapperFieldSpec(): FieldSpec =
+            createMapperFieldSpec(cockpitReadOnlyMapperClassName, COCKPIT_READ_ONLY_MAPPER)
 
     internal fun createColorMapperFieldSpec(): FieldSpec =
             createMapperFieldSpec(cockpitColorMapperClassName, COCKPIT_COLOR_MAPPER)
@@ -127,6 +134,9 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     internal fun createSetterMethodSpecForRangeParam(paramName: String, rangeValue: Number) =
             createSetterMethodSpecForWrappableComplexParam(paramName, getParametrizedCockpitRangeClassName(mapToJavaObjectTypeClass(rangeValue)), rangeValue, getCockpitRangeMapperName(mapToJavaObjectTypeClass(rangeValue)))
+
+    internal fun createSetterMethodSpecForReadOnlyParam(paramName: String, readOnlyValue: CockpitReadOnly) =
+            createSetterMethodSpecForWrappableParam(paramName, mapToTypeClass(readOnlyValue), readOnlyValue.text, COCKPIT_READ_ONLY_MAPPER)
 
     internal fun createSetterMethodSpecForWrappableParam(paramName: String, wrappableClass: Class<*>, param: Any, mapperName: String): MethodSpec =
             createSetterMethodSpecForParam(paramName, param, "value", listOf<MethodSpec.Builder.() -> MethodSpec.Builder>({ addStatement("\$T value = $mapperName.wrap($paramName)", wrappableClass) }))
@@ -268,6 +278,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         private const val REMOVE = "remove"
 
         private const val COCKPIT_COLOR_MAPPER = "cockpitColorMapper"
+        private const val COCKPIT_READ_ONLY_MAPPER = "cockpitReadOnlyMapper"
         private fun getCockpitRangeMapperName(paramClass: Class<*>) = "cockpitRange${paramClass.simpleName}Mapper"
 
         private const val COLOR_LISTENER_MAP = "colorListenerMap"

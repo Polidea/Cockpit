@@ -2,10 +2,7 @@ package com.polidea.cockpit.core.mapper
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.exception.CockpitParseException
-import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.core.type.CockpitListType
-import com.polidea.cockpit.core.type.CockpitRange
+import com.polidea.cockpit.core.type.*
 
 internal class YamlToParamMapper {
 
@@ -35,6 +32,7 @@ internal class YamlToParamMapper {
             YamlParamType.LIST -> createCockpitListType(paramName, valueMap)
             YamlParamType.COLOR -> createCockpitColor(paramName, valueMap)
             YamlParamType.RANGE -> createCockpitRange(paramName, valueMap)
+            YamlParamType.READ_ONLY -> CockpitReadOnly()
             YamlParamType.DEFAULT -> valueMap[MapperConsts.KEY_VALUE] as Any
         }
         val description = valueMap[MapperConsts.KEY_DESCRIPTION] as String?

@@ -23,6 +23,7 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.COLOR.ordinal -> ColorParamViewHolder(inflateViewForHolder(R.layout.cockpit_color_param, parent)).configure()
             ParamType.RANGE_INT.ordinal -> RangeIntParamViewHolder(inflateViewForHolder(R.layout.cockpit_range_param, parent)).configure()
             ParamType.RANGE_DOUBLE.ordinal -> RangeDoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_range_param, parent)).configure()
+            ParamType.READ_ONLY.ordinal -> ReadOnlyParamViewHolder(inflateViewForHolder(R.layout.cockpit_read_only_param, parent)).configure()
             else -> GroupViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
         }
     }
@@ -42,6 +43,7 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.COLOR.ordinal -> (holder as ColorParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.RANGE_INT.ordinal -> (holder as RangeIntParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.RANGE_DOUBLE.ordinal -> (holder as RangeDoubleParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
+            ParamType.READ_ONLY.ordinal -> (holder as ReadOnlyParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             GROUP_TYPE_ID -> (holder as GroupViewHolder).display(paramsModel.getGroupName(itemPosition.groupIndex))
         }
     }

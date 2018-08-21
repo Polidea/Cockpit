@@ -4,6 +4,7 @@ import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.core.type.CockpitListType
+import com.polidea.cockpit.core.type.CockpitReadOnly
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -137,7 +138,6 @@ class DebugCockpitGeneratorTest {
         assertEquals(expectedRangeDoubleSetterMethodSpecString.trimMargin(), rangeDoubleSetterMethodSpec.toString().trimMargin())
     }
 
-
     @Test
     fun createSetterMethodSpecForStringParamTest() {
         val stringSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForParam("stringParam", "testValue")
@@ -147,6 +147,18 @@ class DebugCockpitGeneratorTest {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("stringParam", stringParam);
             |}"""
         assertEquals(expectedStringSetterMethodSpecString.trimMargin(), stringSetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createSetterMethodSpecForReadOnlyParamTest() {
+        val readOnlySetterMethodSpec = cockpitGenerator.createSetterMethodSpecForReadOnlyParam("readOnlyParam", CockpitReadOnly("testValue"))
+
+        val expectedReadOnlySetterMethodSpecString = """
+            |public static void setReadOnlyParam(java.lang.String readOnlyParam) {
+            |  com.polidea.cockpit.core.type.CockpitReadOnly value = cockpitReadOnlyMapper.wrap(readOnlyParam);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("readOnlyParam", value);
+            |}"""
+        assertEquals(expectedReadOnlySetterMethodSpecString.trimMargin(), readOnlySetterMethodSpec.toString().trimMargin())
     }
 
     @Test
@@ -455,6 +467,16 @@ class DebugCockpitGeneratorTest {
 
         val expectedFieldSpecString = """
             |private static final com.polidea.cockpit.mapper.CockpitRangeMapper<java.lang.Double> cockpitRangeDoubleMapper = new com.polidea.cockpit.mapper.CockpitRangeMapper<java.lang.Double>();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createCockpitReadOnlyMapperFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createReadOnlyMapperFieldSpec()
+
+        val expectedFieldSpecString = """
+            |private static final com.polidea.cockpit.mapper.CockpitReadOnlyMapper cockpitReadOnlyMapper = new com.polidea.cockpit.mapper.CockpitReadOnlyMapper();
             """
         assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
     }
