@@ -104,6 +104,15 @@ fontColor:
   value: "#223344" # supported color formats are #AARRGGBB and #RRGGBB
 ```
 
+#### read only param
+```
+appVersion:
+  type: read_only
+  description: "Version" # optional
+```
+
+`read_only` param can be used when you have some information you want to display in Cockpit panel, but you don't need to change it. Build version is a good example. To set value of such param, you'll need to use generated setter for that param before displaying Cockpit panel. Value will be displayed in a TextView.
+
 > Supported param types are integer, double, string, boolean, list and action. All items inside a list have to be the same type.
 
 > Please note that param names are case-sensitive and have to be unique.
