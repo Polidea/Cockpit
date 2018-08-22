@@ -17,7 +17,8 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
                     is CockpitAction -> Unit // we don't need getter for action
                     is CockpitListType<*> -> add(createSelectedValueGetterMethodSpecForParam(param as CockpitParam<CockpitListType<*>>))
                     is CockpitRange<*> -> add(createGetterMethodSpecForParam(paramName, paramValue.value))
-                    is CockpitReadOnly -> {}
+                    is CockpitStep<*> -> add(createGetterMethodSpecForParam(paramName, paramValue.value))
+                    is CockpitReadOnly -> Unit
                     else -> add(createGetterMethodSpecForParam(paramName, paramValue))
                 }
             }
