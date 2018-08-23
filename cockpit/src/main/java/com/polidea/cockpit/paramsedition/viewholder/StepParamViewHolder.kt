@@ -2,6 +2,7 @@ package com.polidea.cockpit.paramsedition.viewholder
 
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
@@ -11,8 +12,8 @@ internal abstract class StepParamViewHolder<T : Number>(view: View) : ParamBaseV
 
     protected abstract fun doubleToValue(double: Double): T
     private val value: TextView = view.findViewById(R.id.cockpit_step_param_value)
-    private val incrementer: Button = view.findViewById(R.id.cockpit_step_param_increment)
-    private val decrementer: Button = view.findViewById(R.id.cockpit_step_param_decrement)
+    private val incrementer: ImageButton = view.findViewById(R.id.cockpit_step_param_increment)
+    private val decrementer: ImageButton = view.findViewById(R.id.cockpit_step_param_decrement)
     private lateinit var stepParam: CockpitStep<T>
 
     override fun displayParam(param: CockpitParam<CockpitStep<T>>) {
