@@ -12,6 +12,7 @@
         style="@style/TextAppearance.Cockpit.ParamName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/cockpit_step_inc_dec_button_margin"
         android:layout_marginStart="@dimen/cockpit_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cockpit_step_param_decrement"
@@ -23,6 +24,7 @@
         android:id="@+id/cockpit_step_param_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/cockpit_step_inc_dec_button_margin"
         android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:textColor="@color/cockpit_text"
@@ -34,35 +36,38 @@
         tools:text="100.0" />
 
     <ImageButton
+        android:id="@+id/cockpit_step_param_decrement"
+        android:layout_width="@dimen/cockpit_step_inc_dec_button_size"
+        android:layout_height="@dimen/cockpit_step_inc_dec_button_size"
+        android:layout_marginBottom="@dimen/cockpit_step_inc_dec_button_margin"
+        android:layout_marginEnd="@dimen/cockpit_step_inc_dec_button_margin"
+        android:layout_marginTop="@dimen/cockpit_step_inc_dec_button_margin"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/decrement"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_step_param_value"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/cockpit_step_param_increment"
+        android:layout_width="@dimen/cockpit_step_inc_dec_button_size"
+        android:layout_height="@dimen/cockpit_step_inc_dec_button_size"
+        android:layout_marginBottom="@dimen/cockpit_step_inc_dec_button_margin"
+        android:layout_marginEnd="@dimen/cockpit_restore_value_button_margin"
+        android:layout_marginTop="@dimen/cockpit_step_inc_dec_button_margin"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/increment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cockpit_param_restore"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
         android:id="@+id/cockpit_param_restore"
         style="@style/Widget.Cockpit.ImageButton.RestoreValue"
         android:layout_marginBottom="0dp"
         android:layout_marginEnd="@dimen/cockpit_margin"
-        android:layout_marginStart="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/cockpit_step_param_decrement"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cockpit_step_param_value"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/cockpit_step_param_increment"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cockpit_param_restore"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

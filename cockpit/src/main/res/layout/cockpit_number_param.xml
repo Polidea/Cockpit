@@ -22,6 +22,7 @@
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/cockpit_number_param_value"
         style="@style/Widget.Cockpit.EditText.Value"
+        android:layout_marginEnd="@dimen/cockpit_restore_value_button_margin"
         android:inputType="number"
         android:maxLines="1"
         android:textAlignment="center"

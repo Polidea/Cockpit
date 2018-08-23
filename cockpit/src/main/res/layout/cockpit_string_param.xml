@@ -24,6 +24,7 @@
         android:id="@+id/cockpit_string_param_value"
         style="@style/Widget.Cockpit.EditText.Value"
         android:layout_width="0dp"
+        android:layout_marginEnd="@dimen/cockpit_restore_value_button_margin"
         android:layout_marginStart="@dimen/cockpit_margin"
         android:maxLines="5"
         android:paddingTop="0dp"

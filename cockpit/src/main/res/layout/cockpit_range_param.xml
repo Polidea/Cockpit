@@ -29,7 +29,7 @@
             android:id="@+id/cockpit_range_param_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/cockpit_margin_medium"
+            android:layout_marginEnd="@dimen/cockpit_restore_value_button_margin"
             android:layout_marginStart="@dimen/cockpit_margin_medium"
             android:textAlignment="center"
             android:textColor="@color/cockpit_range_value_text"
