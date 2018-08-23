@@ -162,6 +162,56 @@ class DebugCockpitGeneratorTest {
     }
 
     @Test
+    fun createSetterMethodSpecForStepIntParamTest() {
+        val stepIntSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForStepParam("stepIntParam", 1)
+
+        val expectedStepIntSetterMethodSpecString = """
+            |public static void setStepIntParam(int stepIntParam) {
+            |  com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer> base = (com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer>) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("stepIntParam");
+            |  com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer> value = cockpitStepIntegerMapper.wrap(base, stepIntParam);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("stepIntParam", value);
+            |}"""
+        assertEquals(expectedStepIntSetterMethodSpecString.trimMargin(), stepIntSetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createGetterMethodSpecForStepIntParamTest() {
+        val stepIntGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForStepParam("stepIntParam", 1)
+
+        val expectedStepIntGetterMethodSpecString = """
+            |public static int getStepIntParam() {
+            |  com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer> value = (com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer>) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("stepIntParam");
+            |  return cockpitStepIntegerMapper.unwrap(value);
+            |}"""
+        assertEquals(expectedStepIntGetterMethodSpecString.trimMargin(), stepIntGetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createSetterMethodSpecForStepDoubleParamTest() {
+        val stepDeoubleSetterMethodSpec = cockpitGenerator.createSetterMethodSpecForStepParam("stepDoubleParam", 1.0)
+
+        val expectedStepDoubleSetterMethodSpecString = """
+            |public static void setStepDoubleParam(double stepDoubleParam) {
+            |  com.polidea.cockpit.core.type.CockpitStep<java.lang.Double> base = (com.polidea.cockpit.core.type.CockpitStep<java.lang.Double>) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("stepDoubleParam");
+            |  com.polidea.cockpit.core.type.CockpitStep<java.lang.Double> value = cockpitStepDoubleMapper.wrap(base, stepDoubleParam);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.setParamValue("stepDoubleParam", value);
+            |}"""
+        assertEquals(expectedStepDoubleSetterMethodSpecString.trimMargin(), stepDeoubleSetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createGetterMethodSpecForStepDoubleParamTest() {
+        val stepIntGetterMethodSpec = cockpitGenerator.createGetterMethodSpecForStepParam("stepDoubleParam", 1.0)
+
+        val expectedStepDoubleGetterMethodSpecString = """
+            |public static double getStepDoubleParam() {
+            |  com.polidea.cockpit.core.type.CockpitStep<java.lang.Double> value = (com.polidea.cockpit.core.type.CockpitStep<java.lang.Double>) com.polidea.cockpit.manager.CockpitManager.INSTANCE.getParamValue("stepDoubleParam");
+            |  return cockpitStepDoubleMapper.unwrap(value);
+            |}"""
+        assertEquals(expectedStepDoubleGetterMethodSpecString.trimMargin(), stepIntGetterMethodSpec.toString().trimMargin())
+    }
+
+    @Test
     fun createAddParamChangeListenerMethodSpecForBooleanParamTest() {
         val booleanParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("boolParam", false)
 
@@ -207,6 +257,34 @@ class DebugCockpitGeneratorTest {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("stringParam", listener);
             |}"""
         assertEquals(expectedStringParamChangeListenerMethodSpecString.trimMargin(), stringParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createAddParamChangeListenerMethodSpecForStepIntParamTest() {
+        val stepStepParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForStepParam("stepIntParam", 1)
+
+        val expectedStepIntParamChangeListenerMethodSpecString = """
+            |public static void addOnStepIntParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer>> stepIntParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer>, java.lang.Integer>(listener, cockpitStepIntegerMapper);
+            |  stepIntegerListenerMap.put(listener, stepIntParamListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("stepIntParam", stepIntParamListener);
+            |}"""
+        assertEquals(expectedStepIntParamChangeListenerMethodSpecString.trimMargin(), stepStepParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createAddParamChangeListenerMethodSpecForStepDoubleParamTest() {
+        val stepStepParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForStepParam("stepDoubleParam", 1.0)
+
+        val expectedStepDoubleParamChangeListenerMethodSpecString = """
+            |public static void addOnStepDoubleParamChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Double>> stepDoubleParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Double>, java.lang.Double>(listener, cockpitStepDoubleMapper);
+            |  stepDoubleListenerMap.put(listener, stepDoubleParamListener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("stepDoubleParam", stepDoubleParamListener);
+            |}"""
+        assertEquals(expectedStepDoubleParamChangeListenerMethodSpecString.trimMargin(), stepStepParamChangeListenerMethodSpec.toString().trimMargin())
     }
 
     @Test
@@ -339,6 +417,36 @@ class DebugCockpitGeneratorTest {
     }
 
     @Test
+    fun createRemoveParamChangeListenerMethodSpecForStepIntParamTest() {
+        val stepIntParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForStepParam("stepInt", 1)
+
+        val expectedStepIntParamChangeListenerMethodSpecString = """
+            |public static void removeOnStepIntChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer>> stepIntListener = stepIntegerListenerMap.get(listener);
+            |  stepIntegerListenerMap.remove(listener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("stepInt", stepIntListener);
+            |}"""
+
+        assertEquals(expectedStepIntParamChangeListenerMethodSpecString.trimMargin(), stepIntParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createRemoveParamChangeListenerMethodSpecForStepDoubleParamTest() {
+        val stepDoubleParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForStepParam("stepDouble", 1.0)
+
+        val expectedStepDoubleParamChangeListenerMethodSpecString = """
+            |public static void removeOnStepDoubleChangeListener(
+            |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
+            |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Double>> stepDoubleListener = stepDoubleListenerMap.get(listener);
+            |  stepDoubleListenerMap.remove(listener);
+            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeOnParamChangeListener("stepDouble", stepDoubleListener);
+            |}"""
+
+        assertEquals(expectedStepDoubleParamChangeListenerMethodSpecString.trimMargin(), stepDoubleParamChangeListenerMethodSpec.toString().trimMargin())
+    }
+
+    @Test
     fun createRemoveParamChangeListenerMethodSpecForRangeIntParamTest() {
         val rangeIntParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForRangeParam("rangeInt", 1)
 
@@ -447,6 +555,26 @@ class DebugCockpitGeneratorTest {
 
         val expectedFieldSpecString = """
             |private static final com.polidea.cockpit.mapper.CockpitColorMapper cockpitColorMapper = new com.polidea.cockpit.mapper.CockpitColorMapper();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createCockpitStepIntMapperFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createStepMapperFieldSpec(Int::class.javaObjectType)
+
+        val expectedFieldSpecString = """
+            |private static final com.polidea.cockpit.mapper.CockpitStepMapper<java.lang.Integer> cockpitStepIntegerMapper = new com.polidea.cockpit.mapper.CockpitStepMapper<java.lang.Integer>();
+            """
+        assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
+    }
+
+    @Test
+    fun createCockpitStepDoubleMapperFieldSpecTest() {
+        val fieldSpec = cockpitGenerator.createStepMapperFieldSpec(Double::class.javaObjectType)
+
+        val expectedFieldSpecString = """
+            |private static final com.polidea.cockpit.mapper.CockpitStepMapper<java.lang.Double> cockpitStepDoubleMapper = new com.polidea.cockpit.mapper.CockpitStepMapper<java.lang.Double>();
             """
         assertEquals(expectedFieldSpecString.trimMargin(), fieldSpec.toString().trimMargin())
     }

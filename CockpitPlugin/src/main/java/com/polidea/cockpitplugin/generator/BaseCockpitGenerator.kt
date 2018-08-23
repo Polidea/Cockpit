@@ -30,9 +30,11 @@ internal abstract class BaseCockpitGenerator {
     private val selectionChangeListener = "SelectionChangeListener"
     private val cockpitColor = "CockpitColor"
     private val cockpitRange = "CockpitRange"
+    private val cockpitStep = "CockpitStep"
     private val cockpitReadOnlyMapper = "CockpitReadOnlyMapper"
     private val cockpitColorMapper = "CockpitColorMapper"
     private val cockpitRangeMapper = "CockpitRangeMapper"
+    private val cockpitStepMapper = "CockpitStepMapper"
     private val mappingPropertyChangeListener = "MappingPropertyChangeListener"
 
     protected val map = "Map"
@@ -46,9 +48,11 @@ internal abstract class BaseCockpitGenerator {
     protected val selectionChangeListenerClassName = ClassName.get(cockpitEventPackage, selectionChangeListener)
     protected val cockpitColorClassName = ClassName.get(cockpitCoreTypePackage, cockpitColor)
     protected val cockpitRangeClassName = ClassName.get(cockpitCoreTypePackage, cockpitRange)
+    protected val cockpitStepClassName = ClassName.get(cockpitCoreTypePackage, cockpitStep)
     protected val cockpitReadOnlyMapperClassName = ClassName.get(cockpitMapperPackage, cockpitReadOnlyMapper)
     protected val cockpitColorMapperClassName = ClassName.get(cockpitMapperPackage, cockpitColorMapper)
     protected val cockpitRangeMapperClassName = ClassName.get(cockpitMapperPackage, cockpitRangeMapper)
+    protected val cockpitStepMapperClassName = ClassName.get(cockpitMapperPackage, cockpitStepMapper)
     protected val mappingPropertyChangeListenerClassName = ClassName.get(cockpitMapperPackage, mappingPropertyChangeListener)
 
     protected val mapClassName = ClassName.get(javaUtilPackage, map)
@@ -68,6 +72,12 @@ internal abstract class BaseCockpitGenerator {
 
     protected fun getParametrizedCockpitRangeMapperClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(cockpitRangeMapperClassName, TypeName.get(clazz))
+
+    protected fun getParametrizedCockpitStepClassName(clazz: Class<*>) =
+            ParameterizedTypeName.get(cockpitStepClassName, TypeName.get(clazz))
+
+    protected fun getParametrizedCockpitStepMapperClassName(clazz: Class<*>) =
+            ParameterizedTypeName.get(cockpitStepMapperClassName, TypeName.get(clazz))
 
     protected fun generate(file: File?, configurator: (TypeSpec.Builder) -> TypeSpec.Builder) {
 
