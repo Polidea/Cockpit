@@ -11,6 +11,8 @@ internal interface ParamsEditionContract {
         fun collapse()
 
         fun dismiss()
+
+        fun showColorPicker(itemPosition: ItemPosition, color: Int)
     }
 
     interface ParamView {
@@ -38,5 +40,9 @@ internal interface ParamsEditionContract {
         fun collapse()
 
         fun hidden()
+
+        fun editColor(itemPosition: ItemPosition)
+
+        fun newColorSelected(itemPosition: ItemPosition, color: Int)
     }
 }

@@ -42,7 +42,10 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.STRING.ordinal -> (holder as StringParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.LIST.ordinal -> (holder as ListParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.ACTION.ordinal -> (holder as ActionParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.COLOR.ordinal -> (holder as ColorParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
+            ParamType.COLOR.ordinal -> (holder as ColorParamViewHolder).apply {
+                displayParam(paramsModel.getParamAt(itemPosition))
+                onColorEditionRequestListener = { presenter.editColor(itemPosition) }
+            }
             ParamType.RANGE_INT.ordinal -> (holder as RangeIntParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.RANGE_DOUBLE.ordinal -> (holder as RangeDoubleParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.READ_ONLY.ordinal -> (holder as ReadOnlyParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))

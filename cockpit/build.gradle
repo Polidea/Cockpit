@@ -15,7 +15,7 @@ buildscript {
         jcenter()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url 'https://maven.google.com' }
-        maven { url "https://repo1.maven.org/maven2"}
+        maven { url "https://repo1.maven.org/maven2" }
         google()
     }
 }
@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api "com.jaredrummler:colorpicker:1.0.2"
     api 'org.yaml:snakeyaml:1.20'
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api "com.android.support:appcompat-v7:$supportLibraryVersion"

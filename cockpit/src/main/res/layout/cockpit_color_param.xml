@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingBottom="@dimen/cockpit_param_vertical_margin"
+    android:paddingTop="@dimen/cockpit_param_vertical_margin"
     android:theme="@style/CockpitTheme">
 
     <TextView
@@ -13,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/cockpit_margin_medium"
         android:layout_marginStart="@dimen/cockpit_margin"
+        android:duplicateParentState="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cockpit_color_preview_view"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,30 +28,31 @@
         android:layout_width="@dimen/cockpit_color_preview_size"
         android:layout_height="@dimen/cockpit_color_preview_size"
         android:layout_marginEnd="@dimen/cockpit_margin_medium"
+        android:duplicateParentState="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cockpit_color_param_value"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@android:color/holo_orange_light" />
 
-    <android.support.v7.widget.AppCompatEditText
+    <TextView
         android:id="@+id/cockpit_color_param_value"
-        style="@style/Widget.Cockpit.EditText.Value"
+        style="@style/TextAppearance.Cockpit.ParamValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/cockpit_restore_value_button_margin"
-        android:digits="#0123456789ABCDEF"
-        android:inputType="textCapCharacters"
-        android:maxLength="9"
-        android:maxLines="1"
-        android:textAlignment="center"
+        android:duplicateParentState="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cockpit_param_restore"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="100.0" />
+        tools:text="#ffffbb33" />
 
     <ImageButton
         android:id="@+id/cockpit_param_restore"
         style="@style/Widget.Cockpit.ImageButton.RestoreValue"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="@dimen/cockpit_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
