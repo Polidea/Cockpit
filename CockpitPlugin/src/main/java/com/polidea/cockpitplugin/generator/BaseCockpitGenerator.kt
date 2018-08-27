@@ -27,7 +27,6 @@ internal abstract class BaseCockpitGenerator {
     private val cockpitDialog = "CockpitDialog"
     private val propertyChangeListener = "PropertyChangeListener"
     private val actionRequestCallback = "ActionRequestCallback"
-    private val selectionChangeListener = "SelectionChangeListener"
     private val cockpitColor = "CockpitColor"
     private val cockpitRange = "CockpitRange"
     private val cockpitStep = "CockpitStep"
@@ -45,7 +44,6 @@ internal abstract class BaseCockpitGenerator {
     protected val cockpitDialogClassName = ClassName.get(cockpitDialogPackage, cockpitDialog)
     protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
     protected val actionRequestCallbackClassName = ClassName.get(cockpitEventPackage, actionRequestCallback)
-    protected val selectionChangeListenerClassName = ClassName.get(cockpitEventPackage, selectionChangeListener)
     protected val cockpitColorClassName = ClassName.get(cockpitCoreTypePackage, cockpitColor)
     protected val cockpitRangeClassName = ClassName.get(cockpitCoreTypePackage, cockpitRange)
     protected val cockpitStepClassName = ClassName.get(cockpitCoreTypePackage, cockpitStep)
@@ -63,9 +61,6 @@ internal abstract class BaseCockpitGenerator {
 
     protected fun getParametrizedCockpitPropertyChangeListenerClassName(typeName: TypeName) =
             ParameterizedTypeName.get(propertyChangeListenerClassName, typeName)
-
-    protected fun getParametrizedCockpitSelectionChangeListenerClassName(clazz: Class<*>) =
-            ParameterizedTypeName.get(selectionChangeListenerClassName, TypeName.get(clazz))
 
     protected fun getParametrizedCockpitRangeClassName(clazz: Class<*>) =
             ParameterizedTypeName.get(cockpitRangeClassName, TypeName.get(clazz))

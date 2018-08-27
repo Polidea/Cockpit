@@ -4,7 +4,6 @@ import android.graphics.Color
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
-import com.polidea.cockpit.event.SelectionChangeListener
 import com.polidea.cockpit.sample.BuildConfig
 import com.polidea.cockpit.sample.Style
 import com.polidea.cockpit.sample.model.SampleModel
@@ -12,7 +11,7 @@ import com.polidea.cockpit.sample.model.SampleModel
 class SamplePresenter(override val sampleView: SampleContract.View, override val sampleModel: SampleModel)
     : SampleBasePresenter(sampleView, sampleModel), SampleContract.Presenter {
 
-    private lateinit var styleSelectedListener: SelectionChangeListener<String>
+    private lateinit var onStyleChangeListener: PropertyChangeListener<String>
     private lateinit var onTotalPriceFontSizeChangeListener: PropertyChangeListener<Int>
     private lateinit var resetCountCallback: ActionRequestCallback
     private lateinit var onHeadingTextChangeListener: PropertyChangeListener<String>
@@ -55,7 +54,7 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
     }
 
     private fun removeOnValueSelectedListeners() {
-        Cockpit.removeStyleSelectionChangeListener(styleSelectedListener)
+        Cockpit.removeOnStyleChangeListener(onStyleChangeListener)
     }
 
     override fun shakeDetected() {
@@ -63,10 +62,10 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
     }
 
     private fun setOnValueSelectedListener() {
-        styleSelectedListener = SelectionChangeListener { selectedValue ->
+        onStyleChangeListener = PropertyChangeListener { _, selectedValue ->
             sampleView.setStyle(Style.forValue(selectedValue))
         }
-        Cockpit.addStyleSelectionChangeListener(styleSelectedListener)
+        Cockpit.addOnStyleChangeListener(onStyleChangeListener)
     }
 
     private fun setOnChangeListeners() {
