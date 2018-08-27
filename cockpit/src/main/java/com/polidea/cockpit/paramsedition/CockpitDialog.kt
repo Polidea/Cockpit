@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.polidea.cockpit.R
 import com.polidea.cockpit.extensions.removeDimmedBackground
 import com.polidea.cockpit.utils.getScreenHeight
@@ -24,6 +26,27 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
         super.onStart()
         removeDimmedBackground()
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    override fun showColorPicker(itemPosition: ItemPosition, color: Int) {
+        val colorPicker = ColorPickerDialog.newBuilder()
+                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                .setAllowPresets(false)
+                .setColor(color)
+                .setShowAlphaSlider(true)
+                .create()
+        colorPicker.setColorPickerDialogListener(object : ColorPickerDialogListener {
+            override fun onDialogDismissed(dialogId: Int) {
+            }
+
+            override fun onColorSelected(dialogId: Int, color: Int) {
+                presenter.newColorSelected(itemPosition, color)
+            }
+        })
+        activity?.fragmentManager?.let {
+            if (it.findFragmentByTag(colorPickerFragmentTag) == null)
+                colorPicker.show(it, colorPickerFragmentTag)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -99,6 +122,7 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
     }
 
     companion object {
+        private const val colorPickerFragmentTag = "CockpitColorPicker"
         private const val expandCollapseIconRotationDegrees = 180
 
         fun newInstance(): CockpitDialog {

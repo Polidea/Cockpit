@@ -22,14 +22,10 @@
 
     <TextView
         android:id="@+id/cockpit_step_param_value"
+        style="@style/TextAppearance.Cockpit.ParamValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/cockpit_step_inc_dec_button_margin"
-        android:fontFamily="sans-serif"
-        android:textAlignment="center"
-        android:textColor="@color/cockpit_text"
-        android:textSize="@dimen/cockpit_param_value_text_size"
-        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cockpit_step_param_increment"
         app:layout_constraintTop_toTopOf="parent"

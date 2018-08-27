@@ -14,6 +14,15 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="TextAppearance.Cockpit.ParamValue" parent="Base.TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/cockpit_text</item>
+        <item name="android:textSize">@dimen/cockpit_param_value_text_size</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">@dimen/cockpit_value_line_spacing</item>
+    </style>
+
     <style name="Widget.Cockpit.EditText.Value" parent="Base.V7.Widget.AppCompat.EditText">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/cockpit_param_value_text_size</item>
