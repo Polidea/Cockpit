@@ -1,10 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.core.type.CockpitListType
-import com.polidea.cockpit.core.type.CockpitRange
+import com.polidea.cockpit.core.type.*
 import com.squareup.javapoet.*
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -39,6 +36,14 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                         add(createAddPropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
                         add(createRemovePropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
                     }
+                    is CockpitStep<*> -> {
+                        add(createGetterMethodSpecForStepParam(paramName, paramValue.value))
+                        add(createSetterMethodSpecForStepParam(paramName, paramValue.value))
+                        add(createAddPropertyChangeListenerMethodSpecForStepParam(paramName, paramValue.value))
+                        add(createRemovePropertyChangeListenerMethodSpecForStepParam(paramName, paramValue.value))
+                    }
+                    is CockpitReadOnly ->
+                        add(createSetterMethodSpecForReadOnlyParam(paramName, paramValue))
                     else -> {
                         add(createGetterMethodSpecForParam(paramName, paramValue))
                         add(createSetterMethodSpecForParam(paramName, paramValue))
@@ -69,6 +74,17 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 add(createRangeListenerMapFieldSpec(it))
                 add(createRangeMapperFieldSpec(it))
             }
+
+            val cockpitStepTypes = params.mapNotNull { it.value as? CockpitStep<*> }.map { mapToJavaObjectTypeClass(it.value) }.distinct()
+            cockpitStepTypes.forEach {
+                add(createStepListenerMapFieldSpec(it))
+                add(createStepMapperFieldSpec(it))
+            }
+
+            val readOnlyMapperNeeded = params.find { it.value is CockpitReadOnly } != null
+            if (readOnlyMapperNeeded) {
+                add(createReadOnlyMapperFieldSpec())
+            }
         }
     }
 
@@ -82,6 +98,11 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                     getParametrizedCockpitPropertyChangeListenerClassName(getParametrizedCockpitRangeClassName(paramClass)),
                     getParametrizedCockpitPropertyChangeListenerClassName(paramClass))
 
+    internal fun createStepListenerMapFieldSpec(paramClass: Class<*>) =
+            createListenerMapFieldSpec(getStepListenerMapName(paramClass),
+                    getParametrizedCockpitPropertyChangeListenerClassName(getParametrizedCockpitStepClassName(paramClass)),
+                    getParametrizedCockpitPropertyChangeListenerClassName(paramClass))
+
     private fun createListenerMapFieldSpec(mapName: String, wrappablePropertyChangeListener: TypeName, paramPropertyChangeListener: TypeName): FieldSpec {
         return FieldSpec.builder(ParameterizedTypeName.get(mapClassName, paramPropertyChangeListener, wrappablePropertyChangeListener),
                 mapName, Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
@@ -89,17 +110,28 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .build()
     }
 
+    internal fun createReadOnlyMapperFieldSpec(): FieldSpec =
+            createMapperFieldSpec(cockpitReadOnlyMapperClassName, COCKPIT_READ_ONLY_MAPPER)
+
     internal fun createColorMapperFieldSpec(): FieldSpec =
             createMapperFieldSpec(cockpitColorMapperClassName, COCKPIT_COLOR_MAPPER)
 
     internal fun createRangeMapperFieldSpec(paramClass: Class<*>): FieldSpec =
             createMapperFieldSpec(getParametrizedCockpitRangeMapperClassName(paramClass), getCockpitRangeMapperName(paramClass))
 
+    internal fun createStepMapperFieldSpec(paramClass: Class<*>): FieldSpec =
+            createMapperFieldSpec(getParametrizedCockpitStepMapperClassName(paramClass), getCockpitStepMapperName(paramClass))
+
     internal fun createMapperFieldSpec(mapperClassName: TypeName, mapperFieldName: String): FieldSpec =
             FieldSpec.builder(mapperClassName, mapperFieldName,
                     Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
                     .initializer("new \$T()", mapperClassName)
                     .build()
+
+    internal fun createGetterMethodSpecForStepParam(paramName: String, stepValue: Number): MethodSpec {
+        val stepValueClass = mapToJavaObjectTypeClass(stepValue)
+        return createGetterMethodSpecForWrappableParam(paramName, stepValue, getParametrizedCockpitStepClassName(stepValueClass), getCockpitStepMapperName(stepValueClass))
+    }
 
     internal fun createGetterMethodSpecForRangeParam(paramName: String, rangeValue: Number): MethodSpec {
         val rangeValueClass = mapToJavaObjectTypeClass(rangeValue)
@@ -127,6 +159,12 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     internal fun createSetterMethodSpecForRangeParam(paramName: String, rangeValue: Number) =
             createSetterMethodSpecForWrappableComplexParam(paramName, getParametrizedCockpitRangeClassName(mapToJavaObjectTypeClass(rangeValue)), rangeValue, getCockpitRangeMapperName(mapToJavaObjectTypeClass(rangeValue)))
+
+    internal fun createSetterMethodSpecForStepParam(paramName: String, stepValue: Number) =
+            createSetterMethodSpecForWrappableComplexParam(paramName, getParametrizedCockpitStepClassName(mapToJavaObjectTypeClass(stepValue)), stepValue, getCockpitStepMapperName(mapToJavaObjectTypeClass(stepValue)))
+
+    internal fun createSetterMethodSpecForReadOnlyParam(paramName: String, readOnlyValue: CockpitReadOnly) =
+            createSetterMethodSpecForWrappableParam(paramName, mapToTypeClass(readOnlyValue), readOnlyValue.text, COCKPIT_READ_ONLY_MAPPER)
 
     internal fun createSetterMethodSpecForWrappableParam(paramName: String, wrappableClass: Class<*>, param: Any, mapperName: String): MethodSpec =
             createSetterMethodSpecForParam(paramName, param, "value", listOf<MethodSpec.Builder.() -> MethodSpec.Builder>({ addStatement("\$T value = $mapperName.wrap($paramName)", wrappableClass) }))
@@ -156,9 +194,19 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         return createAddPropertyChangeListenerMethodSpecForWrappableParam(paramName, rangeValueClass, getCockpitRangeMapperName(rangeValueClass), getRangeListenerMapName(rangeValueClass), getParametrizedCockpitRangeClassName(rangeValueClass))
     }
 
+    internal fun createAddPropertyChangeListenerMethodSpecForStepParam(paramName: String, stepValue: Number): MethodSpec {
+        val stepValueClass = mapToJavaObjectTypeClass(stepValue)
+        return createAddPropertyChangeListenerMethodSpecForWrappableParam(paramName, stepValueClass, getCockpitStepMapperName(stepValueClass), getStepListenerMapName(stepValueClass), getParametrizedCockpitStepClassName(stepValueClass))
+    }
+
     internal fun createRemovePropertyChangeListenerMethodSpecForRangeParam(paramName: String, rangeValue: Number): MethodSpec {
         val rangeValueClass = mapToJavaObjectTypeClass(rangeValue)
         return createRemovePropertyChangeListenerMethodSpecForWrappableParam(paramName, rangeValueClass, getRangeListenerMapName(rangeValueClass), getParametrizedCockpitRangeClassName(rangeValueClass))
+    }
+
+    internal fun createRemovePropertyChangeListenerMethodSpecForStepParam(paramName: String, stepValue: Number): MethodSpec {
+        val stepValueClass = mapToJavaObjectTypeClass(stepValue)
+        return createRemovePropertyChangeListenerMethodSpecForWrappableParam(paramName, stepValueClass, getStepListenerMapName(stepValueClass), getParametrizedCockpitStepClassName(stepValueClass))
     }
 
     internal fun createAddPropertyChangeListenerMethodSpecForColorParam(paramName: String, color: CockpitColor) =
@@ -268,10 +316,13 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         private const val REMOVE = "remove"
 
         private const val COCKPIT_COLOR_MAPPER = "cockpitColorMapper"
+        private const val COCKPIT_READ_ONLY_MAPPER = "cockpitReadOnlyMapper"
         private fun getCockpitRangeMapperName(paramClass: Class<*>) = "cockpitRange${paramClass.simpleName}Mapper"
+        private fun getCockpitStepMapperName(paramClass: Class<*>) = "cockpitStep${paramClass.simpleName}Mapper"
 
         private const val COLOR_LISTENER_MAP = "colorListenerMap"
         private fun getRangeListenerMapName(paramClass: Class<*>) = "range${paramClass.simpleName}ListenerMap"
+        private fun getStepListenerMapName(paramClass: Class<*>) = "step${paramClass.simpleName}ListenerMap"
 
         private const val LISTENER_ARGUMENT_NAME = "listener"
     }

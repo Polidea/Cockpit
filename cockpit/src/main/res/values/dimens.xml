@@ -9,8 +9,9 @@
     <dimen name="cockpit_peek_button_width">30dp</dimen>
 
     <dimen name="cockpit_group_separator_height">1dp</dimen>
+    <dimen name="cockpit_group_separator_top_margin">8dp</dimen>
     <dimen name="cockpit_group_title_text_size">14sp</dimen>
-    <dimen name="cockpit_group_top_margin">16dp</dimen>
+    <dimen name="cockpit_group_title_vertical_margin">16dp</dimen>
 
     <dimen name="cockpit_param_name_text_size">16sp</dimen>
     <dimen name="cockpit_param_value_text_size">16sp</dimen>
@@ -22,7 +23,7 @@
     <dimen name="cockpit_value_line_spacing">8sp</dimen>
 
     <dimen name="cockpit_restore_value_button_size">20dp</dimen>
-    <dimen name="cockpit_restore_value_button_margin">10dp</dimen>
+    <dimen name="cockpit_restore_value_button_margin">16dp</dimen>
 
     <dimen name="cockpit_string_param_text_size">12sp</dimen>
 
@@ -31,4 +32,7 @@
     <dimen name="cockpit_color_preview_size">20dp</dimen>
 
     <dimen name="cockpit_range_seek_bar_margin">4dp</dimen>
+
+    <dimen name="cockpit_step_inc_dec_button_size">30dp</dimen>
+    <dimen name="cockpit_step_inc_dec_button_margin">4dp</dimen>
 </resources>

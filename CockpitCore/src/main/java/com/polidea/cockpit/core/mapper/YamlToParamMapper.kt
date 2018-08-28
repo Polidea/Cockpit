@@ -2,10 +2,7 @@ package com.polidea.cockpit.core.mapper
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.exception.CockpitParseException
-import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.core.type.CockpitListType
-import com.polidea.cockpit.core.type.CockpitRange
+import com.polidea.cockpit.core.type.*
 
 internal class YamlToParamMapper {
 
@@ -35,7 +32,8 @@ internal class YamlToParamMapper {
             YamlParamType.LIST -> createCockpitListType(paramName, valueMap)
             YamlParamType.COLOR -> createCockpitColor(paramName, valueMap)
             YamlParamType.RANGE -> createCockpitRange(paramName, valueMap)
-            YamlParamType.DEFAULT -> valueMap[MapperConsts.KEY_VALUE] as Any
+            YamlParamType.READ_ONLY -> CockpitReadOnly()
+            YamlParamType.DEFAULT -> createCockpitStepOrSimpleType(paramName, valueMap)
         }
         val description = valueMap[MapperConsts.KEY_DESCRIPTION] as String?
         val group = valueMap[MapperConsts.KEY_GROUP] as String?
@@ -69,18 +67,46 @@ internal class YamlToParamMapper {
     }
 
     private fun createCockpitRange(paramName: String, valueMap: Map<*, *>): CockpitRange<*> {
-        val min = valueMap[MapperConsts.KEY_RANGE_MIN] as? Number
+        val min = valueMap[MapperConsts.KEY_MIN] as? Number
                 ?: throw CockpitParseException("$paramName parameter must contain min and max fields")
-        val max = valueMap[MapperConsts.KEY_RANGE_MAX] as? Number
+        val max = valueMap[MapperConsts.KEY_MAX] as? Number
                 ?: throw throw CockpitParseException("$paramName parameter must contain min and max fields")
-        val step = valueMap[MapperConsts.KEY_RANGE_STEP] as? Number ?: 1
-        val selectedValue = valueMap[MapperConsts.KEY_RANGE_VALUE] as? Number ?: min
+        val step = valueMap[MapperConsts.KEY_STEP] as? Number ?: 1
+        val selectedValue = valueMap[MapperConsts.KEY_VALUE] as? Number ?: min
 
         try {
             if (min is Int && max is Int && step is Int && selectedValue is Int)
                 return CockpitRange(min.toInt(), max.toInt(), step.toInt(), selectedValue.toInt())
 
             return CockpitRange(min.toDouble(), max.toDouble(), step.toDouble(), selectedValue.toDouble())
+        } catch (e: IllegalArgumentException) {
+            throw CockpitParseException("$paramName`s ${e.message}")
+        }
+    }
+
+    private fun createCockpitStepOrSimpleType(paramName: String, valueMap: Map<*, *>): Any {
+
+        val value = valueMap[MapperConsts.KEY_VALUE] as Any
+
+        val step = valueMap[MapperConsts.KEY_STEP] as? Number
+        val min = valueMap[MapperConsts.KEY_MIN] as? Number
+        val max = valueMap[MapperConsts.KEY_MAX] as? Number
+
+        if (step == null && (min != null || max != null))
+            throw CockpitParseException("$paramName`s step is not defined")
+
+        if (step != null && value is Number)
+            return createCockpitStep(paramName, value, step, min, max)
+
+        return value
+    }
+
+    private fun createCockpitStep(paramName: String, value: Number, step: Number, min: Number?, max: Number?): CockpitStep<*> {
+        try {
+            if (value is Int && step is Int && min is Int? && max is Int?)
+                return CockpitStep(min, max, step, value)
+
+            return CockpitStep(min?.toDouble(), max?.toDouble(), step.toDouble(), value.toDouble())
         } catch (e: IllegalArgumentException) {
             throw CockpitParseException("$paramName`s ${e.message}")
         }

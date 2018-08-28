@@ -1,8 +1,8 @@
 package com.polidea.cockpit.paramsedition.viewholder
 
 import android.graphics.Color
-import android.support.v7.widget.AppCompatEditText
 import android.view.View
+import android.widget.TextView
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitColor
@@ -12,9 +12,11 @@ import java.lang.RuntimeException
 
 internal class ColorParamViewHolder(view: View) : ParamBaseValueWithRestoreViewHolder<CockpitColor>(view) {
 
-    private val value: AppCompatEditText = view.findViewById(R.id.cockpit_color_param_value)
+    private val value: TextView = view.findViewById(R.id.cockpit_color_param_value)
 
     private val colorPreview: ColorPreviewView = view.findViewById(R.id.cockpit_color_preview_view)
+
+    var onColorEditionRequestListener: (() -> Unit)? = null
 
     init {
         value.addTextChangedListener(object : TextWatcherAdapter() {
@@ -33,7 +35,7 @@ internal class ColorParamViewHolder(view: View) : ParamBaseValueWithRestoreViewH
 
     override fun displayParam(param: CockpitParam<CockpitColor>) {
         super.displayParam(param)
-        val colorValue = param.value.value
-        value.setText(colorValue)
+        view.setOnClickListener { onColorEditionRequestListener?.invoke() }
+        value.text = param.value.value
     }
 }

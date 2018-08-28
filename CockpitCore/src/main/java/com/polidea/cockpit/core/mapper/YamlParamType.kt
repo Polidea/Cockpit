@@ -5,6 +5,7 @@ internal enum class YamlParamType(val value: String) {
     LIST("list"),
     COLOR("color"),
     RANGE("range"),
+    READ_ONLY("read_only"),
     DEFAULT("");
 
     companion object {

@@ -1,10 +1,7 @@
 package com.polidea.cockpitplugin.generator
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.core.type.CockpitAction
-import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.core.type.CockpitListType
-import com.polidea.cockpit.core.type.CockpitRange
+import com.polidea.cockpit.core.type.*
 import com.squareup.javapoet.MethodSpec
 import java.io.File
 import javax.lang.model.element.Modifier
@@ -20,6 +17,8 @@ internal class ReleaseCockpitGenerator : BaseCockpitGenerator() {
                     is CockpitAction -> Unit // we don't need getter for action
                     is CockpitListType<*> -> add(createSelectedValueGetterMethodSpecForParam(param as CockpitParam<CockpitListType<*>>))
                     is CockpitRange<*> -> add(createGetterMethodSpecForParam(paramName, paramValue.value))
+                    is CockpitStep<*> -> add(createGetterMethodSpecForParam(paramName, paramValue.value))
+                    is CockpitReadOnly -> Unit
                     else -> add(createGetterMethodSpecForParam(paramName, paramValue))
                 }
             }

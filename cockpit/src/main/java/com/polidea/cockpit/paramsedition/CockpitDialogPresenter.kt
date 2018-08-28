@@ -1,5 +1,9 @@
 package com.polidea.cockpit.paramsedition
 
+import android.graphics.Color
+import com.polidea.cockpit.core.type.CockpitColor
+import com.polidea.cockpit.utils.colorToArgbHexString
+
 
 internal class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {
 
@@ -51,5 +55,15 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
 
     override fun hidden() {
         view.dismiss()
+    }
+
+    override fun editColor(itemPosition: ItemPosition) {
+        val param = model.getParamAt<CockpitColor>(itemPosition)
+        view.showColorPicker(itemPosition, Color.parseColor(param.value.value))
+    }
+
+    override fun newColorSelected(itemPosition: ItemPosition, color: Int) {
+        onParamChange(itemPosition, CockpitColor(colorToArgbHexString(color)))
+        view.reloadParam(itemPosition)
     }
 }

@@ -12,7 +12,7 @@ It consists of three parts:
 - Android library containing classes to manage and display those params,  
 - CockpitCore module containing classes common for plugin and the library.
 
-<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-2.1.1.gif" width="270" height="480">
+<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-2.2.0.gif" width="270" height="480">
 
 Each defined value is called `param`. The set of params is called `cockpit`.
 
@@ -36,6 +36,7 @@ After you've built your project, `Cockpit.java` file will get generated for you.
     <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-full.png" width="216" height="384" />
     <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-half.png" width="216" height="384" />
     <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-list.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-step.png" width="216" height="384" />
 </p>
 
 ### Documentation
@@ -96,7 +97,18 @@ lengthSlider:
   description: "Length" # optional
 ```
 
-#### color
+##### step
+```
+fontSize:
+  type: step
+  value: 36
+  step: 2
+  min: 20 # optional
+  max: 60 # optional
+  description: "Total price font size" # optional
+```
+
+##### color
 ```
 fontColor:
   type: color
@@ -104,7 +116,16 @@ fontColor:
   value: "#223344" # supported color formats are #AARRGGBB and #RRGGBB
 ```
 
-> Supported param types are integer, double, string, boolean, list and action. All items inside a list have to be the same type.
+##### read only param
+```
+appVersion:
+  type: read_only
+  description: "Version" # optional
+```
+
+`read_only` param can be used when you have some information you want to display in Cockpit panel, but you don't need to change it. Build version is a good example. To set value of such param, you'll need to use generated setter for that param before displaying Cockpit panel. Value will be displayed in a TextView.
+
+> Supported param types are integer, double, string, boolean, list, color, step, range and action. All items inside a list have to be the same type.
 
 > Please note that param names are case-sensitive and have to be unique.
 

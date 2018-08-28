@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/cockpit_param_vertical_margin">
+
+    <TextView
+        android:id="@+id/cockpit_param_name"
+        style="@style/TextAppearance.Cockpit.ParamName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/cockpit_margin"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        android:textColor="@color/cockpit_string_param_name"
+        android:textSize="@dimen/cockpit_string_param_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Param Name" />
+
+    <TextView
+        android:id="@+id/cockpit_read_only_param_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/cockpit_margin"
+        android:layout_marginStart="@dimen/cockpit_margin"
+        android:fontFamily="sans-serif"
+        android:lineSpacingExtra="@dimen/cockpit_value_line_spacing"
+        android:maxLines="5"
+        android:paddingTop="0dp"
+        android:textColor="@color/cockpit_text"
+        android:textSize="@dimen/cockpit_param_value_text_size"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cockpit_param_name"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam gravida venenatis accumsan. In mi massa, tempus" />
+
+
+</android.support.constraint.ConstraintLayout>

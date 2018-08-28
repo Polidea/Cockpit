@@ -5,6 +5,7 @@ import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
 import com.polidea.cockpit.event.SelectionChangeListener
+import com.polidea.cockpit.sample.BuildConfig
 import com.polidea.cockpit.sample.Style
 import com.polidea.cockpit.sample.model.SampleModel
 
@@ -28,6 +29,11 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
         setOnChangeListeners()
         setCallbacks()
         setOnValueSelectedListener()
+        setReadOnlyProperties()
+    }
+
+    private fun setReadOnlyProperties() {
+        Cockpit.setAppVersion(BuildConfig.VERSION_NAME)
     }
 
     private fun setCallbacks() {
