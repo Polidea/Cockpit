@@ -1,54 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.polidea.cockpit.paramsedition.layout.CockpitLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cockpit_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cockpit_content_background"
-    android:orientation="vertical"
     android:theme="@style/CockpitTheme">
 
     <LinearLayout
-        android:id="@+id/action_bar"
+        android:id="@+id/cockpit_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cockpit_peek_width"
-        android:background="@color/cockpit_peek"
-        android:elevation="@dimen/cockpit_peek_elevation"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@color/cockpit_content_background"
+        android:elevation="8dp"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/expand_collapse"
-            android:layout_width="@dimen/cockpit_peek_button_width"
-            android:layout_height="@dimen/cockpit_peek_button_width"
-            android:layout_marginEnd="@dimen/cockpit_margin"
-            android:layout_marginStart="@dimen/cockpit_margin"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/expanded" />
+        <LinearLayout
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cockpit_peek_width"
+            android:background="@color/cockpit_peek"
+            android:clickable="true"
+            android:elevation="@dimen/cockpit_peek_elevation"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/expand_collapse"
+                android:layout_width="@dimen/cockpit_peek_button_width"
+                android:layout_height="@dimen/cockpit_peek_button_width"
+                android:layout_marginEnd="@dimen/cockpit_margin"
+                android:layout_marginStart="@dimen/cockpit_margin"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/expanded" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title"
+                android:textColor="@color/cockpit_text"
+                android:textSize="@dimen/cockpit_peek_title_font_size" />
+
+            <ImageButton
+                android:id="@+id/restore_defaults"
+                android:layout_width="@dimen/cockpit_peek_button_width"
+                android:layout_height="@dimen/cockpit_peek_button_width"
+                android:layout_marginEnd="@dimen/cockpit_margin"
+                android:layout_marginStart="@dimen/cockpit_margin"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/restore_gray" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/params_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@string/title"
-            android:textColor="@color/cockpit_text"
-            android:textSize="@dimen/cockpit_peek_title_font_size" />
+            android:orientation="vertical"
+            android:scrollbars="vertical"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-        <ImageButton
-            android:id="@+id/restore_defaults"
-            android:layout_width="@dimen/cockpit_peek_button_width"
-            android:layout_height="@dimen/cockpit_peek_button_width"
-            android:layout_marginEnd="@dimen/cockpit_margin"
-            android:layout_marginStart="@dimen/cockpit_margin"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/restore_gray" />
+        <Button
+            android:id="@+id/resize_handle"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/cockpit_resize_handle"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/params_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:scrollbars="vertical"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
-</LinearLayout>
+</com.polidea.cockpit.paramsedition.layout.CockpitLayout>

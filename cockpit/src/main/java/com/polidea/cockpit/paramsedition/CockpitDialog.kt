@@ -2,30 +2,33 @@ package com.polidea.cockpit.paramsedition
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialogFragment
+import android.support.v7.app.AppCompatDialogFragment
 import android.support.v7.widget.RecyclerView
+import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
+import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.polidea.cockpit.R
 import com.polidea.cockpit.extensions.removeDimmedBackground
-import com.polidea.cockpit.utils.getScreenHeight
+import com.polidea.cockpit.paramsedition.layout.CockpitLayout
 
-internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(), ParamsEditionContract.View {
+internal class CockpitDialog internal constructor() : AppCompatDialogFragment(), ParamsEditionContract.View {
 
-    private val peekHeight = getScreenHeight() / 2
     override lateinit var presenter: ParamsEditionContract.Presenter
     private lateinit var paramsEditionAdapter: ParamsEditionAdapter
-    private lateinit var behavior: BottomSheetBehavior<View>
     private lateinit var expandCollapse: ImageButton
+    private lateinit var cockpitRoot: CockpitLayout
+    private lateinit var actionBar: LinearLayout
+    private var expanded = true
 
     override fun onStart() {
         super.onStart()
         removeDimmedBackground()
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        dialog.window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
     override fun showColorPicker(itemPosition: ItemPosition, color: Int) {
@@ -53,38 +56,18 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
         val dialog = super.onCreateDialog(savedInstanceState)
         val view = View.inflate(context, R.layout.dialog_params_edition, null)
         dialog.setContentView(view)
-        setupBehavior(view)
         setupViews(view)
         presenter.start()
         retainInstance = true
 
-        // force showing Cockpit as full screen when expanded
-        val bottomSheetDialogLayoutParams = dialog.findViewById<FrameLayout>(R.id.design_bottom_sheet).layoutParams
-        bottomSheetDialogLayoutParams.height = FrameLayout.LayoutParams.MATCH_PARENT
-
         return dialog
     }
 
-    private fun setupBehavior(view: View) {
-        behavior = BottomSheetBehavior.from(view.parent as View)
-        behavior.isHideable = true
-        behavior.skipCollapsed = false
-        behavior.peekHeight = peekHeight
-        behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                animateExpandCollapseIcon(slideOffset)
-            }
-
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN)
-                    presenter.hidden()
-            }
-        })
-    }
-
-    private fun animateExpandCollapseIcon(slideOffset: Float) {
-        if (slideOffset >= 0)
-            expandCollapse.animate().rotation(expandCollapseIconRotationDegrees * (1f - slideOffset))
+    private fun animateExpandCollapseIcon(expanded: Boolean) {
+        if (expanded)
+            expandCollapse.animate().rotation(0f)
+        else
+            expandCollapse.animate().rotation(expandCollapseIconRotationDegrees)
     }
 
     private fun setupViews(view: View) {
@@ -93,11 +76,27 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)
         expandCollapse.setOnClickListener {
-            if (behavior.state == BottomSheetBehavior.STATE_COLLAPSED)
-                presenter.expand()
-            else if (behavior.state == BottomSheetBehavior.STATE_EXPANDED)
+            if (expanded)
                 presenter.collapse()
+            else
+                presenter.expand()
         }
+
+        actionBar = view.findViewById(R.id.action_bar)
+        actionBar.setOnTouchListener { _, ev ->
+            if (ev.action == MotionEvent.ACTION_DOWN) {
+                cockpitRoot.startDrag = true
+                true
+            }
+            false
+        }
+//        actionBar.setOnLongClickListener {
+//            cockpitRoot.startDrag = true
+//            true
+//        }
+
+        cockpitRoot = view.findViewById(R.id.cockpit_root)
+        cockpitRoot.setDraggableView(R.id.cockpit_content)
     }
 
     override fun onDestroy() {
@@ -114,19 +113,24 @@ internal class CockpitDialog internal constructor() : BottomSheetDialogFragment(
     }
 
     override fun expand() {
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        animateExpandCollapseIcon(true)
+        cockpitRoot.expand()
+        expanded = true
     }
 
     override fun collapse() {
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        animateExpandCollapseIcon(false)
+        cockpitRoot.collapse()
+        expanded = false
     }
 
     companion object {
         private const val colorPickerFragmentTag = "CockpitColorPicker"
-        private const val expandCollapseIconRotationDegrees = 180
+        private const val expandCollapseIconRotationDegrees = 180f
 
         fun newInstance(): CockpitDialog {
             val instance = CockpitDialog()
+            instance.setStyle(AppCompatDialogFragment.STYLE_NORMAL, android.R.style.Theme_Panel)
             CockpitDialogPresenter(instance)
             return instance
         }

@@ -30,6 +30,7 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
         setCallbacks()
         setOnValueSelectedListener()
         setReadOnlyProperties()
+        sampleView.showCockpitUi()
     }
 
     private fun setReadOnlyProperties() {

@@ -35,4 +35,7 @@
 
     <dimen name="cockpit_step_inc_dec_button_size">30dp</dimen>
     <dimen name="cockpit_step_inc_dec_button_margin">4dp</dimen>
+
+    <dimen name="cockpit_draggable_min_height">180dp</dimen>
+    <dimen name="cockpit_draggable_margin">8dp</dimen>
 </resources>
