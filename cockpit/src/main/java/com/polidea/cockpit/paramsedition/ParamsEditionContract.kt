@@ -10,6 +10,8 @@ internal interface ParamsEditionContract {
 
         fun collapse()
 
+        fun resize(height: Int)
+
         fun dismiss()
 
         fun showColorPicker(itemPosition: ItemPosition, color: Int)
@@ -36,6 +38,8 @@ internal interface ParamsEditionContract {
         fun restoreAll()
 
         fun expand()
+
+        fun resize(height: Int)
 
         fun collapse()
 

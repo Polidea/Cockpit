@@ -7,23 +7,26 @@ import android.content.Context
 import android.support.annotation.IdRes
 import android.support.v4.widget.ViewDragHelper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.RelativeLayout
+import android.widget.FrameLayout
 import com.polidea.cockpit.R
 
 
 internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : RelativeLayout(context, attrs, defStyleAttr) {
+    : FrameLayout(context, attrs, defStyleAttr) {
 
     var startDrag: Boolean = false
     private var state = State.EXPANDED
     private lateinit var draggableView: View
     private lateinit var collapsedDraggableViewProperties: DraggableViewProperties
 
+    private var currentTopPosition = 0
+
     private val dragHelper: ViewDragHelper = ViewDragHelper.create(this, 1f, DragHelperCallback())
+
+    private val minDialogHeight = resources.getDimension(R.dimen.cockpit_draggable_min_height).toInt()
 
     fun setDraggableView(@IdRes draggableViewId: Int) {
         draggableView = findViewById(draggableViewId)
@@ -43,27 +46,38 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
                 height, collapsedDraggableViewProperties.height, State.COLLAPSED)
     }
 
+    fun resize(height: Int) {
+        val params = draggableView.layoutParams
+        params.height = Math.max(height, minDialogHeight)
+        draggableView.layoutParams = params
+
+        collapsedDraggableViewProperties.height = draggableView.height
+    }
+
     override fun computeScroll() {
         if (dragHelper.continueSettling(true)) {
             postInvalidateOnAnimation()
         } else {
             val draggableViewMargins = draggableView.layoutParams as MarginLayoutParams
-            if (state == State.COLLAPSED)
-                collapsedDraggableViewProperties.top = draggableView.top - draggableViewMargins.topMargin
-            Log.d("myk", "computeScroll state ${state.name} draggableView.top ${draggableView.top} translation ${draggableView.translationY} collapsedDraggableViewProperties ${collapsedDraggableViewProperties.top}")
+            if (state == State.COLLAPSED) {
+                collapsedDraggableViewProperties.top = draggableView.top - draggableViewMargins.topMargin + draggableView.translationY.toInt()
+            }
         }
-//        Log.d("myk", "computeScroll draggableViewYOffset $draggableViewYOffset")
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+
+        if (state == State.COLLAPSED) {
+            if (currentTopPosition != 0) {
+                draggableView.translationY = currentTopPosition.toFloat() - 24
+            }
+        }
+
         super.onLayout(changed, left, top, right, bottom)
-        if (!::collapsedDraggableViewProperties.isInitialized)
+
+        if (!::collapsedDraggableViewProperties.isInitialized) {
             collapsedDraggableViewProperties = createDefaultCollapsedDraggableViewProperties()
-
-        Log.d("myk", "onLayout state ${state.name} top ${collapsedDraggableViewProperties.top}")
-//        if (state == State.COLLAPSED)
-//            draggableView.offsetTopAndBottom(collapsedDraggableViewProperties.top)
-
+        }
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
@@ -88,15 +102,13 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
     private fun createDefaultCollapsedDraggableViewProperties() =
             context.resources.let {
                 val cockpitMargin = it.getDimension(R.dimen.cockpit_draggable_margin).toInt()
-                val cockpitHeight = it.getDimension(R.dimen.cockpit_draggable_min_height).toInt()
+                val cockpitHeight = minDialogHeight
                 val cockpitTop = 0
-//                val cockpitTop = height - cockpitHeight - 2 * cockpitMargin
                 DraggableViewProperties(cockpitMargin, cockpitTop, cockpitHeight)
             }
 
     private fun animateDraggableViewToNextState(marginFrom: Int, marginTo: Int, topFrom: Float,
                                                 topTo: Float, heightFrom: Int, heightTo: Int, newState: State) {
-        Log.d("myk", "animateDraggableViewScale marginFrom: $marginFrom, marginTo: $marginTo, topFrom: $topFrom, topTo: $topTo, heightFrom: $heightFrom, heightTo: $heightTo")
         val animator = AnimatorSet()
         val leftMarginAnimation = ValueAnimator.ofInt(marginFrom, marginTo)
         leftMarginAnimation.addUpdateListener {
@@ -158,6 +170,7 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
     private inner class DragHelperCallback : ViewDragHelper.Callback() {
 
         override fun onViewPositionChanged(changedView: View, left: Int, top: Int, dx: Int, dy: Int) {
+            currentTopPosition = top + changedView.translationY.toInt()
             invalidate()
         }
 
@@ -173,11 +186,10 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
             val draggableViewMargins = draggableView.layoutParams as MarginLayoutParams
             val topBound = draggableViewMargins.topMargin - draggableView.translationY.toInt()
             val bottomBound = height - draggableView.height - draggableViewMargins.bottomMargin - draggableView.translationY.toInt()
-            Log.d("myk", "clampViewPositionVertical draggableViewTop ${draggableView.top} top $top topBound $topBound bottomBound $bottomBound")
             return Math.min(Math.max(top, topBound), bottomBound)
         }
     }
 
-    private data class DraggableViewProperties(val margin: Int, var top: Int, val height: Int)
+    private data class DraggableViewProperties(val margin: Int, var top: Int, var height: Int)
     private enum class State { EXPANDING, EXPANDED, COLLAPSING, COLLAPSED }
 }

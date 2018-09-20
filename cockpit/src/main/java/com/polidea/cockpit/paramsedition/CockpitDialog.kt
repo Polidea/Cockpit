@@ -1,5 +1,6 @@
 package com.polidea.cockpit.paramsedition
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatDialogFragment
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
@@ -22,6 +24,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     private lateinit var expandCollapse: ImageButton
     private lateinit var cockpitRoot: CockpitLayout
     private lateinit var actionBar: LinearLayout
+    private lateinit var bottomButton: Button
     private var expanded = true
 
     override fun onStart() {
@@ -70,6 +73,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             expandCollapse.animate().rotation(expandCollapseIconRotationDegrees)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupViews(view: View) {
         paramsEditionAdapter = ParamsEditionAdapter(presenter)
         view.findViewById<RecyclerView>(R.id.params_list).adapter = paramsEditionAdapter
@@ -90,10 +94,16 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             }
             false
         }
-//        actionBar.setOnLongClickListener {
-//            cockpitRoot.startDrag = true
-//            true
-//        }
+
+        bottomButton = view.findViewById(R.id.resize_handle)
+        bottomButton.setOnTouchListener { _, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_MOVE) {
+                presenter.resize(bottomButton.y.toInt() + motionEvent.y.toInt())
+                true
+            }
+            false
+        }
+
 
         cockpitRoot = view.findViewById(R.id.cockpit_root)
         cockpitRoot.setDraggableView(R.id.cockpit_content)
@@ -122,6 +132,10 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         animateExpandCollapseIcon(false)
         cockpitRoot.collapse()
         expanded = false
+    }
+
+    override fun resize(height: Int) {
+        cockpitRoot.resize(height)
     }
 
     companion object {
