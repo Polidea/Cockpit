@@ -22,11 +22,12 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
     private lateinit var draggableView: View
     private lateinit var collapsedDraggableViewProperties: DraggableViewProperties
 
-    private var currentTopPosition = 0
-
     private val dragHelper: ViewDragHelper = ViewDragHelper.create(this, 1f, DragHelperCallback())
 
+    private val topPositionExpanded = 0
+    private var currentTopPosition = topPositionExpanded
     private val minDialogHeight = resources.getDimension(R.dimen.cockpit_draggable_min_height).toInt()
+    private val cockpitMargin = resources.getDimension(R.dimen.cockpit_draggable_margin).toInt()
 
     fun setDraggableView(@IdRes draggableViewId: Int) {
         draggableView = findViewById(draggableViewId)
@@ -66,11 +67,8 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-
-        if (state == State.COLLAPSED) {
-            if (currentTopPosition != 0) {
-                draggableView.translationY = currentTopPosition.toFloat() - 24
-            }
+        if (state == State.COLLAPSED && currentTopPosition != topPositionExpanded) { // we need to ensure correct top position when onLayout is called
+            draggableView.translationY = currentTopPosition.toFloat() - cockpitMargin
         }
 
         super.onLayout(changed, left, top, right, bottom)
@@ -99,13 +97,12 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
         return true
     }
 
-    private fun createDefaultCollapsedDraggableViewProperties() =
-            context.resources.let {
-                val cockpitMargin = it.getDimension(R.dimen.cockpit_draggable_margin).toInt()
-                val cockpitHeight = minDialogHeight
-                val cockpitTop = 0
-                DraggableViewProperties(cockpitMargin, cockpitTop, cockpitHeight)
-            }
+    private fun createDefaultCollapsedDraggableViewProperties(): DraggableViewProperties {
+        val cockpitMargin = cockpitMargin
+        val cockpitHeight = minDialogHeight
+        val cockpitTop = 0
+        return DraggableViewProperties(cockpitMargin, cockpitTop, cockpitHeight)
+    }
 
     private fun animateDraggableViewToNextState(marginFrom: Int, marginTo: Int, topFrom: Float,
                                                 topTo: Float, heightFrom: Int, heightTo: Int, newState: State) {
