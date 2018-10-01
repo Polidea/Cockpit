@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
@@ -24,7 +23,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     private lateinit var expandCollapse: ImageButton
     private lateinit var cockpitRoot: CockpitLayout
     private lateinit var actionBar: LinearLayout
-    private lateinit var bottomButton: Button
+    private lateinit var bottomButton: ImageButton
     private var expanded = true
 
     override fun onStart() {
@@ -104,6 +103,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             false
         }
 
+        bottomButton.visibility = View.GONE
 
         cockpitRoot = view.findViewById(R.id.cockpit_root)
         cockpitRoot.setDraggableView(R.id.cockpit_content)
@@ -126,12 +126,16 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         animateExpandCollapseIcon(true)
         cockpitRoot.expand()
         expanded = true
+
+        bottomButton.visibility = View.GONE
     }
 
     override fun collapse() {
         animateExpandCollapseIcon(false)
         cockpitRoot.collapse()
         expanded = false
+
+        bottomButton.visibility = View.VISIBLE
     }
 
     override fun resize(height: Int) {

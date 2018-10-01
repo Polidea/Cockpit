@@ -62,12 +62,13 @@
             android:scrollbars="vertical"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-        <Button
+        <ImageButton
             android:id="@+id/resize_handle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/resize_handle_height"
             android:background="@color/cockpit_resize_handle"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_line_4" />
     </LinearLayout>
 
 </com.polidea.cockpit.paramsedition.layout.CockpitLayout>
