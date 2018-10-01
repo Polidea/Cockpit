@@ -39,7 +39,7 @@ internal interface ParamsEditionContract {
 
         fun expand()
 
-        fun resize(height: Int)
+        fun requestResize(height: Int)
 
         fun collapse()
 

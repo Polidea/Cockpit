@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/cockpit_content_background"
-        android:elevation="8dp"
+        android:elevation="@dimen/cockpit_dialog_elevation"
         android:orientation="vertical">
 
         <LinearLayout
@@ -65,7 +65,7 @@
         <Button
             android:id="@+id/resize_handle"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="@dimen/resize_handle_height"
             android:background="@color/cockpit_resize_handle"
             android:foreground="?android:attr/selectableItemBackgroundBorderless" />
     </LinearLayout>

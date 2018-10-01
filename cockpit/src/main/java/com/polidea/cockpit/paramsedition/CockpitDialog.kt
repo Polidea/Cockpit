@@ -98,7 +98,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         bottomButton = view.findViewById(R.id.resize_handle)
         bottomButton.setOnTouchListener { _, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_MOVE) {
-                presenter.resize(bottomButton.y.toInt() + motionEvent.y.toInt())
+                presenter.requestResize(bottomButton.y.toInt() + motionEvent.y.toInt())
                 true
             }
             false

@@ -47,9 +47,11 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
                 height, collapsedDraggableViewProperties.height, State.COLLAPSED)
     }
 
-    fun resize(height: Int) {
+    fun resize(requestedHeight: Int) {
+        val maxPossibleHeight = height - currentTopPosition - cockpitMargin
+
         val params = draggableView.layoutParams
-        params.height = Math.max(height, minDialogHeight)
+        params.height = Math.max(Math.min(requestedHeight, maxPossibleHeight), minDialogHeight)
         draggableView.layoutParams = params
 
         collapsedDraggableViewProperties.height = draggableView.height
@@ -100,7 +102,7 @@ internal class CockpitLayout @JvmOverloads constructor(context: Context, attrs: 
     private fun createDefaultCollapsedDraggableViewProperties(): DraggableViewProperties {
         val cockpitMargin = cockpitMargin
         val cockpitHeight = minDialogHeight
-        val cockpitTop = 0
+        val cockpitTop = height - minDialogHeight - 2 * cockpitMargin
         return DraggableViewProperties(cockpitMargin, cockpitTop, cockpitHeight)
     }
 

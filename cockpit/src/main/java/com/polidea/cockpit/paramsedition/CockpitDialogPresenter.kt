@@ -57,7 +57,7 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         view.dismiss()
     }
 
-    override fun resize(height: Int) {
+    override fun requestResize(height: Int) {
         view.resize(height)
     }
 

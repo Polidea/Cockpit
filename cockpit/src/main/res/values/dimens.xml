@@ -38,4 +38,6 @@
 
     <dimen name="cockpit_draggable_min_height">180dp</dimen>
     <dimen name="cockpit_draggable_margin">8dp</dimen>
+    <dimen name="cockpit_dialog_elevation">8dp</dimen>
+    <dimen name="resize_handle_height">11dp</dimen>
 </resources>
