@@ -22,6 +22,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     private lateinit var paramsEditionAdapter: ParamsEditionAdapter
     private lateinit var expandCollapse: ImageButton
     private lateinit var cockpitRoot: CockpitLayout
+    private lateinit var cockpitContent: LinearLayout
     private lateinit var actionBar: LinearLayout
     private lateinit var bottomButton: ImageButton
     private var expanded = true
@@ -79,10 +80,12 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)
         expandCollapse.setOnClickListener {
-            if (expanded)
+            if (expanded) {
                 presenter.collapse()
-            else
+            }
+            else {
                 presenter.expand()
+            }
         }
 
         actionBar = view.findViewById(R.id.action_bar)
@@ -106,6 +109,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         bottomButton.visibility = View.GONE
 
         cockpitRoot = view.findViewById(R.id.cockpit_root)
+        cockpitContent = view.findViewById(R.id.cockpit_content)
         cockpitRoot.setDraggableView(R.id.cockpit_content)
     }
 
@@ -127,6 +131,8 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         cockpitRoot.expand()
         expanded = true
 
+        setRectangleCorners()
+
         bottomButton.visibility = View.GONE
     }
 
@@ -135,11 +141,25 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         cockpitRoot.collapse()
         expanded = false
 
+        setRoundedCorners()
+
         bottomButton.visibility = View.VISIBLE
     }
 
     override fun resize(height: Int) {
         cockpitRoot.resize(height)
+    }
+
+    private fun setRoundedCorners() {
+        actionBar.background = resources.getDrawable(R.drawable.rounded_action_bar, null)
+        bottomButton.background = resources.getDrawable(R.drawable.rounded_resize_handle, null)
+        cockpitContent.background = resources.getDrawable(R.drawable.rounded_corners_background, null)
+    }
+
+    private fun setRectangleCorners() {
+        actionBar.background = resources.getDrawable(R.color.cockpit_peek, null)
+        bottomButton.background = resources.getDrawable(R.color.cockpit_resize_handle, null)
+        cockpitContent.background = resources.getDrawable(R.color.cockpit_content_background, null)
     }
 
     companion object {

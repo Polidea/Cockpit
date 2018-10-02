@@ -17,7 +17,7 @@
         <LinearLayout
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/cockpit_peek_width"
+            android:layout_height="@dimen/cockpit_peek_height"
             android:background="@color/cockpit_peek"
             android:clickable="true"
             android:elevation="@dimen/cockpit_peek_elevation"
