@@ -12,7 +12,7 @@ It consists of three parts:
 - Android library containing classes to manage and display those params,  
 - CockpitCore module containing classes common for plugin and the library.
 
-<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-2.2.0.gif" width="270" height="480">
+<img src="https://github.com/Polidea/Cockpit/blob/feature/floating_cockpit/images/cockpit-2.3.0.gif" width="270" height="480">
 
 Each defined value is called `param`. The set of params is called `cockpit`.
 
@@ -33,10 +33,9 @@ showDescription: true
 After you've built your project, `Cockpit.java` file will get generated for you. You can use it like any other code in your project.
 
 <p float="left">
-    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-full.png" width="216" height="384" />
-    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-half.png" width="216" height="384" />
-    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-list.png" width="216" height="384" />
-    <img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-step.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/feature/floating_cockpit/images/cockpit-full.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/feature/floating_cockpit/images/cockpit-half.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/feature/floating_cockpit/images/cockpit-list.png" width="216" height="384" />
 </p>
 
 ### Documentation
@@ -169,7 +168,9 @@ To listen for those requests action param has `addParamNameActionRequestCallback
 #### Displaying Cockpit
 Cockpit library offers an easy way to display and edit all the params you defined. All you need to do is call
 `Cockpit.showCockpit(fragmentManager: FragmentManager)`
-This will display our compact, built-in developer menu UI where you can edit the params' values. When you're done, just dismiss the dialog. To make it easy to observe your changes, you can pull the Cockpit fragment down to fit half of the screen's height and pull it up to get it displayed in full.
+This will display our compact, built-in developer menu UI where you can edit the params' values. When you're done, just dismiss the dialog.
+
+To make it easy to observe your changes, you can collapse or expand Cockpit dialog, resize it or drag it all over the screen.
 
 #### Restoring default values
 After you've made some changes in Cockpit and decided you didn't like them, it's helpful to be able to restore default values. You can do it globally or for selected param only using curved arrow icon.
