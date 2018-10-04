@@ -147,9 +147,6 @@ You can access the params via generated getters and setters. Each primitive type
 You can listen for value changes by adding appropriate PropertyChangeListeners.\
 Each changeable param has methods `addOnParamNameChangeListener()` and `removeOnParamNameChangeListener()`, where `paramName` is param's name.
 
-#### Listening for list selection changes
-List params provide SelectionChangeListeners. You can use methods `addParamNameSelectionChangeListener` and `removeParamNameSelectionChangeListener`, where `paramName` is param's name.
-
 #### Listening for action requests
 Action params don't change their values. They request performing an action every time you click on the corresponding button.
 To listen for those requests action param has `addParamNameActionRequestCallback()` and `removeParamNameActionRequestCallback()` methods, where `paramName` is param's name.
