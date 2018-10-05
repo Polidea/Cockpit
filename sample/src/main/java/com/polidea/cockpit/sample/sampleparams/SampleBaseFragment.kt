@@ -1,9 +1,6 @@
 package com.polidea.cockpit.sample.sampleparams
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
 import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -11,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.sample.R
 import com.polidea.cockpit.sample.Style

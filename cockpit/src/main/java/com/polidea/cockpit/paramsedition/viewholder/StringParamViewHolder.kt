@@ -1,6 +1,6 @@
 package com.polidea.cockpit.paramsedition.viewholder
 
-import android.support.v7.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatEditText
 import android.view.View
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam

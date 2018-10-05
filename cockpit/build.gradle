@@ -21,10 +21,10 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -45,10 +45,10 @@ dependencies {
     api "com.jaredrummler:colorpicker:1.0.2"
     api 'org.yaml:snakeyaml:1.20'
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    api "com.android.support:appcompat-v7:$supportLibraryVersion"
-    api "com.android.support:design:$supportLibraryVersion"
-    api "com.android.support:recyclerview-v7:$supportLibraryVersion"
-    api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    api 'androidx.appcompat:appcompat:1.0.0'
+    api 'com.google.android.material:material:1.0.0'
+    api 'androidx.recyclerview:recyclerview:1.0.0'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation 'io.mockk:mockk:1.7.15'
