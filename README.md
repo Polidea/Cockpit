@@ -12,7 +12,7 @@ It consists of three parts:
 - Android library containing classes to manage and display those params,  
 - CockpitCore module containing classes common for plugin and the library.
 
-<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-2.3.0.gif" width="270" height="480">
+<img src="https://github.com/Polidea/Cockpit/blob/development/images/cockpit-3.0.gif" width="270" height="480">
 
 Each defined value is called `param`. The set of params is called `cockpit`.
 
@@ -198,7 +198,7 @@ Then add CockpitPlugin classpath into your `buildscript#dependencies`:
 ```
 buildscript {  
     dependencies {  
-        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:2.2.0"  
+        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:3.0.0"
    }  
 }
 ```
@@ -206,7 +206,7 @@ Last thing is to add Cockpit library dependency:
 
 ```
 dependencies {
-    debugImplementation 'com.polidea.cockpit:cockpit:2.2.0'  
+    debugImplementation 'com.polidea.cockpit:cockpit:3.0.0'
 }
 ```
 
