@@ -1,8 +1,8 @@
 package com.polidea.cockpit.paramsedition.viewholder
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.polidea.cockpit.R
 
 internal class GroupViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

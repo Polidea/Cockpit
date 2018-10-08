@@ -482,7 +482,7 @@ class DebugCockpitGeneratorTest {
         val funSpec = cockpitGenerator.generateShowCockpitMethod()
 
         val expectedFunSpecString = """
-            |public static void showCockpit(android.support.v4.app.FragmentManager fragmentManager) {
+            |public static void showCockpit(androidx.fragment.app.FragmentManager fragmentManager) {
             |  if (fragmentManager.findFragmentByTag("Cockpit") == null) {
             |    com.polidea.cockpit.paramsedition.CockpitDialog cockpitDialog = com.polidea.cockpit.paramsedition.CockpitDialog.Companion.newInstance();
             |    cockpitDialog.show(fragmentManager, "Cockpit");

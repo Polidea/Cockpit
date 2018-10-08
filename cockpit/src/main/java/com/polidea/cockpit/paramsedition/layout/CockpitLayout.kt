@@ -4,13 +4,13 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
-import android.support.annotation.IdRes
-import android.support.v4.widget.ViewDragHelper
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
+import androidx.annotation.IdRes
+import androidx.customview.widget.ViewDragHelper
 import com.polidea.cockpit.R
 
 

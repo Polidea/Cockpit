@@ -1,7 +1,7 @@
 package com.polidea.cockpit.extensions
 
-import android.support.v7.app.AppCompatDialogFragment
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatDialogFragment
 
 internal fun AppCompatDialogFragment.removeDimmedBackground() {
     val window = dialog.window

@@ -1,7 +1,7 @@
 package com.polidea.cockpit.sample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.polidea.cockpit.sample.model.SampleModel
 import com.polidea.cockpit.sample.sampleparams.SampleFragment
 import com.polidea.cockpit.sample.sampleparams.SamplePresenter

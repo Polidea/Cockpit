@@ -3,13 +3,13 @@ package com.polidea.cockpit.paramsedition
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v7.app.AppCompatDialogFragment
-import android.support.v7.widget.RecyclerView
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.recyclerview.widget.RecyclerView
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.polidea.cockpit.R
