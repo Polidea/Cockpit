@@ -20,9 +20,9 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                     }
                     is CockpitListType<*> -> {
                         val listTypeParam = param as CockpitParam<CockpitListType<*>>
-                        add(createAddSelectionChangeListenerMethodSpecForParam(listTypeParam))
-                        add(createRemoveSelectionChangeListenerMethodSpecForParam(listTypeParam))
                         add(createSelectedValueGetterMethodSpecForParam(listTypeParam))
+                        add(createAddPropertyChangeListenerMethodSpecForParam(paramName, listTypeParam.value.getSelectedItem()))
+                        add(createRemovePropertyChangeListenerMethodSpecForParam(paramName, listTypeParam.value.getSelectedItem()))
                     }
                     is CockpitColor -> {
                         add(createGetterMethodSpecForColorParam(paramName, paramValue))
@@ -268,22 +268,6 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(actionRequestCallbackClassName, callbackParamName).build())
                 .addStatement("\$T.INSTANCE.$methodPrefix$actionRequestCallbackName(\"${param.name}\", $callbackParamName)",
-                        cockpitManagerClassName)
-                .build()
-    }
-
-    internal fun createAddSelectionChangeListenerMethodSpecForParam(param: CockpitParam<CockpitListType<*>>) =
-            createSelectionChangeListenerMethodSpecForParam(param, ADD)
-
-    internal fun createRemoveSelectionChangeListenerMethodSpecForParam(param: CockpitParam<CockpitListType<*>>) =
-            createSelectionChangeListenerMethodSpecForParam(param, REMOVE)
-
-    private fun createSelectionChangeListenerMethodSpecForParam(param: CockpitParam<CockpitListType<*>>, methodPrefix: String): MethodSpec {
-        val selectionChangeListenerName = "SelectionChangeListener"
-        return MethodSpec.methodBuilder("$methodPrefix${param.name.capitalize()}$selectionChangeListenerName")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(getParametrizedCockpitSelectionChangeListenerClassName(mapToTypeClass(param.value.getSelectedItem())), LISTENER_ARGUMENT_NAME).build())
-                .addStatement("\$T.INSTANCE.$methodPrefix$selectionChangeListenerName(\"${param.name}\", $LISTENER_ARGUMENT_NAME)",
                         cockpitManagerClassName)
                 .build()
     }

@@ -5,10 +5,9 @@ import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.core.type.CockpitListType
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
-import com.polidea.cockpit.event.SelectionChangeListener
-import com.polidea.cockpit.utils.FileUtils
 import com.polidea.cockpit.extensions.copy
 import com.polidea.cockpit.extensions.getParam
+import com.polidea.cockpit.utils.FileUtils
 import org.jetbrains.annotations.TestOnly
 
 object CockpitManager {
@@ -69,20 +68,12 @@ object CockpitManager {
         val previouslySelectedValue = param.value.getSelectedItem()
         param.value.selectedIndex = selectedIndex
         val currentlySelectedValue = param.value.getSelectedItem()
-        paramChangeNotifier.fireValueSelection(name, previouslySelectedValue, currentlySelectedValue)
+        paramChangeNotifier.firePropertyChange(name, previouslySelectedValue, currentlySelectedValue)
     }
 
     fun <T : Any> getSelectedValue(name: String): T {
         val param = params.getParam<CockpitParam<CockpitListType<T>>>(name)
         return param.value.getSelectedItem()
-    }
-
-    fun <T : Any> addSelectionChangeListener(name: String, listener: SelectionChangeListener<T>) {
-        paramChangeNotifier.add(name, listener)
-    }
-
-    fun <T : Any> removeSelectionChangeListener(name: String, listener: SelectionChangeListener<T>) {
-        paramChangeNotifier.remove(name, listener)
     }
 
     fun addActionRequestCallback(name: String, callback: ActionRequestCallback) {

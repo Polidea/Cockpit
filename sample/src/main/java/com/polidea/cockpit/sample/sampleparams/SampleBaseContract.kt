@@ -1,6 +1,6 @@
 package com.polidea.cockpit.sample.sampleparams
 
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 import com.polidea.cockpit.sample.BasePresenter
 import com.polidea.cockpit.sample.BaseView
 import com.polidea.cockpit.sample.Style

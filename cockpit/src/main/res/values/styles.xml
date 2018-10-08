@@ -5,6 +5,12 @@
         <item name="colorAccent">@color/cockpit_dark_blue</item>
     </style>
 
+    <style name="MY.DIALOG" parent="android:Theme" >
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
     <style name="TextAppearance.Cockpit.ParamName" parent="Base.TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">@dimen/cockpit_param_name_text_size</item>

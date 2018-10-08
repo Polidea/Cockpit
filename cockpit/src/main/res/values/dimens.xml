@@ -3,7 +3,7 @@
     <dimen name="cockpit_margin">16dp</dimen>
     <dimen name="cockpit_margin_medium">12dp</dimen>
 
-    <dimen name="cockpit_peek_width">40dp</dimen>
+    <dimen name="cockpit_peek_height">40dp</dimen>
     <dimen name="cockpit_peek_elevation">4dp</dimen>
     <dimen name="cockpit_peek_title_font_size">20sp</dimen>
     <dimen name="cockpit_peek_button_width">30dp</dimen>
@@ -35,4 +35,9 @@
 
     <dimen name="cockpit_step_inc_dec_button_size">30dp</dimen>
     <dimen name="cockpit_step_inc_dec_button_margin">4dp</dimen>
+
+    <dimen name="cockpit_draggable_min_height">180dp</dimen>
+    <dimen name="cockpit_draggable_margin">8dp</dimen>
+    <dimen name="cockpit_dialog_elevation">8dp</dimen>
+    <dimen name="resize_handle_height">11dp</dimen>
 </resources>

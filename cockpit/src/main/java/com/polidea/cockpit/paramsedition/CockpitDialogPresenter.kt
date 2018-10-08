@@ -57,6 +57,10 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         view.dismiss()
     }
 
+    override fun requestResize(height: Int) {
+        view.resize(height)
+    }
+
     override fun editColor(itemPosition: ItemPosition) {
         val param = model.getParamAt<CockpitColor>(itemPosition)
         view.showColorPicker(itemPosition, Color.parseColor(param.value.value))

@@ -1,8 +1,8 @@
 package com.polidea.cockpit.sample
 
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.StyleRes
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.StyleRes
 
 enum class Style(val value: String,
                  @ColorRes val statusBarColorResId: Int,

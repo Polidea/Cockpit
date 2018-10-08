@@ -400,7 +400,7 @@ class DebugCockpitGeneratorTest {
             |}"""
         assertEquals(expectedActionRequestCallbackMethodSpecString.trimMargin(), actionCallbackMethodSpec.toString().trimMargin())
     }
-    
+
     @Test
     fun createRemoveParamChangeListenerMethodSpecForColorParamTest() {
         val colorParamChangeListenerMethodSpec = cockpitGenerator.createRemovePropertyChangeListenerMethodSpecForColorParam("colorParam", CockpitColor("#112233"))
@@ -482,38 +482,11 @@ class DebugCockpitGeneratorTest {
         val funSpec = cockpitGenerator.generateShowCockpitMethod()
 
         val expectedFunSpecString = """
-            |public static void showCockpit(android.support.v4.app.FragmentManager fragmentManager) {
+            |public static void showCockpit(androidx.fragment.app.FragmentManager fragmentManager) {
             |  if (fragmentManager.findFragmentByTag("Cockpit") == null) {
             |    com.polidea.cockpit.paramsedition.CockpitDialog cockpitDialog = com.polidea.cockpit.paramsedition.CockpitDialog.Companion.newInstance();
             |    cockpitDialog.show(fragmentManager, "Cockpit");
             |  }
-            |}"""
-
-        assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
-    }
-
-    @Test
-    fun createAddSelectionChangeListenerMethodSpecForParamTest() {
-        val arrayList = listOf("a", "b", "c")
-        val funSpec = cockpitGenerator.createAddSelectionChangeListenerMethodSpecForParam(CockpitParam("name", CockpitListType(arrayList, 1)))
-
-        val expectedFunSpecString = """
-            |public static void addNameSelectionChangeListener(
-            |    com.polidea.cockpit.event.SelectionChangeListener<java.lang.String> listener) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addSelectionChangeListener("name", listener);
-            |}"""
-
-        assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
-    }
-
-    @Test
-    fun createRemoveSelectionChangeListenerMethodSpecForParamTest() {
-        val funSpec = cockpitGenerator.createRemoveSelectionChangeListenerMethodSpecForParam(CockpitParam("name", CockpitListType(listOf("a", "b", "c"), 1)))
-
-        val expectedFunSpecString = """
-            |public static void removeNameSelectionChangeListener(
-            |    com.polidea.cockpit.event.SelectionChangeListener<java.lang.String> listener) {
-            |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.removeSelectionChangeListener("name", listener);
             |}"""
 
         assertEquals(expectedFunSpecString.trimMargin(), funSpec.toString().trimMargin())
