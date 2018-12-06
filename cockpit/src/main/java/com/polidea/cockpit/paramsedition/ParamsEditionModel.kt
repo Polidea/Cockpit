@@ -1,9 +1,10 @@
 package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
-import com.polidea.cockpit.manager.CockpitManager
+import com.polidea.cockpit.core.type.CockpitReadOnly
 import com.polidea.cockpit.extensions.getParam
 import com.polidea.cockpit.extensions.toGroupedParams
+import com.polidea.cockpit.manager.CockpitManager
 
 internal class ParamsEditionModel : ParamsModel {
 
@@ -49,7 +50,15 @@ internal class ParamsEditionModel : ParamsModel {
     }
 
     fun restoreAll() {
-        paramsCopy = CockpitManager.getDefaultParamsCopy()
+        val restoredParams = CockpitManager.getDefaultParamsCopy()
+        restoredParams.forEachIndexed { index, param ->
+            if (param.value is CockpitReadOnly) {
+                //Keeping current value prevents CockpitReadOnly param from being emptied.
+                param.value = paramsCopy[index].value
+            }
+        }
+
+        paramsCopy = restoredParams
         groupedParamsCopy = paramsCopy.toGroupedParams()
     }
 
