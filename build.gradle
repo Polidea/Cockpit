@@ -3,14 +3,14 @@ apply plugin: 'kotlin'
 apply from: 'gradle/dependencies.gradle'
 
 buildscript {
-    ext.kotlin_version = '1.2.51'
+    ext.kotlin_version = '1.3.10'
     repositories {
         google()
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -31,16 +31,16 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 compileKotlin {
     kotlinOptions {
-        jvmTarget = "1.7"
+        jvmTarget = "1.8"
     }
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "1.7"
+        jvmTarget = "1.8"
     }
 }
 
