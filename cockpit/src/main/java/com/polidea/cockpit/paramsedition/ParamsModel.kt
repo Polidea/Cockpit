@@ -4,9 +4,13 @@ import com.polidea.cockpit.core.CockpitParam
 
 internal interface ParamsModel {
 
+    val displaySize: Int
+
     val paramsSize: Int
 
     val groupsSize: Int
+
+    val groupNames: List<String?>
 
     fun getGroupName(groupIndex: Int): String?
 

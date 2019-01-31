@@ -5,6 +5,12 @@ internal class Util {
     companion object {
         // Kotlin version of following deep merge map method:
         // http://blog.mathieu.photography/post/103163278870/deep-merge-map-in-groovy
+        //
+        // Merges `overrides` into `onto`.
+        // Merging strategy is as follows:
+        // 1. if value doesn't exist in destination, add it to destination
+        // 2. if value is a map, merge it using the same algorithm
+        // 3. if value exists, overwrites it with value from last of the `overrides`
         fun <K : Any?, V : Any?> deepMerge(onto: MutableMap<K, V>, vararg overrides: Map<K, V>): MutableMap<K, V> {
             if (overrides.isEmpty()) {
                 return onto
