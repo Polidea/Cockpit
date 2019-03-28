@@ -10,10 +10,15 @@ internal class ParamsEditionPositionMapper(private val paramsModel: ParamsModel)
 
             tmpPosition++
             val groupSize = paramsModel.getGroupSize(groupIndex)
-            if (adapterPosition >= tmpPosition && adapterPosition < tmpPosition + groupSize) {
-                return ItemPosition(groupIndex, adapterPosition - tmpPosition)
+            if (adapterPosition >= tmpPosition && adapterPosition < tmpPosition + groupSize.size) {
+                if (adapterPosition - tmpPosition < groupSize.subgroupsSize) {
+                    return ItemPosition(groupIndex, subgroupIndex = adapterPosition - tmpPosition)
+                } else {
+                    return ItemPosition(groupIndex, paramIndex = adapterPosition - tmpPosition - groupSize.subgroupsSize)
+                }
+
             }
-            tmpPosition += groupSize
+            tmpPosition += groupSize.size
         }
 
         throw IllegalArgumentException("No item position for $adapterPosition adapter position")
@@ -24,7 +29,7 @@ internal class ParamsEditionPositionMapper(private val paramsModel: ParamsModel)
         var adapterPosition = itemPosition.groupIndex
 
         for (tmpGroupIndex in 0 until itemPosition.groupIndex)
-            adapterPosition += paramsModel.getGroupSize(tmpGroupIndex)
+            adapterPosition += paramsModel.getGroupSize(tmpGroupIndex).size
 
         if (!itemPosition.isGroupPosition())
             adapterPosition += itemPosition.paramIndex + 1

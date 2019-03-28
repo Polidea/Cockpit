@@ -28,7 +28,7 @@ private fun MutableMap<String?, MutableCockpitParamGroup>.getOrCreateGroupAndPar
     if (!this.containsKey(name)) this[name] = group
 
     if (name?.contains(GROUP_DELIMITER) == true) {
-        val nextName = name.substring(0, name.lastIndexOf(GROUP_DELIMITER) - 1)
+        val nextName = name.substring(0, name.lastIndexOf(GROUP_DELIMITER))
         val parent = getOrCreateGroupAndParents(nextName)
         parent.subgroups.add(group)
     }

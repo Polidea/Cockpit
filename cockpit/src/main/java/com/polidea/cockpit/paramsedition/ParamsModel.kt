@@ -14,7 +14,9 @@ internal interface ParamsModel {
 
     fun getGroupName(groupIndex: Int): String?
 
-    fun getGroupSize(groupIndex: Int): Int
+    fun getSubgroupName(groupIndex: Int, subgroupIndex: Int): String?
+
+    fun getGroupSize(groupIndex: Int): GroupSize
 
     fun <T : Any> getParamAt(itemPosition: ItemPosition): CockpitParam<T>
 }

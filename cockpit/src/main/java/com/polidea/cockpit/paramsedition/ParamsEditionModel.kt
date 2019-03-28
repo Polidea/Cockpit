@@ -1,5 +1,6 @@
 package com.polidea.cockpit.paramsedition
 
+import android.util.Log
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.CockpitParamGroup
 import com.polidea.cockpit.core.type.CockpitReadOnly
@@ -22,17 +23,19 @@ internal class ParamsEditionModel : ParamsModel {
         get() = paramsCopy.size
 
     override val groupsSize: Int
-        get() = groupedParamsCopy.size
+        get() = topLevelGroups.size
 
     init {
         setParams(CockpitManager.getParamsCopy())
     }
 
     override fun getGroupSize(groupIndex: Int) =
-            groupedParamsCopy[getGroupName(groupIndex)]?.displaySize
+            groupedParamsCopy[getGroupName(groupIndex)]?.run { GroupSize(subgroups.size, params.size) }
                     ?: throw IllegalArgumentException("Couldn't find group for index: $groupIndex")
 
     override fun getGroupName(groupIndex: Int) = groupNames[groupIndex]
+
+    override fun getSubgroupName(groupIndex: Int, subgroupIndex: Int): String? = topLevelGroups.values.toList()[groupIndex].subgroups[subgroupIndex].displayName
 
     override fun <T : Any> getParamAt(itemPosition: ItemPosition): CockpitParam<T> =
             groupedParamsCopy[getGroupName(itemPosition.groupIndex)]?.params?.getParam(itemPosition.paramIndex)

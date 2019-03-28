@@ -40,6 +40,11 @@ showFooter:
   value: true
   group: "Footer"
 
+exampleSubGroupParam:
+  description: "Whatever really"
+  value: 500
+  group: "Footer/subgroup"
+
 appVersion:
   type: read_only
   description: "Version"
