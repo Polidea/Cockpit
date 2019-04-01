@@ -26,8 +26,8 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.READ_ONLY.ordinal -> ReadOnlyParamViewHolder(inflateViewForHolder(R.layout.cockpit_read_only_param, parent)).configure()
             ParamType.STEP_INT.ordinal -> StepIntParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
             ParamType.STEP_DOUBLE.ordinal -> StepDoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
-            SUBGROUP_TYPE_ID -> SubgroupViewHolder(inflateViewForHolder(R.layout.subgroup, parent))
-            else -> GroupViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
+            GROUP_TYPE_ID -> GroupViewHolder(inflateViewForHolder(R.layout.subgroup, parent))
+            else -> SectionViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
         }
     }
 
@@ -52,8 +52,8 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.READ_ONLY.ordinal -> (holder as ReadOnlyParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.STEP_INT.ordinal -> (holder as StepIntParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
             ParamType.STEP_DOUBLE.ordinal -> (holder as StepDoubleParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            GROUP_TYPE_ID -> (holder as GroupViewHolder).display(paramsModel.getGroupName(itemPosition.groupIndex))
-            SUBGROUP_TYPE_ID -> (holder as SubgroupViewHolder).display(paramsModel.getSubgroupName(itemPosition.groupIndex, itemPosition.subgroupIndex))
+            SECTION_TYPE_ID -> (holder as SectionViewHolder).display(paramsModel.getGroupName(itemPosition.groupIndex))
+            GROUP_TYPE_ID -> (holder as GroupViewHolder).display(paramsModel.getSubgroupName(itemPosition.groupIndex, itemPosition.subgroupIndex))
         }
     }
 
@@ -70,11 +70,11 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
     override fun getItemViewType(position: Int): Int {
         val itemPosition = positionMapper.toItemPosition(position)
 
+        if (itemPosition.isSectionPosition())
+            return SECTION_TYPE_ID
+
         if (itemPosition.isGroupPosition())
             return GROUP_TYPE_ID
-
-        if (itemPosition.isSubGroupPosition())
-            return SUBGROUP_TYPE_ID
 
         val param = paramsModel.getParamAt<Any>(itemPosition)
         return ParamType.getParamType(param).ordinal
@@ -102,7 +102,7 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
     }
 
     companion object {
-        private val GROUP_TYPE_ID: Int = ParamType.values().last().ordinal + 1
-        private val SUBGROUP_TYPE_ID: Int = ParamType.values().last().ordinal + 2
+        private val SECTION_TYPE_ID: Int = ParamType.values().last().ordinal + 1
+        private val GROUP_TYPE_ID: Int = ParamType.values().last().ordinal + 2
     }
 }

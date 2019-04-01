@@ -31,8 +31,14 @@ internal class ParamsEditionPositionMapper(private val paramsModel: ParamsModel)
         for (tmpGroupIndex in 0 until itemPosition.groupIndex)
             adapterPosition += paramsModel.getGroupSize(tmpGroupIndex).size
 
-        if (!itemPosition.isGroupPosition())
-            adapterPosition += itemPosition.paramIndex + 1
+        if (!itemPosition.isSectionPosition()) {
+            if (!itemPosition.isGroupPosition()) {
+                adapterPosition += paramsModel.getGroupSize(itemPosition.groupIndex).subgroupsSize + itemPosition.paramIndex + 1
+            } else {
+                adapterPosition += itemPosition.subgroupIndex + 1
+            }
+        }
+
 
         return adapterPosition
     }

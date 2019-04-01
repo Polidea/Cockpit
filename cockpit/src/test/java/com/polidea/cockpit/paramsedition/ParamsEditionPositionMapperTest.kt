@@ -40,7 +40,7 @@ class ParamsEditionPositionMapperTest {
         val mapper = createMapper()
 
         val itemPosition = mapper.toItemPosition(0)
-        assertTrue(itemPosition.isGroupPosition())
+        assertTrue(itemPosition.isSectionPosition())
         assertEquals(0, itemPosition.groupIndex)
 
         CockpitManager.clear()
@@ -52,7 +52,7 @@ class ParamsEditionPositionMapperTest {
         val mapper = createMapper()
 
         val itemPosition = mapper.toItemPosition(1)
-        assertFalse(itemPosition.isGroupPosition())
+        assertFalse(itemPosition.isSectionPosition())
         assertEquals(0, itemPosition.groupIndex)
         assertEquals(0, itemPosition.paramIndex)
 
@@ -65,7 +65,7 @@ class ParamsEditionPositionMapperTest {
         val mapper = createMapper()
 
         val itemPosition = mapper.toItemPosition(2)
-        assertFalse(itemPosition.isGroupPosition())
+        assertFalse(itemPosition.isSectionPosition())
         assertEquals(0, itemPosition.groupIndex)
         assertEquals(1, itemPosition.paramIndex)
 
@@ -78,7 +78,7 @@ class ParamsEditionPositionMapperTest {
         val mapper = createMapper()
 
         val itemPosition = mapper.toItemPosition(3)
-        assertTrue(itemPosition.isGroupPosition())
+        assertTrue(itemPosition.isSectionPosition())
         assertEquals(1, itemPosition.groupIndex)
     }
 
@@ -88,7 +88,7 @@ class ParamsEditionPositionMapperTest {
         val mapper = createMapper()
 
         val itemPosition = mapper.toItemPosition(4)
-        assertFalse(itemPosition.isGroupPosition())
+        assertFalse(itemPosition.isSectionPosition())
         assertEquals(1, itemPosition.groupIndex)
         assertEquals(0, itemPosition.paramIndex)
 
@@ -101,7 +101,7 @@ class ParamsEditionPositionMapperTest {
         val mapper = createMapper()
 
         val itemPosition = mapper.toItemPosition(5)
-        assertTrue(itemPosition.isGroupPosition())
+        assertTrue(itemPosition.isSectionPosition())
         assertEquals(2, itemPosition.groupIndex)
 
         CockpitManager.clear()
@@ -113,7 +113,7 @@ class ParamsEditionPositionMapperTest {
         val mapper = createMapper()
 
         val itemPosition = mapper.toItemPosition(6)
-        assertFalse(itemPosition.isGroupPosition())
+        assertFalse(itemPosition.isSectionPosition())
         assertEquals(2, itemPosition.groupIndex)
         assertEquals(0, itemPosition.paramIndex)
 

@@ -4,8 +4,8 @@ internal data class ItemPosition(val groupIndex: Int,
                                  val subgroupIndex: Int = PARAM_INDEX_FOR_GROUP_ITEM,
                                  val paramIndex: Int = PARAM_INDEX_FOR_GROUP_ITEM) {
 
-    fun isGroupPosition() = paramIndex == PARAM_INDEX_FOR_GROUP_ITEM && subgroupIndex == PARAM_INDEX_FOR_GROUP_ITEM
-    fun isSubGroupPosition() = subgroupIndex != PARAM_INDEX_FOR_GROUP_ITEM
+    fun isSectionPosition() = paramIndex == PARAM_INDEX_FOR_GROUP_ITEM && subgroupIndex == PARAM_INDEX_FOR_GROUP_ITEM
+    fun isGroupPosition() = subgroupIndex != PARAM_INDEX_FOR_GROUP_ITEM
             && paramIndex == PARAM_INDEX_FOR_GROUP_ITEM
 
     companion object {

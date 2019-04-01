@@ -9,7 +9,6 @@ data class CockpitParamGroup(val name: String?, val subgroups: List<CockpitParam
     val displaySize: Int
         get() = subgroups.size + params.size
 
-    fun isParent(): Boolean = subgroups.isNotEmpty()
     fun isChild(): Boolean = name?.contains(GROUP_DELIMITER) == true
 }
 

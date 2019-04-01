@@ -15,7 +15,7 @@ internal fun Map<String?, List<CockpitParam<Any>>>.convertToGroups(): Map<String
     val extractedSubgroups = LinkedHashMap<String?, MutableCockpitParamGroup>()
 
     forEach {
-        val group = extractedSubgroups.getOrCreateGroupAndParents(it.key)
+        val group = extractedSubgroups.getOrCreateGroupHierarchy(it.key)
         group.params.addAll(it.value)
         extractedSubgroups[it.key] = group
     }
@@ -23,13 +23,13 @@ internal fun Map<String?, List<CockpitParam<Any>>>.convertToGroups(): Map<String
     return extractedSubgroups.toReducedNonMutable()
 }
 
-private fun MutableMap<String?, MutableCockpitParamGroup>.getOrCreateGroupAndParents(name: String?): MutableCockpitParamGroup {
+private fun MutableMap<String?, MutableCockpitParamGroup>.getOrCreateGroupHierarchy(name: String?): MutableCockpitParamGroup {
     val group = this[name] ?: MutableCockpitParamGroup(name)
     if (!this.containsKey(name)) this[name] = group
 
     if (name?.contains(GROUP_DELIMITER) == true) {
         val nextName = name.substring(0, name.lastIndexOf(GROUP_DELIMITER))
-        val parent = getOrCreateGroupAndParents(nextName)
+        val parent = getOrCreateGroupHierarchy(nextName)
         parent.subgroups.add(group)
     }
 
