@@ -1,8 +1,12 @@
 package com.polidea.cockpit.paramsedition
 
 import android.graphics.Color
+import com.polidea.cockpit.core.CockpitParamGroup
 import com.polidea.cockpit.core.type.CockpitColor
+import com.polidea.cockpit.paramsedition.refactor.DisplayModel
+import com.polidea.cockpit.paramsedition.refactor.toDisplayModel
 import com.polidea.cockpit.utils.colorToArgbHexString
+import java.util.*
 
 
 internal class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {
@@ -11,21 +15,21 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         view.presenter = this
     }
 
-    private val model = ParamsEditionModel()
+    private val model: ParamsModel = ParamsEditionModel()
+    private val displayStack: Stack<DisplayModel> = Stack()
 
     override fun start() {
-        view.reloadAll()
+        displayStack.push(model.topLevelGroups.toDisplayModel())
+        view.display(displayStack.peek())
     }
 
     override fun stop() {
         model.save()
     }
 
-    override fun getParamsModel() = model
-
-    override fun restore(itemPosition: ItemPosition) {
-        model.restoreValue(itemPosition)
-        view.reloadParam(itemPosition)
+    override fun restore(paramName: String) {
+        model.restoreValue(paramName)
+        view.reloadParam(paramName)
     }
 
     override fun restoreAll() {
@@ -33,16 +37,21 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         view.reloadAll()
     }
 
-    override fun <T : Any> onParamChange(itemPosition: ItemPosition, newValue: T) {
-        model.setValue(itemPosition, newValue)
+    override fun onDisplayGroup(group: CockpitParamGroup) {
+        displayStack.push(group.toDisplayModel())
+        view.display(displayStack.peek())
     }
 
-    override fun <T : Any> onParamValueSelected(itemPosition: ItemPosition, selectedItemIndex: Int) {
-        model.selectValue<T>(itemPosition, selectedItemIndex)
+    override fun <T : Any> onParamChange(paramName: String, newValue: T) {
+        model.setValue(paramName, newValue)
     }
 
-    override fun requestAction(itemPosition: ItemPosition) {
-        model.requestAction(itemPosition)
+    override fun <T : Any> onParamValueSelected(paramName: String, selectedItemIndex: Int) {
+        model.selectValue<T>(paramName, selectedItemIndex)
+    }
+
+    override fun requestAction(paramName: String) {
+        model.requestAction(paramName)
     }
 
     override fun expand() {
@@ -61,13 +70,13 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         view.resize(height)
     }
 
-    override fun editColor(itemPosition: ItemPosition) {
-        val param = model.getParamAt<CockpitColor>(itemPosition)
-        view.showColorPicker(itemPosition, Color.parseColor(param.value.value))
+    override fun editColor(paramName: String) {
+        val param = model.getParam<CockpitColor>(paramName)
+        view.showColorPicker(paramName, Color.parseColor(param.value.value))
     }
 
-    override fun newColorSelected(itemPosition: ItemPosition, color: Int) {
-        onParamChange(itemPosition, CockpitColor(colorToArgbHexString(color)))
-        view.reloadParam(itemPosition)
+    override fun newColorSelected(paramName: String, color: Int) {
+        onParamChange(paramName, CockpitColor(colorToArgbHexString(color)))
+        view.reloadParam(paramName)
     }
 }

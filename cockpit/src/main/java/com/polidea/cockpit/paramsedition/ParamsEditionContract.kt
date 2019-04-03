@@ -2,6 +2,8 @@ package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.BasePresenter
 import com.polidea.cockpit.BaseView
+import com.polidea.cockpit.core.CockpitParamGroup
+import com.polidea.cockpit.paramsedition.refactor.DisplayModel
 
 internal interface ParamsEditionContract {
 
@@ -14,26 +16,28 @@ internal interface ParamsEditionContract {
 
         fun dismiss()
 
-        fun showColorPicker(itemPosition: ItemPosition, color: Int)
+        fun showColorPicker(paramName: String, color: Int)
     }
 
     interface ParamView {
-        fun reloadParam(itemPosition: ItemPosition)
+        fun reloadParam(paramName: String)
 
         fun reloadAll()
+
+        fun display(model: DisplayModel)
     }
 
     interface Presenter : BasePresenter {
 
-        fun getParamsModel(): ParamsModel
+        fun <T : Any> onParamChange(paramName: String, newValue: T)
 
-        fun <T : Any> onParamChange(itemPosition: ItemPosition, newValue: T)
+        fun <T : Any> onParamValueSelected(paramName: String, selectedItemIndex: Int)
 
-        fun <T : Any> onParamValueSelected(itemPosition: ItemPosition, selectedItemIndex: Int)
+        fun onDisplayGroup(group: CockpitParamGroup)
 
-        fun requestAction(itemPosition: ItemPosition)
+        fun requestAction(paramName: String)
 
-        fun restore(itemPosition: ItemPosition)
+        fun restore(paramName: String)
 
         fun restoreAll()
 
@@ -45,8 +49,8 @@ internal interface ParamsEditionContract {
 
         fun hidden()
 
-        fun editColor(itemPosition: ItemPosition)
+        fun editColor(paramName: String)
 
-        fun newColorSelected(itemPosition: ItemPosition, color: Int)
+        fun newColorSelected(paramName: String, color: Int)
     }
 }

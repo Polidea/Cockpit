@@ -15,11 +15,13 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.polidea.cockpit.R
 import com.polidea.cockpit.extensions.removeDimmedBackground
 import com.polidea.cockpit.paramsedition.layout.CockpitLayout
+import com.polidea.cockpit.paramsedition.refactor.DisplayModel
+import com.polidea.cockpit.paramsedition.refactor.ParamAdapter
 
 internal class CockpitDialog internal constructor() : AppCompatDialogFragment(), ParamsEditionContract.View {
 
     override lateinit var presenter: ParamsEditionContract.Presenter
-    private lateinit var paramsEditionAdapter: ParamsEditionAdapter
+    private lateinit var paramsEditionAdapter: ParamAdapter
     private lateinit var expandCollapse: ImageButton
     private lateinit var cockpitRoot: CockpitLayout
     private lateinit var cockpitContent: LinearLayout
@@ -34,7 +36,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
-    override fun showColorPicker(itemPosition: ItemPosition, color: Int) {
+    override fun showColorPicker(paramName: String, color: Int) {
         val colorPicker = ColorPickerDialog.newBuilder()
                 .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                 .setAllowPresets(false)
@@ -46,7 +48,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             }
 
             override fun onColorSelected(dialogId: Int, color: Int) {
-                presenter.newColorSelected(itemPosition, color)
+                presenter.newColorSelected(paramName, color)
             }
         })
         activity?.fragmentManager?.let {
@@ -75,7 +77,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupViews(view: View) {
-        paramsEditionAdapter = ParamsEditionAdapter(presenter)
+        paramsEditionAdapter = ParamAdapter(DisplayModel(listOf()), presenter)
         view.findViewById<RecyclerView>(R.id.params_list).adapter = paramsEditionAdapter
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)
@@ -118,12 +120,16 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         presenter.stop()
     }
 
-    override fun reloadParam(itemPosition: ItemPosition) {
-        paramsEditionAdapter.reloadParam(itemPosition)
+    override fun reloadParam(paramName: String) {
+        paramsEditionAdapter.reloadParam(paramName)
     }
 
     override fun reloadAll() {
         paramsEditionAdapter.reloadAll()
+    }
+
+    override fun display(model: DisplayModel) {
+        paramsEditionAdapter.display(model)
     }
 
     override fun expand() {
