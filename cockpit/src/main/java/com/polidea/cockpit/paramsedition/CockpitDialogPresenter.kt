@@ -19,7 +19,11 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
     private val displayStack: Stack<DisplayModel> = Stack()
 
     override fun start() {
-        displayStack.push(model.topLevelGroups.toDisplayModel())
+        displayModel(model.topLevelGroups.toDisplayModel())
+    }
+
+    private fun displayModel(displayModel: DisplayModel) {
+        displayStack.push(displayModel)
         view.display(displayStack.peek())
     }
 
@@ -34,12 +38,12 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
 
     override fun restoreAll() {
         model.restoreAll()
-        view.reloadAll()
+        displayStack.clear()
+        displayModel(model.topLevelGroups.toDisplayModel())
     }
 
     override fun onDisplayGroup(group: CockpitParamGroup) {
-        displayStack.push(group.toDisplayModel())
-        view.display(displayStack.peek())
+        displayModel(group.toDisplayModel())
     }
 
     override fun <T : Any> onParamChange(paramName: String, newValue: T) {

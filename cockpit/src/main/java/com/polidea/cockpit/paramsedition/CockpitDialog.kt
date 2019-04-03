@@ -95,7 +95,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             if (ev.action == MotionEvent.ACTION_DOWN) {
                 cockpitRoot.startDrag = true
                 true
-            }
+            } else
             false
         }
 
@@ -104,7 +104,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             if (motionEvent.action == MotionEvent.ACTION_MOVE) {
                 presenter.requestResize(bottomButton.y.toInt() + motionEvent.y.toInt())
                 true
-            }
+            } else
             false
         }
 
@@ -117,6 +117,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
+        //TODO remove all callbacks from action type params
         presenter.stop()
     }
 
