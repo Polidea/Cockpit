@@ -1,22 +1,23 @@
 package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.CockpitParamGroup
 
 internal interface ParamsModel {
 
-    val displaySize: Int
+    val topLevelGroups: Map<String?, CockpitParamGroup>
 
-    val paramsSize: Int
+    fun <T : Any> getParam(paramName: String): CockpitParam<T>
 
-    val groupsSize: Int
+    fun <T : Any> setValue(paramName: String, newValue: T)
 
-    val groupNames: List<String?>
+    fun <T : Any> selectValue(paramName: String, selectedItemIndex: Int)
 
-    fun getGroupName(groupIndex: Int): String?
+    fun restoreValue(paramName: String)
 
-    fun getSubgroupName(groupIndex: Int, subgroupIndex: Int): String?
+    fun requestAction(paramName: String)
 
-    fun getGroupSize(groupIndex: Int): GroupSize
+    fun restoreAll()
 
-    fun <T : Any> getParamAt(itemPosition: ItemPosition): CockpitParam<T>
+    fun save()
 }

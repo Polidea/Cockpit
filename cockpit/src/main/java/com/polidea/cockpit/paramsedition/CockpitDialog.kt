@@ -34,7 +34,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
-    override fun showColorPicker(itemPosition: ItemPosition, color: Int) {
+    override fun showColorPicker(paramName: String, color: Int) {
         val colorPicker = ColorPickerDialog.newBuilder()
                 .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                 .setAllowPresets(false)
@@ -46,7 +46,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             }
 
             override fun onColorSelected(dialogId: Int, color: Int) {
-                presenter.newColorSelected(itemPosition, color)
+                presenter.newColorSelected(paramName, color)
             }
         })
         activity?.fragmentManager?.let {
@@ -75,7 +75,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupViews(view: View) {
-        paramsEditionAdapter = ParamsEditionAdapter(presenter)
+        paramsEditionAdapter = ParamsEditionAdapter(DisplayModel(listOf()), presenter)
         view.findViewById<RecyclerView>(R.id.params_list).adapter = paramsEditionAdapter
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)
@@ -93,7 +93,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             if (ev.action == MotionEvent.ACTION_DOWN) {
                 cockpitRoot.startDrag = true
                 true
-            }
+            } else
             false
         }
 
@@ -102,7 +102,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             if (motionEvent.action == MotionEvent.ACTION_MOVE) {
                 presenter.requestResize(bottomButton.y.toInt() + motionEvent.y.toInt())
                 true
-            }
+            } else
             false
         }
 
@@ -115,15 +115,20 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
+        //TODO remove all callbacks from action type params
         presenter.stop()
     }
 
-    override fun reloadParam(itemPosition: ItemPosition) {
-        paramsEditionAdapter.reloadParam(itemPosition)
+    override fun reloadParam(paramName: String) {
+        paramsEditionAdapter.reloadParam(paramName)
     }
 
     override fun reloadAll() {
         paramsEditionAdapter.reloadAll()
+    }
+
+    override fun display(model: DisplayModel) {
+        paramsEditionAdapter.display(model)
     }
 
     override fun expand() {

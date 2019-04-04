@@ -5,12 +5,13 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.polidea.cockpit.R
+import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.type.*
 import com.polidea.cockpit.paramsedition.viewholder.*
+import java.lang.IllegalArgumentException
 
-internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Presenter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ParamsEditionContract.ParamView {
-
-    private val paramsModel = presenter.getParamsModel()
-    private val positionMapper = ParamsEditionPositionMapper(paramsModel)
+internal class ParamsEditionAdapter(private var displayModel: DisplayModel,
+                                    private val presenter: ParamsEditionContract.Presenter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ParamsEditionContract.ParamView {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -26,78 +27,117 @@ internal class ParamsEditionAdapter(var presenter: ParamsEditionContract.Present
             ParamType.READ_ONLY.ordinal -> ReadOnlyParamViewHolder(inflateViewForHolder(R.layout.cockpit_read_only_param, parent)).configure()
             ParamType.STEP_INT.ordinal -> StepIntParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
             ParamType.STEP_DOUBLE.ordinal -> StepDoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
-            GROUP_TYPE_ID -> GroupViewHolder(inflateViewForHolder(R.layout.subgroup, parent))
-            else -> SectionViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
+            GROUP_TYPE_ID -> GroupViewHolder(inflateViewForHolder(R.layout.subgroup, parent)).configure()
+            SECTION_TYPE_ID -> SectionViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
+            else -> throw IllegalArgumentException("View type $viewType does not match any known case")
         }
     }
 
     private fun inflateViewForHolder(@LayoutRes layoutId: Int, parent: ViewGroup) = LayoutInflater.from(parent.context)
             .inflate(layoutId, parent, false)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val itemPosition = positionMapper.toItemPosition(position)
-        when (getItemViewType(position)) {
-            ParamType.BOOL.ordinal -> (holder as BooleanParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.INT.ordinal -> (holder as IntParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.DOUBLE.ordinal -> (holder as DoubleParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.STRING.ordinal -> (holder as StringParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.LIST.ordinal -> (holder as ListParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.ACTION.ordinal -> (holder as ActionParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.COLOR.ordinal -> (holder as ColorParamViewHolder).apply {
-                displayParam(paramsModel.getParamAt(itemPosition))
-                onColorEditionRequestListener = { presenter.editColor(itemPosition) }
-            }
-            ParamType.RANGE_INT.ordinal -> (holder as RangeIntParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.RANGE_DOUBLE.ordinal -> (holder as RangeDoubleParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.READ_ONLY.ordinal -> (holder as ReadOnlyParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.STEP_INT.ordinal -> (holder as StepIntParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            ParamType.STEP_DOUBLE.ordinal -> (holder as StepDoubleParamViewHolder).displayParam(paramsModel.getParamAt(itemPosition))
-            SECTION_TYPE_ID -> (holder as SectionViewHolder).display(paramsModel.getGroupName(itemPosition.groupIndex))
-            GROUP_TYPE_ID -> (holder as GroupViewHolder).display(paramsModel.getSubgroupName(itemPosition.groupIndex, itemPosition.subgroupIndex))
+    override fun getItemCount(): Int = displayModel.items.size
+
+    override fun getItemViewType(position: Int): Int {
+        val displayedItem = displayModel.items[position]
+        return when (displayedItem) {
+            is DisplayItem.Param -> ParamType.getParamType(displayedItem.param).ordinal
+            is DisplayItem.Group -> GROUP_TYPE_ID
+            is DisplayItem.Section -> SECTION_TYPE_ID
         }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val displayedItem = displayModel.items[position]
+        when (displayedItem) {
+            is DisplayItem.Param -> {
+                when (ParamType.getParamType(displayedItem.param)) {
+                    ParamType.BOOL -> (holder as BooleanParamViewHolder).displayParam(displayedItem.param as CockpitParam<Boolean>)
+                    ParamType.INT -> (holder as IntParamViewHolder).displayParam(displayedItem.param as CockpitParam<Int>)
+                    ParamType.DOUBLE -> (holder as DoubleParamViewHolder).displayParam(displayedItem.param as CockpitParam<Double>)
+                    ParamType.STRING -> (holder as StringParamViewHolder).displayParam(displayedItem.param as CockpitParam<String>)
+                    ParamType.LIST -> (holder as ListParamViewHolder).displayParam(displayedItem.param as CockpitParam<CockpitListType<Any>>)
+                    ParamType.ACTION -> (holder as ActionParamViewHolder).displayParam(displayedItem.param as CockpitParam<CockpitAction>)
+                    ParamType.COLOR -> (holder as ColorParamViewHolder).apply {
+                        displayParam(displayedItem.param as CockpitParam<CockpitColor>)
+                        onColorEditionRequestListener = { presenter.editColor(displayedItem.param.name) }
+                    }
+                    ParamType.RANGE_INT -> (holder as RangeIntParamViewHolder).displayParam(displayedItem.param as CockpitParam<CockpitRange<Int>>)
+                    ParamType.RANGE_DOUBLE -> (holder as RangeDoubleParamViewHolder).displayParam(displayedItem.param as CockpitParam<CockpitRange<Double>>)
+                    ParamType.READ_ONLY -> (holder as ReadOnlyParamViewHolder).displayParam(displayedItem.param as CockpitParam<CockpitReadOnly>)
+                    ParamType.STEP_INT -> (holder as StepIntParamViewHolder).displayParam(displayedItem.param as CockpitParam<CockpitStep<Int>>)
+                    ParamType.STEP_DOUBLE -> (holder as StepDoubleParamViewHolder).displayParam(displayedItem.param as CockpitParam<CockpitStep<Double>>)
+                }
+                ParamType.getParamType(displayedItem.param).ordinal
+            }
+            is DisplayItem.Group -> (holder as GroupViewHolder).display(displayedItem.displayName)
+            is DisplayItem.Section -> (holder as SectionViewHolder).display(displayedItem.displayName)
+        }
+    }
+
+    override fun display(model: DisplayModel) {
+        displayModel = model
+        notifyDataSetChanged()
+    }
+
+    override fun reloadParam(paramName: String) {
+        val index = displayModel.items.indexOfFirst { it is DisplayItem.Param && it.param.name == paramName }
+        notifyItemChanged(index)
     }
 
     override fun reloadAll() {
         notifyDataSetChanged()
     }
 
-    override fun reloadParam(itemPosition: ItemPosition) {
-        notifyItemChanged(positionMapper.toAdapterPosition(itemPosition))
-    }
-
-    override fun getItemCount() = paramsModel.paramsSize + paramsModel.groupsSize
-
-    override fun getItemViewType(position: Int): Int {
-        val itemPosition = positionMapper.toItemPosition(position)
-
-        if (itemPosition.isSectionPosition())
-            return SECTION_TYPE_ID
-
-        if (itemPosition.isGroupPosition())
-            return GROUP_TYPE_ID
-
-        val param = paramsModel.getParamAt<Any>(itemPosition)
-        return ParamType.getParamType(param).ordinal
-    }
-
     private fun <T : Any> ParamBaseValueWithRestoreViewHolder<T>.configure(): ParamBaseValueWithRestoreViewHolder<T> {
         (this as ParamBaseValueViewHolder<T>).configure()
-        restoreClickListener = { presenter.restore(positionMapper.toItemPosition(adapterPosition)) }
+        restoreClickListener = {
+            val item = displayModel.items[adapterPosition]
+            if (item is DisplayItem.Param) {
+                presenter.restore(item.param.name)
+            }
+        }
         return this
     }
 
     private fun <T : Any> ParamBaseValueViewHolder<T>.configure(): ParamBaseValueViewHolder<T> {
-        valueChangeListener = { presenter.onParamChange(positionMapper.toItemPosition(adapterPosition), it) }
+        valueChangeListener = {
+            val item = displayModel.items[adapterPosition]
+            if (item is DisplayItem.Param) {
+                presenter.onParamChange(item.param.name, it)
+            }
+        }
         return this
     }
 
     private fun ActionParamViewHolder.configure(): ActionParamViewHolder {
-        actionButtonClickListener = { presenter.requestAction(positionMapper.toItemPosition(adapterPosition)) }
+        actionButtonClickListener = {
+            val item = displayModel.items[adapterPosition]
+            if (item is DisplayItem.Param) {
+                presenter.requestAction(item.param.name)
+            }
+        }
         return this
     }
 
     private fun <T : Any> SelectionParamBaseViewHolder<T>.configure(): SelectionParamBaseViewHolder<T> {
-        valueSelectedListener = { presenter.onParamValueSelected<T>(positionMapper.toItemPosition(adapterPosition), it) }
+        valueSelectedListener = {
+            val item = displayModel.items[adapterPosition]
+            if (item is DisplayItem.Param) {
+                presenter.onParamValueSelected<T>(item.param.name, it)
+            }
+        }
+        return this
+    }
+
+    private fun GroupViewHolder.configure(): GroupViewHolder {
+        onGroupClickedListener = {
+            val item = displayModel.items[adapterPosition]
+            if (item is DisplayItem.Group) {
+                presenter.onDisplayGroup(item.group)
+            }
+        }
+
         return this
     }
 

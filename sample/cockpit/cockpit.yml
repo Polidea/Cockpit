@@ -45,6 +45,16 @@ exampleSubGroupParam:
   value: 500
   group: "Footer/subgroup"
 
+nestingTest:
+  description: "Whatever really"
+  value: 500
+  group: "Footer/subgroup/manamana"
+
+nestingTest2:
+  description: "Whatever really"
+  value: 500
+  group: "Footer/subgroup/manamana/123"
+
 appVersion:
   type: read_only
   description: "Version"
