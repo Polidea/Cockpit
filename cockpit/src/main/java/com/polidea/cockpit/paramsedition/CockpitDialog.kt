@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
@@ -21,6 +22,9 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     override lateinit var presenter: ParamsEditionContract.Presenter
     private lateinit var paramsEditionAdapter: ParamsEditionAdapter
     private lateinit var expandCollapse: ImageButton
+    private lateinit var navigateBack: ImageButton
+    private lateinit var navigateTop: ImageButton
+    private lateinit var label: TextView
     private lateinit var cockpitRoot: CockpitLayout
     private lateinit var cockpitContent: LinearLayout
     private lateinit var actionBar: LinearLayout
@@ -88,6 +92,14 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             }
         }
 
+        navigateBack = view.findViewById(R.id.go_back)
+        navigateBack.setOnClickListener { presenter.onNavigateBack() }
+
+        navigateTop = view.findViewById(R.id.go_top)
+        navigateTop.setOnClickListener { presenter.onNavigateToTop() }
+
+        label = view.findViewById(R.id.label)
+
         actionBar = view.findViewById(R.id.action_bar)
         actionBar.setOnTouchListener { _, ev ->
             if (ev.action == MotionEvent.ACTION_DOWN) {
@@ -128,7 +140,20 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     }
 
     override fun display(model: DisplayModel) {
+        if (model.breadcrumb.crumbs.isNotEmpty()) {
+            if (model.label != null) label.text = model.label
+            navigateTop.visibility = View.VISIBLE
+            navigateBack.visibility = View.VISIBLE
+        } else {
+            label.setText(R.string.title)
+            navigateBack.visibility = View.INVISIBLE
+            navigateTop.visibility = View.GONE
+        }
         paramsEditionAdapter.display(model)
+    }
+
+    override fun displayNavigationDialog(options: List<String>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun expand() {
