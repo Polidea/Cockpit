@@ -1,4 +1,4 @@
-package com.polidea.cockpit.paramsedition.refactor
+package com.polidea.cockpit.paramsedition
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,12 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.*
-import com.polidea.cockpit.paramsedition.ParamType
-import com.polidea.cockpit.paramsedition.ParamsEditionContract
 import com.polidea.cockpit.paramsedition.viewholder.*
+import java.lang.IllegalArgumentException
 
-internal class ParamAdapter(private var displayModel: DisplayModel,
-                            private val presenter: ParamsEditionContract.Presenter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ParamsEditionContract.ParamView {
+internal class ParamsEditionAdapter(private var displayModel: DisplayModel,
+                                    private val presenter: ParamsEditionContract.Presenter) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ParamsEditionContract.ParamView {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -29,7 +28,8 @@ internal class ParamAdapter(private var displayModel: DisplayModel,
             ParamType.STEP_INT.ordinal -> StepIntParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
             ParamType.STEP_DOUBLE.ordinal -> StepDoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
             GROUP_TYPE_ID -> GroupViewHolder(inflateViewForHolder(R.layout.subgroup, parent)).configure()
-            else -> SectionViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
+            SECTION_TYPE_ID -> SectionViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
+            else -> throw IllegalArgumentException("View type $viewType does not match any known case")
         }
     }
 

@@ -15,13 +15,11 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import com.polidea.cockpit.R
 import com.polidea.cockpit.extensions.removeDimmedBackground
 import com.polidea.cockpit.paramsedition.layout.CockpitLayout
-import com.polidea.cockpit.paramsedition.refactor.DisplayModel
-import com.polidea.cockpit.paramsedition.refactor.ParamAdapter
 
 internal class CockpitDialog internal constructor() : AppCompatDialogFragment(), ParamsEditionContract.View {
 
     override lateinit var presenter: ParamsEditionContract.Presenter
-    private lateinit var paramsEditionAdapter: ParamAdapter
+    private lateinit var paramsEditionAdapter: ParamsEditionAdapter
     private lateinit var expandCollapse: ImageButton
     private lateinit var cockpitRoot: CockpitLayout
     private lateinit var cockpitContent: LinearLayout
@@ -77,7 +75,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupViews(view: View) {
-        paramsEditionAdapter = ParamAdapter(DisplayModel(listOf()), presenter)
+        paramsEditionAdapter = ParamsEditionAdapter(DisplayModel(listOf()), presenter)
         view.findViewById<RecyclerView>(R.id.params_list).adapter = paramsEditionAdapter
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)

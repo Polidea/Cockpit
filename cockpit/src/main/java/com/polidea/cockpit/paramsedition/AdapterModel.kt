@@ -1,4 +1,4 @@
-package com.polidea.cockpit.paramsedition.refactor
+package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.CockpitParamGroup
@@ -9,8 +9,6 @@ internal sealed class DisplayItem(val displayName: String?) {
     class Section(displayName: String?) : DisplayItem(displayName)
     class Group(displayName: String?, val group: CockpitParamGroup) : DisplayItem(displayName)
     class Param(displayName: String?, val param: CockpitParam<Any>) : DisplayItem(displayName)
-//    class TopNavigation : DisplayItem(null)
-//    class BackNavigation : DisplayItem(null)
 }
 
 internal fun Map<String?, CockpitParamGroup>.toDisplayModel(): DisplayModel {
@@ -22,12 +20,8 @@ internal fun Map<String?, CockpitParamGroup>.toDisplayModel(): DisplayModel {
     return DisplayModel(items)
 }
 
-internal fun CockpitParamGroup.toDisplayModel(addTopNavigation: Boolean = false): DisplayModel {
+internal fun CockpitParamGroup.toDisplayModel(): DisplayModel {
     val items = mutableListOf<DisplayItem>(DisplayItem.Section(displayName))
-//    if (addTopNavigation) {
-//        items.add(DisplayItem.TopNavigation())
-//        items.add(DisplayItem.BackNavigation())
-//    }
     items.addAll(subgroups.map { DisplayItem.Group(it.displayName, it) })
     items.addAll(params.map { DisplayItem.Param(it.description ?: it.name, it) })
 

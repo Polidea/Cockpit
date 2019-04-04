@@ -3,10 +3,8 @@ package com.polidea.cockpit.paramsedition
 import android.graphics.Color
 import com.polidea.cockpit.core.CockpitParamGroup
 import com.polidea.cockpit.core.type.CockpitColor
-import com.polidea.cockpit.paramsedition.refactor.DisplayModel
-import com.polidea.cockpit.paramsedition.refactor.toDisplayModel
 import com.polidea.cockpit.utils.colorToArgbHexString
-import java.util.*
+import java.util.Stack
 
 
 internal class CockpitDialogPresenter(private val view: ParamsEditionContract.View) : ParamsEditionContract.Presenter {

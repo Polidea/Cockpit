@@ -3,7 +3,6 @@ package com.polidea.cockpit.paramsedition
 import com.polidea.cockpit.BasePresenter
 import com.polidea.cockpit.BaseView
 import com.polidea.cockpit.core.CockpitParamGroup
-import com.polidea.cockpit.paramsedition.refactor.DisplayModel
 
 internal interface ParamsEditionContract {
 
