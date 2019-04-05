@@ -19,7 +19,6 @@
         android:id="@+id/cockpit_group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/cockpit_group_title_vertical_margin"
         android:layout_marginStart="@dimen/cockpit_margin"
         android:layout_marginTop="@dimen/cockpit_group_title_vertical_margin"
         android:fontFamily="sans-serif-medium"

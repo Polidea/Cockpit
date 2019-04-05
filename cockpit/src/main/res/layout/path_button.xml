@@ -11,6 +11,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="@dimen/cockpit_margin"
+        android:layout_marginBottom="@dimen/cockpit_margin"
         android:text="@string/navigate_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

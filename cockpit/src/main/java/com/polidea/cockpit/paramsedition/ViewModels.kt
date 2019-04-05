@@ -25,8 +25,10 @@ internal fun Map<String?, CockpitParamGroup>.toDisplayModel(): DisplayModel {
     val items = mutableListOf<DisplayItem>()
     val crumb = Breadcrumb()
     forEach {
-        items.addAll(it.value.toDisplayModel(crumb).items)
+        if (it.key != null) items.addAll(it.value.toDisplayModel(crumb).items)
     }
+
+    if (this.containsKey(null)) items.addAll((this[null]!!.toDisplayModel(crumb).items))
 
     return DisplayModel(items)
 }
@@ -34,8 +36,9 @@ internal fun Map<String?, CockpitParamGroup>.toDisplayModel(): DisplayModel {
 internal fun CockpitParamGroup.toDisplayModel(parentCrumb: Breadcrumb, addPath: Boolean = false): DisplayModel {
     val childCrumb = Breadcrumb(displayName, name)
     val newBreadcrumb = Breadcrumb(parentCrumb, childCrumb)
-    val items = mutableListOf<DisplayItem>(DisplayItem.Section(displayName))
+    val items = mutableListOf<DisplayItem>()
 
+    if (!addPath) items.add(DisplayItem.Section(displayName))
     if (addPath) items.add(DisplayItem.Path())
 
     items.addAll(subgroups.map { DisplayItem.Group(it.displayName, it) })

@@ -24,7 +24,7 @@ private fun MutableMap<String?, MutableCockpitParamGroup>.getOrCreateGroupHierar
     }
 
     if (name?.contains(GROUP_DELIMITER) == true) {
-        val nextName = name.substring(0, name.lastIndexOf(GROUP_DELIMITER))
+        val nextName = name.substring(0, name.lastIndexOf(GROUP_DELIMITER)).run { if (this.isEmpty()) null else this }
         val parent = getOrCreateGroupHierarchy(nextName)
         parent.subgroups.add(group)
     }
