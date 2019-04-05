@@ -17,7 +17,7 @@ internal interface ParamsEditionContract {
 
         fun showColorPicker(paramName: String, color: Int)
 
-        fun displayNavigationDialog(options: List<String>)
+        fun displayNavigationDialog(options: List<NavigationOption>)
     }
 
     interface ParamView {
@@ -40,7 +40,7 @@ internal interface ParamsEditionContract {
 
         fun onNavigateToTop()
 
-        fun onNavigateToCrumb(crumb: String)
+        fun onNavigationChosen(navigationOption: NavigationOption)
 
         fun onDisplayGroup(group: CockpitParamGroup)
 

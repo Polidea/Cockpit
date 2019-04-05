@@ -29,7 +29,7 @@ internal class ParamsEditionAdapter(private var displayModel: DisplayModel,
             ParamType.STEP_DOUBLE.ordinal -> StepDoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
             GROUP_TYPE_ID -> GroupViewHolder(inflateViewForHolder(R.layout.subgroup, parent)).configure()
             SECTION_TYPE_ID -> SectionViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
-            PATH_TYPE_ID -> PathViewHolder(inflateViewForHolder(R.layout.path_button, parent)).configure() //TODO fix layout
+            PATH_TYPE_ID -> PathViewHolder(inflateViewForHolder(R.layout.path_button, parent)).configure()
             else -> throw IllegalArgumentException("View type $viewType does not match any known case")
         }
     }

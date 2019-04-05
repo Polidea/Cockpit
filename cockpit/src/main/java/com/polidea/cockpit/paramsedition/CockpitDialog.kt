@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
@@ -20,6 +21,7 @@ import com.polidea.cockpit.paramsedition.layout.CockpitLayout
 internal class CockpitDialog internal constructor() : AppCompatDialogFragment(), ParamsEditionContract.View {
 
     override lateinit var presenter: ParamsEditionContract.Presenter
+    private var alertDialog: AlertDialog? = null
     private lateinit var paramsEditionAdapter: ParamsEditionAdapter
     private lateinit var expandCollapse: ImageButton
     private lateinit var navigateBack: ImageButton
@@ -86,8 +88,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         expandCollapse.setOnClickListener {
             if (expanded) {
                 presenter.collapse()
-            }
-            else {
+            } else {
                 presenter.expand()
             }
         }
@@ -106,7 +107,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 cockpitRoot.startDrag = true
                 true
             } else
-            false
+                false
         }
 
         bottomButton = view.findViewById(R.id.resize_handle)
@@ -115,7 +116,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 presenter.requestResize(bottomButton.y.toInt() + motionEvent.y.toInt())
                 true
             } else
-            false
+                false
         }
 
         bottomButton.visibility = View.GONE
@@ -123,6 +124,14 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         cockpitRoot = view.findViewById(R.id.cockpit_root)
         cockpitContent = view.findViewById(R.id.cockpit_content)
         cockpitRoot.setDraggableView(R.id.cockpit_content)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        alertDialog?.let {
+            it.dismiss()
+            alertDialog = null
+        }
     }
 
     override fun onDestroy() {
@@ -140,7 +149,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     }
 
     override fun display(model: DisplayModel) {
-        if (model.breadcrumb.crumbs.isNotEmpty()) {
+        if (model.breadcrumb.descendants.isNotEmpty()) {
             if (model.label != null) label.text = model.label
             navigateTop.visibility = View.VISIBLE
             navigateBack.visibility = View.VISIBLE
@@ -152,8 +161,13 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         paramsEditionAdapter.display(model)
     }
 
-    override fun displayNavigationDialog(options: List<String>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun displayNavigationDialog(options: List<NavigationOption>) {
+        val items = options.map { it.displayName }.toTypedArray()
+        alertDialog = AlertDialog.Builder(context!!)
+                .setTitle("Navigate to:")
+                .setItems(items) { _, which: Int ->
+                    presenter.onNavigationChosen(options[which])
+                }.create().apply { show() }
     }
 
     override fun expand() {

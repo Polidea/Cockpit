@@ -22,8 +22,8 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
 
     private fun restoreDisplayState() {
         displayStack.push(model.topLevelGroups.toDisplayModel())
-        NavigationState.getHierarchy().forEach {
-            val nextDisplayModel = model.getGroup(it).toDisplayModel(displayStack.peek().breadcrumb, true)
+        NavigationState.breadcrumb.descendants.forEach {
+            val nextDisplayModel = model.getGroup(it.groupName).toDisplayModel(displayStack.peek().breadcrumb, true)
             displayStack.push(nextDisplayModel)
         }
         displayCurrentModel()
@@ -37,7 +37,7 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
     private fun displayCurrentModel() {
         val model = displayStack.peek()
         view.display(model)
-        NavigationState.saveHierarchy(model.breadcrumb.crumbs)
+        NavigationState.breadcrumb = displayStack.peek().breadcrumb
     }
 
     override fun stop() {
@@ -55,7 +55,13 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
     }
 
     override fun onPathClicked() {
-        view.displayNavigationDialog(listOf()) //TODO
+        val breadcrumb = NavigationState.breadcrumb
+        view.displayNavigationDialog(
+                listOf(
+                        NavigationOption("Cockpit Home", breadcrumb.groupName),
+                        *breadcrumb.descendants.map { NavigationOption(it.displayName ?: "", it.groupName) }.toTypedArray()
+                )
+        )
     }
 
     override fun onNavigateBack() {
@@ -68,17 +74,14 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         displayNewModel(model.topLevelGroups.toDisplayModel())
     }
 
-    override fun onNavigateToCrumb(crumb: String) {
-        val index = NavigationState.getHierarchy().lastIndexOf(crumb)
-        val toPop = NavigationState.getHierarchy().lastIndex - index
+    override fun onNavigationChosen(navigationOption: NavigationOption) {
+        if (navigationOption.groupName == displayStack.peek().breadcrumb.lastGroupName)
+            return
 
-        if (index > 0 && toPop > 0) {
-            for (i in 0..toPop) {
-                displayStack.pop()
-            }
-
-            displayCurrentModel()
+        while (displayStack.peek().breadcrumb.lastGroupName != navigationOption.groupName) {
+            displayStack.pop()
         }
+        displayCurrentModel()
     }
 
     override fun onDisplayGroup(group: CockpitParamGroup) {
