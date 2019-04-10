@@ -41,8 +41,8 @@ internal fun CockpitParamGroup.toDisplayModel(parentCrumb: Breadcrumb, addPath: 
     if (!addPath) items.add(DisplayItem.Section(displayName))
     if (addPath) items.add(DisplayItem.Path())
 
-    items.addAll(subgroups.map { DisplayItem.Group(it.displayName, it) })
     items.addAll(params.map { DisplayItem.Param(it.description ?: it.name, it) })
+    items.addAll(subgroups.map { DisplayItem.Group(it.displayName, it) })
 
     return DisplayModel(items, newBreadcrumb, displayName)
 }

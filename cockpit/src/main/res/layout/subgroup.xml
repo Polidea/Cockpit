@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/cockpit_margin_medium"
-        android:layout_marginStart="@dimen/cockpit_margin"
+        android:layout_marginStart="@dimen/cockpit_margin_long"
         android:textColor="@color/cockpit_dark_blue"
         android:fontFamily="sans-serif-medium"
         app:layout_constraintBottom_toBottomOf="parent"
