@@ -315,8 +315,8 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                             ParameterizedTypeName.get(mappingPropertyChangeListenerClassName, wrappableClassName, TypeName.get(paramClass)))
                 },
                 { addStatement("$listenerMapName.$PUT($LISTENER_ARGUMENT_NAME, $listenerName)") })
-        val method = if (!deprecated && !takeLifecycleOwner) ADD_FOREVER else ADD
-        return createPropertyChangeListenerMethodSpecForParam(paramName, paramClass, method, listenerName, actions, deprecated, takeLifecycleOwner)
+        val methodPrefix = if (!deprecated && !takeLifecycleOwner) ADD_FOREVER else ADD
+        return createPropertyChangeListenerMethodSpecForParam(paramName, paramClass, methodPrefix, listenerName, actions, deprecated, takeLifecycleOwner)
     }
 
 
@@ -362,12 +362,12 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 )
             addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             if (takeLifecycleOwner)
-                addParameter(ParameterSpec.builder(androidLifecycleOwnerClassName, "lifecycleOwner").build())
+                addParameter(ParameterSpec.builder(androidLifecycleOwnerClassName, LIFECYCLE_OWNER).build())
             addParameter(ParameterSpec.builder(getParametrizedCockpitPropertyChangeListenerClassName(paramClass), LISTENER_ARGUMENT_NAME).build())
             beforeActions?.forEach { it.invoke(this) }
 
             if (takeLifecycleOwner)
-                addStatement("\$T.INSTANCE.${actionName}OnParamChangeListener(lifecycleOwner, \"$paramName\", $returnValueName)", cockpitManagerClassName)
+                addStatement("\$T.INSTANCE.${actionName}OnParamChangeListener($LIFECYCLE_OWNER, \"$paramName\", $returnValueName)", cockpitManagerClassName)
             else
                 addStatement("\$T.INSTANCE.${actionName}OnParamChangeListener(\"$paramName\", $returnValueName)", cockpitManagerClassName)
         }
@@ -408,12 +408,12 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .apply {
                     if (takeLifecycleOwner)
-                        addParameter(ParameterSpec.builder(androidLifecycleOwnerClassName, "lifecycleOwner").build())
+                        addParameter(ParameterSpec.builder(androidLifecycleOwnerClassName, LIFECYCLE_OWNER).build())
                 }
                 .addParameter(ParameterSpec.builder(actionRequestCallbackClassName, callbackParamName).build())
                 .apply {
                     if (takeLifecycleOwner)
-                        addStatement("\$T.INSTANCE.$methodPrefix$actionRequestCallbackName(lifecycleOwner, \"${param.name}\", $callbackParamName)",
+                        addStatement("\$T.INSTANCE.$methodPrefix$actionRequestCallbackName($LIFECYCLE_OWNER, \"${param.name}\", $callbackParamName)",
                                 cockpitManagerClassName)
                     else
                         addStatement("\$T.INSTANCE.$methodPrefix$actionRequestCallbackName(\"${param.name}\", $callbackParamName)",
@@ -460,5 +460,6 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         private fun getStepListenerMapName(paramClass: Class<*>) = "step${paramClass.simpleName}ListenerMap"
 
         private const val LISTENER_ARGUMENT_NAME = "listener"
+        private const val LIFECYCLE_OWNER = "lifecycleOwner"
     }
 }
