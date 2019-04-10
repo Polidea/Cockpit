@@ -1,5 +1,6 @@
 package com.polidea.cockpit.manager
 
+import androidx.lifecycle.LifecycleOwner
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
 import com.polidea.cockpit.core.type.CockpitListType
@@ -59,6 +60,14 @@ object CockpitManager {
         paramChangeNotifier.add(name, listener)
     }
 
+    fun <T : Any> addForeverOnParamChangeListener(name: String, listener: PropertyChangeListener<T>) {
+        paramChangeNotifier.add(name, listener)
+    }
+
+    fun <T : Any> addOnParamChangeListener(lifecycleOwner: LifecycleOwner, name: String, listener: PropertyChangeListener<T>) {
+        paramChangeNotifier.add(lifecycleOwner, name, listener)
+    }
+
     fun <T : Any> removeOnParamChangeListener(name: String, listener: PropertyChangeListener<T>) {
         paramChangeNotifier.remove(name, listener)
     }
@@ -78,6 +87,14 @@ object CockpitManager {
 
     fun addActionRequestCallback(name: String, callback: ActionRequestCallback) {
         callbackNotifier.add(name, callback)
+    }
+
+    fun addForeverActionRequestCallback(name: String, callback: ActionRequestCallback) {
+        callbackNotifier.add(name, callback)
+    }
+
+    fun addActionRequestCallback(lifecycleOwner: LifecycleOwner, name: String, callback: ActionRequestCallback) {
+        callbackNotifier.add(lifecycleOwner, name, callback)
     }
 
     fun removeActionRequestCallback(name: String, callback: ActionRequestCallback) {

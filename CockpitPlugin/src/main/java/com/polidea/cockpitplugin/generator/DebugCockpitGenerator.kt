@@ -15,31 +15,41 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                 val paramValue = param.value
                 when (paramValue) {
                     is CockpitAction -> {
-                        add(createAddActionRequestCallbackMethodSpecForParam(param))
+                        add(createDeprecatedAddActionRequestCallbackMethodSpecForParam(param))
+                        add(createLifecycleAcceptingAddActionRequestCallbackMethodSpecForParam(param))
+                        add(createAddForeverActionRequestCallbackMethodSpecForParam(param))
                         add(createRemoveActionRequestCallbackMethodSpecForParam(param))
                     }
                     is CockpitListType<*> -> {
                         val listTypeParam = param as CockpitParam<CockpitListType<*>>
                         add(createSelectedValueGetterMethodSpecForParam(listTypeParam))
-                        add(createAddPropertyChangeListenerMethodSpecForParam(paramName, listTypeParam.value.getSelectedItem()))
+                        add(createDeprecatedAddPropertyChangeListenerMethodSpecForParam(paramName, listTypeParam.value.getSelectedItem()))
+                        add(createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForParam(paramName, listTypeParam.value.getSelectedItem()))
+                        add(createAddForeverPropertyChangeListenerMethodSpecForParam(paramName, listTypeParam.value.getSelectedItem()))
                         add(createRemovePropertyChangeListenerMethodSpecForParam(paramName, listTypeParam.value.getSelectedItem()))
                     }
                     is CockpitColor -> {
                         add(createGetterMethodSpecForColorParam(paramName, paramValue))
                         add(createSetterMethodSpecForColorParam(paramName, paramValue))
-                        add(createAddPropertyChangeListenerMethodSpecForColorParam(paramName, paramValue))
+                        add(createDeprecatedAddPropertyChangeListenerMethodSpecForColorParam(paramName, paramValue))
+                        add(createAddForeverPropertyChangeListenerMethodSpecForColorParam(paramName, paramValue))
+                        add(createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForColorParam(paramName, paramValue))
                         add(createRemovePropertyChangeListenerMethodSpecForColorParam(paramName, paramValue))
                     }
                     is CockpitRange<*> -> {
                         add(createGetterMethodSpecForRangeParam(paramName, paramValue.value))
                         add(createSetterMethodSpecForRangeParam(paramName, paramValue.value))
-                        add(createAddPropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
+                        add(createDeprecatedAddPropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
+                        add(createAddForeverPropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
+                        add(createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
                         add(createRemovePropertyChangeListenerMethodSpecForRangeParam(paramName, paramValue.value))
                     }
                     is CockpitStep<*> -> {
                         add(createGetterMethodSpecForStepParam(paramName, paramValue.value))
                         add(createSetterMethodSpecForStepParam(paramName, paramValue.value))
-                        add(createAddPropertyChangeListenerMethodSpecForStepParam(paramName, paramValue.value))
+                        add(createDeprecatedAddPropertyChangeListenerMethodSpecForStepParam(paramName, paramValue.value))
+                        add(createAddForeverPropertyChangeListenerMethodSpecForStepParam(paramName, paramValue.value))
+                        add(createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForStepParam(paramName, paramValue.value))
                         add(createRemovePropertyChangeListenerMethodSpecForStepParam(paramName, paramValue.value))
                     }
                     is CockpitReadOnly ->
@@ -47,7 +57,9 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                     else -> {
                         add(createGetterMethodSpecForParam(paramName, paramValue))
                         add(createSetterMethodSpecForParam(paramName, paramValue))
-                        add(createAddPropertyChangeListenerMethodSpecForParam(paramName, paramValue))
+                        add(createDeprecatedAddPropertyChangeListenerMethodSpecForParam(paramName, paramValue))
+                        add(createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForParam(paramName, paramValue))
+                        add(createAddForeverPropertyChangeListenerMethodSpecForParam(paramName, paramValue))
                         add(createRemovePropertyChangeListenerMethodSpecForParam(paramName, paramValue))
                     }
                 }
@@ -189,14 +201,68 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         return builder.build()
     }
 
-    internal fun createAddPropertyChangeListenerMethodSpecForRangeParam(paramName: String, rangeValue: Number): MethodSpec {
+    internal fun createDeprecatedAddPropertyChangeListenerMethodSpecForRangeParam(paramName: String, rangeValue: Number): MethodSpec {
         val rangeValueClass = mapToJavaObjectTypeClass(rangeValue)
-        return createAddPropertyChangeListenerMethodSpecForWrappableParam(paramName, rangeValueClass, getCockpitRangeMapperName(rangeValueClass), getRangeListenerMapName(rangeValueClass), getParametrizedCockpitRangeClassName(rangeValueClass))
+        return createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                paramName, rangeValueClass,
+                getCockpitRangeMapperName(rangeValueClass),
+                getRangeListenerMapName(rangeValueClass),
+                getParametrizedCockpitRangeClassName(rangeValueClass),
+                deprecated = true
+        )
     }
 
-    internal fun createAddPropertyChangeListenerMethodSpecForStepParam(paramName: String, stepValue: Number): MethodSpec {
+    internal fun createAddForeverPropertyChangeListenerMethodSpecForRangeParam(paramName: String, rangeValue: Number): MethodSpec {
+        val rangeValueClass = mapToJavaObjectTypeClass(rangeValue)
+        return createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                paramName, rangeValueClass,
+                getCockpitRangeMapperName(rangeValueClass),
+                getRangeListenerMapName(rangeValueClass),
+                getParametrizedCockpitRangeClassName(rangeValueClass)
+        )
+    }
+
+    internal fun createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForRangeParam(paramName: String, rangeValue: Number): MethodSpec {
+        val rangeValueClass = mapToJavaObjectTypeClass(rangeValue)
+        return createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                paramName, rangeValueClass,
+                getCockpitRangeMapperName(rangeValueClass),
+                getRangeListenerMapName(rangeValueClass),
+                getParametrizedCockpitRangeClassName(rangeValueClass),
+                takeLifecycleOwner = true
+        )
+    }
+
+    internal fun createDeprecatedAddPropertyChangeListenerMethodSpecForStepParam(paramName: String, stepValue: Number): MethodSpec {
         val stepValueClass = mapToJavaObjectTypeClass(stepValue)
-        return createAddPropertyChangeListenerMethodSpecForWrappableParam(paramName, stepValueClass, getCockpitStepMapperName(stepValueClass), getStepListenerMapName(stepValueClass), getParametrizedCockpitStepClassName(stepValueClass))
+        return createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                paramName, stepValueClass,
+                getCockpitStepMapperName(stepValueClass),
+                getStepListenerMapName(stepValueClass),
+                getParametrizedCockpitStepClassName(stepValueClass),
+                deprecated = true
+        )
+    }
+
+    internal fun createAddForeverPropertyChangeListenerMethodSpecForStepParam(paramName: String, stepValue: Number): MethodSpec {
+        val stepValueClass = mapToJavaObjectTypeClass(stepValue)
+        return createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                paramName, stepValueClass,
+                getCockpitStepMapperName(stepValueClass),
+                getStepListenerMapName(stepValueClass),
+                getParametrizedCockpitStepClassName(stepValueClass)
+        )
+    }
+
+    internal fun createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForStepParam(paramName: String, stepValue: Number): MethodSpec {
+        val stepValueClass = mapToJavaObjectTypeClass(stepValue)
+        return createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                paramName, stepValueClass,
+                getCockpitStepMapperName(stepValueClass),
+                getStepListenerMapName(stepValueClass),
+                getParametrizedCockpitStepClassName(stepValueClass),
+                takeLifecycleOwner = true
+        )
     }
 
     internal fun createRemovePropertyChangeListenerMethodSpecForRangeParam(paramName: String, rangeValue: Number): MethodSpec {
@@ -209,13 +275,38 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         return createRemovePropertyChangeListenerMethodSpecForWrappableParam(paramName, stepValueClass, getStepListenerMapName(stepValueClass), getParametrizedCockpitStepClassName(stepValueClass))
     }
 
-    internal fun createAddPropertyChangeListenerMethodSpecForColorParam(paramName: String, color: CockpitColor) =
-            createAddPropertyChangeListenerMethodSpecForWrappableParam(paramName, mapToTypeClass(color.value), COCKPIT_COLOR_MAPPER, COLOR_LISTENER_MAP, cockpitColorClassName)
+    internal fun createDeprecatedAddPropertyChangeListenerMethodSpecForColorParam(paramName: String, color: CockpitColor) =
+            createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                    paramName, mapToTypeClass(color.value),
+                    COCKPIT_COLOR_MAPPER, COLOR_LISTENER_MAP,
+                    cockpitColorClassName, deprecated = true
+            )
+
+    internal fun createAddForeverPropertyChangeListenerMethodSpecForColorParam(paramName: String, color: CockpitColor) =
+            createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                    paramName, mapToTypeClass(color.value),
+                    COCKPIT_COLOR_MAPPER, COLOR_LISTENER_MAP,
+                    cockpitColorClassName
+            )
+
+    internal fun createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForColorParam(paramName: String, color: CockpitColor) =
+            createAddPropertyChangeListenerMethodSpecForWrappableParam(
+                    paramName, mapToTypeClass(color.value),
+                    COCKPIT_COLOR_MAPPER, COLOR_LISTENER_MAP,
+                    cockpitColorClassName, takeLifecycleOwner = true
+            )
 
     internal fun createRemovePropertyChangeListenerMethodSpecForColorParam(paramName: String, color: CockpitColor) =
             createRemovePropertyChangeListenerMethodSpecForWrappableParam(paramName, mapToTypeClass(color.value), COLOR_LISTENER_MAP, cockpitColorClassName)
 
-    private fun createAddPropertyChangeListenerMethodSpecForWrappableParam(paramName: String, paramClass: Class<*>, mapperName: String, listenerMapName: String, wrappableClassName: TypeName): MethodSpec {
+    private fun createAddPropertyChangeListenerMethodSpecForWrappableParam(
+            paramName: String,
+            paramClass: Class<*>,
+            mapperName: String,
+            listenerMapName: String,
+            wrappableClassName: TypeName,
+            deprecated: Boolean = false,
+            takeLifecycleOwner: Boolean = false): MethodSpec {
         val listenerName = "${paramName}Listener"
         val actions = listOf<MethodSpec.Builder.() -> MethodSpec.Builder>(
                 {
@@ -224,8 +315,10 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
                             ParameterizedTypeName.get(mappingPropertyChangeListenerClassName, wrappableClassName, TypeName.get(paramClass)))
                 },
                 { addStatement("$listenerMapName.$PUT($LISTENER_ARGUMENT_NAME, $listenerName)") })
-        return createPropertyChangeListenerMethodSpecForParam(paramName, paramClass, ADD, listenerName, actions)
+        val method = if (!deprecated && !takeLifecycleOwner) ADD_FOREVER else ADD
+        return createPropertyChangeListenerMethodSpecForParam(paramName, paramClass, method, listenerName, actions, deprecated, takeLifecycleOwner)
     }
+
 
     private fun createRemovePropertyChangeListenerMethodSpecForWrappableParam(paramName: String, paramClass: Class<*>, listenerMapName: String, wrappableClassName: TypeName): MethodSpec {
         val listenerName = "${paramName}Listener"
@@ -238,37 +331,94 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
         return createPropertyChangeListenerMethodSpecForParam(paramName, paramClass, REMOVE, listenerName, actions)
     }
 
-    internal fun createAddPropertyChangeListenerMethodSpecForParam(paramName: String, param: Any) =
-            createPropertyChangeListenerMethodSpecForParam(paramName, mapToJavaObjectTypeClass(param), ADD)
+    internal fun createDeprecatedAddPropertyChangeListenerMethodSpecForParam(paramName: String, param: Any) =
+            createPropertyChangeListenerMethodSpecForParam(paramName, mapToJavaObjectTypeClass(param), ADD, deprecated = true)
+
+    internal fun createLifecycleAcceptingAddPropertyChangeListenerMethodSpecForParam(paramName: String, param: Any) =
+            createPropertyChangeListenerMethodSpecForParam(paramName, mapToJavaObjectTypeClass(param), ADD, takeLifecycleOwner = true)
+
+    internal fun createAddForeverPropertyChangeListenerMethodSpecForParam(paramName: String, param: Any) =
+            createPropertyChangeListenerMethodSpecForParam(paramName, mapToJavaObjectTypeClass(param), ADD_FOREVER)
 
     internal fun createRemovePropertyChangeListenerMethodSpecForParam(paramName: String, param: Any) =
             createPropertyChangeListenerMethodSpecForParam(paramName, mapToJavaObjectTypeClass(param), REMOVE)
 
-    private fun createPropertyChangeListenerMethodSpecForParam(paramName: String, paramClass: Class<*>, actionName: String, returnValueName: String = LISTENER_ARGUMENT_NAME, beforeActions: List<(MethodSpec.Builder.() -> MethodSpec.Builder)>? = null): MethodSpec {
+    private fun createPropertyChangeListenerMethodSpecForParam(paramName: String,
+                                                               paramClass: Class<*>,
+                                                               actionName: String,
+                                                               returnValueName: String = LISTENER_ARGUMENT_NAME,
+                                                               beforeActions: List<(MethodSpec.Builder.() -> MethodSpec.Builder)>? = null,
+                                                               deprecated: Boolean = false,
+                                                               takeLifecycleOwner: Boolean = false): MethodSpec {
         val builder = MethodSpec.methodBuilder("${actionName}On${paramName.capitalize()}ChangeListener").apply {
+            if (deprecated)
+                addAnnotation(
+                        AnnotationSpec
+                                .builder(Deprecated::class.java)
+                                .addMember("message",
+                                        "\"This method might leak context. Consider " +
+                                                "using overload taking lifecycleOwner or switch to addForever(...)\"")
+                                .build()
+                )
             addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+            if (takeLifecycleOwner)
+                addParameter(ParameterSpec.builder(androidLifecycleOwnerClassName, "lifecycleOwner").build())
             addParameter(ParameterSpec.builder(getParametrizedCockpitPropertyChangeListenerClassName(paramClass), LISTENER_ARGUMENT_NAME).build())
             beforeActions?.forEach { it.invoke(this) }
-            addStatement("\$T.INSTANCE.${actionName}OnParamChangeListener(\"$paramName\", $returnValueName)", cockpitManagerClassName)
+
+            if (takeLifecycleOwner)
+                addStatement("\$T.INSTANCE.${actionName}OnParamChangeListener(lifecycleOwner, \"$paramName\", $returnValueName)", cockpitManagerClassName)
+            else
+                addStatement("\$T.INSTANCE.${actionName}OnParamChangeListener(\"$paramName\", $returnValueName)", cockpitManagerClassName)
         }
         return builder
                 .build()
     }
 
-    internal fun createAddActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>) =
-            createActionRequestCallbackMethodSpecForParam(param, ADD)
+    internal fun createDeprecatedAddActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>) =
+            createActionRequestCallbackMethodSpecForParam(param, ADD, deprecated = true)
+
+    internal fun createLifecycleAcceptingAddActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>) =
+            createActionRequestCallbackMethodSpecForParam(param, ADD, takeLifecycleOwner = true)
+
+    internal fun createAddForeverActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>) =
+            createActionRequestCallbackMethodSpecForParam(param, ADD_FOREVER)
 
     internal fun createRemoveActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>) =
             createActionRequestCallbackMethodSpecForParam(param, REMOVE)
 
-    private fun createActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>, methodPrefix: String): MethodSpec {
+    private fun createActionRequestCallbackMethodSpecForParam(param: CockpitParam<*>,
+                                                              methodPrefix: String,
+                                                              deprecated: Boolean = false,
+                                                              takeLifecycleOwner: Boolean = false): MethodSpec {
         val callbackParamName = "callback"
         val actionRequestCallbackName = "ActionRequestCallback"
         return MethodSpec.methodBuilder("$methodPrefix${param.name.capitalize()}$actionRequestCallbackName")
+                .apply {
+                    if (deprecated && methodPrefix == ADD)
+                        addAnnotation(
+                                AnnotationSpec
+                                        .builder(Deprecated::class.java)
+                                        .addMember("message",
+                                                "\"This method might leak context. Consider " +
+                                                        "using overload taking lifecycleOwner or switch to addForever(...)\"")
+                                        .build()
+                        )
+                }
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .apply {
+                    if (takeLifecycleOwner)
+                        addParameter(ParameterSpec.builder(androidLifecycleOwnerClassName, "lifecycleOwner").build())
+                }
                 .addParameter(ParameterSpec.builder(actionRequestCallbackClassName, callbackParamName).build())
-                .addStatement("\$T.INSTANCE.$methodPrefix$actionRequestCallbackName(\"${param.name}\", $callbackParamName)",
-                        cockpitManagerClassName)
+                .apply {
+                    if (takeLifecycleOwner)
+                        addStatement("\$T.INSTANCE.$methodPrefix$actionRequestCallbackName(lifecycleOwner, \"${param.name}\", $callbackParamName)",
+                                cockpitManagerClassName)
+                    else
+                        addStatement("\$T.INSTANCE.$methodPrefix$actionRequestCallbackName(\"${param.name}\", $callbackParamName)",
+                                cockpitManagerClassName)
+                }
                 .build()
     }
 
@@ -296,6 +446,7 @@ internal class DebugCockpitGenerator : BaseCockpitGenerator() {
 
     companion object {
         private const val ADD = "add"
+        private const val ADD_FOREVER = "addForever"
         private const val PUT = "put"
         private const val REMOVE = "remove"
 

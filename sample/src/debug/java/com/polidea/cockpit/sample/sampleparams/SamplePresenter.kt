@@ -1,6 +1,7 @@
 package com.polidea.cockpit.sample.sampleparams
 
 import android.graphics.Color
+import androidx.lifecycle.LifecycleOwner
 import com.polidea.cockpit.cockpit.Cockpit
 import com.polidea.cockpit.event.ActionRequestCallback
 import com.polidea.cockpit.event.PropertyChangeListener
@@ -8,7 +9,7 @@ import com.polidea.cockpit.sample.BuildConfig
 import com.polidea.cockpit.sample.Style
 import com.polidea.cockpit.sample.model.SampleModel
 
-class SamplePresenter(override val sampleView: SampleContract.View, override val sampleModel: SampleModel)
+class SamplePresenter(override val sampleView: SampleContract.View, override val sampleModel: SampleModel, val lifecycleOwner: LifecycleOwner)
     : SampleBasePresenter(sampleView, sampleModel), SampleContract.Presenter {
 
     private lateinit var onStyleChangeListener: PropertyChangeListener<String>
@@ -40,17 +41,12 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
             sampleModel.reset()
             updateAll()
         }
-        Cockpit.addResetCountActionRequestCallback(resetCountCallback)
+        Cockpit.addResetCountActionRequestCallback(lifecycleOwner, resetCountCallback)
     }
 
     override fun stop() {
         removeOnChangeListeners()
-        removeCallbacks()
         removeOnValueSelectedListeners()
-    }
-
-    private fun removeCallbacks() {
-        Cockpit.removeResetCountActionRequestCallback(resetCountCallback)
     }
 
     private fun removeOnValueSelectedListeners() {
@@ -65,38 +61,37 @@ class SamplePresenter(override val sampleView: SampleContract.View, override val
         onStyleChangeListener = PropertyChangeListener { _, selectedValue ->
             sampleView.setStyle(Style.forValue(selectedValue))
         }
-        Cockpit.addOnStyleChangeListener(onStyleChangeListener)
+        Cockpit.addForeverOnStyleChangeListener(onStyleChangeListener)
     }
 
     private fun setOnChangeListeners() {
         onTotalPriceFontSizeChangeListener = PropertyChangeListener { _, newValue ->
             sampleView.setTotalPriceFontSize(newValue.toFloat())
         }
-        Cockpit.addOnTotalPriceFontSizeChangeListener(onTotalPriceFontSizeChangeListener)
+        Cockpit.addOnTotalPriceFontSizeChangeListener(lifecycleOwner, onTotalPriceFontSizeChangeListener)
 
         onHeadingTextChangeListener = PropertyChangeListener { _, newValue ->
             sampleView.setHeadingText(newValue)
         }
-        Cockpit.addOnHeadingTextChangeListener(onHeadingTextChangeListener)
+        Cockpit.addForeverOnHeadingTextChangeListener(onHeadingTextChangeListener)
 
         onFooterColorChangeListener = PropertyChangeListener { _, newValue ->
             sampleView.setFooterTextColor(Color.parseColor(newValue))
         }
-        Cockpit.addOnFooterFontColorChangeListener(onFooterColorChangeListener)
+        Cockpit.addForeverOnFooterFontColorChangeListener(onFooterColorChangeListener)
 
         onShowFooterChangeListener = PropertyChangeListener { _, newValue ->
             sampleView.showFooter(newValue)
         }
-        Cockpit.addOnShowFooterChangeListener(onShowFooterChangeListener)
+        Cockpit.addForeverOnShowFooterChangeListener(onShowFooterChangeListener)
 
         onFooterChangeListener = PropertyChangeListener { _, newValue ->
             sampleView.setFooterText(newValue)
         }
-        Cockpit.addOnFooterChangeListener(onFooterChangeListener)
+        Cockpit.addForeverOnFooterChangeListener(onFooterChangeListener)
     }
 
     private fun removeOnChangeListeners() {
-        Cockpit.removeOnTotalPriceFontSizeChangeListener(onTotalPriceFontSizeChangeListener)
         Cockpit.removeOnHeadingTextChangeListener(onHeadingTextChangeListener)
         Cockpit.removeOnFooterFontColorChangeListener(onFooterColorChangeListener)
         Cockpit.removeOnShowFooterChangeListener(onShowFooterChangeListener)

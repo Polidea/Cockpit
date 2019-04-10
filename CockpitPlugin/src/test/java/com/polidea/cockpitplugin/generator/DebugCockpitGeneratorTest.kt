@@ -213,9 +213,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForBooleanParamTest() {
-        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("boolParam", false)
+        val booleanParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForParam("boolParam", false)
 
         val expectedBooleanParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnBoolParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Boolean> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("boolParam", listener);
@@ -225,9 +228,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForIntParamTest() {
-        val integerParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("intParam", 0)
+        val integerParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForParam("intParam", 0)
 
         val expectedIntegerParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnIntParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("intParam", listener);
@@ -237,9 +243,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForDoubleParamTest() {
-        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("doubleParam", .0)
+        val doubleParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForParam("doubleParam", .0)
 
         val expectedDoubleParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnDoubleParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("doubleParam", listener);
@@ -249,9 +258,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForStringParamTest() {
-        val stringParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForParam("stringParam", "")
+        val stringParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForParam("stringParam", "")
 
         val expectedStringParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnStringParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addOnParamChangeListener("stringParam", listener);
@@ -261,9 +273,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForStepIntParamTest() {
-        val stepStepParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForStepParam("stepIntParam", 1)
+        val stepStepParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForStepParam("stepIntParam", 1)
 
         val expectedStepIntParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnStepIntParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer>> stepIntParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Integer>, java.lang.Integer>(listener, cockpitStepIntegerMapper);
@@ -275,9 +290,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForStepDoubleParamTest() {
-        val stepStepParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForStepParam("stepDoubleParam", 1.0)
+        val stepStepParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForStepParam("stepDoubleParam", 1.0)
 
         val expectedStepDoubleParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnStepDoubleParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Double>> stepDoubleParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitStep<java.lang.Double>, java.lang.Double>(listener, cockpitStepDoubleMapper);
@@ -289,9 +307,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForRangeIntParamTest() {
-        val rangeIntParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForRangeParam("rangeIntParam", 1)
+        val rangeIntParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForRangeParam("rangeIntParam", 1)
 
         val expectedRangeIntParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnRangeIntParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Integer> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>> rangeIntParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Integer>, java.lang.Integer>(listener, cockpitRangeIntegerMapper);
@@ -303,9 +324,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForRangeDoubleParamTest() {
-        val rangeDoubleParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForRangeParam("rangeDoubleParam", 1.0)
+        val rangeDoubleParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForRangeParam("rangeDoubleParam", 1.0)
 
         val expectedRangeDoubleParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnRangeDoubleParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.Double> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>> rangeDoubleParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitRange<java.lang.Double>, java.lang.Double>(listener, cockpitRangeDoubleMapper);
@@ -317,9 +341,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddActionRequestCallbackMethodSpecForStringParamTest() {
-        val actionCallbackMethodSpec = cockpitGenerator.createAddActionRequestCallbackMethodSpecForParam(CockpitParam("value", CockpitAction("show")))
+        val actionCallbackMethodSpec = cockpitGenerator.createDeprecatedAddActionRequestCallbackMethodSpecForParam(CockpitParam("value", CockpitAction("show")))
 
         val expectedActionRequestCallbackMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addValueActionRequestCallback(
             |    com.polidea.cockpit.event.ActionRequestCallback callback) {
             |  com.polidea.cockpit.manager.CockpitManager.INSTANCE.addActionRequestCallback("value", callback);
@@ -329,9 +356,12 @@ class DebugCockpitGeneratorTest {
 
     @Test
     fun createAddParamChangeListenerMethodSpecForCockpitColorParamTest() {
-        val colorParamChangeListenerMethodSpec = cockpitGenerator.createAddPropertyChangeListenerMethodSpecForColorParam("colorParam", CockpitColor("#112233"))
+        val colorParamChangeListenerMethodSpec = cockpitGenerator.createDeprecatedAddPropertyChangeListenerMethodSpecForColorParam("colorParam", CockpitColor("#112233"))
 
         val expectedStringParamChangeListenerMethodSpecString = """
+            |@kotlin.Deprecated(
+            |    message = "This method might leak context. Consider using overload taking lifecycleOwner or switch to addForever(...)"
+            |)
             |public static void addOnColorParamChangeListener(
             |    com.polidea.cockpit.event.PropertyChangeListener<java.lang.String> listener) {
             |  com.polidea.cockpit.event.PropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor> colorParamListener = new com.polidea.cockpit.mapper.MappingPropertyChangeListener<com.polidea.cockpit.core.type.CockpitColor, java.lang.String>(listener, cockpitColorMapper);
