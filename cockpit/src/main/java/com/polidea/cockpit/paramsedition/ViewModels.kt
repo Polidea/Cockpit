@@ -9,7 +9,7 @@ internal class Breadcrumb(val displayName: String? = null, val groupName: String
     constructor(toCopy: Breadcrumb, child: Breadcrumb) : this(toCopy.displayName, toCopy.groupName, toCopy.descendants.toMutableList().apply { add(child) })
 
     val lastGroupName: String?
-        get() =  if  (descendants.isEmpty()) groupName else descendants.last().groupName
+        get() = if (descendants.isEmpty()) groupName else descendants.last().groupName
 }
 
 internal class NavigationOption(val displayName: String, val groupName: String?)

@@ -4,4 +4,6 @@
     <string name="action_button_text_default">Perform</string>
     <string name="default_group_name">Default</string>
     <string name="navigate_to">Navigate to</string>
+    <string name="cockpit_home">Cockpit Home</string>
+    <string name="navigation_dialog_title">Navigate to:</string>
 </resources>

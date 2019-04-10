@@ -136,7 +136,6 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        //TODO remove all callbacks from action type params
         presenter.stop()
     }
 
@@ -164,7 +163,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     override fun displayNavigationDialog(options: List<NavigationOption>) {
         val items = options.map { it.displayName }.toTypedArray()
         alertDialog = AlertDialog.Builder(context!!)
-                .setTitle("Navigate to:")
+                .setTitle(getString(R.string.navigation_dialog_title))
                 .setItems(items) { _, which: Int ->
                     presenter.onNavigationChosen(options[which])
                 }.create().apply { show() }

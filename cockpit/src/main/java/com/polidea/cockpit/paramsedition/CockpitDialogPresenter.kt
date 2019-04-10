@@ -1,6 +1,7 @@
 package com.polidea.cockpit.paramsedition
 
 import android.graphics.Color
+import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParamGroup
 import com.polidea.cockpit.core.type.CockpitColor
 import com.polidea.cockpit.utils.colorToArgbHexString
@@ -58,7 +59,7 @@ internal class CockpitDialogPresenter(private val view: ParamsEditionContract.Vi
         val breadcrumb = NavigationState.breadcrumb
         view.displayNavigationDialog(
                 listOf(
-                        NavigationOption("Cockpit Home", breadcrumb.groupName),
+                        NavigationOption(view.getString(R.string.cockpit_home), breadcrumb.groupName),
                         *breadcrumb.descendants.map { NavigationOption(it.displayName ?: "", it.groupName) }.toTypedArray()
                 )
         )
