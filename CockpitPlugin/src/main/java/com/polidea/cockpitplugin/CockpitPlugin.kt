@@ -12,8 +12,6 @@ internal class CockpitPlugin : Plugin<Project> {
             val android = project.extensions.getByType(AppExtension::class.java)
             android.applicationVariants.all { variant: BaseVariant ->
 
-
-                print(project.tasks)
                 val task = project.tasks.create("generate${variant.name.capitalize()}Cockpit", CockpitTask::class.java) {
                     it.variantName = variant.name
                     it.variantDirName = variant.dirName
@@ -23,7 +21,9 @@ internal class CockpitPlugin : Plugin<Project> {
                     it.buildTypeList = android.buildTypes.map { it.name } ?: emptyList()
                 }
 
-                val assembleTask = project.tasks.find { it.name.contains("assemble") && it.name.contains(variant.buildType.name) }
+                val assembleTask = project.tasks.find {
+                    it.name.contains("assemble", true) && it.name.contains(variant.buildType.name, true)
+                }
                 assembleTask?.dependsOn(task)
 
 
