@@ -58,6 +58,8 @@ internal open class CockpitTask : DefaultTask() {
 
             yamlReaderAndWriter.saveParamsToYaml(mergedParametersList, mergedCockpitFile)
 
+            if (!mergedCockpitFile.exists()) throw IllegalStateException("mergedCockpit.yml has not been created")
+
             val generator = if (buildTypeName.isRelease()) ReleaseCockpitGenerator() else DebugCockpitGenerator()
             generator.generate(mergedParametersList, getCockpitOutputDirectory())
         } else {
