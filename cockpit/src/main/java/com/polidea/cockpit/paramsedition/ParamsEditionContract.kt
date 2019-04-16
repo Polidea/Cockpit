@@ -1,5 +1,6 @@
 package com.polidea.cockpit.paramsedition
 
+import androidx.annotation.StringRes
 import com.polidea.cockpit.BasePresenter
 import com.polidea.cockpit.BaseView
 import com.polidea.cockpit.core.CockpitParamGroup
@@ -16,6 +17,10 @@ internal interface ParamsEditionContract {
         fun dismiss()
 
         fun showColorPicker(paramName: String, color: Int)
+
+        fun displayNavigationDialog(options: List<NavigationOption>)
+
+        fun getString(@StringRes resourceId: Int): String
     }
 
     interface ParamView {
@@ -31,6 +36,14 @@ internal interface ParamsEditionContract {
         fun <T : Any> onParamChange(paramName: String, newValue: T)
 
         fun <T : Any> onParamValueSelected(paramName: String, selectedItemIndex: Int)
+
+        fun onPathClicked()
+
+        fun onNavigateBack()
+
+        fun onNavigateToTop()
+
+        fun onNavigationChosen(navigationOption: NavigationOption)
 
         fun onDisplayGroup(group: CockpitParamGroup)
 

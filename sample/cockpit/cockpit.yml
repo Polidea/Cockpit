@@ -16,13 +16,13 @@ totalPriceFontSize:
   max: 60
   step: 1
   value: 36
-  group: "Cart"
+  group: "/Cart/Font"
 
 resetCount:
   type: action
   description: "Set item count to default"
   buttonText: "Reset"
-  group: "Cart"
+  group: "/Cart"
 
 headingText:
   description: "Heading text"
@@ -33,27 +33,12 @@ footerFontColor:
   type: color
   description: "Font color"
   value: "#FFFFFF"
-  group: "Footer"
+  group: "/Footer/Font"
 
 showFooter:
   description: "Show footer"
   value: true
-  group: "Footer"
-
-exampleSubGroupParam:
-  description: "Whatever really"
-  value: 500
-  group: "Footer/subgroup"
-
-nestingTest:
-  description: "Whatever really"
-  value: 500
-  group: "Footer/subgroup/manamana"
-
-nestingTest2:
-  description: "Whatever really"
-  value: 500
-  group: "Footer/subgroup/manamana/123"
+  group: "/Footer"
 
 appVersion:
   type: read_only

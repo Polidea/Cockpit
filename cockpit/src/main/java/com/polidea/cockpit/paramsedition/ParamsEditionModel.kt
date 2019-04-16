@@ -20,6 +20,9 @@ internal class ParamsEditionModel : ParamsModel {
     override fun <T : Any> getParam(paramName: String): CockpitParam<T>
             = paramsCopy[paramName] as CockpitParam<T>? ?: throw IllegalArgumentException("Cannot find param for name $paramName")
 
+    override fun getGroup(groupName: String?): CockpitParamGroup
+            = groupedParamsCopy[groupName] ?: throw java.lang.IllegalArgumentException("Cannot find group for name $groupName")
+
     override fun <T : Any> setValue(paramName: String, newValue: T) {
         getParam<T>(paramName).value = newValue
         CockpitManager.setParamValue(paramName, newValue)

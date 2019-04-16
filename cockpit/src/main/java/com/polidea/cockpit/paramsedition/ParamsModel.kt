@@ -9,6 +9,8 @@ internal interface ParamsModel {
 
     fun <T : Any> getParam(paramName: String): CockpitParam<T>
 
+    fun getGroup(groupName: String?): CockpitParamGroup
+
     fun <T : Any> setValue(paramName: String, newValue: T)
 
     fun <T : Any> selectValue(paramName: String, selectedItemIndex: Int)

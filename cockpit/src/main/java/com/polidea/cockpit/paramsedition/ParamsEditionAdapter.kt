@@ -29,6 +29,7 @@ internal class ParamsEditionAdapter(private var displayModel: DisplayModel,
             ParamType.STEP_DOUBLE.ordinal -> StepDoubleParamViewHolder(inflateViewForHolder(R.layout.cockpit_step_param, parent)).configure()
             GROUP_TYPE_ID -> GroupViewHolder(inflateViewForHolder(R.layout.subgroup, parent)).configure()
             SECTION_TYPE_ID -> SectionViewHolder(inflateViewForHolder(R.layout.cockpit_group_name, parent))
+            PATH_TYPE_ID -> PathViewHolder(inflateViewForHolder(R.layout.path_button, parent)).configure()
             else -> throw IllegalArgumentException("View type $viewType does not match any known case")
         }
     }
@@ -44,6 +45,7 @@ internal class ParamsEditionAdapter(private var displayModel: DisplayModel,
             is DisplayItem.Param -> ParamType.getParamType(displayedItem.param).ordinal
             is DisplayItem.Group -> GROUP_TYPE_ID
             is DisplayItem.Section -> SECTION_TYPE_ID
+            is DisplayItem.Path -> PATH_TYPE_ID
         }
     }
 
@@ -141,8 +143,17 @@ internal class ParamsEditionAdapter(private var displayModel: DisplayModel,
         return this
     }
 
+    private fun PathViewHolder.configure(): PathViewHolder {
+        onPathClickedListener = {
+            presenter.onPathClicked()
+        }
+
+        return this
+    }
+
     companion object {
         private val SECTION_TYPE_ID: Int = ParamType.values().last().ordinal + 1
         private val GROUP_TYPE_ID: Int = ParamType.values().last().ordinal + 2
+        private val PATH_TYPE_ID: Int = ParamType.values().last().ordinal + 3
     }
 }
