@@ -12,7 +12,7 @@ It consists of three parts:
 - Android library containing classes to manage and display those params,  
 - CockpitCore module containing classes common for plugin and the library.
 
-<img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-3.0.gif" width="270" height="480">
+<img src="https://github.com/Polidea/Cockpit/blob/a5d9b822b7bccbebf1800a5cc9a25f67429a7a92/images/cockpit-3.1.0.gif" width="270" height="480">
 
 Each defined value is called `param`. The set of params is called `cockpit`.
 
@@ -33,9 +33,9 @@ showDescription: true
 After you've built your project, `Cockpit.java` file will get generated for you. You can use it like any other code in your project.
 
 <p float="left">
-    <img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-full.png" width="216" height="384" />
-    <img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-half.png" width="216" height="384" />
-    <img src="https://github.com/Polidea/Cockpit/blob/master/images/cockpit-list.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/a5d9b822b7bccbebf1800a5cc9a25f67429a7a92/images/cockpit-full.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/a5d9b822b7bccbebf1800a5cc9a25f67429a7a92/images/cockpit-half.png" width="216" height="384" />
+    <img src="https://github.com/Polidea/Cockpit/blob/a5d9b822b7bccbebf1800a5cc9a25f67429a7a92/images/cockpit-list.png" width="216" height="384" />
 </p>
 
 ### Documentation
@@ -141,6 +141,21 @@ fontColor:
   group: "Header"
 ```
 
+> You can create **paged subgroups** as well. To define a paged subgroup, use slashes in group name. If you begin your subgroup's name with `/`, it will be placed inside `Default` group. You can embed the subgroups as deep as you see fit. To navigate between the subgroups, use home button on the action bar or `NAVIGATE TO` button.
+
+The following snippet will create group named `Display` with subgroup `Header` and parameters `fontSize` and `fontColor` inside.
+```
+fontSize:
+  description: "Font size"
+  value: 18
+  group: "Display/Header"
+fontColor:
+  type: color
+  description: "Font color"
+  value: "#223344"
+  group: "Display/Header"
+```
+
 #### Generating Cockpit
 
 CockpitPlugin will generate `Cockpit.java` file for you.
@@ -198,7 +213,7 @@ Then add CockpitPlugin classpath into your `buildscript#dependencies`:
 ```
 buildscript {  
     dependencies {  
-        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:3.0.1"
+        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:3.1.0"
    }  
 }
 ```
@@ -206,7 +221,7 @@ Last thing is to add Cockpit library dependency:
 
 ```
 dependencies {
-    debugImplementation 'com.polidea.cockpit:cockpit:3.0.1'
+    debugImplementation 'com.polidea.cockpit:cockpit:3.1.0'
 }
 ```
 
@@ -259,7 +274,7 @@ To get it to work, you need to disable configuration on demand in your Android S
 
 ## License
 ```
-Copyright 2018 Polidea
+Copyright 2018-2019 Polidea
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

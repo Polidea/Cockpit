@@ -1,7 +1,9 @@
 package com.polidea.cockpit.paramsedition
 
+import androidx.annotation.StringRes
 import com.polidea.cockpit.BasePresenter
 import com.polidea.cockpit.BaseView
+import com.polidea.cockpit.core.CockpitParamGroup
 
 internal interface ParamsEditionContract {
 
@@ -14,26 +16,40 @@ internal interface ParamsEditionContract {
 
         fun dismiss()
 
-        fun showColorPicker(itemPosition: ItemPosition, color: Int)
+        fun showColorPicker(paramName: String, color: Int)
+
+        fun displayNavigationDialog(options: List<NavigationOption>)
+
+        fun getString(@StringRes resourceId: Int): String
     }
 
     interface ParamView {
-        fun reloadParam(itemPosition: ItemPosition)
+        fun reloadParam(paramName: String)
 
         fun reloadAll()
+
+        fun display(model: DisplayModel)
     }
 
     interface Presenter : BasePresenter {
 
-        fun getParamsModel(): ParamsModel
+        fun <T : Any> onParamChange(paramName: String, newValue: T)
 
-        fun <T : Any> onParamChange(itemPosition: ItemPosition, newValue: T)
+        fun <T : Any> onParamValueSelected(paramName: String, selectedItemIndex: Int)
 
-        fun <T : Any> onParamValueSelected(itemPosition: ItemPosition, selectedItemIndex: Int)
+        fun onPathClicked()
 
-        fun requestAction(itemPosition: ItemPosition)
+        fun onNavigateBack()
 
-        fun restore(itemPosition: ItemPosition)
+        fun onNavigateToTop()
+
+        fun onNavigationChosen(navigationOption: NavigationOption)
+
+        fun onDisplayGroup(group: CockpitParamGroup)
+
+        fun requestAction(paramName: String)
+
+        fun restore(paramName: String)
 
         fun restoreAll()
 
@@ -45,8 +61,8 @@ internal interface ParamsEditionContract {
 
         fun hidden()
 
-        fun editColor(itemPosition: ItemPosition)
+        fun editColor(paramName: String)
 
-        fun newColorSelected(itemPosition: ItemPosition, color: Int)
+        fun newColorSelected(paramName: String, color: Int)
     }
 }

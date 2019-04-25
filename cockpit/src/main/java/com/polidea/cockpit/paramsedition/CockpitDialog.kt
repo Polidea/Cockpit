@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
@@ -19,8 +21,12 @@ import com.polidea.cockpit.paramsedition.layout.CockpitLayout
 internal class CockpitDialog internal constructor() : AppCompatDialogFragment(), ParamsEditionContract.View {
 
     override lateinit var presenter: ParamsEditionContract.Presenter
+    private var alertDialog: AlertDialog? = null
     private lateinit var paramsEditionAdapter: ParamsEditionAdapter
     private lateinit var expandCollapse: ImageButton
+    private lateinit var navigateBack: ImageButton
+    private lateinit var navigateTop: ImageButton
+    private lateinit var label: TextView
     private lateinit var cockpitRoot: CockpitLayout
     private lateinit var cockpitContent: LinearLayout
     private lateinit var actionBar: LinearLayout
@@ -34,7 +40,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
-    override fun showColorPicker(itemPosition: ItemPosition, color: Int) {
+    override fun showColorPicker(paramName: String, color: Int) {
         val colorPicker = ColorPickerDialog.newBuilder()
                 .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                 .setAllowPresets(false)
@@ -46,7 +52,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             }
 
             override fun onColorSelected(dialogId: Int, color: Int) {
-                presenter.newColorSelected(itemPosition, color)
+                presenter.newColorSelected(paramName, color)
             }
         })
         activity?.fragmentManager?.let {
@@ -75,26 +81,33 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupViews(view: View) {
-        paramsEditionAdapter = ParamsEditionAdapter(presenter)
+        paramsEditionAdapter = ParamsEditionAdapter(DisplayModel(listOf()), presenter)
         view.findViewById<RecyclerView>(R.id.params_list).adapter = paramsEditionAdapter
         view.findViewById<ImageButton>(R.id.restore_defaults).setOnClickListener { presenter.restoreAll() }
         expandCollapse = view.findViewById(R.id.expand_collapse)
         expandCollapse.setOnClickListener {
             if (expanded) {
                 presenter.collapse()
-            }
-            else {
+            } else {
                 presenter.expand()
             }
         }
+
+        navigateBack = view.findViewById(R.id.go_back)
+        navigateBack.setOnClickListener { presenter.onNavigateBack() }
+
+        navigateTop = view.findViewById(R.id.go_top)
+        navigateTop.setOnClickListener { presenter.onNavigateToTop() }
+
+        label = view.findViewById(R.id.label)
 
         actionBar = view.findViewById(R.id.action_bar)
         actionBar.setOnTouchListener { _, ev ->
             if (ev.action == MotionEvent.ACTION_DOWN) {
                 cockpitRoot.startDrag = true
                 true
-            }
-            false
+            } else
+                false
         }
 
         bottomButton = view.findViewById(R.id.resize_handle)
@@ -102,8 +115,8 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
             if (motionEvent.action == MotionEvent.ACTION_MOVE) {
                 presenter.requestResize(bottomButton.y.toInt() + motionEvent.y.toInt())
                 true
-            }
-            false
+            } else
+                false
         }
 
         bottomButton.visibility = View.GONE
@@ -113,17 +126,47 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         cockpitRoot.setDraggableView(R.id.cockpit_content)
     }
 
+    override fun onPause() {
+        super.onPause()
+        alertDialog?.let {
+            it.dismiss()
+            alertDialog = null
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         presenter.stop()
     }
 
-    override fun reloadParam(itemPosition: ItemPosition) {
-        paramsEditionAdapter.reloadParam(itemPosition)
+    override fun reloadParam(paramName: String) {
+        paramsEditionAdapter.reloadParam(paramName)
     }
 
     override fun reloadAll() {
         paramsEditionAdapter.reloadAll()
+    }
+
+    override fun display(model: DisplayModel) {
+        if (model.breadcrumb.descendants.isNotEmpty()) {
+            if (model.label != null) label.text = model.label
+            navigateTop.visibility = View.VISIBLE
+            navigateBack.visibility = View.VISIBLE
+        } else {
+            label.setText(R.string.title)
+            navigateBack.visibility = View.INVISIBLE
+            navigateTop.visibility = View.GONE
+        }
+        paramsEditionAdapter.display(model)
+    }
+
+    override fun displayNavigationDialog(options: List<NavigationOption>) {
+        val items = options.map { it.displayName }.toTypedArray()
+        alertDialog = AlertDialog.Builder(context!!)
+                .setTitle(getString(R.string.navigation_dialog_title))
+                .setItems(items) { _, which: Int ->
+                    presenter.onNavigationChosen(options[which])
+                }.create().apply { show() }
     }
 
     override fun expand() {

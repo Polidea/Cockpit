@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/cockpit_param_vertical_margin"
+    android:layout_marginTop="@dimen/cockpit_margin_medium"
     android:theme="@style/CockpitTheme">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/cockpit_range_param_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/cockpit_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cockpit_range_param_seek_bar"
         android:layout_marginStart="@dimen/cockpit_margin"
+        android:layout_marginEnd="@dimen/cockpit_margin"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -23,33 +28,33 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="@dimen/cockpit_param_value_text_size"
-            tools:text="Param Name" />
+            tools:text="Param Name"/>
 
         <TextView
             android:id="@+id/cockpit_range_param_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/cockpit_restore_value_button_margin"
             android:layout_marginStart="@dimen/cockpit_margin_medium"
+            android:layout_marginEnd="@dimen/cockpit_restore_value_button_margin"
             android:textAlignment="center"
             android:textColor="@color/cockpit_range_value_text"
-            tools:text="16" />
+            tools:text="16"/>
 
         <ImageButton
             android:id="@+id/cockpit_param_restore"
             style="@style/Widget.Cockpit.ImageButton.RestoreValue"
-            android:layout_marginBottom="0dp" />
+            android:layout_marginBottom="0dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <SeekBar
         android:id="@+id/cockpit_range_param_seek_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/cockpit_range_seek_bar_margin"
         android:layout_marginStart="@dimen/cockpit_range_seek_bar_margin"
         android:layout_marginTop="@dimen/cockpit_margin_medium"
+        android:layout_marginEnd="@dimen/cockpit_range_seek_bar_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cockpit_range_param_header" />
+        app:layout_constraintTop_toBottomOf="@+id/cockpit_range_param_header"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

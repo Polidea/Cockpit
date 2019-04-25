@@ -14,6 +14,7 @@ internal abstract class BaseCockpitGenerator {
     private val cockpitPackage = "com.polidea.cockpit.cockpit"
     private val cockpitManagerPackage = "com.polidea.cockpit.manager"
     private val androidxPackage = "androidx.fragment.app"
+    private val androidxLifecyclePackage = "androidx.lifecycle"
     private val cockpitDialogPackage = "com.polidea.cockpit.paramsedition"
     private val cockpitEventPackage = "com.polidea.cockpit.event"
     private val cockpitMapperPackage = "com.polidea.cockpit.mapper"
@@ -24,6 +25,7 @@ internal abstract class BaseCockpitGenerator {
     private val cockpit = "Cockpit"
     private val cockpitManager = "CockpitManager"
     private val fragmentManager = "FragmentManager"
+    private val lifecycleOwner = "LifecycleOwner"
     private val cockpitDialog = "CockpitDialog"
     private val propertyChangeListener = "PropertyChangeListener"
     private val actionRequestCallback = "ActionRequestCallback"
@@ -41,6 +43,7 @@ internal abstract class BaseCockpitGenerator {
 
     protected val cockpitManagerClassName = ClassName.get(cockpitManagerPackage, cockpitManager)
     protected val androidFragmentManagerClassName = ClassName.get(androidxPackage, fragmentManager)
+    protected val androidLifecycleOwnerClassName = ClassName.get(androidxLifecyclePackage, lifecycleOwner)
     protected val cockpitDialogClassName = ClassName.get(cockpitDialogPackage, cockpitDialog)
     protected val propertyChangeListenerClassName = ClassName.get(cockpitEventPackage, propertyChangeListener)
     protected val actionRequestCallbackClassName = ClassName.get(cockpitEventPackage, actionRequestCallback)

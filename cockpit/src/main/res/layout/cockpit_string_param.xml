@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/cockpit_margin"
         android:layout_marginStart="@dimen/cockpit_margin"
+        android:layout_marginTop="@dimen/cockpit_margin"
         android:textColor="@color/cockpit_string_param_name"
         android:textSize="@dimen/cockpit_string_param_text_size"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,6 +3,7 @@
     <color name="cockpit_dark_blue">#4fa9bf</color>
     <color name="cockpit_peek">#f5f5f5</color>
     <color name="cockpit_text">#de000000</color>
+    <color name="cockpit_section">#9b9b9b</color>
     <color name="cockpit_content_background">#fafafa</color>
     <color name="cockpit_group_separator">#1e000000</color>
     <color name="cockpit_string_param_name">#61000000</color>
