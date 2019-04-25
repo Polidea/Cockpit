@@ -198,7 +198,7 @@ Then add CockpitPlugin classpath into your `buildscript#dependencies`:
 ```
 buildscript {  
     dependencies {  
-        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:3.0.1"
+        classpath "gradle.plugin.com.polidea.cockpit:CockpitPlugin:3.1.0"
    }  
 }
 ```
@@ -206,7 +206,7 @@ Last thing is to add Cockpit library dependency:
 
 ```
 dependencies {
-    debugImplementation 'com.polidea.cockpit:cockpit:3.0.1'
+    debugImplementation 'com.polidea.cockpit:cockpit:3.1.0'
 }
 ```
 
