@@ -1,4 +1,4 @@
 footer:
-  description: "Footer"
+  description: "Footer text"
   value: "Created with ❤️ by Polidea"
-  group: "/Footer"
+  group: "Footer"
