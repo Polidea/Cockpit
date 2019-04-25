@@ -1,69 +1,65 @@
 package com.polidea.cockpit.paramsedition
 
 import com.polidea.cockpit.core.CockpitParam
+import com.polidea.cockpit.core.CockpitParamGroup
 import com.polidea.cockpit.core.type.CockpitReadOnly
-import com.polidea.cockpit.extensions.getParam
-import com.polidea.cockpit.extensions.toGroupedParams
+import com.polidea.cockpit.extensions.*
 import com.polidea.cockpit.manager.CockpitManager
 
 internal class ParamsEditionModel : ParamsModel {
 
-    private var paramsCopy: List<CockpitParam<Any>> = CockpitManager.getParamsCopy()
+    private lateinit var paramsCopy: Map<String, CockpitParam<Any>>
+    private lateinit var groupedParamsCopy: Map<String?, CockpitParamGroup>
+    override lateinit var topLevelGroups: Map<String?, CockpitParamGroup>
+        private set
 
-    private var groupedParamsCopy: Map<String?, List<CockpitParam<Any>>> = paramsCopy.toGroupedParams()
-
-    override val paramsSize: Int
-        get() = paramsCopy.size
-
-    override val groupsSize: Int
-        get() = groupedParamsCopy.size
-
-    override fun getGroupSize(groupIndex: Int) =
-            groupedParamsCopy[getGroupName(groupIndex)]?.size
-                    ?: throw IllegalArgumentException("Couldn't find group for index: $groupIndex")
-
-    override fun getGroupName(groupIndex: Int) = groupedParamsCopy.keys.toList()[groupIndex]
-
-    override fun <T : Any> getParamAt(itemPosition: ItemPosition): CockpitParam<T> =
-            groupedParamsCopy[getGroupName(itemPosition.groupIndex)]?.getParam(itemPosition.paramIndex)
-                    ?: throw IllegalArgumentException("Cannot find param for ${itemPosition.groupIndex} group index and ${itemPosition.paramIndex} param index")
-
-    fun <T : Any> setValue(itemPosition: ItemPosition, newValue: T) {
-        val param = getParamAt<T>(itemPosition)
-        param.value = newValue
-        CockpitManager.setParamValue(param.name, newValue)
+    init {
+        setParams(CockpitManager.getParamsCopy())
     }
 
-    fun <T : Any> selectValue(itemPosition: ItemPosition, selectedItemIndex: Int) {
-        val param = getParamAt<T>(itemPosition)
-        CockpitManager.selectParamValue<T>(param.name, selectedItemIndex)
+    override fun <T : Any> getParam(paramName: String): CockpitParam<T>
+            = paramsCopy[paramName] as CockpitParam<T>? ?: throw IllegalArgumentException("Cannot find param for name $paramName")
+
+    override fun getGroup(groupName: String?): CockpitParamGroup
+            = groupedParamsCopy[groupName] ?: throw java.lang.IllegalArgumentException("Cannot find group for name $groupName")
+
+    override fun <T : Any> setValue(paramName: String, newValue: T) {
+        getParam<T>(paramName).value = newValue
+        CockpitManager.setParamValue(paramName, newValue)
     }
 
-    fun restoreValue(itemPosition: ItemPosition) {
-        val param = getParamAt<CockpitParam<Any>>(itemPosition)
-        param.value = CockpitManager.getParamDefaultValue(param.name)
+    override fun <T : Any> selectValue(paramName: String, selectedItemIndex: Int) {
+        CockpitManager.selectParamValue<T>(paramName, selectedItemIndex)
     }
 
-    fun requestAction(itemPosition: ItemPosition) {
-        val param = getParamAt<CockpitParam<Any>>(itemPosition)
-        CockpitManager.requestAction(param.name)
+    override fun restoreValue(paramName: String) {
+        getParam<CockpitParam<Any>>(paramName).value = CockpitManager.getParamDefaultValue(paramName)
     }
 
-    fun restoreAll() {
+    override fun requestAction(paramName: String) {
+        CockpitManager.requestAction(paramName)
+    }
+
+    override fun restoreAll() {
         val restoredParams = CockpitManager.getDefaultParamsCopy()
-        restoredParams.forEachIndexed { index, param ->
+        restoredParams.forEach { param ->
             if (param.value is CockpitReadOnly) {
                 //Keeping current value prevents CockpitReadOnly param from being emptied.
-                param.value = paramsCopy[index].value
+                paramsCopy[param.name]?.apply { param.value = value }
             }
         }
 
-        paramsCopy = restoredParams
-        groupedParamsCopy = paramsCopy.toGroupedParams()
+        setParams(restoredParams)
     }
 
-    fun save() {
-        CockpitManager.setParamValues(paramsCopy)
+    override fun save() {
+        CockpitManager.setParamValues(paramsCopy.values)
         CockpitManager.save()
+    }
+
+    private fun setParams(newParams: List<CockpitParam<Any>>) {
+        paramsCopy = newParams.map { it.name to it }.toMap()
+        groupedParamsCopy = paramsCopy.values.toList().toGroupedParams().convertToGroups()
+        topLevelGroups = groupedParamsCopy.topLevelGroups()
     }
 }

@@ -27,21 +27,31 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/expand_collapse"
+                android:id="@+id/go_back"
                 android:layout_width="@dimen/cockpit_peek_button_width"
                 android:layout_height="@dimen/cockpit_peek_button_width"
                 android:layout_marginEnd="@dimen/cockpit_margin"
                 android:layout_marginStart="@dimen/cockpit_margin"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/expanded" />
+                android:src="@drawable/arrow_back_black" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/title"
+                android:id="@+id/label"
                 android:textColor="@color/cockpit_text"
                 android:textSize="@dimen/cockpit_peek_title_font_size" />
+
+            <ImageButton
+                android:id="@+id/go_top"
+                android:layout_width="@dimen/cockpit_peek_button_width"
+                android:layout_height="@dimen/cockpit_peek_button_width"
+                android:layout_marginEnd="@dimen/cockpit_margin"
+                android:layout_marginStart="@dimen/cockpit_margin"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/home_black" />
 
             <ImageButton
                 android:id="@+id/restore_defaults"
@@ -51,6 +61,15 @@
                 android:layout_marginStart="@dimen/cockpit_margin"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/restore_gray" />
+
+            <ImageButton
+                android:id="@+id/expand_collapse"
+                android:layout_width="@dimen/cockpit_peek_button_width"
+                android:layout_height="@dimen/cockpit_peek_button_width"
+                android:layout_marginEnd="@dimen/cockpit_margin"
+                android:layout_marginStart="@dimen/cockpit_margin"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/expanded" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

@@ -6,7 +6,7 @@ apply from: rootProject.file('gradle/publishing.gradle')
 buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath files("../CockpitCore/build/libs/CockpitCore-{$cockpit_core_version}.jar")
     }
@@ -51,6 +51,6 @@ dependencies {
     api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testImplementation 'io.mockk:mockk:1.7.15'
+    testImplementation 'io.mockk:mockk:1.9.3'
     api files("../CockpitCore/build/libs/CockpitCore-${cockpit_core_version}.jar")
 }
