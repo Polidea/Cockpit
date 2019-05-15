@@ -5,15 +5,17 @@ apply plugin: 'com.polidea.cockpit'
 
 buildscript {
     repositories {
+        google()
         jcenter()
         mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        mavenLocal()
     }
 
     dependencies {
-        classpath files("../CockpitPlugin/build/libs/CockpitPlugin-${cockpit_core_version}.jar")
+        classpath "com.polidea.cockpit:cockpit:$cockpit_core_version"
         classpath "org.yaml:snakeyaml:1.20"
         classpath "com.squareup:javapoet:1.10.0"
     }
@@ -27,7 +29,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 2
-        versionName "3.1.0"
+        versionName cockpit_core_version
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -77,7 +79,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-alpha01'
 
-    debugImplementation project(':cockpit')
+    debugImplementation "com.polidea.cockpit:cockpit:$cockpit_core_version"
 }
 
 task wrapper(type: Wrapper) {

@@ -8,7 +8,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath files("../CockpitCore/build/libs/CockpitCore-{$cockpit_core_version}.jar")
+        classpath files("../CockpitCore/build/libs/CockpitCore-${cockpit_core_version}.jar")
     }
 
     repositories {
@@ -19,6 +19,9 @@ buildscript {
         google()
     }
 }
+
+group = 'com.polidea.cockpit'
+version = cockpit_core_version
 
 android {
     compileSdkVersion 28
