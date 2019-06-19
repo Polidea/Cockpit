@@ -42,7 +42,9 @@
                 android:text="@string/title"
                 android:id="@+id/label"
                 android:textColor="@color/cockpit_text"
-                android:textSize="@dimen/cockpit_peek_title_font_size" />
+                android:textSize="@dimen/cockpit_peek_title_font_size"
+                android:singleLine="true"
+                android:ellipsize="marquee"/>
 
             <ImageButton
                 android:id="@+id/go_top"
