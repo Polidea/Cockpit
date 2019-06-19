@@ -55,7 +55,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 presenter.newColorSelected(paramName, color)
             }
         })
-        activity?.fragmentManager?.let {
+        activity?.supportFragmentManager?.let {
             if (it.findFragmentByTag(colorPickerFragmentTag) == null)
                 colorPicker.show(it, colorPickerFragmentTag)
         }
