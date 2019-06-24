@@ -51,4 +51,13 @@
         <item name="android:layout_height">@dimen/cockpit_restore_value_button_size</item>
     </style>
 
+    <style name="EditTextDefault" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/cockpit_dark_blue</item>
+    </style>
+    
+    <style name="ColorPickerDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="editTextStyle">@style/EditTextDefault</item>
+        <item name="colorAccent">@color/cockpit_dark_blue</item>
+    </style>
+
 </resources>

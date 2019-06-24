@@ -46,6 +46,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 .setAllowPresets(false)
                 .setColor(color)
                 .setShowAlphaSlider(true)
+                .setDialogStyle(R.style.ColorPickerDialogStyle)
                 .create()
         colorPicker.setColorPickerDialogListener(object : ColorPickerDialogListener {
             override fun onDialogDismissed(dialogId: Int) {
