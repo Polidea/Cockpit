@@ -6,7 +6,7 @@ apply from: rootProject.file('gradle/publishing.gradle')
 buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.android.tools.build:gradle:3.4.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath files("../CockpitCore/build/libs/CockpitCore-{$cockpit_core_version}.jar")
     }
@@ -42,7 +42,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api "com.jaredrummler:colorpicker:1.0.2"
+    api 'com.github.PolideaInternal:ColorPicker:1.0.0'
     api 'org.yaml:snakeyaml:1.20'
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api 'androidx.appcompat:appcompat:1.0.2'

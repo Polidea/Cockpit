@@ -46,6 +46,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 .setAllowPresets(false)
                 .setColor(color)
                 .setShowAlphaSlider(true)
+                .setDialogStyle(R.style.ColorPickerDialogStyle)
                 .create()
         colorPicker.setColorPickerDialogListener(object : ColorPickerDialogListener {
             override fun onDialogDismissed(dialogId: Int) {
@@ -55,7 +56,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
                 presenter.newColorSelected(paramName, color)
             }
         })
-        activity?.fragmentManager?.let {
+        activity?.supportFragmentManager?.let {
             if (it.findFragmentByTag(colorPickerFragmentTag) == null)
                 colorPicker.show(it, colorPickerFragmentTag)
         }
