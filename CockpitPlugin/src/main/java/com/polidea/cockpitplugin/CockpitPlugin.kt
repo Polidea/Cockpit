@@ -21,6 +21,13 @@ internal class CockpitPlugin : Plugin<Project> {
                     it.buildTypeList = android.buildTypes.map { it.name } ?: emptyList()
                 }
 
+                val generateAssetsTask = project.tasks.find {
+                    it.name.startsWith("generate", true) &&
+                            it.name.contains("assets", true) &&
+                            it.name.contains(variant.buildType.name, true)
+                }
+                generateAssetsTask?.dependsOn(task)
+
                 variant.registerJavaGeneratingTask(task, task.getCockpitOutputDirectory())
                 android.sourceSets.first { variant.name == it.name }
                         .apply {
