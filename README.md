@@ -2,7 +2,7 @@
 <p align="center">
   <img
     alt="Cockpit library logo"
-    src="site/cockpit-logo.png"
+    src="images/cockpit-logo.png"
     height="300"
     style="margin-top: 20px; margin-bottom: 20px;"
   />
