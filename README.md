@@ -1,6 +1,11 @@
 # Cockpit
 <p align="center">
-    <img src="https://github.com/Polidea/Cockpit/blob/master/images/Cockpit_logo.jpg" width="594" height="328">
+  <img
+    alt="Cockpit library logo"
+    src="images/cockpit-logo.png"
+    height="300"
+    style="margin-top: 20px; margin-bottom: 20px;"
+  />
 </p>
 
 ## Introduction
