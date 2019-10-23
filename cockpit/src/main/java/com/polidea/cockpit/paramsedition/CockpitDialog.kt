@@ -36,7 +36,7 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
     override fun onStart() {
         super.onStart()
         removeDimmedBackground()
-        dialog.window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
