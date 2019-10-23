@@ -5,10 +5,20 @@
         <item name="colorAccent">@color/cockpit_dark_blue</item>
     </style>
 
-    <style name="MY.DIALOG" parent="android:Theme" >
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowIsFloating">false</item>
+    <style name="CockpitTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:textColor">@color/cockpit_white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+
+    <style name="CockpitTheme.NavigationButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/cockpit_dark_blue</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="TextAppearance.Cockpit.ParamName" parent="Base.TextAppearance.AppCompat">
@@ -55,9 +65,11 @@
         <item name="android:textColor">@color/cockpit_dark_blue</item>
     </style>
     
-    <style name="ColorPickerDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+    <style name="ColorPickerDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="editTextStyle">@style/EditTextDefault</item>
         <item name="colorAccent">@color/cockpit_dark_blue</item>
+        <item name="materialButtonStyle">@style/CockpitTheme.Button</item>
+        <item name="buttonBarButtonStyle">@style/CockpitTheme.Button</item>
     </style>
 
 </resources>

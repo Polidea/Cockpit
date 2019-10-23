@@ -9,4 +9,5 @@
     <color name="cockpit_string_param_name">#61000000</color>
     <color name="cockpit_range_value_text">#de767676</color>
     <color name="cockpit_resize_handle">#4a4a4a</color>
+    <color name="cockpit_white">#ffffffff</color>
 </resources>

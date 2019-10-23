@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/path_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/CockpitTheme.NavigationButton"
         android:layout_marginEnd="@dimen/cockpit_margin"
         android:layout_marginTop="@dimen/cockpit_margin_medium"
         android:layout_marginBottom="@dimen/cockpit_margin"

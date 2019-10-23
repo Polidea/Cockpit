@@ -1,7 +1,7 @@
 package com.polidea.cockpit.paramsedition.viewholder
 
 import android.view.View
-import android.widget.Button
+import androidx.appcompat.widget.AppCompatButton
 import com.polidea.cockpit.R
 import com.polidea.cockpit.core.CockpitParam
 import com.polidea.cockpit.core.type.CockpitAction
@@ -10,7 +10,7 @@ internal class ActionParamViewHolder(view: View) : ParamBaseViewHolder<CockpitAc
 
     var actionButtonClickListener: (() -> Unit)? = null
 
-    private val actionButton: Button = view.findViewById(R.id.cockpit_action_button)
+    private val actionButton: AppCompatButton = view.findViewById(R.id.cockpit_action_button)
 
     init {
         actionButton.setOnClickListener { actionButtonClickListener?.invoke() }
