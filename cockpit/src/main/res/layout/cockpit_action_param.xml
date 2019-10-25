@@ -18,9 +18,9 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Param Name" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/cockpit_action_button"
-        style="@style/Base.Widget.AppCompat.Button.Colored"
+        style="@style/CockpitTheme.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/cockpit_margin"
