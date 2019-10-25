@@ -73,6 +73,10 @@ afterEvaluate {
                                 id POM_DEVELOPER_ID3
                                 name POM_DEVELOPER_NAME3
                             }
+                            developer {
+                                id POM_DEVELOPER_ID4
+                                name POM_DEVELOPER_NAME4
+                            }
                         }
                     }
                 }
