@@ -200,13 +200,21 @@ First, add plugin declaration:
 apply plugin: 'com.polidea.cockpit'
 ```
 
-Add `mavenCentral()` and `maven` into your `buildscript#repositories` section:
+Add `mavenCentral()` and `maven` into your `buildscript#repositories` section. Also add `jitpack` as Cockpit uses ColorPicker version available only there:
 ```
 buildscript {  
     repositories {
         mavenCentral()  
         maven {  
             url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        maven { 
+            url "https://jitpack.io" 
         }
     }
 }
