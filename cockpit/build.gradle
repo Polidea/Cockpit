@@ -6,7 +6,7 @@ apply from: rootProject.file('gradle/publishing.gradle')
 buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath files("../CockpitCore/build/libs/CockpitCore-{$cockpit_core_version}.jar")
     }
@@ -45,10 +45,10 @@ dependencies {
     api 'com.github.PolideaInternal:ColorPicker:1.0.0'
     api 'org.yaml:snakeyaml:1.20'
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    api 'androidx.appcompat:appcompat:1.0.2'
-    api 'com.google.android.material:material:1.0.0'
+    api 'androidx.appcompat:appcompat:1.1.0'
+    api 'com.google.android.material:material:1.2.0-alpha01'
     api 'androidx.recyclerview:recyclerview:1.0.0'
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation 'io.mockk:mockk:1.9.3'
