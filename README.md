@@ -285,6 +285,11 @@ Suggestion: disable configuration on demand by setting org.gradle.configureondem
 
 To get it to work, you need to disable configuration on demand in your Android Studio's settings (`Build, Execution, Deployment` -> `Compiler`, uncheck `configure on demand` option).
 
+## Maintained by
+This library is maintained by [Polidea](http://www.polidea.com)
+
+[Contact us](https://www.polidea.com/project/?utm_source=Github&utm_medium=Npaid&utm_campaign=Kontakt&utm_term=Code&utm_content=GH_NOP_KKT_COD_CPT001)
+
 ## License
 ```
 Copyright 2018-2019 Polidea
