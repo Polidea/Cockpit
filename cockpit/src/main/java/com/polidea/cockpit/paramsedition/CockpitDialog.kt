@@ -38,7 +38,6 @@ internal class CockpitDialog internal constructor() : AppCompatDialogFragment(),
         removeDimmedBackground()
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
-        
     }
 
     override fun showColorPicker(paramName: String, color: Int) {
